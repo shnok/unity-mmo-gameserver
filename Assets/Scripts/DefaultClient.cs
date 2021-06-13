@@ -19,16 +19,24 @@ public class DefaultClient : MonoBehaviour
 
     public async void Connect() {
       bool result = await Task.Run(AsynchronousClient.Connect);
+      Debug.Log("Connected");
 
-      Debug.Log("test");
     }
 
     public void SendData() {
-      AsynchronousClient.Send("Hi from Unity");
+      //AsynchronousClient.SendString("123");
+      AsynchronousClient.SendPing();
+      Receive();
     }
 
     public void Disconnect() {
       AsynchronousClient.Disconnect();
     }
 
+    public async void Receive() {
+      Debug.Log("Begin receive");
+      byte[] data = await Task.Run(AsynchronousClient.Receive);
+      Debug.Log(data);
+    //  Receive();
+    }
 }

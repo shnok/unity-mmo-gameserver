@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 // State object for receiving data from remote device.
 public class StateObject {
@@ -47,7 +48,7 @@ public class AsynchronousClient {
         IPEndPoint remoteEP = new IPEndPoint(ipAddress, _port);
 
         Debug.Log(ipHostInfo);
-    
+
         // Create a TCP/IP socket.
         client = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
@@ -62,9 +63,24 @@ public class AsynchronousClient {
       }
     }
 
-    public static void Send(String data) {
+    public static void SendPing() {
+      Send(0x00, new byte[] {});
+    }
+
+    public static void SendString(String data) {
+      byte[] byteData = Encoding.ASCII.GetBytes(data);
+      Send(0x01, byteData);
+    }
+
+    public static void Send(byte packetType, byte[] data) {
       try {
-        byte[] byteData = Encoding.ASCII.GetBytes(data);
+        List<byte> packet = new List<byte>();
+        packet.Add(packetType);
+        packet.Add((byte)(data.Length + 2));
+        packet.AddRange(data);
+
+        byte[] byteData = packet.ToArray();
+
         // Begin sending the data to the remote device.
         client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);
 
@@ -74,18 +90,25 @@ public class AsynchronousClient {
       }
     }
 
-    private static void Receive(Socket client) {
+    public static byte[] Receive() {
         try {
             // Create the state object.
             StateObject state = new StateObject();
             state.workSocket = client;
 
             // Begin receiving the data from the remote device.
-            client.BeginReceive( state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+            client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
 
             receiveDone.WaitOne();
+
+            Debug.Log(response);
+
+            return state.buffer;
+
         } catch (Exception e) {
             Debug.Log(e.ToString());
+
+            return null;
         }
     }
 
