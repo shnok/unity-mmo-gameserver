@@ -1,56 +1,102 @@
 package com.shnok;
 
-import java.io.BufferedReader;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.ServerSocket;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class GameServerThread extends Thread {
-    ServerSocket servSock;
-    int threadNumber;
+    private final Socket _connection;
+    private String _connectionIp;
+    private InputStream _in;
+    private OutputStream _out;
 
-    /** Construct a Handler. */
-    public GameServerThread(ServerSocket s, int i) {
-        servSock = s;
-        threadNumber = i;
-        setName("Thread " + threadNumber);
+    public GameServerThread(Socket con) {
+        _connection = con;
+        _connectionIp = con.getInetAddress().getHostAddress();
+        try {
+            _in = _connection.getInputStream();
+            _out = new BufferedOutputStream(_connection.getOutputStream());
+            System.out.println("New gameserverthread from " + _connectionIp);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        start();
     }
 
+    @Override
     public void run() {
-        /* Wait for a connection. Synchronized on the ServerSocket
-         * while calling its accept() method.
-         */
-        while (true) {
-            try {
-                System.out.println( getName() + " waiting");
+        int packetType = 0;
+        int packetLength = 0;
 
-                Socket clientSocket;
-                // Wait here for the next connection.
-                synchronized(servSock) {
-                    clientSocket = servSock.accept();
+        try {
+
+            for (;;) {
+                packetType = _in.read();
+                packetLength = _in.read();
+                System.out.println("Received packet type: "+ Integer.toHexString(packetType) +
+                        " length: " + packetLength + " bytes");
+
+                if (packetType == -1 || _connection.isClosed()) {
+                    System.out.println("LoginServerThread: Login terminated the connection.");
+                    break;
                 }
 
-                System.out.println( "Request");
+                byte[] data = new byte[packetLength - 2];
+                int receivedBytes = 0;
+                int newBytes = 0;
 
-                System.out.println(getName() + " starting, IP=" + clientSocket.getInetAddress());
-                BufferedReader is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                //PrintStream os = new PrintStream(clientSocket.getOutputStream(), true);
-                String line;
-
-                while ((line = is.readLine()) != null) {
-                    System.out.println(line);
-                    /*os.print(line + "\r\n");
-                    os.flush();*/
+                while ((newBytes != -1) && (receivedBytes < (packetLength - 2))) {
+                    newBytes = _in.read(data, 0, packetLength - 2);
+                    receivedBytes = receivedBytes + newBytes;
                 }
 
-                System.out.println(getName() + " ENDED ");
-                clientSocket.close();
-            } catch (IOException ex) {
-                System.out.println(getName() + ": IO Error on socket " + ex);
-                return;
+                switch (packetType) {
+                    case 0x00:
+                        onReceiveEcho();
+                        break;
+                    case 0x01:
+                        onReceiveString(data);
+                        break;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("User " + _connectionIp +" disconnected");
+            Server.getGameServerListener().removeGameServer(this);
         }
     }
+
+    private void sendPacket() {
+        //byte[] data = sl.getContent();
+        //int len = data.length + 2;
+
+        System.out.println("Sending packet");
+        try {
+            synchronized (_out) {
+                _out.write(0x00);
+                _out.write(0x02);
+                // _out.write(data);
+                _out.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void onReceiveEcho() {
+        sendPacket();
+    }
+
+    private void onReceiveString(byte[] data) {
+        String value = new String(data);
+        System.out.println("Received string: " + value);
+    }
+
+
+
 }

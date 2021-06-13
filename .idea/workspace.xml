@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6e86b1f-b4b3-4338-83d3-f6f3d23185c5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpg-server.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GameServerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GameServerListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GameServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GameServerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,8 +42,10 @@
   </component>
   <component name="RunManager">
     <configuration name="rpg-server" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.shnok.Server" />
-      <module name="rpg-server" />
+      <module name="java-rpg-server" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -69,5 +72,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

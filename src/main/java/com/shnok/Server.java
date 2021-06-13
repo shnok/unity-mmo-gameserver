@@ -3,9 +3,13 @@ package com.shnok;
 public class Server {
 
     public static final int ECHOPORT = 11000;
-    public static final int NUM_THREADS = 1;
+    private static GameServerListener _gameServerListener;
 
     public static void main(String[] av) {
-        new GameServerListener(ECHOPORT, NUM_THREADS);
+        _gameServerListener = new GameServerListener(ECHOPORT);
+    }
+
+    public static GameServerListener getGameServerListener() {
+        return _gameServerListener;
     }
 }
