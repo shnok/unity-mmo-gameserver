@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Text;
+using System.Threading.Tasks;
 
 // State object for receiving data from remote device.
 public class StateObject {
@@ -23,26 +24,41 @@ public class AsynchronousClient {
     private static ManualResetEvent connectDone = new ManualResetEvent(false);
     private static ManualResetEvent sendDone = new ManualResetEvent(false);
     private static ManualResetEvent receiveDone = new ManualResetEvent(false);
+
     // The response from the remote device.
     private static String response = String.Empty;
     private static Socket client;
 
-    public static void Connect(String ip, int port) {
+    private static String _ipAddress;
+    private static int _port;
+
+    public static void setIp(String ipAddress) {
+      _ipAddress = ipAddress;
+    }
+
+    public static void setPort(int port) {
+      _port = port;
+    }
+
+    public static bool Connect() {
       try {
-        IPHostEntry ipHostInfo = Dns.GetHostEntry(ip);
+        IPHostEntry ipHostInfo = Dns.GetHostEntry(_ipAddress);
         IPAddress ipAddress = ipHostInfo.AddressList[0];
-        IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
+        IPEndPoint remoteEP = new IPEndPoint(ipAddress, _port);
 
         Debug.Log(ipHostInfo);
+    
         // Create a TCP/IP socket.
         client = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
         // Connect to the remote endpoint.
         client.BeginConnect(remoteEP, new AsyncCallback(ConnectCallback), client);
+        connectDone.WaitOne();
 
-        //connectDone.WaitOne();
+        return true;
       } catch (Exception e) {
-          Debug.Log(e.ToString());
+        Debug.Log(e.ToString());
+        return false;
       }
     }
 
