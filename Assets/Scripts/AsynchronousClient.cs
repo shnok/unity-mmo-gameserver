@@ -29,6 +29,7 @@ public class AsynchronousClient {
     // The response from the remote device.
     private static String response = String.Empty;
     private static Socket client;
+    private static bool _isConnected;
 
     private static String _ipAddress;
     private static int _port;
@@ -56,6 +57,7 @@ public class AsynchronousClient {
         client.BeginConnect(remoteEP, new AsyncCallback(ConnectCallback), client);
         connectDone.WaitOne();
 
+        _isConnected = true;
         return true;
       } catch (Exception e) {
         Debug.Log(e.ToString());
@@ -63,7 +65,17 @@ public class AsynchronousClient {
       }
     }
 
+    public static void Disconnect() {
+      try {
+          client.Shutdown(SocketShutdown.Both);
+          client.Close();
+      } catch (Exception e) {
+          Debug.Log(e.ToString());
+      }
+    }
+
     public static void SendPing() {
+      Debug.Log("Send ping");
       Send(0x00, new byte[] {});
     }
 
@@ -90,37 +102,34 @@ public class AsynchronousClient {
       }
     }
 
-    public static byte[] Receive() {
+    public static void StartReceiving() {
+      for(;;) {
+        if(!_isConnected) {
+          continue;
+        }
+
         try {
-            // Create the state object.
-            StateObject state = new StateObject();
-            state.workSocket = client;
+          StateObject state = new StateObject();
+          state.workSocket = client;
 
-            // Begin receiving the data from the remote device.
-            client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+          // Begin receiving the data from the remote device.
+          client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+          receiveDone.WaitOne();
 
-            receiveDone.WaitOne();
-
-            Debug.Log(response);
-
-            return state.buffer;
-
+          //Debug.Log("["+string.Join(", ", state.buffer)+"]");
+          int packetType = state.buffer[0] & 0xff;
+          switch (packetType)
+          {
+            case 00:
+              onPingReceive();
+              break;
+          }
+          //Receive();
         } catch (Exception e) {
             Debug.Log(e.ToString());
-
-            return null;
         }
     }
-
-    public static void Disconnect() {
-      try {
-          client.Shutdown(SocketShutdown.Both);
-          client.Close();
-      } catch (Exception e) {
-          Debug.Log(e.ToString());
-      }
-    }
-
+  }
     private static void ConnectCallback(IAsyncResult ar) {
         try {
             // Retrieve the socket from the state object.
@@ -132,6 +141,7 @@ public class AsynchronousClient {
 
             // Signal that the connection has been made.
             connectDone.Set();
+            connectDone.Reset();
         } catch (Exception e) {
             Console.WriteLine(e.ToString());
         }
@@ -139,8 +149,6 @@ public class AsynchronousClient {
 
     private static void ReceiveCallback( IAsyncResult ar ) {
         try {
-            // Retrieve the state object and the client socket
-            // from the asynchronous state object.
             StateObject state = (StateObject) ar.AsyncState;
             Socket client = state.workSocket;
 
@@ -148,18 +156,19 @@ public class AsynchronousClient {
             int bytesRead = client.EndReceive(ar);
 
             if (bytesRead > 0) {
-                // There might be more data, so store the data received so far.
-            state.sb.Append(Encoding.ASCII.GetString(state.buffer,0,bytesRead));
+                state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
+            }
 
-                // Get the rest of the data.
-                client.BeginReceive(state.buffer,0,StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+            int bytesRemain = state.workSocket.Available;
+            if (bytesRemain > 0) {
+                state.sb.Append(Encoding.ASCII.GetString(state.buffer,0,bytesRead));
+                client.BeginReceive(state.buffer,0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
             } else {
-                // All the data has arrived; put it in response.
                 if (state.sb.Length > 1) {
                     response = state.sb.ToString();
                 }
-                // Signal that all bytes have been received.
                 receiveDone.Set();
+                receiveDone.Reset();
             }
         } catch (Exception e) {
             Console.WriteLine(e.ToString());
@@ -177,8 +186,14 @@ public class AsynchronousClient {
 
             // Signal that all bytes have been sent.
             sendDone.Set();
+            sendDone.Reset();
         } catch (Exception e) {
             Console.WriteLine(e.ToString());
         }
+    }
+
+    private static void onPingReceive() {
+      Debug.Log("Received ping");
+      Task.Delay(1000).ContinueWith(t=> SendPing());
     }
 }

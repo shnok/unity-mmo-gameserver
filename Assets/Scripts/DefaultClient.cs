@@ -15,6 +15,7 @@ public class DefaultClient : MonoBehaviour
     {
       AsynchronousClient.setIp("127.0.0.1");
       AsynchronousClient.setPort(11000);
+      Task.Run(AsynchronousClient.StartReceiving);
     }
 
     public async void Connect() {
@@ -26,17 +27,16 @@ public class DefaultClient : MonoBehaviour
     public void SendData() {
       //AsynchronousClient.SendString("123");
       AsynchronousClient.SendPing();
-      Receive();
+      //Task.Run(AsynchronousClient.Receive);
+    //  Receive();
     }
 
     public void Disconnect() {
       AsynchronousClient.Disconnect();
     }
 
-    public async void Receive() {
+    /*public async void Receive() {
       Debug.Log("Begin receive");
-      byte[] data = await Task.Run(AsynchronousClient.Receive);
-      Debug.Log(data);
-    //  Receive();
-    }
+      await Task.Run(AsynchronousClient.Receive);
+    }*/
 }
