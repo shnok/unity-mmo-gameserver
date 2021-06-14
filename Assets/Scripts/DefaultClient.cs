@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -10,33 +10,24 @@ using System.Threading.Tasks;
 
 public class DefaultClient : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-      AsynchronousClient.setIp("127.0.0.1");
-      AsynchronousClient.setPort(11000);
-      Task.Run(AsynchronousClient.StartReceiving);
+    void Start() {
+        AsynchronousClient.setIp("127.0.0.1");
+        AsynchronousClient.setPort(11000);
+        Task.Run(AsynchronousClient.StartReceiving);
+        Task.Run(AsynchronousClient.StartSending);
+        GameStateManager.SetState(GameState.MENU);
     }
 
     public async void Connect() {
-      bool result = await Task.Run(AsynchronousClient.Connect);
-      Debug.Log("Connected");
-
+        bool result = await Task.Run(AsynchronousClient.Connect);
+        AsynchronousClient.SendPing();
     }
 
     public void SendData() {
-      //AsynchronousClient.SendString("123");
-      AsynchronousClient.SendPing();
-      //Task.Run(AsynchronousClient.Receive);
-    //  Receive();
+        AsynchronousClient.SendString("Hello world");
     }
 
     public void Disconnect() {
-      AsynchronousClient.Disconnect();
+        AsynchronousClient.Disconnect();
     }
-
-    /*public async void Receive() {
-      Debug.Log("Begin receive");
-      await Task.Run(AsynchronousClient.Receive);
-    }*/
 }
