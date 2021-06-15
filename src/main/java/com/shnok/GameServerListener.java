@@ -8,15 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameServerListener extends Thread {
+    private static List<GameClient> _clients = new ArrayList<>();
     private final int _port;
     private ServerSocket _serverSocket;
-    private static List<GameServerThread> _gameServers = new ArrayList<>();
 
     public GameServerListener(int port) {
         try {
             _serverSocket = new ServerSocket(port);
             _port = port;
-            start();
         } catch(IOException e) {
             throw new RuntimeException("Could not create ServerSocket ", e);
         }
@@ -52,13 +51,15 @@ public class GameServerListener extends Thread {
         }
     }
 
-    public void addClient(Socket s)
-    {
-        GameServerThread gst = new GameServerThread(s);
-        _gameServers.add(gst);
+    public void addClient(Socket s) {
+        GameClient client = new GameClient(s);
+        client.start();
+        _clients.add(client);
     }
 
-    public void removeGameServer(GameServerThread s) {
-        _gameServers.remove(s);
+    public void removeClient(GameClient s) {
+        synchronized (_clients) {
+            _clients.remove(s);
+        }
     }
 }

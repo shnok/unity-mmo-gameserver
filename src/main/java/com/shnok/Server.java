@@ -2,11 +2,16 @@ package com.shnok;
 
 public class Server {
 
-    public static final int ECHOPORT = 11000;
+    public static final int PORT = 11000;
     private static GameServerListener _gameServerListener;
 
+    public Server() {
+        _gameServerListener = new GameServerListener(PORT);
+        _gameServerListener.run();
+    }
+
     public static void main(String[] av) {
-        _gameServerListener = new GameServerListener(ECHOPORT);
+        Server server = new Server();
     }
 
     public static GameServerListener getGameServerListener() {

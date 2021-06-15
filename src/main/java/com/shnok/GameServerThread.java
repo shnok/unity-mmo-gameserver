@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-public class GameServerThread extends Thread {
+public abstract class GameServerThread extends Thread {
     private final Socket _connection;
     private String _connectionIp;
     private InputStream _in;
@@ -15,25 +15,26 @@ public class GameServerThread extends Thread {
     public GameServerThread(Socket con) {
         _connection = con;
         _connectionIp = con.getInetAddress().getHostAddress();
+
         try {
             _in = _connection.getInputStream();
             _out = new BufferedOutputStream(_connection.getOutputStream());
             System.out.println("New gameserverthread from " + _connectionIp);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        start();
     }
 
     @Override
     public void run() {
+        startReadingPackets();
+    }
+
+    private void startReadingPackets() {
         int packetType = 0;
         int packetLength = 0;
 
         try {
-
             for (;;) {
                 packetType = _in.read();
                 packetLength = _in.read();
@@ -54,49 +55,30 @@ public class GameServerThread extends Thread {
                     receivedBytes = receivedBytes + newBytes;
                 }
 
-                switch (packetType) {
-                    case 0x00:
-                        onReceiveEcho();
-                        break;
-                    case 0x01:
-                        onReceiveString(data);
-                        break;
-                }
+                handlePacket((byte) packetType, data);
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             System.out.println("User " + _connectionIp +" disconnected");
-            Server.getGameServerListener().removeGameServer(this);
+            removeSelf();
         }
     }
 
-    private void sendPacket() {
-        //byte[] data = sl.getContent();
-        //int len = data.length + 2;
+    abstract void removeSelf();
+    abstract void handlePacket(byte type, byte[] data);
 
+    public void sendPacket(byte[] packet) {
         System.out.println("Sending packet");
         try {
             synchronized (_out) {
-                _out.write(0x00);
-                _out.write(0x02);
-                // _out.write(data);
+                for(int i = 0; i < packet.length; i++) {
+                    _out.write(packet[i]);
+                }
                 _out.flush();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    private void onReceiveEcho() {
-        sendPacket();
-    }
-
-    private void onReceiveString(byte[] data) {
-        String value = new String(data);
-        System.out.println("Received string: " + value);
-    }
-
-
-
 }
