@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameServerListener extends Thread {
-    private static List<GameClient> _clients = new ArrayList<>();
+    private final List<GameClient> _clients = new ArrayList<>();
     private final int _port;
-    private ServerSocket _serverSocket;
+    private final ServerSocket _serverSocket;
 
     public GameServerListener(int port) {
         try {
@@ -23,14 +23,14 @@ public class GameServerListener extends Thread {
 
     @Override
     public void run() {
-        Socket connection = null;
         System.out.println("Listening on port " + _port);
-
         while (true) {
+            Socket connection = null;
             try {
                 connection = _serverSocket.accept();
                 addClient(connection);
             } catch (Exception e) {
+                e.printStackTrace();
                 try {
                     if (connection != null) {
                         connection.close();

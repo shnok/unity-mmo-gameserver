@@ -12,6 +12,9 @@ public abstract class GameServerThread extends Thread {
     private InputStream _in;
     private OutputStream _out;
 
+    abstract void removeSelf();
+    abstract void handlePacket(byte type, byte[] data);
+
     public GameServerThread(Socket con) {
         _connection = con;
         _connectionIp = con.getInetAddress().getHostAddress();
@@ -31,15 +34,15 @@ public abstract class GameServerThread extends Thread {
     }
 
     private void startReadingPackets() {
-        int packetType = 0;
-        int packetLength = 0;
+        int packetType;
+        int packetLength;
 
         try {
             for (;;) {
                 packetType = _in.read();
                 packetLength = _in.read();
-                System.out.println("Received packet type: "+ Integer.toHexString(packetType) +
-                        " length: " + packetLength + " bytes");
+                /*System.out.println("Received packet type: "+ Integer.toHexString(packetType) +
+                        " length: " + packetLength + " bytes");*/
 
                 if (packetType == -1 || _connection.isClosed()) {
                     System.out.println("LoginServerThread: Login terminated the connection.");
@@ -61,19 +64,24 @@ public abstract class GameServerThread extends Thread {
             e.printStackTrace();
         } finally {
             System.out.println("User " + _connectionIp +" disconnected");
+            disconnect();
             removeSelf();
         }
     }
 
-    abstract void removeSelf();
-    abstract void handlePacket(byte type, byte[] data);
+    public void disconnect() {
+        try {
+            _connection.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void sendPacket(byte[] packet) {
-        System.out.println("Sending packet");
         try {
             synchronized (_out) {
-                for(int i = 0; i < packet.length; i++) {
-                    _out.write(packet[i]);
+                for (byte b : packet) {
+                    _out.write(b);
                 }
                 _out.flush();
             }
