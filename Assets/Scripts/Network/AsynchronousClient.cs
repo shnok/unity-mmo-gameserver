@@ -4,57 +4,53 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Text;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
-// State object for receiving data from remote device.
 public class StateObject {
-    // Client socket.
     public Socket workSocket = null;
-    // Size of receive buffer.
     public const int BufferSize = 256;
-    // Receive buffer.
     public byte[] buffer = new byte[BufferSize];
-    // Received data string.
     public StringBuilder sb = new StringBuilder();
 }
 
 public class AsynchronousClient {
+    private ManualResetEvent sendDone = new ManualResetEvent(false);
+    private ManualResetEvent receiveDone = new ManualResetEvent(false);
+    private BlockingCollection<byte[]> _sendQueue = new BlockingCollection<byte[]>();
+    private Socket client;
+    private String response = String.Empty;
+    private bool connected;
+    private String _ipAddress;
+    private int _port;
+    private int _ping;
 
-    // ManualResetEvent instances signal completion.
-    private static ManualResetEvent sendDone = new ManualResetEvent(false);
-    private static ManualResetEvent receiveDone = new ManualResetEvent(false);
+    public int ping {get; set;}
 
-    // The response from the remote device.
-    private static String response = String.Empty;
-    private static Socket client;
-    private static bool _isConnected;
+    public AsynchronousClient(String ip, int port) {
+        _ipAddress = ip;
+        _port = port;
+    }
 
-    private static String _ipAddress;
-    private static int _port;
-    private static BlockingCollection<byte[]> _sendQueue = new BlockingCollection<byte[]>();
-    private static long _timestamp;
-    private static int _ping;
-
-
-    public static bool Connect() {
+    public bool Connect() {
         IPHostEntry ipHostInfo = Dns.GetHostEntry(_ipAddress);
         IPAddress ipAddress = ipHostInfo.AddressList[0];
         client = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
         Debug.Log("Connecting...");
 
-        IAsyncResult result = client.BeginConnect( ipAddress, _port, null, null );
+        IAsyncResult result = client.BeginConnect(ipAddress, _port, null, null);
 
-        bool success = result.AsyncWaitHandle.WaitOne( 5000, true );
+        bool success = result.AsyncWaitHandle.WaitOne(5000, true);
 
-        if ( client.Connected ) {
+        if (client.Connected) {
             Debug.Log("Connection success.");
             client.EndConnect( result );
-            _isConnected = true;
+            connected = true;
 
-            GameStateManager.SetState(GameState.CONNECTED);
+            Task.Run(StartReceiving);
+            Task.Run(StartSending);
             return true;
         } else {
             Debug.Log("Connection failed.");
@@ -63,41 +59,35 @@ public class AsynchronousClient {
         }
     }
 
-    public static void Disconnect() {
+    public void Disconnect() {
         try {
-            _isConnected = false;
-            client.Shutdown(SocketShutdown.Both);
-            client.Close();
+            connected = false;
+            receiveDone.Set();
+            sendDone.Set();
 
+            
+            client.Close();
+            client.Dispose();
+            
             GameStateManager.SetState(GameState.MENU);
         } catch (Exception e) {
             Debug.Log(e.ToString());
         }
     }
 
-    public static void SendPing() {
-        QueuePacket(0x00, new byte[] {});
-    }
-
-    public static void SendString(String data) {
-        byte[] byteData = Encoding.ASCII.GetBytes(data);
-        QueuePacket(0x01, byteData);
-    }
-
-    public static void QueuePacket(byte packetType, byte[] data) {
+    public void QueuePacket(byte packetType, byte[] data) {
         List<byte> packet = new List<byte>();
         packet.Add(packetType);
         packet.Add((byte)(data.Length + 2));
         packet.AddRange(data);
 
         _sendQueue.Add(packet.ToArray());
-        //_sendQueue.CompleteAdding();
     }
 
-    public static void StartSending() {
+    public void StartSending() {
         for(;;) {
-            if(!_isConnected) {
-                continue;
+            if(!connected) {
+                break;
             }
 
             while (!_sendQueue.IsCompleted) {
@@ -105,9 +95,7 @@ public class AsynchronousClient {
 
                 try {
                     byteData = _sendQueue.Take();
-                } catch (InvalidOperationException) {
-
-                }
+                } catch (InvalidOperationException) { }
 
                 if (byteData != null) {
                     Send(byteData);
@@ -116,8 +104,12 @@ public class AsynchronousClient {
         }
     }
 
-    public static void Send(byte[] byteData) {
+    public void Send(byte[] byteData) {
         try {
+            if(!connected) {
+                return;
+            }
+
             client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);
             sendDone.WaitOne();
             //Debug.Log("Sent ["+string.Join(", ", byteData)+"]");
@@ -126,10 +118,10 @@ public class AsynchronousClient {
         }
     }
 
-    public static void StartReceiving() {
+    public void StartReceiving() {
         for(;;) {
-            if(!_isConnected) {
-                continue;
+            if(!connected) {
+                break;
             }
 
             try {
@@ -139,15 +131,10 @@ public class AsynchronousClient {
                 // Begin receiving the data from the remote device.
                 client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
                 receiveDone.WaitOne();
+                byte packetType = (byte)(state.buffer[0] & 0xff);
 
                 //Debug.Log("Received: ["+string.Join(", ", state.buffer)+"]");
-                int packetType = state.buffer[0] & 0xff;
-                switch (packetType)
-                {
-                    case 00:
-                    onPingReceive();
-                    break;
-                }
+                GamePacketHandler.HandlePacket(packetType, state.buffer);
                 //Receive();
             } catch (Exception e) {
                 Debug.Log(e.ToString());
@@ -155,7 +142,7 @@ public class AsynchronousClient {
         }
     }
 
-    private static void ReceiveCallback( IAsyncResult ar ) {
+    private void ReceiveCallback( IAsyncResult ar ) {
         try {
             StateObject state = (StateObject) ar.AsyncState;
             Socket client = state.workSocket;
@@ -183,11 +170,9 @@ public class AsynchronousClient {
         }
     }
 
-    private static void SendCallback(IAsyncResult ar) {
+    private void SendCallback(IAsyncResult ar) {
         try {
             Socket client = (Socket) ar.AsyncState;
-
-            // Complete sending the data to the remote device.
             int bytesSent = client.EndSend(ar);
 
             sendDone.Set();
@@ -197,33 +182,11 @@ public class AsynchronousClient {
         }
     }
 
-    private static void onPingReceive() {
-        long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        _ping = _timestamp != 0 ? (int)(now - _timestamp) : 0;
-        Debug.Log("Ping: " + _ping + "ms");
-
-        Task.Delay(1000).ContinueWith(t => {
-            SendPing();
-            _timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        });
-
-        Task.Delay(5000).ContinueWith(t => {
-            long now2 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            if(now2 - _timestamp > 2000) {
-                Disconnect();
-            }
-        });
+    public void SetPing(int ping) {
+        _ping = ping;
     }
 
-    public static void setIp(String ipAddress) {
-        _ipAddress = ipAddress;
-    }
-
-    public static void setPort(int port) {
-        _port = port;
-    }
-
-    public static int getPing() {
+    public int GetPing() {
         return _ping;
     }
 }

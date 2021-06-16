@@ -1,0 +1,17 @@
+{
+    "files.exclude": {
+        ".vs/": true,
+        "*.csproj": true,
+        "*.sln": true,
+        "**/.gitignore": true,
+        "**/*.meta": true,
+        "Build/": true,
+        "Library/": true,
+        "Logs/": true,
+        "obj/": true,
+        "Packages/": true,
+        "ProjectSettings/": true,
+        "Assets/Scenes/": true,
+        "Temp/": true
+    }
+}

@@ -15,6 +15,6 @@ public class UIOnline : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        pingText.text = "Ping: " + AsynchronousClient.getPing().ToString() + "ms";
+        //pingText.text = "Ping: " + AsynchronousClient.getPing().ToString() + "ms";
     }
 }

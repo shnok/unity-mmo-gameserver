@@ -33,7 +33,6 @@ public class GameStateManager : MonoBehaviour
     }
 
     private void HandleOnStateChange() {
-        Debug.Log(_state);
         offlineMenu.SetActive(_state == GameState.MENU);
         onlineMenu.SetActive(_state == GameState.CONNECTED);
     }
