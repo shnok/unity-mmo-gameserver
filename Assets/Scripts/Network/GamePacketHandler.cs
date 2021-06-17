@@ -22,8 +22,11 @@ public class GamePacketHandler
         switch (packetType)
         {
             case 00:
-            onPingReceive();
-            break;
+                onPingReceive();
+                break;
+            case 01:
+                onMessageReceive(data);
+                break;
         }
     }
 
@@ -34,7 +37,7 @@ public class GamePacketHandler
     private static void onPingReceive() {
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         int ping = _timestamp != 0 ? (int)(now - _timestamp) : 0;
-        Debug.Log("Ping: " + ping + "ms");
+        //Debug.Log("Ping: " + ping + "ms");
         _client.SetPing(ping);
 
         Task.Delay(1000).ContinueWith(t => {
@@ -52,6 +55,18 @@ public class GamePacketHandler
                 }
             }
         }, _tokenSource.Token);
+    }
+
+    private static void onMessageReceive(byte[] data) {
+        byte senderNameLength = data[2];
+        int textMessageLength = data.Length - senderNameLength - 3;
+        int textMessageStartIndex = (byte)data.Length - textMessageLength;
+
+        String sender = System.Text.Encoding.UTF8.GetString(data, 3, senderNameLength);
+        String text = System.Text.Encoding.UTF8.GetString(data, textMessageStartIndex, textMessageLength);
+
+        Debug.Log(sender + ":" + text);
+        Chat.AddMessage(sender, text);
     }
 
     public static void SendPing() {

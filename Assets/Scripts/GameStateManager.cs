@@ -40,9 +40,5 @@ public class GameStateManager : MonoBehaviour
         if(_state == GameState.CONNECTED) {
             SceneManager.LoadSceneAsync("GameScene");
         }
-        Debug.Log("Change");
-        //offlineMenu.SetActive(_state == GameState.MENU);
-        //onlineMenu.SetActive(_state == GameState.CONNECTED);
-
     }
 }
