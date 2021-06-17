@@ -27,8 +27,7 @@ public class GamePacketHandler {
     }
 
     private void onReceiveEcho() {
-        System.out.println("Ping");
-
+        //System.out.println("Ping");
         _client.sendPacket(new PingPacket());
         _lastEcho = System.currentTimeMillis();
 
@@ -46,7 +45,7 @@ public class GamePacketHandler {
 
     private void onReceiveMessage(byte[] data) {
         String value = new String(data);
-        MessagePacket packet = new MessagePacket("Hello world!");
+        MessagePacket packet = new MessagePacket("Nigger", "Hello world!");
 
         Server.broadcast(packet);
 
