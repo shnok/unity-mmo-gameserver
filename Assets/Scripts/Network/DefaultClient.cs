@@ -3,10 +3,14 @@ using System.Threading.Tasks;
 
 public class DefaultClient : MonoBehaviour
 {
-    AsynchronousClient client;
+    static AsynchronousClient client;
+
+    void Awake() {
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     void Start() {
-        GameStateManager.SetState(GameState.MENU);
+        //GameStateManager.SetState(GameState.MENU);
     }
 
     public async void Connect() {
@@ -19,11 +23,15 @@ public class DefaultClient : MonoBehaviour
         }
     }
 
-    public void SendData() {
-        GamePacketHandler.SendString("Hello world");
+    public static int GetPing() {
+        return client.GetPing();
     }
 
-    public void Disconnect() {
+    public static void SendMessage() {
+        GamePacketHandler.SendMessage("Hello world");
+    }
+
+    public static void Disconnect() {
         client.Disconnect();
     }
 }

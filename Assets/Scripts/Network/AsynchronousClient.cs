@@ -182,7 +182,7 @@ public class AsynchronousClient {
 
             receiveDone.Set();
             receiveDone.Reset();
-        } catch (Exception e) { }
+        } catch (Exception) { }
     }
 
     public void SetPing(int ping) {

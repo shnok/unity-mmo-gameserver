@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState { MENU, CONNECTED }
 public delegate void OnStateChangeHandler();
@@ -8,7 +9,7 @@ public delegate void OnStateChangeHandler();
 public class GameStateManager : MonoBehaviour
 {
     public static event OnStateChangeHandler StateChanged;
-    private static GameState _state;
+    private static GameState _state = GameState.MENU;
     private EventProcessor _eventProcessor;
 
     public GameObject offlineMenu;
@@ -33,7 +34,15 @@ public class GameStateManager : MonoBehaviour
     }
 
     private void HandleOnStateChange() {
-        offlineMenu.SetActive(_state == GameState.MENU);
-        onlineMenu.SetActive(_state == GameState.CONNECTED);
+        if(_state == GameState.MENU) {
+            SceneManager.LoadSceneAsync("MenuScene");
+        }
+        if(_state == GameState.CONNECTED) {
+            SceneManager.LoadSceneAsync("GameScene");
+        }
+        Debug.Log("Change");
+        //offlineMenu.SetActive(_state == GameState.MENU);
+        //onlineMenu.SetActive(_state == GameState.CONNECTED);
+
     }
 }

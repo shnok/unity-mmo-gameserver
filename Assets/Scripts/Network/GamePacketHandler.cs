@@ -58,7 +58,7 @@ public class GamePacketHandler
         _client.QueuePacket(0x00, new byte[] {});
     }
 
-    public static void SendString(string data) {
+    public static void SendMessage(string data) {
         byte[] byteData = Encoding.ASCII.GetBytes(data);
         _client.QueuePacket(0x01, byteData);
     }
