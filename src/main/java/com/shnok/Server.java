@@ -1,5 +1,7 @@
 package com.shnok;
 
+import com.shnok.serverpackets.ServerPacket;
+
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,14 @@ public class Server {
     public static void removeClient(GameClient s) {
         synchronized (_clients) {
             _clients.remove(s);
+        }
+    }
+
+    public static void broadcast(ServerPacket packet) {
+        synchronized (_clients) {
+            for(GameClient c : _clients) {
+                c.sendPacket(packet);
+            }
         }
     }
 }

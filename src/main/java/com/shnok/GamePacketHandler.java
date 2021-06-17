@@ -1,7 +1,7 @@
 package com.shnok;
 
+import com.shnok.serverpackets.MessagePacket;
 import com.shnok.serverpackets.PingPacket;
-import com.shnok.serverpackets.StringPacket;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +21,7 @@ public class GamePacketHandler {
                 onReceiveEcho();
                 break;
             case 0x01:
-                onReceiveString(data);
+                onReceiveMessage(data);
                 break;
         }
     }
@@ -44,10 +44,12 @@ public class GamePacketHandler {
         timer.start();
     }
 
-    private void onReceiveString(byte[] data) {
+    private void onReceiveMessage(byte[] data) {
         String value = new String(data);
-        StringPacket packet = new StringPacket("Hello world!");
-        _client.sendPacket(packet);
+        MessagePacket packet = new MessagePacket("Hello world!");
+
+        Server.broadcast(packet);
+
         System.out.println("Received string: " + value);
     }
 }

@@ -1,9 +1,9 @@
 package com.shnok.serverpackets;
 
-public class StringPacket extends ServerPacket {
+public class MessagePacket extends ServerPacket {
     private String _text;
 
-    public StringPacket(String text) {
+    public MessagePacket(String text) {
         super((byte)0x01);
         setText(text);
     }
