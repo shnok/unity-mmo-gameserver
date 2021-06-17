@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameServerListener extends Thread {
-    private final List<GameClient> _clients = new ArrayList<>();
     private final int _port;
     private final ServerSocket _serverSocket;
 
@@ -28,7 +27,7 @@ public class GameServerListener extends Thread {
             Socket connection = null;
             try {
                 connection = _serverSocket.accept();
-                addClient(connection);
+                Server.addClient(connection);
             } catch (Exception e) {
                 e.printStackTrace();
                 try {
@@ -48,18 +47,6 @@ public class GameServerListener extends Thread {
                     break;
                 }
             }
-        }
-    }
-
-    public void addClient(Socket s) {
-        GameClient client = new GameClient(s);
-        client.start();
-        _clients.add(client);
-    }
-
-    public void removeClient(GameClient s) {
-        synchronized (_clients) {
-            _clients.remove(s);
         }
     }
 }

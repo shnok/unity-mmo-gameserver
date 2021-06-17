@@ -1,5 +1,8 @@
 package com.shnok;
 
+import com.shnok.serverpackets.PingPacket;
+import com.shnok.serverpackets.StringPacket;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +28,8 @@ public class GamePacketHandler {
 
     private void onReceiveEcho() {
         System.out.println("Ping");
-        _client.sendPacket(new byte[] { 0x00, 0x02} );
+
+        _client.sendPacket(new PingPacket());
         _lastEcho = System.currentTimeMillis();
 
         Timer timer = new Timer(3000, new ActionListener() {
@@ -42,6 +46,8 @@ public class GamePacketHandler {
 
     private void onReceiveString(byte[] data) {
         String value = new String(data);
+        StringPacket packet = new StringPacket("Hello world!");
+        _client.sendPacket(packet);
         System.out.println("Received string: " + value);
     }
 }

@@ -1,5 +1,7 @@
 package com.shnok;
 
+import com.shnok.serverpackets.ServerPacket;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,10 +79,10 @@ public abstract class GameServerThread extends Thread {
         }
     }
 
-    public void sendPacket(byte[] packet) {
+    public void sendPacket(ServerPacket packet) {
         try {
             synchronized (_out) {
-                for (byte b : packet) {
+                for (byte b : packet.getData()) {
                     _out.write(b);
                 }
                 _out.flush();

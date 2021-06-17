@@ -17,6 +17,6 @@ public class GameClient extends GameServerThread {
 
     @Override
     void removeSelf() {
-        Server.getGameServerListener().removeClient(this);
+        Server.removeClient(this);
     }
 }
