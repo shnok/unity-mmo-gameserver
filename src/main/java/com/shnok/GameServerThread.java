@@ -13,6 +13,7 @@ public abstract class GameServerThread extends Thread {
     private String _connectionIp;
     private InputStream _in;
     private OutputStream _out;
+    public boolean authenticated;
 
     abstract void removeSelf();
     abstract void handlePacket(byte type, byte[] data);

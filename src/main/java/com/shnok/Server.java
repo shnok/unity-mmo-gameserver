@@ -40,8 +40,26 @@ public class Server {
     public static void broadcast(ServerPacket packet) {
         synchronized (_clients) {
             for(GameClient c : _clients) {
-                c.sendPacket(packet);
+                if(c.authenticated) {
+                    c.sendPacket(packet);
+                }
             }
+        }
+    }
+
+    public static boolean userExists(String user) {
+        synchronized (_clients) {
+            for(GameClient c : _clients) {
+                if(c.authenticated) {
+                    if(c.getUsername().equals(user)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

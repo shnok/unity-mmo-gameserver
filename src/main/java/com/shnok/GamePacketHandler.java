@@ -1,8 +1,9 @@
 package com.shnok;
 
+import com.shnok.serverpackets.AuthPacket;
 import com.shnok.serverpackets.MessagePacket;
 import com.shnok.serverpackets.PingPacket;
-
+import com.shnok.serverpackets.AuthPacket.AuthReason;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,13 +22,15 @@ public class GamePacketHandler {
                 onReceiveEcho();
                 break;
             case 0x01:
+                onReceiveAuth(data);
+                break;
+            case 0x02:
                 onReceiveMessage(data);
                 break;
         }
     }
 
     private void onReceiveEcho() {
-        //System.out.println("Ping");
         _client.sendPacket(new PingPacket());
         _lastEcho = System.currentTimeMillis();
 
@@ -43,12 +46,26 @@ public class GamePacketHandler {
         timer.start();
     }
 
+    private void onReceiveAuth(byte[] data) {
+        String username = new String(data);
+        AuthPacket authPacket;
+        if(Server.userExists(username)) {
+            authPacket = new AuthPacket(AuthReason.ALREADY_CONNECTED);
+        } else if(username.length() <= 0 || username.length() > 16) {
+            authPacket = new AuthPacket(AuthReason.INVALID_USERNAME);
+        } else {
+            authPacket = new AuthPacket(AuthReason.ALLOW);
+            _client.authenticated = true;
+            _client.setUsername(username);
+        }
+
+        _client.sendPacket(authPacket);
+    }
+
     private void onReceiveMessage(byte[] data) {
         String value = new String(data);
-        MessagePacket packet = new MessagePacket("Nigger", "Hello world!");
+        MessagePacket packet = new MessagePacket(_client.getUsername(), value);
 
         Server.broadcast(packet);
-
-        System.out.println("Received string: " + value);
     }
 }

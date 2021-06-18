@@ -6,8 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f6e86b1f-b4b3-4338-83d3-f6f3d23185c5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GamePacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GamePacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GameServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GameServerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/MessagePacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/MessagePacket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ServerPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ServerPacket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

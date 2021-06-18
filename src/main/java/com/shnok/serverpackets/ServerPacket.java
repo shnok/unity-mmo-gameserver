@@ -17,6 +17,10 @@ public abstract class ServerPacket {
         return _packetData;
     }
 
+    public byte getType() {
+        return _packetType;
+    }
+
     public void setData(byte[] data) {
         _packetType = (byte)(data.length);
         _packetLength = (byte)(data.length);
@@ -31,5 +35,7 @@ public abstract class ServerPacket {
         for (int i = 2; i < data.length + 2; i++) {
             _packetData[i] = data[i - 2];
         }
+
+        System.out.println("Sent: " + Arrays.toString(_packetData));
     }
 }
