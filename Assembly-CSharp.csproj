@@ -39,6 +39,10 @@
      <Compile Include="Assets\Scripts\EventProcessor.cs" />
      <Compile Include="Assets\Scripts\GameStateManager.cs" />
      <Compile Include="Assets\Scripts\Network\AsynchronousClient.cs" />
+     <Compile Include="Assets\Scripts\Network\ClientPackets\AuthPacket.cs" />
+     <Compile Include="Assets\Scripts\Network\ClientPackets\ClientPacket.cs" />
+     <Compile Include="Assets\Scripts\Network\ClientPackets\MessagePacket.cs" />
+     <Compile Include="Assets\Scripts\Network\ClientPackets\PingPacket.cs" />
      <Compile Include="Assets\Scripts\Network\DefaultClient.cs" />
      <Compile Include="Assets\Scripts\Network\GamePacketHandler.cs" />
      <Compile Include="Assets\Scripts\UI\Chat.cs" />

@@ -94,16 +94,17 @@ public class GamePacketHandler
     }
 
     public static void SendPing() {
-        _client.QueuePacket(0x00, new byte[] {});
+        PingPacket packet = new PingPacket();
+        _client.QueuePacket(packet);
     }
 
     public static void SendAuth(string username) {
-        byte[] byteData = Encoding.ASCII.GetBytes(username);
-        _client.QueuePacket(0x01, byteData);
+       AuthPacket packet = new AuthPacket(username);
+       _client.QueuePacket(packet);
     }
 
-    public static void SendMessage(string data) {
-        byte[] byteData = Encoding.ASCII.GetBytes(data);
-        _client.QueuePacket(0x02, byteData);
+    public static void SendMessage(string message) {
+        MessagePacket packet = new MessagePacket(message);
+        _client.QueuePacket(packet);
     }
 }

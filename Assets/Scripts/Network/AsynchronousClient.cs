@@ -78,6 +78,10 @@ public class AsynchronousClient {
         }
     }
 
+    public void QueuePacket(ClientPacket packet) {
+        _sendQueue.Add(packet.getData());
+    }
+
     public void QueuePacket(byte packetType, byte[] data) {
         List<byte> packet = new List<byte>();
         packet.Add(packetType);

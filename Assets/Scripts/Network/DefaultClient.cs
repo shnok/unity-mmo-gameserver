@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 public class DefaultClient : MonoBehaviour
 {
     static AsynchronousClient client;
-    static string username;
+    public static string username;
 
     void Awake() {
         DontDestroyOnLoad(this.gameObject);
@@ -16,8 +16,8 @@ public class DefaultClient : MonoBehaviour
         bool result = await Task.Run(client.Connect);
         if(result) {           
             GamePacketHandler.SendPing();
-            GamePacketHandler.SendAuth(user);    
-            username = user;                       
+            GamePacketHandler.SendAuth(user);   
+            username = user;                     
         }
     }
 
