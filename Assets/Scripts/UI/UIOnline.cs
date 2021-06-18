@@ -10,7 +10,7 @@ public class UIOnline : MonoBehaviour
     public Button sendMessageButton;
 
     public void SendMessage() {
-        DefaultClient.SendMessage();
+        DefaultClient.SendChatMessage("Hello world!");
     }
 
     public void Disconnect() {

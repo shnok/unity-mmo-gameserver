@@ -27,6 +27,7 @@ public class AsynchronousClient {
     private String _ipAddress;
     private int _port;
     private int _ping;
+    private string _username;
 
     public int ping {get; set;}
 

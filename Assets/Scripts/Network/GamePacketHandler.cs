@@ -25,6 +25,9 @@ public class GamePacketHandler
                 onPingReceive();
                 break;
             case 01:
+                onAuthReceive(data);
+                break;
+            case 02: 
                 onMessageReceive(data);
                 break;
         }
@@ -57,6 +60,27 @@ public class GamePacketHandler
         }, _tokenSource.Token);
     }
 
+    private static void onAuthReceive(byte[] data) {
+        if(data.Length != 3) {
+            _client.Disconnect();
+            return;
+        }
+
+        switch(data[2]) {
+            case 0x00:
+                GameStateManager.SetState(GameState.CONNECTED);
+                break;
+            case 0x01:
+                Debug.Log("User already connected.");
+                _client.Disconnect();
+                break;
+            case 0x02:
+                Debug.Log("Incorrect user name.");
+                _client.Disconnect();
+                break;
+        }
+    }
+
     private static void onMessageReceive(byte[] data) {
         byte senderNameLength = data[2];
         int textMessageLength = data.Length - senderNameLength - 3;
@@ -73,8 +97,13 @@ public class GamePacketHandler
         _client.QueuePacket(0x00, new byte[] {});
     }
 
+    public static void SendAuth(string username) {
+        byte[] byteData = Encoding.ASCII.GetBytes(username);
+        _client.QueuePacket(0x01, byteData);
+    }
+
     public static void SendMessage(string data) {
         byte[] byteData = Encoding.ASCII.GetBytes(data);
-        _client.QueuePacket(0x01, byteData);
+        _client.QueuePacket(0x02, byteData);
     }
 }

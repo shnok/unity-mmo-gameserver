@@ -42,6 +42,8 @@
      <Compile Include="Assets\Scripts\Network\DefaultClient.cs" />
      <Compile Include="Assets\Scripts\Network\GamePacketHandler.cs" />
      <Compile Include="Assets\Scripts\UI\Chat.cs" />
+     <Compile Include="Assets\Scripts\UI\ChatInput.cs" />
+     <Compile Include="Assets\Scripts\UI\UIOffline.cs" />
      <Compile Include="Assets\Scripts\UI\UIOnline.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
