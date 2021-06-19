@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Text;
 
-public class GamePacketHandler
+public class ServerPacketHandler
 {
     private static AsynchronousClient _client;
     private static long _timestamp;
@@ -30,6 +30,9 @@ public class GamePacketHandler
             case 02: 
                 onMessageReceive(data);
                 break;
+            case 03:
+                onSystemMessageReceive(data);
+                break;
         }
     }
 
@@ -45,7 +48,7 @@ public class GamePacketHandler
 
         Task.Delay(1000).ContinueWith(t => {
             if(!_tokenSource.IsCancellationRequested) {
-                SendPing();
+                ClientPacketHandler.SendPing();
                 _timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             }
         }, _tokenSource.Token);
@@ -61,12 +64,12 @@ public class GamePacketHandler
     }
 
     private static void onAuthReceive(byte[] data) {
-        if(data.Length != 3) {
+        if(data.Length != 1) {
             _client.Disconnect();
             return;
         }
 
-        switch(data[2]) {
+        switch(data[0]) {
             case 0x00:
                 GameStateManager.SetState(GameState.CONNECTED);
                 break;
@@ -82,29 +85,45 @@ public class GamePacketHandler
     }
 
     private static void onMessageReceive(byte[] data) {
-        byte senderNameLength = data[2];
-        int textMessageLength = data.Length - senderNameLength - 3;
+        if(data.Length < 3) {
+            return;
+        }
+
+        byte senderNameLength = data[0];
+        int textMessageLength = data.Length - senderNameLength - 1;
         int textMessageStartIndex = (byte)data.Length - textMessageLength;
 
-        String sender = System.Text.Encoding.UTF8.GetString(data, 3, senderNameLength);
+        String sender = System.Text.Encoding.UTF8.GetString(data, 1, senderNameLength);
         String text = System.Text.Encoding.UTF8.GetString(data, textMessageStartIndex, textMessageLength);
 
-        Debug.Log(sender + ":" + text);
         Chat.AddMessage(sender, text);
     }
 
-    public static void SendPing() {
-        PingPacket packet = new PingPacket();
-        _client.QueuePacket(packet);
-    }
+    private static void onSystemMessageReceive(byte[] data) {
+        if(data.Length < 1) {
+            return;
+        }
 
-    public static void SendAuth(string username) {
-       AuthPacket packet = new AuthPacket(username);
-       _client.QueuePacket(packet);
-    }
+        MessageType messageType = (MessageType)data[0];
+        SystemMessage message = null;
 
-    public static void SendMessage(string message) {
-        MessagePacket packet = new MessagePacket(message);
-        _client.QueuePacket(packet);
+        // Player Logged in;
+        if((messageType == MessageType.USER_LOGGED_IN || messageType == MessageType.USER_LOGGED_OFF)) {            
+            // message type | name length | username
+            if(data.Length < 3) {
+                return;
+            }
+            byte usernameLength = data[1];
+            if(usernameLength == data.Length - 2) {
+                string username = System.Text.Encoding.UTF8.GetString(data, 2, usernameLength);
+                if(messageType == MessageType.USER_LOGGED_IN) {
+                    message = new MessageLoggedIn(username);
+                } else {
+                    message = new MessageLoggedOut(username);
+                }                
+            }            
+        }
+
+        Chat.AddMessage(message);
     }
 }

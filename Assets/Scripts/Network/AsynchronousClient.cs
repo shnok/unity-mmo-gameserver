@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -9,19 +10,7 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Linq;
 
-public class StateObject {
-    public Socket workSocket = null;
-    public const int BufferSize = 128;
-    public byte[] buffer = new byte[BufferSize];
-    public List<byte> packet = new List<byte>();
-    public byte packetSize = 0;
-    public bool validPacket;
-}
-
 public class AsynchronousClient {
-    private ManualResetEvent sendDone = new ManualResetEvent(false);
-    private ManualResetEvent receiveDone = new ManualResetEvent(false);
-    private BlockingCollection<byte[]> _sendQueue = new BlockingCollection<byte[]>();
     private Socket client;
     private bool connected;
     private String _ipAddress;
@@ -53,7 +42,6 @@ public class AsynchronousClient {
             connected = true;
 
             Task.Run(StartReceiving);
-            Task.Run(StartSending);
             return true;
         } else {
             Debug.Log("Connection failed.");
@@ -64,11 +52,9 @@ public class AsynchronousClient {
 
     public void Disconnect() {
         try {
-            GamePacketHandler.CancelTokens();
+            ServerPacketHandler.CancelTokens();
 
-            connected = false;
-            receiveDone.Set();
-            sendDone.Set();           
+            connected = false;         
             client.Close();
             client.Dispose();
             
@@ -78,116 +64,50 @@ public class AsynchronousClient {
         }
     }
 
-    public void QueuePacket(ClientPacket packet) {
-        _sendQueue.Add(packet.getData());
-    }
-
-    public void QueuePacket(byte packetType, byte[] data) {
-        List<byte> packet = new List<byte>();
-        packet.Add(packetType);
-        packet.Add((byte)(data.Length + 2));
-        packet.AddRange(data);
-
-        _sendQueue.Add(packet.ToArray());
-    }
-
-    public void StartSending() {
-        for(;;) {
-            if(!connected) {
-                break;
-            }
-
-            while (!_sendQueue.IsCompleted) {
-                byte[] byteData = null;
-
-                try {
-                    byteData = _sendQueue.Take();
-                } catch (InvalidOperationException) { }
-
-                if (byteData != null) {
-                    Send(byteData);
-                }
-            }
-        }
-    }
-
-    public void Send(byte[] byteData) {
+    public void SendPacket(ClientPacket packet) {
         try {
-            if(!connected) {
-                return;
+            using (NetworkStream stream = new NetworkStream(client))
+            using (StreamWriter _out = new StreamWriter(stream)) {
+                byte[] packetData = packet.GetData();
+                char[] t = System.Text.Encoding.UTF8.GetString(packetData).ToCharArray();
+                _out.Write(t, 0, t.Length);
+                _out.Flush();
             }
-
-            client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);
-            sendDone.WaitOne();
-            //Debug.Log("Sent ["+string.Join(", ", byteData)+"]");
-        } catch (Exception e) {
+        } catch (IOException e) {
             Debug.Log(e.ToString());
         }
     }
 
-    private void SendCallback(IAsyncResult ar) {
-        try {
-            Socket client = (Socket) ar.AsyncState;
-            int bytesSent = client.EndSend(ar);
-
-            sendDone.Set();
-            sendDone.Reset();
-        } catch (Exception e) {
-            Console.WriteLine(e.ToString());
-        }
-    }
-
     public void StartReceiving() {
-        for(;;) {
-            if(!connected) {
-                break;
-            }
-
-            try {
-                StateObject state = new StateObject();
-                state.workSocket = client;
-
-                client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
-                receiveDone.WaitOne();
-                
-                if(state.buffer[0] != 0) {
-                    Debug.Log("Received: ["+string.Join(", ", state.packet)+"]");
+        using (NetworkStream stream = new NetworkStream(client))
+        using (StreamReader _in = new StreamReader(stream)) {
+            for(;;) {
+                if(!connected) {
+                    break;
                 }
-                
-                if(state.validPacket) {
-                    byte packetType = (byte)(state.packet[0]);
-                    GamePacketHandler.HandlePacket(packetType, state.packet.ToArray());
-                }               
-            } catch (Exception e) {
-                Debug.Log(e.ToString());
+
+                int packetType = _in.Read();
+                int packetLength = _in.Read();
+
+                if (packetType == -1 || !connected) {
+                    Debug.Log("Server terminated the connection.");
+                    Disconnect();
+                    break;
+                }
+
+                char[] c = new char[packetLength - 2];
+                int receivedBytes = 0;
+                int newBytes = 0;
+
+                while ((newBytes != -1) && (receivedBytes < (packetLength - 2))) {
+                    newBytes = _in.Read(c, 0, packetLength - 2);
+                    receivedBytes = receivedBytes + newBytes;
+                }
+
+                byte[] packetData = Encoding.GetEncoding("UTF-8").GetBytes(c);
+                ServerPacketHandler.HandlePacket((byte)packetType, packetData);
             }
         }
-    }
-
-    private void ReceiveCallback( IAsyncResult ar ) {
-        try {
-            StateObject state = (StateObject) ar.AsyncState;
-            Socket client = state.workSocket;
-
-            int bytesRead = client.EndReceive(ar);
-
-            if (bytesRead <= 0) {
-                Debug.Log("Could not read socket");
-            }
-
-            if(bytesRead >= 2) {
-                state.packetSize = state.buffer[1];
-                if(bytesRead != state.packetSize) {
-                    Debug.Log("Error in server packet");
-                } else {
-                    state.packet.AddRange(state.buffer.Take(state.packetSize));
-                    state.validPacket = true;
-                }
-            }
-
-            receiveDone.Set();
-            receiveDone.Reset();
-        } catch (Exception) { }
     }
 
     public void SetPing(int ping) {

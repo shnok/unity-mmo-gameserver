@@ -13,8 +13,10 @@ public class Chat : MonoBehaviour
     public Scrollbar scrollBar;
             
     /* System message */
-    public static void AddMessage(byte type) {
-
+    public static void AddMessage(SystemMessage message) {
+        if(message != null) {
+            ConcatMessage(message.ToString());
+        }       
     }
 
     public static void AddMessage(string sender, string text) {

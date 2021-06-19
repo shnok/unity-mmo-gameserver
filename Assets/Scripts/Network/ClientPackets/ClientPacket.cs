@@ -7,21 +7,21 @@ public abstract class ClientPacket {
         _packetType = type;
     }
 
-    public byte[] getData() {
+    public byte[] GetData() {
         return _packetData;
     }
 
-    public byte getType() {
+    public byte GetPacketType() {
         return _packetType;
     }
 
-    public void setData(byte[] data) {
+    public void GetData(byte[] data) {
         _packetType = (byte)(data.Length);
         _packetLength = (byte)(data.Length);
         _packetData = data;
     }
 
-    public void buildPacket(byte[] data) {
+    public void BuildPacket(byte[] data) {
         _packetLength = (byte)(data.Length + 2);
         _packetData = new byte[_packetLength];
         _packetData[0] = _packetType;

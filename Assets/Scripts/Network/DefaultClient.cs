@@ -11,13 +11,14 @@ public class DefaultClient : MonoBehaviour
     }
 
     public static async void Connect(string user) {
+        username = user; 
         client = new AsynchronousClient("127.0.0.1", 11000);
-        GamePacketHandler.SetClient(client);
-        bool result = await Task.Run(client.Connect);
-        if(result) {           
-            GamePacketHandler.SendPing();
-            GamePacketHandler.SendAuth(user);   
-            username = user;                     
+        bool connected = await Task.Run(client.Connect);
+        if(connected) {  
+            ServerPacketHandler.SetClient(client);
+            ClientPacketHandler.SetClient(client);         
+            ClientPacketHandler.SendPing();
+            ClientPacketHandler.SendAuth(user);                                   
         }
     }
 
@@ -26,7 +27,7 @@ public class DefaultClient : MonoBehaviour
     }
 
     public static void SendChatMessage(string message) {
-        GamePacketHandler.SendMessage(message);
+        ClientPacketHandler.SendMessage(message);
     }
 
     public static void Disconnect() {
