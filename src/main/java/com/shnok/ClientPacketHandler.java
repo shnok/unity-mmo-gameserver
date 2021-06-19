@@ -4,19 +4,26 @@ import com.shnok.serverpackets.AuthPacket;
 import com.shnok.serverpackets.MessagePacket;
 import com.shnok.serverpackets.PingPacket;
 import com.shnok.serverpackets.AuthPacket.AuthReason;
+import com.shnok.serverpackets.SystemMessagePacket;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
-public class GamePacketHandler {
+public class ClientPacketHandler {
     private GameClient _client;
     private long _lastEcho;
 
-    public GamePacketHandler(GameClient client) {
+    public ClientPacketHandler(GameClient client) {
         _client = client;
     }
 
     public void handle(byte type, byte[] data) {
+        if(type != 0x00) {
+            System.out.println("Received: " + Arrays.toString(data));
+        }
+
         switch (type) {
             case 0x00:
                 onReceiveEcho();
@@ -60,6 +67,10 @@ public class GamePacketHandler {
         }
 
         _client.sendPacket(authPacket);
+
+        if(_client.authenticated) {
+            Server.broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, username));
+        }
     }
 
     private void onReceiveMessage(byte[] data) {

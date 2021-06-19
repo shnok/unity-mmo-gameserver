@@ -67,8 +67,8 @@ public abstract class GameServerThread extends Thread {
             e.printStackTrace();
         } finally {
             System.out.println("User " + _connectionIp +" disconnected");
-            disconnect();
             removeSelf();
+            disconnect();
         }
     }
 
