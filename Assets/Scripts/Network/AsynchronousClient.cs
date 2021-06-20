@@ -51,6 +51,7 @@ public class AsynchronousClient {
     }
 
     public void Disconnect() {
+        Debug.Log((new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name);
         try {
             ServerPacketHandler.CancelTokens();
 
@@ -69,6 +70,8 @@ public class AsynchronousClient {
             using (NetworkStream stream = new NetworkStream(client))
             using (StreamWriter _out = new StreamWriter(stream)) {
                 byte[] packetData = packet.GetData();
+
+                // TBD
                 char[] t = System.Text.Encoding.UTF8.GetString(packetData).ToCharArray();
                 _out.Write(t, 0, t.Length);
                 _out.Flush();
@@ -77,17 +80,17 @@ public class AsynchronousClient {
             Debug.Log(e.ToString());
         }
     }
-
     public void StartReceiving() {
-        using (NetworkStream stream = new NetworkStream(client))
-        using (StreamReader _in = new StreamReader(stream)) {
+        using (NetworkStream stream = new NetworkStream(client)) {
             for(;;) {
                 if(!connected) {
                     break;
                 }
-
-                int packetType = _in.Read();
-                int packetLength = _in.Read();
+   
+                byte[] head = new byte[2];
+                stream.Read(head, 0, 2);
+                int packetType = head[0];
+                int packetLength = head[1];
 
                 if (packetType == -1 || !connected) {
                     Debug.Log("Server terminated the connection.");
@@ -95,17 +98,17 @@ public class AsynchronousClient {
                     break;
                 }
 
-                char[] c = new char[packetLength - 2];
-                int receivedBytes = 0;
-                int newBytes = 0;
+                byte[] tail = new byte[packetLength - 2];
+                int received = 0;
+                int readCount = 0;
 
-                while ((newBytes != -1) && (receivedBytes < (packetLength - 2))) {
-                    newBytes = _in.Read(c, 0, packetLength - 2);
-                    receivedBytes = receivedBytes + newBytes;
+                
+                while ((readCount != -1) && (received < tail.Length)) {
+                    readCount = stream.Read(tail, 0, tail.Length);
+                    received += readCount;
                 }
 
-                byte[] packetData = Encoding.GetEncoding("UTF-8").GetBytes(c);
-                ServerPacketHandler.HandlePacket((byte)packetType, packetData);
+                ServerPacketHandler.HandlePacket((byte)packetType, tail);
             }
         }
     }

@@ -19,7 +19,6 @@ public abstract class ServerPacket : Packet
                 byte[] segment = new byte[nextSegment];
                 Array.Copy(_packetData, i + 1, segment, 0, nextSegment);
                 segments.Add(segment);  
-                Debug.Log("New segment: [" + string.Join(",", segment) + "]");
             } else {
                 Debug.Log("Error in packet data segments.");
                 return;

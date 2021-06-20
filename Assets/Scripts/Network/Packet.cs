@@ -37,7 +37,7 @@ public abstract class Packet {
     }
 
     public void WriteS(String s) {
-        Write(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(s)); 
+        Write(System.Text.Encoding.GetEncoding("UTF-8").GetBytes(s)); 
     }
 
     private void Write(byte[] data) {
@@ -52,6 +52,6 @@ public abstract class Packet {
     }
 
     protected string ReadS(int index) {
-        return System.Text.Encoding.GetEncoding("ISO-8859-1").GetString(segments[index]);
+        return System.Text.Encoding.GetEncoding("UTF-8").GetString(segments[index]);
     }
 }

@@ -19,11 +19,6 @@ public class ServerPacketHandler
     }
 
     public static void HandlePacket(byte packetType, byte[] data) {
-
-        if(packetType != 0x00) {
-            Debug.Log("Received: [" + string.Join(",", data) + "]");
-        }
-
         switch (packetType)
         {
             case 00:
@@ -62,6 +57,7 @@ public class ServerPacketHandler
             if(!_tokenSource.IsCancellationRequested) {
                 long now2 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                 if(now2 - _timestamp > 1500) {
+                    Debug.Log("Connection timed out");
                     _client.Disconnect();
                 }
             }
@@ -88,6 +84,8 @@ public class ServerPacketHandler
     }
 
     private static void onMessageReceive(byte[] data) {
+        //Debug.Log("Received: [" + string.Join(",", data) + "]");
+
         ReceiveMessagePacket packet = new ReceiveMessagePacket(data);
         String sender = packet.GetSender();
         String text = packet.GetText();
