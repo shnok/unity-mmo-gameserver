@@ -11,7 +11,6 @@ public class ChatInput : MonoBehaviour, IPointerClickHandler {
         inputField = GetComponent<InputField>();
     }
     public void OnPointerClick (PointerEventData eventData) {
-        Debug.Log("Click on me");
         inputField.interactable = true;
         chatOpened = true; 
         inputField.Select();

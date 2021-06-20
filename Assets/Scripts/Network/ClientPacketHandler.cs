@@ -18,12 +18,12 @@ public class ClientPacketHandler
     }
 
     public static void SendAuth(string username) {
-       AuthPacket packet = new AuthPacket(username);
+       AuthRequestPacket packet = new AuthRequestPacket(username);
        _client.SendPacket(packet);
     }
 
     public static void SendMessage(string message) {
-        MessagePacket packet = new MessagePacket(message);
+        SendMessagePacket packet = new SendMessagePacket(message);
         _client.SendPacket(packet);
     }
 }

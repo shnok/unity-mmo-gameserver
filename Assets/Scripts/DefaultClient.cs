@@ -6,8 +6,16 @@ public class DefaultClient : MonoBehaviour
     static AsynchronousClient client;
     public static string username;
 
-    void Awake() {
-        DontDestroyOnLoad(this.gameObject);
+    private static DefaultClient _defaultClientInstance;
+
+    void Awake(){
+        DontDestroyOnLoad (this);
+            
+        if (_defaultClientInstance == null) {
+            _defaultClientInstance = this;
+        } else {
+            Object.Destroy(gameObject);
+        }
     }
 
     public static async void Connect(string user) {

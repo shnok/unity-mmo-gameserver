@@ -1,24 +1,37 @@
-public abstract class ClientPacket {
-    protected byte _packetType;
-    protected byte _packetLength;
-    protected byte[] _packetData;
+using System;
+using UnityEngine;
 
-    public ClientPacket(byte type) {
-        _packetType = type;
+public abstract class ClientPacket : Packet {
+
+    public ClientPacket(byte type) : base(type) {}
+    public ClientPacket(byte[] data) : base(data) {
+        BuildPacket(data);
     }
 
-    public byte[] GetData() {
-        return _packetData;
-    }
+    public void BuildPacket() {
+        if(segments.Count == 0) {
+            return;
+        }
 
-    public byte GetPacketType() {
-        return _packetType;
-    }
+        int totalSize = 0;
+        foreach (byte[] b in segments) {
+            totalSize += b.Length;
+        }
 
-    public void GetData(byte[] data) {
-        _packetType = (byte)(data.Length);
-        _packetLength = (byte)(data.Length);
+        _packetLength = (byte)(totalSize + 2);
+        byte[] data = new byte[_packetLength];
+        data[0] = _packetType;
+        data[1] = _packetLength;
+
+        int index = 2;
+        foreach (byte[] s in segments) {
+            Array.Copy(s, 0, data, index, s.Length);
+            index += s.Length;
+        }
+
         _packetData = data;
+
+        Debug.Log("Sent: [" + string.Join(",", _packetData) + "]");
     }
 
     public void BuildPacket(byte[] data) {
@@ -30,6 +43,4 @@ public abstract class ClientPacket {
             _packetData[i] = data[i - 2];
         }
     }
-       // System.out.println("Sent: " + Arrays.toString(_packetData));
-
 }

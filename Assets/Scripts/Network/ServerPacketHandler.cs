@@ -19,6 +19,11 @@ public class ServerPacketHandler
     }
 
     public static void HandlePacket(byte packetType, byte[] data) {
+
+        if(packetType != 0x00) {
+            Debug.Log("Received: [" + string.Join(",", data) + "]");
+        }
+
         switch (packetType)
         {
             case 00:
@@ -64,20 +69,18 @@ public class ServerPacketHandler
     }
 
     private static void onAuthReceive(byte[] data) {
-        if(data.Length != 1) {
-            _client.Disconnect();
-            return;
-        }
+        AuthResponsePacket packet = new AuthResponsePacket(data);
+        AuthResponse response = packet.GetResponse();
 
-        switch(data[0]) {
-            case 0x00:
+        switch(response) {
+            case AuthResponse.ALLOW:
                 GameStateManager.SetState(GameState.CONNECTED);
                 break;
-            case 0x01:
+            case AuthResponse.ALREADY_CONNECTED:
                 Debug.Log("User already connected.");
                 _client.Disconnect();
                 break;
-            case 0x02:
+            case AuthResponse.INVALID_USERNAME:
                 Debug.Log("Incorrect user name.");
                 _client.Disconnect();
                 break;
@@ -85,45 +88,15 @@ public class ServerPacketHandler
     }
 
     private static void onMessageReceive(byte[] data) {
-        if(data.Length < 3) {
-            return;
-        }
-
-        byte senderNameLength = data[0];
-        int textMessageLength = data.Length - senderNameLength - 1;
-        int textMessageStartIndex = (byte)data.Length - textMessageLength;
-
-        String sender = System.Text.Encoding.UTF8.GetString(data, 1, senderNameLength);
-        String text = System.Text.Encoding.UTF8.GetString(data, textMessageStartIndex, textMessageLength);
-
+        ReceiveMessagePacket packet = new ReceiveMessagePacket(data);
+        String sender = packet.GetSender();
+        String text = packet.GetText();
         Chat.AddMessage(sender, text);
     }
 
     private static void onSystemMessageReceive(byte[] data) {
-        if(data.Length < 1) {
-            return;
-        }
-
-        MessageType messageType = (MessageType)data[0];
-        SystemMessage message = null;
-
-        // Player Logged in;
-        if((messageType == MessageType.USER_LOGGED_IN || messageType == MessageType.USER_LOGGED_OFF)) {            
-            // message type | name length | username
-            if(data.Length < 3) {
-                return;
-            }
-            byte usernameLength = data[1];
-            if(usernameLength == data.Length - 2) {
-                string username = System.Text.Encoding.UTF8.GetString(data, 2, usernameLength);
-                if(messageType == MessageType.USER_LOGGED_IN) {
-                    message = new MessageLoggedIn(username);
-                } else {
-                    message = new MessageLoggedOut(username);
-                }                
-            }            
-        }
-
+        SystemMessagePacket packet = new SystemMessagePacket(data);
+        SystemMessage message = packet.GetMessage();
         Chat.AddMessage(message);
     }
 }
