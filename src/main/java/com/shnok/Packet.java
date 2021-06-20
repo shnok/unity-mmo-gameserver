@@ -60,6 +60,11 @@ public abstract class Packet {
     }
 
     protected String readS(int index) {
-        return new String(segments.get(index), StandardCharsets.ISO_8859_1);
+        byte[] segment = segments.get(index);
+
+        String s = null;
+        s = new String(segment, 0, segment.length, StandardCharsets.UTF_8);
+
+        return s;
     }
 }

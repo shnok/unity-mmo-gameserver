@@ -41,6 +41,5 @@ public abstract class ServerPacket extends Packet {
         _packetData[0] = _packetType;
         _packetData[1] = _packetLength;
         System.arraycopy(data, 0, _packetData,  2, data.length);
-        System.out.println("Sent: " + Arrays.toString(_packetData));
     }
 }

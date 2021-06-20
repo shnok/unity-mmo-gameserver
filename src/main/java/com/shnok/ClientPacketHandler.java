@@ -21,10 +21,6 @@ public class ClientPacketHandler {
     }
 
     public void handle(byte type, byte[] data) {
-        if(type != 0x00) {
-            System.out.println("Received: " + Arrays.toString(data));
-        }
-
         switch (type) {
             case 0x00:
                 onReceiveEcho();
