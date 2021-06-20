@@ -1,7 +1,5 @@
 package com.shnok.serverpackets;
 
-import java.nio.charset.StandardCharsets;
-
 public class MessagePacket extends ServerPacket {
     private String _text;
     private String _sender;
@@ -23,16 +21,8 @@ public class MessagePacket extends ServerPacket {
     }
 
     public void buildMessageData() {
-        byte[] senderBytes = _sender.getBytes();
-        byte[] textBytes = _text.getBytes();
-
-        byte[] result = new byte[senderBytes.length + textBytes.length + 1];
-
-        result[0] = (byte)senderBytes.length;
-
-        System.arraycopy(senderBytes, 0, result, 1, senderBytes.length);
-        System.arraycopy(textBytes, 0, result, senderBytes.length + 1, textBytes.length);
-
-        buildPacket(result);
+        writeS(_sender);
+        writeS(_text);
+        buildPacket();
     }
 }

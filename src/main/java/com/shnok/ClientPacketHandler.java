@@ -1,9 +1,10 @@
 package com.shnok;
 
-import com.shnok.serverpackets.AuthPacket;
+import com.shnok.clientpackets.AuthRequest;
+import com.shnok.clientpackets.RequestSendMessage;
+import com.shnok.serverpackets.AuthResponse;
 import com.shnok.serverpackets.MessagePacket;
 import com.shnok.serverpackets.PingPacket;
-import com.shnok.serverpackets.AuthPacket.AuthReason;
 import com.shnok.serverpackets.SystemMessagePacket;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 public class ClientPacketHandler {
-    private GameClient _client;
+    private final GameClient _client;
     private long _lastEcho;
 
     public ClientPacketHandler(GameClient client) {
@@ -54,19 +55,21 @@ public class ClientPacketHandler {
     }
 
     private void onReceiveAuth(byte[] data) {
-        String username = new String(data);
-        AuthPacket authPacket;
+        AuthRequest packet = new AuthRequest(data);
+        String username = packet.getUsername();
+
+        AuthResponse authResponse;
         if(Server.userExists(username)) {
-            authPacket = new AuthPacket(AuthReason.ALREADY_CONNECTED);
+            authResponse = new AuthResponse(AuthResponse.AuthResponseType.ALREADY_CONNECTED);
         } else if(username.length() <= 0 || username.length() > 16) {
-            authPacket = new AuthPacket(AuthReason.INVALID_USERNAME);
+            authResponse = new AuthResponse(AuthResponse.AuthResponseType.INVALID_USERNAME);
         } else {
-            authPacket = new AuthPacket(AuthReason.ALLOW);
+            authResponse = new AuthResponse(AuthResponse.AuthResponseType.ALLOW);
             _client.authenticated = true;
             _client.setUsername(username);
         }
 
-        _client.sendPacket(authPacket);
+        _client.sendPacket(authResponse);
 
         if(_client.authenticated) {
             Server.broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, username));
@@ -74,9 +77,10 @@ public class ClientPacketHandler {
     }
 
     private void onReceiveMessage(byte[] data) {
-        String value = new String(data);
-        MessagePacket packet = new MessagePacket(_client.getUsername(), value);
+        RequestSendMessage packet = new RequestSendMessage(data);
+        String message = packet.getMessage();
 
-        Server.broadcast(packet);
+        MessagePacket messagePacket = new MessagePacket(_client.getUsername(), message);
+        Server.broadcast(messagePacket);
     }
 }

@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public abstract class GameServerThread extends Thread {
     private final Socket _connection;
-    private String _connectionIp;
+    private final String _connectionIp;
     private InputStream _in;
     private OutputStream _out;
     public boolean authenticated;
@@ -44,8 +44,6 @@ public abstract class GameServerThread extends Thread {
             for (;;) {
                 packetType = _in.read();
                 packetLength = _in.read();
-                /*System.out.println("Received packet type: "+ Integer.toHexString(packetType) +
-                        " length: " + packetLength + " bytes");*/
 
                 if (packetType == -1 || _connection.isClosed()) {
                     System.out.println("LoginServerThread: Login terminated the connection.");
@@ -84,7 +82,8 @@ public abstract class GameServerThread extends Thread {
         try {
             synchronized (_out) {
                 for (byte b : packet.getData()) {
-                    _out.write(b);
+                    int nb = b < 0 ? b + 256 : b;
+                    _out.write(nb);
                 }
                 _out.flush();
             }

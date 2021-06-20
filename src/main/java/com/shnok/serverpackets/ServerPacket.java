@@ -1,30 +1,38 @@
 package com.shnok.serverpackets;
 
-import java.util.ArrayList;
+import com.shnok.Packet;
+
 import java.util.Arrays;
-import java.util.List;
 
-public abstract class ServerPacket {
-    protected byte _packetType;
-    protected byte _packetLength;
-    protected byte[] _packetData;
-
+public abstract class ServerPacket extends Packet {
     public ServerPacket(byte type) {
-        _packetType = type;
+        super(type);
     }
 
-    public byte[] getData() {
-        return _packetData;
-    }
+    public void buildPacket() {
+        if(segments.size() == 0) {
+            return;
+        }
 
-    public byte getType() {
-        return _packetType;
-    }
+        int totalSize = 0;
+        for(byte[] b : segments) {
+            totalSize += b.length;
+        }
 
-    public void setData(byte[] data) {
-        _packetType = (byte)(data.length);
-        _packetLength = (byte)(data.length);
+        _packetLength = (byte)(totalSize + 2);
+        byte[] data = new byte[_packetLength];
+        data[0] = _packetType;
+        data[1] = _packetLength;
+
+        int index = 2;
+        for(byte[] s : segments) {
+            System.arraycopy(s, 0, data,  index, s.length);
+            index += s.length;
+        }
+
         _packetData = data;
+
+        System.out.println("Sent: " + Arrays.toString(_packetData));
     }
 
     public void buildPacket(byte[] data) {
@@ -32,10 +40,7 @@ public abstract class ServerPacket {
         _packetData = new byte[_packetLength];
         _packetData[0] = _packetType;
         _packetData[1] = _packetLength;
-        for (int i = 2; i < data.length + 2; i++) {
-            _packetData[i] = data[i - 2];
-        }
-
+        System.arraycopy(data, 0, _packetData,  2, data.length);
         System.out.println("Sent: " + Arrays.toString(_packetData));
     }
 }

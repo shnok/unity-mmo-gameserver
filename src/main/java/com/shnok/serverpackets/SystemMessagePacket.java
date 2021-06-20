@@ -18,13 +18,9 @@ public class SystemMessagePacket extends ServerPacket {
         super((byte)0x03);
         _type = type;
 
-        byte[] valueBytes = value.getBytes();
-        byte[] data = new byte[valueBytes.length + 2];
+        writeB((byte)type.ordinal());
+        writeS(value);
 
-        data[0] = (byte)type.ordinal();
-        data[1] = (byte)valueBytes.length;
-        System.arraycopy(valueBytes, 0, data, 2, valueBytes.length);
-
-        buildPacket(data);
+        buildPacket();
     }
 }
