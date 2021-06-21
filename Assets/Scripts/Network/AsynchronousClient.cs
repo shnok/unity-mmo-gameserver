@@ -67,14 +67,9 @@ public class AsynchronousClient {
 
     public void SendPacket(ClientPacket packet) {
         try {
-            using (NetworkStream stream = new NetworkStream(client))
-            using (StreamWriter _out = new StreamWriter(stream)) {
-                byte[] packetData = packet.GetData();
-
-                // TBD
-                char[] t = System.Text.Encoding.UTF8.GetString(packetData).ToCharArray();
-                _out.Write(t, 0, t.Length);
-                _out.Flush();
+            using (NetworkStream stream = new NetworkStream(client)) {
+                stream.Write(packet.GetData(), 0, (int)packet.GetLength());
+                stream.Flush();
             }
         } catch (IOException e) {
             Debug.Log(e.ToString());

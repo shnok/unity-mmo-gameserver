@@ -32,6 +32,10 @@ public abstract class Packet {
         return _packetType;
     }
 
+    public byte GetLength() {
+        return _packetLength;
+    }
+
     public void WriteB(byte b) {
         Write(new byte[] {b});
     }
