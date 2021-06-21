@@ -8,36 +8,45 @@ import java.util.List;
 
 public class Server {
 
-    public static final int PORT = 11000;
-    private static GameServerListener _gameServerListener;
-    private static final List<GameClient> _clients = new ArrayList<>();
+    public final int PORT = 11000;
+    private final GameServerListener _gameServerListener;
+    private final List<GameClient> _clients = new ArrayList<>();
+
+    private static Server _instance;
+
+    public static Server getInstance() {
+        if(_instance == null) {
+            _instance = new Server();
+        }
+        return _instance;
+    }
 
     public Server() {
         _gameServerListener = new GameServerListener(PORT);
-        _gameServerListener.run();
     }
 
     public static void main(String[] av) {
-        Server server = new Server();
+        Server s = getInstance();
+        s.getGameServerListener().start();
     }
 
-    public static GameServerListener getGameServerListener() {
+    public GameServerListener getGameServerListener() {
         return _gameServerListener;
     }
 
-    public static void addClient(Socket s) {
+    public void addClient(Socket s) {
         GameClient client = new GameClient(s);
         client.start();
         _clients.add(client);
     }
 
-    public static void removeClient(GameClient s) {
+    public void removeClient(GameClient s) {
         synchronized (_clients) {
             _clients.remove(s);
         }
     }
 
-    public static void broadcast(ServerPacket packet) {
+    public void broadcast(ServerPacket packet) {
         synchronized (_clients) {
             for(GameClient c : _clients) {
                 if(c.authenticated) {
@@ -47,15 +56,11 @@ public class Server {
         }
     }
 
-    public static boolean userExists(String user) {
+    public boolean userExists(String user) {
         synchronized (_clients) {
             for(GameClient c : _clients) {
                 if(c.authenticated) {
-                    if(c.getUsername().equals(user)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return c.getUsername().equals(user);
                 }
             }
 

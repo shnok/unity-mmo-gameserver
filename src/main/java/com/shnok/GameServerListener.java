@@ -24,7 +24,7 @@ public class GameServerListener extends Thread {
             Socket connection = null;
             try {
                 connection = _serverSocket.accept();
-                Server.addClient(connection);
+                Server.getInstance().addClient(connection);
             } catch (Exception e) {
                 e.printStackTrace();
                 try {

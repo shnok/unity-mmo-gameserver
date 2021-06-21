@@ -15,6 +15,7 @@ public abstract class GameServerThread extends Thread {
     private OutputStream _out;
     public boolean authenticated;
 
+    abstract void authenticate();
     abstract void removeSelf();
     abstract void handlePacket(byte type, byte[] data);
 

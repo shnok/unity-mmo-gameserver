@@ -55,7 +55,7 @@ public class ClientPacketHandler {
         String username = packet.getUsername();
 
         AuthResponse authResponse;
-        if(Server.userExists(username)) {
+        if(Server.getInstance().userExists(username)) {
             authResponse = new AuthResponse(AuthResponse.AuthResponseType.ALREADY_CONNECTED);
         } else if(username.length() <= 0 || username.length() > 16) {
             authResponse = new AuthResponse(AuthResponse.AuthResponseType.INVALID_USERNAME);
@@ -67,8 +67,9 @@ public class ClientPacketHandler {
 
         _client.sendPacket(authResponse);
 
+
         if(_client.authenticated) {
-            Server.broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, username));
+            _client.authenticate();
         }
     }
 
@@ -77,6 +78,6 @@ public class ClientPacketHandler {
         String message = packet.getMessage();
 
         MessagePacket messagePacket = new MessagePacket(_client.getUsername(), message);
-        Server.broadcast(messagePacket);
+        Server.getInstance().broadcast(messagePacket);
     }
 }
