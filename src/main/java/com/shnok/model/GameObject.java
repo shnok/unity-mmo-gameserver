@@ -10,11 +10,10 @@ public abstract class GameObject {
     private String _name;
     private int _id;
     private int _model;
-    private Point3D _position;
+    private Point3D _position = new Point3D(0,0,0);
 
     public GameObject(int id) {
         _id = id;
-        _position = new Point3D(0,0,0);
     }
 
     public GameObject(int id, String name) {
@@ -24,6 +23,18 @@ public abstract class GameObject {
 
     public int getId() {
         return _id;
+    }
+
+    public int getPosX() {
+        return _position.getX();
+    }
+
+    public int getPosY() {
+        return _position.getY();
+    }
+
+    public int getPosZ() {
+        return _position.getZ();
     }
 
     public String getName() {

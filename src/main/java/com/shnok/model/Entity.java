@@ -19,16 +19,8 @@ public class Entity extends GameObject {
         _status = new EntityStatus();
     }
 
-    public void setCurrentHp(int value) {
-        _status.setCurrentHp(value);
-    }
-
     public void inflictDamage(int value) {
         _status.setCurrentHp(_status.getCurrentHp() - value);
-    }
-
-    public void setLevel(int value) {
-        _status.setLevel(value);
     }
 
     public void addLevel(int value) {
@@ -37,5 +29,9 @@ public class Entity extends GameObject {
 
     public void addExp(int value) {
         _status.addExp(value);
+    }
+
+    public EntityStatus getStatus() {
+        return _status;
     }
 }

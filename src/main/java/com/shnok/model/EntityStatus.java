@@ -27,6 +27,10 @@ public class EntityStatus {
         return _hp;
     }
 
+    public int getMaxHp() {
+        return _maxHp;
+    }
+
     public void setLevel(int value) {
         _level += value;
     }
@@ -35,6 +39,13 @@ public class EntityStatus {
         return _level;
     }
 
+    public int getStamina() {
+        return _stamina;
+    }
+
+    public int getMaxStamina() {
+        return _maxStamina;
+    }
     public void addExp(int value) {
         _exp += value;
     }
