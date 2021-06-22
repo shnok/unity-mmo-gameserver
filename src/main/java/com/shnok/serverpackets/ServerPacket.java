@@ -1,45 +1,58 @@
 package com.shnok.serverpackets;
 
 import com.shnok.Packet;
+import org.apache.commons.lang3.ArrayUtils;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public abstract class ServerPacket extends Packet {
+    private final List<Byte> buffer = new ArrayList<>();
+
     public ServerPacket(byte type) {
         super(type);
     }
 
-    public void buildPacket() {
-        if(segments.size() == 0) {
-            return;
+    protected void writeS(String s) {
+        try {
+            if(s != null) {
+                byte[] d = s.getBytes(StandardCharsets.UTF_8);
+                write(d);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        int totalSize = 0;
-        for(byte[] b : segments) {
-            totalSize += b.length;
-        }
-
-        _packetLength = (byte)(totalSize + 2);
-        byte[] data = new byte[_packetLength];
-        data[0] = _packetType;
-        data[1] = _packetLength;
-
-        int index = 2;
-        for(byte[] s : segments) {
-            System.arraycopy(s, 0, data,  index, s.length);
-            index += s.length;
-        }
-
-        _packetData = data;
-
-        System.out.println("Sent: " + Arrays.toString(_packetData));
     }
 
-    public void buildPacket(byte[] data) {
-        _packetLength = (byte)(data.length + 2);
-        _packetData = new byte[_packetLength];
-        _packetData[0] = _packetType;
-        _packetData[1] = _packetLength;
-        System.arraycopy(data, 0, _packetData,  2, data.length);
+    protected void writeB(byte b) {
+        buffer.add(b);
+    }
+
+    protected void writeI(int i) {
+        Byte[] array = new Byte[] { (byte)((i >> 24) & 0xff),
+                (byte)((i >> 16) & 0xff),
+                (byte)((i >> 8) & 0xff),
+                (byte)((i >> 0) & 0xff)};
+
+        buffer.addAll(Arrays.asList(array));
+    }
+
+    protected void write(byte[] data) {
+        buffer.add((byte)data.length);
+        List<Byte> byteList = IntStream.range(0, data.length)
+                .mapToObj((int j) -> data[j])
+                .collect(Collectors.toList());
+        buffer.addAll(byteList);
+    }
+
+    protected void buildPacket() {
+        buffer.add(0, _packetType);
+        buffer.add(1, (byte)(buffer.size() + 1));
+        Byte[] array = buffer.toArray(new Byte[0]);
+        setData(ArrayUtils.toPrimitive(array));
     }
 }

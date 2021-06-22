@@ -25,8 +25,8 @@ public class GameClient extends GameServerThread {
     }
 
     @Override
-    void handlePacket(byte type, byte[] data) {
-        _cph.handle(type, data);
+    void handlePacket(byte[] data) {
+        _cph.handle(data);
     }
 
     @Override

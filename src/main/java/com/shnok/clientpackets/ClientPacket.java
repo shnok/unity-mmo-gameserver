@@ -2,30 +2,35 @@ package com.shnok.clientpackets;
 
 import com.shnok.Packet;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+
 public abstract class ClientPacket extends Packet {
-    public ClientPacket(byte type) {
-        super(type);
-    }
+    private int iterator;
 
     public ClientPacket(byte[] data) {
         super(data);
-        parseData();
+        readB();
+        readB();
     }
 
-    public void parseData() {
-        for(int i = 0; i < _packetData.length; i++) {
-            int nextSegment = (int)_packetData[i];
-            if((nextSegment + 1) <= _packetData.length) {
-                byte[] segment = new byte[nextSegment];
-                System.arraycopy(_packetData, i + 1, segment, 0, nextSegment);
-                segments.add(segment);
-            } else {
-                System.out.println("Error in packet data segments.");
-                return;
-            }
-            i += nextSegment;
-        }
+    protected byte readB() {
+        return _packetData[iterator++];
+    }
 
-        _packetLength = (byte)_packetData.length;
+    protected int readI() {
+        byte[] array = new byte[4];
+        System.arraycopy(_packetData, iterator, array, 0, 4);
+        iterator += 4;
+        return ByteBuffer.wrap(array).getInt();
+    }
+
+    protected String readS() {
+        byte strLen = readB();
+        byte[] data = new byte[strLen];
+        System.arraycopy(_packetData, iterator, data, 0, strLen);
+        iterator += strLen;
+
+        return new String(data, 0, strLen, StandardCharsets.UTF_8);
     }
 }

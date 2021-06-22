@@ -20,7 +20,9 @@ public class ClientPacketHandler {
         _client = client;
     }
 
-    public void handle(byte type, byte[] data) {
+    public void handle(byte[] data) {
+        byte type = data[0];
+
         switch (type) {
             case 0x00:
                 onReceiveEcho();

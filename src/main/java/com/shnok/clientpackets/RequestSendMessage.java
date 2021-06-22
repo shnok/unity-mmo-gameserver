@@ -7,7 +7,7 @@ public class RequestSendMessage extends ClientPacket {
     public RequestSendMessage(byte[] data) {
         super(data);
 
-        _message = readS(0);
+        _message = readS();
     }
 
     public String getMessage() {

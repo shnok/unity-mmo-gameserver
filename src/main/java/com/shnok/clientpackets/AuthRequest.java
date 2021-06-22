@@ -7,7 +7,7 @@ public class AuthRequest extends ClientPacket {
     public AuthRequest(byte[] data) {
         super(data);
 
-        _username = readS(0);
+        _username = readS();
     }
 
     public String getUsername() {

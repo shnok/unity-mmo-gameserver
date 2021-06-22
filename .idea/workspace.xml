@@ -6,13 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="f6e86b1f-b4b3-4338-83d3-f6f3d23185c5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/ClientPacketHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GameServerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GameServerListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GameServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GameServerThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/Packet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/AuthRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/AuthRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/ClientPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/ClientPacket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/RequestSendMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/RequestSendMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ServerPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ServerPacket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/ClientPacketHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/ClientPacketHandler$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/ClientPacketHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/ClientPacketHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/GameClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/GameClient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/GameServerThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/GameServerThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/Packet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/Packet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/clientpackets/AuthRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/clientpackets/AuthRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/clientpackets/ClientPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/clientpackets/ClientPacket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/clientpackets/RequestSendMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/clientpackets/RequestSendMessage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/serverpackets/PingPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/serverpackets/PingPacket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/serverpackets/ServerPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/serverpackets/ServerPacket.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +54,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -81,5 +94,19 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/AuthResponse.java</url>
+          <line>10</line>
+          <properties class="com.shnok.serverpackets.AuthResponse" method="&lt;init&gt;">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

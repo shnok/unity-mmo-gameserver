@@ -17,7 +17,7 @@ public abstract class GameServerThread extends Thread {
 
     abstract void authenticate();
     abstract void removeSelf();
-    abstract void handlePacket(byte type, byte[] data);
+    abstract void handlePacket(byte[] data);
 
     public GameServerThread(Socket con) {
         _connection = con;
@@ -51,16 +51,19 @@ public abstract class GameServerThread extends Thread {
                     break;
                 }
 
-                byte[] data = new byte[packetLength - 2];
+                byte[] data = new byte[packetLength];
+                data[0] = (byte) packetType;
+                data[1] = (byte) packetLength;
+
                 int receivedBytes = 0;
                 int newBytes = 0;
 
                 while ((newBytes != -1) && (receivedBytes < (packetLength - 2))) {
-                    newBytes = _in.read(data, 0, packetLength - 2);
+                    newBytes = _in.read(data, 2, packetLength - 2);
                     receivedBytes = receivedBytes + newBytes;
                 }
 
-                handlePacket((byte) packetType, data);
+                handlePacket(data);
             }
         } catch (Exception e) {
             e.printStackTrace();
