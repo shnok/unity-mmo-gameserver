@@ -927,6 +927,7 @@ GameObject:
   - component: {fileID: 1676363310}
   - component: {fileID: 1676363313}
   - component: {fileID: 1676363312}
+  - component: {fileID: 1676363314}
   m_Layer: 0
   m_Name: GameLogic
   m_TagString: Untagged
@@ -946,6 +947,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39785d981b5ef40abdd32961a10be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayer:
+    _id: 0
+    _name: 
+    _model: 0
+    _object: {fileID: 0}
+  username: 
 --- !u!4 &1676363311
 Transform:
   m_ObjectHideFlags: 0
@@ -984,8 +991,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f001ac389c5be54f88020c430679bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offlineMenu: {fileID: 1373869862}
-  onlineMenu: {fileID: 0}
+--- !u!114 &1676363314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676363309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ea07d0e4d57846a89b1c28687cab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 0}
+  players: []
 --- !u!1 &2022272770
 GameObject:
   m_ObjectHideFlags: 0

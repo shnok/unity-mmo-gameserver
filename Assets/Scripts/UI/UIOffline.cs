@@ -21,7 +21,7 @@ public class UIOffline : MonoBehaviour
     public void Connect() {
         string username = GetUsername();
         if(username != null) {
-            DefaultClient.Connect(username);
+            DefaultClient.GetInstance().Connect(username);
         }       
     }
 

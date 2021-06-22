@@ -34,6 +34,9 @@ public class ServerPacketHandler
             case 03:
                 onSystemMessageReceive(data);
                 break;
+            case 04:
+                onPlayerInfoReceive(data);
+                break;
         }
     }
 
@@ -97,5 +100,17 @@ public class ServerPacketHandler
         SystemMessagePacket packet = new SystemMessagePacket(data);
         SystemMessage message = packet.GetMessage();
         Chat.AddMessage(message);
+    }
+
+    private static void onPlayerInfoReceive(byte[] data) {
+        PlayerInfoPacket packet = new PlayerInfoPacket(data);
+        NetworkIdentity identity = packet.GetIdentity();
+        PlayerStatus status = packet.GetStatus();
+
+        World.GetInstance().SpawnPlayer(identity, status);
+
+        //DefaultClient.GetInstance().NewPlayer(player);
+        
+        //if(player.GetName() == DefaultClient.GetInstance().)
     }
 }

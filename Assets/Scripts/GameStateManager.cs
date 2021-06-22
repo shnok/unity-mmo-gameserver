@@ -12,9 +12,6 @@ public class GameStateManager : MonoBehaviour
     private static GameState _state = GameState.MENU;
     private EventProcessor _eventProcessor;
 
-    public GameObject offlineMenu;
-    public GameObject onlineMenu;
-
     public static void SetState(GameState ns) {
         _state = ns;
         StateChanged?.Invoke();
@@ -27,6 +24,7 @@ public class GameStateManager : MonoBehaviour
     void Awake() {
         _eventProcessor = gameObject.GetComponent<EventProcessor>();
         StateChanged += HandleEvent;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void HandleEvent() {
@@ -35,10 +33,15 @@ public class GameStateManager : MonoBehaviour
 
     private void HandleOnStateChange() {
         if(_state == GameState.MENU) {
-            SceneManager.LoadSceneAsync("MenuScene");
+            SceneManager.LoadScene("MenuScene");           
         }
+
         if(_state == GameState.CONNECTED) {
-            SceneManager.LoadSceneAsync("GameScene");
+            SceneManager.LoadScene("GameScene");
         }
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        SceneManager.SetActiveScene(scene);
     }
 }

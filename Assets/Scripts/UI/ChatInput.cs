@@ -25,7 +25,7 @@ public class ChatInput : MonoBehaviour, IPointerClickHandler {
                inputField.Select();
             } else {
                 if(inputField.text.Length > 0) {
-                    DefaultClient.SendChatMessage(inputField.text);
+                    DefaultClient.GetInstance().SendChatMessage(inputField.text);
                     inputField.text = "";
                 }
             }

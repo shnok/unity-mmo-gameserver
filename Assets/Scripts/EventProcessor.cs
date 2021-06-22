@@ -5,6 +5,17 @@ using System;
 
 public class EventProcessor : MonoBehaviour {
 
+    public static EventProcessor _instance;
+    public static EventProcessor GetInstance() {
+        return _instance;
+    }
+
+    void Awake() {
+        if (_instance == null) {
+            _instance = this;
+        }
+    }
+    
     public void QueueEvent(Action action) {
         lock(m_queueLock) {
             m_queuedEvents.Add(action);

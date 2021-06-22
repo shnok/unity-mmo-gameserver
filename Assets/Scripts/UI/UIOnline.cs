@@ -10,11 +10,11 @@ public class UIOnline : MonoBehaviour
     public Button sendMessageButton;
 
     public void SendMessage() {
-        DefaultClient.SendChatMessage("Hello world!");
+        DefaultClient.GetInstance().SendChatMessage("Hello world!");
     }
 
     public void Disconnect() {
-        DefaultClient.Disconnect();
+        DefaultClient.GetInstance().Disconnect();
     }
 
     // Start is called before the first frame update
@@ -30,6 +30,6 @@ public class UIOnline : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        pingText.text = "Ping: " + DefaultClient.GetPing().ToString() + "ms";
+        pingText.text = "Ping: " + DefaultClient.GetInstance().GetPing().ToString() + "ms";
     }
 }

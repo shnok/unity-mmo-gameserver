@@ -19,6 +19,15 @@ public abstract class ServerPacket : Packet
         return _packetData[iterator++];
     }
 
+    protected int ReadI() {
+        byte[] data = new byte[4];     
+        Array.Copy(_packetData, iterator, data, 0, 4);
+        Array.Reverse(data);
+        int value = BitConverter.ToInt32(data, 0);
+        iterator += 4;
+        return value;
+    }
+
     protected string ReadS() {
         byte strLen = ReadB();
         byte[] data = new byte[strLen];

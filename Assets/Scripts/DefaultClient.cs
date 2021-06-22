@@ -1,24 +1,28 @@
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections;
 
-public class DefaultClient : MonoBehaviour
-{
+public class DefaultClient : MonoBehaviour {
     static AsynchronousClient client;
-    public static string username;
+    public Player currentPlayer;
+    public string username; 
+    private static DefaultClient _instance;
 
-    private static DefaultClient _defaultClientInstance;
+    public static DefaultClient GetInstance() {
+        return _instance;
+    }
 
-    void Awake(){
-        DontDestroyOnLoad (this);
-            
-        if (_defaultClientInstance == null) {
-            _defaultClientInstance = this;
+    void Awake(){                
+        if (_instance == null) {
+            DontDestroyOnLoad (this); 
+            _instance = this;
         } else {
             Object.Destroy(gameObject);
         }
     }
 
-    public static async void Connect(string user) {
+    public async void Connect(string user) {
         username = user; 
         client = new AsynchronousClient("127.0.0.1", 11000);
         bool connected = await Task.Run(client.Connect);
@@ -30,15 +34,15 @@ public class DefaultClient : MonoBehaviour
         }
     }
 
-    public static int GetPing() {
+    public int GetPing() {
         return client.GetPing();
     }
 
-    public static void SendChatMessage(string message) {
+    public void SendChatMessage(string message) {
         ClientPacketHandler.SendMessage(message);
     }
-
-    public static void Disconnect() {
+ 
+    public void Disconnect() {
         client.Disconnect();
         Chat.Clear();        
     }

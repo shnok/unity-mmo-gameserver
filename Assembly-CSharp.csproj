@@ -39,6 +39,10 @@
      <Compile Include="Assets\Scripts\DefaultClient.cs" />
      <Compile Include="Assets\Scripts\EventProcessor.cs" />
      <Compile Include="Assets\Scripts\GameStateManager.cs" />
+     <Compile Include="Assets\Scripts\Model\NetworkIdentity.cs" />
+     <Compile Include="Assets\Scripts\Model\NetworkTransform.cs" />
+     <Compile Include="Assets\Scripts\Model\Player.cs" />
+     <Compile Include="Assets\Scripts\Model\PlayerStatus.cs" />
      <Compile Include="Assets\Scripts\Network\AsynchronousClient.cs" />
      <Compile Include="Assets\Scripts\Network\ClientPacketHandler.cs" />
      <Compile Include="Assets\Scripts\Network\ClientPackets\AuthRequestPacket.cs" />
@@ -48,6 +52,7 @@
      <Compile Include="Assets\Scripts\Network\Packet.cs" />
      <Compile Include="Assets\Scripts\Network\ServerPacketHandler.cs" />
      <Compile Include="Assets\Scripts\Network\ServerPackets\AuhRespondePacket.cs" />
+     <Compile Include="Assets\Scripts\Network\ServerPackets\PlayerInfoPacket.cs" />
      <Compile Include="Assets\Scripts\Network\ServerPackets\ReceiveMessagePacket.cs" />
      <Compile Include="Assets\Scripts\Network\ServerPackets\ServerPacket.cs" />
      <Compile Include="Assets\Scripts\Network\ServerPackets\SystemMessagePacket.cs" />
@@ -58,6 +63,7 @@
      <Compile Include="Assets\Scripts\UI\Messages\SystemMessage.cs" />
      <Compile Include="Assets\Scripts\UI\UIOffline.cs" />
      <Compile Include="Assets\Scripts\UI\UIOnline.cs" />
+     <Compile Include="Assets\Scripts\World.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
