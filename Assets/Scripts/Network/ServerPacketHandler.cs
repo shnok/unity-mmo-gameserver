@@ -18,7 +18,8 @@ public class ServerPacketHandler
         return _client;
     }
 
-    public static void HandlePacket(byte packetType, byte[] data) {
+    public static void HandlePacket(byte[] data) {
+        byte packetType = data[0];
         switch (packetType)
         {
             case 00:

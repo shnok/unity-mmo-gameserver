@@ -17,7 +17,7 @@ public class AuthResponsePacket : ServerPacket {
     
     public override void Parse() {    
         try {
-            response = (AuthResponse)ReadB(0);
+            response = (AuthResponse)ReadB();
         } catch(Exception e) {
             Debug.Log(e);
         }

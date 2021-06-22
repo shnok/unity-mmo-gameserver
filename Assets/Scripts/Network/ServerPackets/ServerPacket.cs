@@ -2,31 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Text;
 
 public abstract class ServerPacket : Packet
 {
     protected byte minimumLength;
+    private int iterator;
 
     public ServerPacket() {}
     public ServerPacket(byte[] d) : base(d) {
-        ParseData();
+        ReadB();
+        ReadB();
     }
 
-    public void ParseData() {
-        for(int i = 0; i < _packetData.Length; i++) {
-            int nextSegment = (int)_packetData[i];
-            if((nextSegment + 1) <= _packetData.Length) {
-                byte[] segment = new byte[nextSegment];
-                Array.Copy(_packetData, i + 1, segment, 0, nextSegment);
-                segments.Add(segment);  
-            } else {
-                Debug.Log("Error in packet data segments.");
-                return;
-            }
-            i += nextSegment;
-        }
+    protected byte ReadB() {
+        return _packetData[iterator++];
+    }
 
-        _packetLength = (byte)_packetData.Length;
+    protected string ReadS() {
+        byte strLen = ReadB();
+        byte[] data = new byte[strLen];
+        Array.Copy(_packetData, iterator, data, 0, strLen);
+        iterator += strLen;
+
+        return Encoding.GetEncoding("UTF-8").GetString(data);
     }
 
     public abstract void Parse();

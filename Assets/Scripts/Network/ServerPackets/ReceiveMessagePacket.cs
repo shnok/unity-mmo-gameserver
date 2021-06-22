@@ -11,8 +11,8 @@ public class ReceiveMessagePacket : ServerPacket {
     
     public override void Parse() {    
         try {
-            _sender = ReadS(0);
-            _text = ReadS(1);
+            _sender = ReadS();
+            _text = ReadS();
         } catch(Exception e) {
             Debug.Log(e);
         }

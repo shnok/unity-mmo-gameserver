@@ -82,28 +82,27 @@ public class AsynchronousClient {
                     break;
                 }
    
-                byte[] head = new byte[2];
-                stream.Read(head, 0, 2);
-                int packetType = head[0];
-                int packetLength = head[1];
-
+                int packetType = stream.ReadByte();                       
                 if (packetType == -1 || !connected) {
                     Debug.Log("Server terminated the connection.");
                     Disconnect();
                     break;
                 }
 
-                byte[] tail = new byte[packetLength - 2];
+                int packetLength = stream.ReadByte();
+                byte[] packet = new byte[packetLength];
+                packet[0] = (byte)packetType;
+                packet[1] = (byte)packetLength;
+               
                 int received = 0;
                 int readCount = 0;
-
-                
-                while ((readCount != -1) && (received < tail.Length)) {
-                    readCount = stream.Read(tail, 0, tail.Length);
+               
+                while ((readCount != -1) && (received < packet.Length - 2)) {
+                    readCount = stream.Read(packet, 2, packet.Length - 2);
                     received += readCount;
                 }
 
-                ServerPacketHandler.HandlePacket((byte)packetType, tail);
+                ServerPacketHandler.HandlePacket(packet);
             }
         }
     }

@@ -18,14 +18,14 @@ public class SystemMessagePacket : ServerPacket {
     
     public override void Parse() {    
         try {
-            type = (MessageType)ReadB(0);
+            type = (MessageType)ReadB();
 
             switch (type) {
                 case MessageType.USER_LOGGED_IN:
-                    message = new MessageLoggedIn(ReadS(1));
+                    message = new MessageLoggedIn(ReadS());
                     break;
                 case MessageType.USER_LOGGED_OFF:
-                    message = new MessageLoggedOut(ReadS(1));
+                    message = new MessageLoggedOut(ReadS());
                     break;
             }            
         } catch(Exception e) {

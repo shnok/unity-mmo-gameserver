@@ -1,46 +1,34 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public abstract class ClientPacket : Packet {
+    private List<byte> buffer = new List<byte>();
 
     public ClientPacket(byte type) : base(type) {}
     public ClientPacket(byte[] data) : base(data) {
-        BuildPacket(data);
+        BuildPacket();
     }
 
-    public void BuildPacket() {
-        if(segments.Count == 0) {
-            return;
-        }
-
-        int totalSize = 0;
-        foreach (byte[] b in segments) {
-            totalSize += b.Length;
-        }
-
-        _packetLength = (byte)(totalSize + 2);
-        byte[] data = new byte[_packetLength];
-        data[0] = _packetType;
-        data[1] = _packetLength;
-
-        int index = 2;
-        foreach (byte[] s in segments) {
-            Array.Copy(s, 0, data, index, s.Length);
-            index += s.Length;
-        }
-
-        _packetData = data;
-
-        Debug.Log("Sent: [" + string.Join(",", _packetData) + "]");
+    public void WriteB(byte b) {
+        buffer.Add(b);
     }
 
-    public void BuildPacket(byte[] data) {
-        _packetLength = (byte)(data.Length + 2);
-        _packetData = new byte[_packetLength];
-        _packetData[0] = _packetType;
-        _packetData[1] = _packetLength;
-        for (int i = 2; i < data.Length + 2; i++) {
-            _packetData[i] = data[i - 2];
-        }
+    public void WriteS(String s) {
+        Write(Encoding.GetEncoding("UTF-8").GetBytes(s)); 
+    }
+
+    private void Write(byte[] data) {
+        buffer.Add((byte)data.Length);
+        buffer.AddRange(data);
+    }
+
+    protected void BuildPacket() {
+        buffer.Insert(0, _packetType);
+        buffer.Insert(1, (byte)(buffer.Count + 1));
+        byte[] array = buffer.ToArray();
+
+        SetData(array);
     }
 }
