@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class World : MonoBehaviour
 {
     public GameObject playerPrefab;
     private EventProcessor _eventProcessor;
-    public List<Player> players = new List<Player>();
-    public List<NetworkTransform> objects = new List<NetworkTransform>();
+    public Dictionary<string, Player> players = new Dictionary<string, Player>();
+    public Dictionary<int, NetworkTransform> objects = new Dictionary<int, NetworkTransform>();
     public static World _instance;
     public static World GetInstance() {
         return _instance;
@@ -32,19 +31,43 @@ public class World : MonoBehaviour
         
     }
 
+    public void RemoveObject(int id) {
+        NetworkTransform transform;
+        if(objects.TryGetValue(id, out transform)) {
+            string name = transform.GetIdentity().GetName();
+
+            Player player;
+            if(players.TryGetValue(name, out player)) {
+               players.Remove(name);
+            }
+
+            objects.Remove(id);
+
+             _eventProcessor.QueueEvent(() => Object.Destroy(transform.gameObject));
+        }
+    }
+
     public void SpawnPlayer(NetworkIdentity identity, PlayerStatus player) {              
         _eventProcessor.QueueEvent(() => InstantiatePlayer(identity, player));
     }
-    public void InstantiatePlayer(NetworkIdentity identity, PlayerStatus player) {
-        GameObject go = (GameObject)Instantiate(playerPrefab, new Vector3(), Quaternion.identity);
-        NetworkTransform nt = go.GetComponent<NetworkTransform>();
-        nt.SetIdentity(identity); 
-        Player p = go.GetComponent<Player>();
-        p.SetStatus(player);   
 
-        players.Add(p);     
-        objects.Add(nt);  
+    public void InstantiatePlayer(NetworkIdentity identity, PlayerStatus status) {
+        GameObject go = (GameObject)Instantiate(playerPrefab, new Vector3(), Quaternion.identity);
+        NetworkTransform networkTransform = go.GetComponent<NetworkTransform>();
+        networkTransform.SetIdentity(identity); 
+        Player player = go.GetComponent<Player>();
+        player.SetStatus(status);   
+
+        players.Add(identity.GetName(), player);     
+        objects.Add(identity.GetId(), networkTransform);  
         
         go.SetActive(true);  
+    }
+
+    public void UpdateObject(int id, Vector3 position) {
+        NetworkTransform networkTransform;
+        if(objects.TryGetValue(id, out networkTransform)) {
+            _eventProcessor.QueueEvent(() => networkTransform.MoveTo(position));           
+        }
     }
 }

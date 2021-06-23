@@ -51,15 +51,13 @@ public class AsynchronousClient {
     }
 
     public void Disconnect() {
-        Debug.Log((new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name);
+        //Debug.Log((new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name);
         try {
-            ServerPacketHandler.CancelTokens();
+            ServerPacketHandler.GetInstance().CancelTokens();
 
             connected = false;         
             client.Close();
-            client.Dispose();
-            
-            GameStateManager.SetState(GameState.MENU);
+            client.Dispose();           
         } catch (Exception e) {
             Debug.Log(e.ToString());
         }
@@ -102,7 +100,7 @@ public class AsynchronousClient {
                     received += readCount;
                 }
 
-                ServerPacketHandler.HandlePacket(packet);
+                ServerPacketHandler.GetInstance().HandlePacket(packet);
             }
         }
     }

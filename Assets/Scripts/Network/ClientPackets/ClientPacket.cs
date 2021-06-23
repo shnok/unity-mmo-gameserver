@@ -19,6 +19,12 @@ public abstract class ClientPacket : Packet {
         Write(Encoding.GetEncoding("UTF-8").GetBytes(s)); 
     }
 
+    public void WriteI(int i) {
+        byte[] data = BitConverter.GetBytes(i);
+        Array.Reverse(data);
+        buffer.AddRange(data);
+    }
+
     private void Write(byte[] data) {
         buffer.Add((byte)data.Length);
         buffer.AddRange(data);

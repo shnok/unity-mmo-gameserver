@@ -11,7 +11,7 @@ public class GameStateManager : MonoBehaviour
     public static event OnStateChangeHandler StateChanged;
     private static GameState _state = GameState.MENU;
     private EventProcessor _eventProcessor;
-
+    private AsyncOperation asyncLoad;
     public static void SetState(GameState ns) {
         _state = ns;
         StateChanged?.Invoke();
@@ -24,7 +24,8 @@ public class GameStateManager : MonoBehaviour
     void Awake() {
         _eventProcessor = gameObject.GetComponent<EventProcessor>();
         StateChanged += HandleEvent;
-        SceneManager.sceneLoaded += OnSceneLoaded;
+       // SceneManager.sceneLoaded += OnSceneLoaded;
+       // SceneManager.activeSceneChanged += OnChangedActiveScene;
     }
 
     private void HandleEvent() {
@@ -33,15 +34,49 @@ public class GameStateManager : MonoBehaviour
 
     private void HandleOnStateChange() {
         if(_state == GameState.MENU) {
-            SceneManager.LoadScene("MenuScene");           
+            StartCoroutine(LoadAsyncScene("MenuScene"));  
+            //asyncLoad.allowSceneActivation = false;                          
+        }
+        if(_state == GameState.CONNECTED) {
+           StartCoroutine(LoadAsyncScene("GameScene"));  
+           //asyncLoad.allowSceneActivation = false; 
+        }    
+    }
+
+    IEnumerator LoadAsyncScene(string scene) {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
+
+        // Wait until the asynchronous scene fully loads
+        while (!asyncLoad.isDone) {
+            yield return null;
         }
 
         if(_state == GameState.CONNECTED) {
-            SceneManager.LoadScene("GameScene");
+            DefaultClient.GetInstance().ClientReady();
         }
-    }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        if(_state == GameState.MENU) {
+            DefaultClient.GetInstance().OnDisconnectReady();
+        }               
+    } 
+}
+
+
+
+    /*void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        Debug.Log("scene loaded:" + scene);
+        if(asyncLoad != null) {
+            
+            asyncLoad.allowSceneActivation = true;
+        }
+        
         SceneManager.SetActiveScene(scene);
     }
-}
+
+    void OnChangedActiveScene(Scene scene, Scene next) {
+        Debug.Log("Scenes: " + scene.name + ", " + next.name);
+        if(next.name == "GameScene") {
+            DefaultClient.GetInstance().ClientReady();
+        }
+       
+    }*/

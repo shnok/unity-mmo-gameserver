@@ -27,11 +27,15 @@ public class DefaultClient : MonoBehaviour {
         client = new AsynchronousClient("127.0.0.1", 11000);
         bool connected = await Task.Run(client.Connect);
         if(connected) {  
-            ServerPacketHandler.SetClient(client);
-            ClientPacketHandler.SetClient(client);         
-            ClientPacketHandler.SendPing();
-            ClientPacketHandler.SendAuth(user);                                   
+            ServerPacketHandler.GetInstance().SetClient(client);
+            ClientPacketHandler.GetInstance().SetClient(client);         
+            ClientPacketHandler.GetInstance().SendPing();
+            ClientPacketHandler.GetInstance().SendAuth(user);                                   
         }
+    }
+
+    public void ClientReady() {
+        ClientPacketHandler.GetInstance().SendLoadWorld();
     }
 
     public int GetPing() {
@@ -39,11 +43,18 @@ public class DefaultClient : MonoBehaviour {
     }
 
     public void SendChatMessage(string message) {
-        ClientPacketHandler.SendMessage(message);
+        ClientPacketHandler.GetInstance().SendMessage(message);
     }
  
     public void Disconnect() {
+        GameStateManager.SetState(GameState.MENU);
+    }
+
+    public void OnDisconnectReady() {
         client.Disconnect();
-        Chat.Clear();        
+        World.GetInstance().objects.Clear();
+        World.GetInstance().players.Clear();
+        Chat.Clear();     
+        client = null;   
     }
 }

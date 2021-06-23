@@ -1,15 +1,13 @@
 using UnityEngine;
 public class Player : MonoBehaviour {
     public PlayerStatus status;
+    private NetworkIdentity identity;
 
-    void Awake() {
+    public void SetStatus(PlayerStatus s) {
+        status = s;
     }
 
     void Update() {
 
     }
-    public void SetStatus(PlayerStatus s) {
-        status = s;
-    }
-
 }

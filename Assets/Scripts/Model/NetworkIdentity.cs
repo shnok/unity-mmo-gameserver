@@ -9,6 +9,7 @@ public class NetworkIdentity
     public string _name;
     public int _model;
     public Vector3 _position = new Vector3(0,0,0);
+    public bool owned = false;
 
     public NetworkIdentity() {}
     public NetworkIdentity(int id) {
@@ -61,5 +62,13 @@ public class NetworkIdentity
 
     public Vector3 GetPosition() {
         return _position;
+    }
+
+    public void SetOwned(bool value) {
+        owned = value;
+    }
+
+    public bool IsOwned() {
+        return owned;
     }
 }
