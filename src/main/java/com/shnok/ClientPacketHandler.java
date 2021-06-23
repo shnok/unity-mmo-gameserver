@@ -1,16 +1,17 @@
 package com.shnok;
 
 import com.shnok.clientpackets.AuthRequest;
+import com.shnok.clientpackets.RequestCharacterMove;
 import com.shnok.clientpackets.RequestSendMessage;
-import com.shnok.serverpackets.AuthResponse;
-import com.shnok.serverpackets.MessagePacket;
-import com.shnok.serverpackets.PingPacket;
-import com.shnok.serverpackets.SystemMessagePacket;
+import com.shnok.model.PlayerInstance;
+import com.shnok.model.Point3D;
+import com.shnok.serverpackets.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.Map;
 
 public class ClientPacketHandler {
     private final GameClient _client;
@@ -32,6 +33,12 @@ public class ClientPacketHandler {
                 break;
             case 0x02:
                 onReceiveMessage(data);
+                break;
+            case 0x03:
+                onRequestCharacterMove(data);
+                break;
+            case 0x04:
+                onRequestLoadWorld();
                 break;
         }
     }
@@ -69,7 +76,6 @@ public class ClientPacketHandler {
 
         _client.sendPacket(authResponse);
 
-
         if(_client.authenticated) {
             _client.authenticate();
         }
@@ -81,5 +87,27 @@ public class ClientPacketHandler {
 
         MessagePacket messagePacket = new MessagePacket(_client.getUsername(), message);
         Server.getInstance().broadcast(messagePacket);
+    }
+
+    private void onRequestCharacterMove(byte[] data) {
+        System.out.println("On request character move");
+        RequestCharacterMove packet = new RequestCharacterMove(data);
+        Point3D newPos = packet.getPosition();
+
+        System.out.println(newPos);
+        PlayerInstance currentPlayer = _client.getCurrentPlayer();
+        currentPlayer.setPosition(newPos);
+
+        ObjectPosition objectPosition = new ObjectPosition(currentPlayer.getId(), newPos);
+        Server.getInstance().broadcast(objectPosition, _client);
+        //Server.getInstance().broadcast(objectPosition);
+    }
+
+    private void onRequestLoadWorld() {
+        System.out.println("Load world requested");
+        for (Map.Entry<String, PlayerInstance> pair : World.getInstance().getAllPlayers().entrySet()) {
+            System.out.println(pair.getValue());
+            _client.sendPacket(new PlayerInfo(pair.getValue()));
+        }
     }
 }

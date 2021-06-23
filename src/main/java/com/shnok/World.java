@@ -5,6 +5,7 @@ import com.shnok.model.PlayerInstance;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class World {
     private static World _instance = new World();
@@ -13,8 +14,8 @@ public class World {
     private int _idFactory = 0;
 
     private World() {
-        _allPlayers = new HashMap<String, PlayerInstance>();
-        _allObjects = new HashMap<Integer, GameObject>();
+        _allPlayers = new ConcurrentHashMap<>();
+        _allObjects = new ConcurrentHashMap<>();
     }
 
     public static World getInstance() {
@@ -38,6 +39,10 @@ public class World {
 
     public void addPlayer(PlayerInstance player) {
         _allPlayers.put(player.getName(), player);
+    }
+
+    public Map<String, PlayerInstance> getAllPlayers() {
+        return _allPlayers;
     }
 
     public void removePlayer(GameObject player) {

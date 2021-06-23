@@ -7,6 +7,7 @@ public class Point3D implements Serializable {
 
     private volatile int _x, _y, _z;
 
+    public Point3D() {}
     public Point3D(int pX, int pY, int pZ) {
         _x = pX;
         _y = pY;

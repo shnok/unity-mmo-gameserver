@@ -40,4 +40,8 @@ public abstract class GameObject {
     public String getName() {
         return _name;
     }
+
+    public void setPosition(Point3D pos) {
+        _position = pos;
+    }
 }
