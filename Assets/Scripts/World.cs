@@ -52,7 +52,8 @@ public class World : MonoBehaviour
     }
 
     public void InstantiatePlayer(NetworkIdentity identity, PlayerStatus status) {
-        GameObject go = (GameObject)Instantiate(playerPrefab, new Vector3(), Quaternion.identity);
+        Debug.Log(identity.GetPosition());
+        GameObject go = (GameObject)Instantiate(playerPrefab, identity.GetPosition(), Quaternion.identity);
         NetworkTransform networkTransform = go.GetComponent<NetworkTransform>();
         networkTransform.SetIdentity(identity); 
         Player player = go.GetComponent<Player>();

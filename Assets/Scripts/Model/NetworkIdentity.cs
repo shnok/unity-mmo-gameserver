@@ -42,10 +42,10 @@ public class NetworkIdentity
     }
 
     public void SetPosY(float y) {
-        _position.x = y;
+        _position.y = y;
     }
     public void SetPosZ(float z) {
-        _position.x = z;
+        _position.z = z;
     }
 
     public int GetPosX() {

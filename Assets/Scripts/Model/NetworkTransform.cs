@@ -14,6 +14,7 @@ public class NetworkTransform : MonoBehaviour {
     }
     void Start() {
         lastPos = transform.position;
+        newPos = transform.position;
     }
 
     void Update() {
@@ -26,7 +27,6 @@ public class NetworkTransform : MonoBehaviour {
 
     public void SendNewPosition() {
         if(Vector3.Distance(transform.position, lastPos) > .25f) {
-            Debug.Log("moved");
             ClientPacketHandler.GetInstance().UpdatePosition(transform.position);
             lastPos = transform.position;
         }
