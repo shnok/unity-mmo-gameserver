@@ -5,16 +5,16 @@ import java.io.Serializable;
 public class Point3D implements Serializable {
     private static final long serialVersionUID = 4638345252031872576L;
 
-    private volatile int _x, _y, _z;
+    private volatile float _x, _y, _z;
 
     public Point3D() {}
-    public Point3D(int pX, int pY, int pZ) {
+    public Point3D(float pX, float pY, float pZ) {
         _x = pX;
         _y = pY;
         _z = pZ;
     }
 
-    public Point3D(int pX, int pY) {
+    public Point3D(float pX, float pY) {
         _x = pX;
         _y = pY;
         _z = 0;
@@ -41,10 +41,10 @@ public class Point3D implements Serializable {
         return "(" + _x + ", " + _y + ", " + _z + ")";
     }
 
-    @Override
+    /*@Override
     public int hashCode() {
         return _x ^ _y ^ _z;
-    }
+    }*/
 
     @Override
     public synchronized boolean equals(Object o) {
@@ -59,12 +59,12 @@ public class Point3D implements Serializable {
         return false;
     }
 
-    public synchronized boolean equals(int pX, int pY, int pZ) {
+    public synchronized boolean equals(float pX, float pY, float pZ) {
         return (_x == pX) && (_y == pY) && (_z == pZ);
     }
 
-    public synchronized long distanceSquaredTo(Point3D point) {
-        long dx, dy;
+    public synchronized float distanceSquaredTo(Point3D point) {
+        float dx, dy;
         synchronized (point) {
             dx = _x - point._x;
             dy = _y - point._y;
@@ -72,8 +72,8 @@ public class Point3D implements Serializable {
         return (dx * dx) + (dy * dy);
     }
 
-    public static long distanceSquared(Point3D point1, Point3D point2) {
-        long dx, dy;
+    public static float distanceSquared(Point3D point1, Point3D point2) {
+        float dx, dy;
         synchronized (point1) {
             synchronized (point2) {
                 dx = point1._x - point2._x;
@@ -87,31 +87,31 @@ public class Point3D implements Serializable {
         return distanceSquared(point1, point2) < (distance * distance);
     }
 
-    public int getX() {
+    public float getX() {
         return _x;
     }
 
-    public synchronized void setX(int pX) {
+    public synchronized void setX(float pX) {
         _x = pX;
     }
 
-    public int getY() {
+    public float getY() {
         return _y;
     }
 
-    public synchronized void setY(int pY) {
+    public synchronized void setY(float pY) {
         _y = pY;
     }
 
-    public int getZ() {
+    public float getZ() {
         return _z;
     }
 
-    public synchronized void setZ(int pZ) {
+    public synchronized void setZ(float pZ) {
         _z = pZ;
     }
 
-    public synchronized void setXYZ(int pX, int pY, int pZ) {
+    public synchronized void setXYZ(float pX, float pY, float pZ) {
         _x = pX;
         _y = pY;
         _z = pZ;

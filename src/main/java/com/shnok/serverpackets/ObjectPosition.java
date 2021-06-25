@@ -13,9 +13,9 @@ public class ObjectPosition extends ServerPacket {
         _pos = pos;
 
         writeI(_id);
-        writeI(_pos.getX());
-        writeI(_pos.getY());
-        writeI(_pos.getZ());
+        writeF(_pos.getX());
+        writeF(_pos.getY());
+        writeF(_pos.getZ());
         buildPacket();
     }
 }

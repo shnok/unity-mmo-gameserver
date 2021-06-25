@@ -8,9 +8,9 @@ public class PlayerInfo extends ServerPacket {
 
         writeI(player.getId());
         writeS(player.getName());
-        writeI(player.getPosX());
-        writeI(player.getPosY());
-        writeI(player.getPosZ());
+        writeF(player.getPosX());
+        writeF(player.getPosY());
+        writeF(player.getPosZ());
         writeI(player.getStatus().getLevel());
         writeI(player.getStatus().getCurrentHp());
         writeI(player.getStatus().getMaxHp());

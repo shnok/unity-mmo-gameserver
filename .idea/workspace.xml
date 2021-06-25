@@ -6,19 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="f6e86b1f-b4b3-4338-83d3-f6f3d23185c5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/ClientPacketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/World.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/ClientPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/ClientPacket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/RequestCharacterMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/RequestCharacterMove.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/model/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/model/GameObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/model/Point3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/model/Point3D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/PingPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/PingPacket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/ClientPacketHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/ClientPacketHandler$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/ClientPacketHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/ClientPacketHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/GameClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/GameClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/model/GameObject.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/model/GameObject.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shnok/model/Point3D.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/shnok/model/Point3D.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ObjectPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ObjectPosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/PlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ServerPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ServerPacket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

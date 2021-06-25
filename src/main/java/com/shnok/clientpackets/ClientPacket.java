@@ -25,6 +25,13 @@ public abstract class ClientPacket extends Packet {
         return ByteBuffer.wrap(array).getInt();
     }
 
+    protected float readF() {
+        byte[] array = new byte[4];
+        System.arraycopy(_packetData, iterator, array, 0, 4);
+        iterator += 4;
+        return ByteBuffer.wrap(array).getFloat();
+    }
+
     protected String readS() {
         byte strLen = readB();
         byte[] data = new byte[strLen];

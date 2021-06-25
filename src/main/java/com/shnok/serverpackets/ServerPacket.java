@@ -3,6 +3,7 @@ package com.shnok.serverpackets;
 import com.shnok.Packet;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +42,16 @@ public abstract class ServerPacket extends Packet {
         buffer.addAll(Arrays.asList(array));
     }
 
+    protected void writeF(float f) {
+        int intBits =  Float.floatToIntBits(f);
+        Byte[] array = new Byte[] {
+                (byte) (intBits >> 24), (byte) (intBits >> 16), (byte) (intBits >> 8), (byte) (intBits) };
+
+       buffer.addAll(Arrays.asList(array));
+    }
+
     protected void write(byte[] data) {
+
         buffer.add((byte)data.length);
         List<Byte> byteList = IntStream.range(0, data.length)
                 .mapToObj((int j) -> data[j])

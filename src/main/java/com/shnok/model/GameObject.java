@@ -25,15 +25,15 @@ public abstract class GameObject {
         return _id;
     }
 
-    public int getPosX() {
+    public float getPosX() {
         return _position.getX();
     }
 
-    public int getPosY() {
+    public float getPosY() {
         return _position.getY();
     }
 
-    public int getPosZ() {
+    public float getPosZ() {
         return _position.getZ();
     }
 
