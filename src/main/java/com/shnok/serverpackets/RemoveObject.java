@@ -1,7 +1,7 @@
 package com.shnok.serverpackets;
 
-public class RemoveObjectPacket extends ServerPacket {
-    public RemoveObjectPacket(int id) {
+public class RemoveObject extends ServerPacket {
+    public RemoveObject(int id) {
         super((byte)0x06);
 
         writeI(id);

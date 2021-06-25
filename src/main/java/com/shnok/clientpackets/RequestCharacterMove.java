@@ -10,8 +10,6 @@ public class RequestCharacterMove extends ClientPacket {
         newPos.setX(readF());
         newPos.setY(readF());
         newPos.setZ(readF());
-
-        System.out.println(newPos);
     }
 
     public Point3D getPosition() {

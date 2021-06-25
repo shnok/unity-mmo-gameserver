@@ -1,14 +1,11 @@
 package com.shnok;
 
-import com.shnok.model.EntityStatus;
 import com.shnok.model.PlayerInstance;
 import com.shnok.serverpackets.PlayerInfo;
-import com.shnok.serverpackets.RemoveObjectPacket;
-import com.shnok.serverpackets.SystemMessagePacket;
+import com.shnok.serverpackets.RemoveObject;
+import com.shnok.serverpackets.SystemMessage;
 
 import java.net.Socket;
-import java.util.Iterator;
-import java.util.Map;
 
 public class GameClient extends GameServerThread {
     private ClientPacketHandler _cph;
@@ -39,7 +36,7 @@ public class GameClient extends GameServerThread {
 
     @Override
     void authenticate() {
-        Server.getInstance().broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, _username));
+        Server.getInstance().broadcast(new SystemMessage(SystemMessage.MessageType.USER_LOGGED_IN, _username));
         _player = new PlayerInstance(World.getInstance().nextID(), _username);
         World.getInstance().addPlayer(_player);
         Server.getInstance().broadcast(new PlayerInfo(_player), this);
@@ -48,8 +45,8 @@ public class GameClient extends GameServerThread {
     @Override
     void removeSelf() {
         if(authenticated) {
-            Server.getInstance().broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_OFF, _username), this);
-            Server.getInstance().broadcast(new RemoveObjectPacket(_player.getId()), this);
+            Server.getInstance().broadcast(new SystemMessage(SystemMessage.MessageType.USER_LOGGED_OFF, _username), this);
+            Server.getInstance().broadcast(new RemoveObject(_player.getId()), this);
             World.getInstance().removePlayer(_player);
         }
 

@@ -2,6 +2,7 @@ package com.shnok;
 
 import com.shnok.clientpackets.AuthRequest;
 import com.shnok.clientpackets.RequestCharacterMove;
+import com.shnok.clientpackets.RequestCharacterRotate;
 import com.shnok.clientpackets.RequestSendMessage;
 import com.shnok.model.PlayerInstance;
 import com.shnok.model.Point3D;
@@ -40,6 +41,9 @@ public class ClientPacketHandler {
             case 0x04:
                 onRequestLoadWorld();
                 break;
+            case 0x05:
+                onRequestCharacterRotate(data);
+                break;
         }
     }
 
@@ -51,6 +55,7 @@ public class ClientPacketHandler {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 if(System.currentTimeMillis() - _lastEcho > 1500) {
+                    _client.removeSelf();
                     _client.disconnect();
                 }
             }
@@ -90,24 +95,26 @@ public class ClientPacketHandler {
     }
 
     private void onRequestCharacterMove(byte[] data) {
-        System.out.println("On request character move");
         RequestCharacterMove packet = new RequestCharacterMove(data);
         Point3D newPos = packet.getPosition();
 
-        System.out.println(newPos);
         PlayerInstance currentPlayer = _client.getCurrentPlayer();
         currentPlayer.setPosition(newPos);
 
         ObjectPosition objectPosition = new ObjectPosition(currentPlayer.getId(), newPos);
         Server.getInstance().broadcast(objectPosition, _client);
-        //Server.getInstance().broadcast(objectPosition);
     }
 
     private void onRequestLoadWorld() {
-        System.out.println("Load world requested");
         for (Map.Entry<String, PlayerInstance> pair : World.getInstance().getAllPlayers().entrySet()) {
             System.out.println(pair.getValue());
             _client.sendPacket(new PlayerInfo(pair.getValue()));
         }
+    }
+
+    private void onRequestCharacterRotate(byte[] data) {
+        RequestCharacterRotate packet = new RequestCharacterRotate(data);
+        ObjectRotation objectRotation = new ObjectRotation(_client.getCurrentPlayer().getId(), packet.getAngle());
+        Server.getInstance().broadcast(objectRotation, _client);
     }
 }

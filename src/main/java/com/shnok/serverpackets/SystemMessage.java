@@ -1,6 +1,6 @@
 package com.shnok.serverpackets;
 
-public class SystemMessagePacket extends ServerPacket {
+public class SystemMessage extends ServerPacket {
 
     public enum MessageType {
         USER_LOGGED_IN,
@@ -9,12 +9,12 @@ public class SystemMessagePacket extends ServerPacket {
 
     public MessageType _type;
 
-    public SystemMessagePacket(MessageType type) {
+    public SystemMessage(MessageType type) {
         super((byte)0x03);
         _type = type;
     }
 
-    public SystemMessagePacket(MessageType type, String value) {
+    public SystemMessage(MessageType type, String value) {
         super((byte)0x03);
         _type = type;
 
