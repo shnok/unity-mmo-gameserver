@@ -25,7 +25,7 @@ public class NetworkTransform : MonoBehaviour {
     }
 
     public void SendNewPosition() {
-        if(Vector3.Distance(transform.position, lastPos) > 1f) {
+        if(Vector3.Distance(transform.position, lastPos) > .25f) {
             Debug.Log("moved");
             ClientPacketHandler.GetInstance().UpdatePosition(transform.position);
             lastPos = transform.position;
@@ -34,13 +34,14 @@ public class NetworkTransform : MonoBehaviour {
 
     public void LerpToPosition() {
         if(Vector3.Distance(transform.position, newPos) > 0.1f) {
-            transform.position = Vector3.Lerp (transform.position, newPos, lerp);
-            lerp += 1f * Time.deltaTime;
+            transform.position = Vector3.Lerp (lastPos, newPos, lerp);
+            lerp += (1 / 0.15f) * Time.deltaTime;
         }
     }
 
     public void MoveTo(Vector3 pos) {
         newPos = pos;     
+        lastPos = transform.position;
         lerp = 0;  
     }
 }

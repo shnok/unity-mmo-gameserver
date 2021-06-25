@@ -25,6 +25,12 @@ public abstract class ClientPacket : Packet {
         buffer.AddRange(data);
     }
 
+    public void WriteF(float i) {
+        byte[] data = BitConverter.GetBytes(i);
+        Array.Reverse(data);
+        buffer.AddRange(data);
+    }
+
     private void Write(byte[] data) {
         buffer.Add((byte)data.Length);
         buffer.AddRange(data);

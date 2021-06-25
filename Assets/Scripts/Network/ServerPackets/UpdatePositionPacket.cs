@@ -12,9 +12,9 @@ public class UpdatePositionPacket : ServerPacket {
     public override void Parse() {    
         try {
             _id = ReadI();
-            _pos.x = (float) ReadI();
-            _pos.y = (float) ReadI();
-            _pos.z = (float) ReadI();
+            _pos.x = ReadF();
+            _pos.y = ReadF();
+            _pos.z = ReadF();
         } catch(Exception e) {
             Debug.Log(e);
         }

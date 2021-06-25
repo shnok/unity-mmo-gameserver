@@ -37,14 +37,14 @@ public class NetworkIdentity
         _name = name;
     }
 
-    public void SetPosX(int x) {
+    public void SetPosX(float x) {
         _position.x = x;
     }
 
-    public void SetPosY(int y) {
+    public void SetPosY(float y) {
         _position.x = y;
     }
-    public void SetPosZ(int z) {
+    public void SetPosZ(float z) {
         _position.x = z;
     }
 

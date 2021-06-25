@@ -15,9 +15,9 @@ public class PlayerInfoPacket : ServerPacket {
         try {
             _identity.SetId(ReadI());
             _identity.SetName(ReadS());
-            _identity.SetPosX(ReadI());
-            _identity.SetPosY(ReadI());
-            _identity.SetPosZ(ReadI());
+            _identity.SetPosX(ReadF());
+            _identity.SetPosY(ReadF());
+            _identity.SetPosZ(ReadF());
             _identity.SetOwned(_identity.GetName() == DefaultClient.GetInstance().username);
             _status.SetLevel(ReadI());
             _status.SetHp(ReadI());
