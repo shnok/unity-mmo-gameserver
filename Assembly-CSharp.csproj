@@ -36,6 +36,9 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Controller\CameraCollisionDetection.cs" />
+     <Compile Include="Assets\Scripts\Controller\CameraController.cs" />
+     <Compile Include="Assets\Scripts\Controller\PlayerController.cs" />
      <Compile Include="Assets\Scripts\DefaultClient.cs" />
      <Compile Include="Assets\Scripts\EventProcessor.cs" />
      <Compile Include="Assets\Scripts\GameStateManager.cs" />

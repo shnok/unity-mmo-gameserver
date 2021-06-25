@@ -60,6 +60,12 @@ public class World : MonoBehaviour
 
         players.Add(identity.GetName(), player);     
         objects.Add(identity.GetId(), networkTransform);  
+
+        if(identity.IsOwned()) {
+            go.GetComponent<PlayerController>().enabled = true;
+            Camera.main.GetComponent<CameraController>().target = go.transform;
+            Camera.main.GetComponent<CameraController>().enabled = true;
+        }
         
         go.SetActive(true);  
     }

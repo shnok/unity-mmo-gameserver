@@ -50,6 +50,10 @@ public class DefaultClient : MonoBehaviour {
         GameStateManager.SetState(GameState.MENU);
     }
 
+    void OnApplicationQuit() {
+        client.Disconnect();
+    }
+
     public void OnDisconnectReady() {
         client.Disconnect();
         World.GetInstance().objects.Clear();
