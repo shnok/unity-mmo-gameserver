@@ -46,4 +46,9 @@ public class ClientPacketHandler
         LoadWorldPacket packet = new LoadWorldPacket();
         _client.SendPacket(packet);
     }
+
+    public void UpdateRotation(float angle) {
+        RequestRotatePacket packet = new RequestRotatePacket(angle);
+        _client.SendPacket(packet);
+    }
 }

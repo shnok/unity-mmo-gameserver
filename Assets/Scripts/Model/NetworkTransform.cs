@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class NetworkTransform : MonoBehaviour {
     public NetworkIdentity identity; 
-    public Vector3 lastPos;
-    public Vector3 newPos;
-    float lerp;
+    private Vector3 _lastPos, _newPos;
+    private float _newRot;
+    private float _lerpPos;
+
     public void SetIdentity(NetworkIdentity i) {
        identity = i; 
     }
@@ -13,35 +14,49 @@ public class NetworkTransform : MonoBehaviour {
         return identity;
     }
     void Start() {
-        lastPos = transform.position;
-        newPos = transform.position;
+        _lastPos = transform.position;
+        _newPos = transform.position;
+        _newRot = transform.eulerAngles.y;
     }
 
     void Update() {
         if(identity.owned) {
-            SendNewPosition();
+            SharePosition();
         } else {
             LerpToPosition();
+            LerpToRotation();
         }
     }
 
-    public void SendNewPosition() {
-        if(Vector3.Distance(transform.position, lastPos) > .25f) {
+    public void SharePosition() {
+        if(Vector3.Distance(transform.position, _lastPos) > .25f) {
             ClientPacketHandler.GetInstance().UpdatePosition(transform.position);
-            lastPos = transform.position;
+            _lastPos = transform.position;
         }
+    }
+
+    public void ShareRotation(float angle) {
+        ClientPacketHandler.GetInstance().UpdateRotation(angle);
     }
 
     public void LerpToPosition() {
-        if(Vector3.Distance(transform.position, newPos) > 0.1f) {
-            transform.position = Vector3.Lerp (lastPos, newPos, lerp);
-            lerp += (1 / 0.15f) * Time.deltaTime;
+        if(Vector3.Distance(transform.position, _newPos) > 0.05f) {
+            transform.position = Vector3.Lerp (_lastPos, _newPos, _lerpPos);
+            _lerpPos += (1 / 0.10f) * Time.deltaTime;
         }
     }
 
+    public void LerpToRotation() {
+        transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler (Vector3.up * _newRot), Time.deltaTime * 7.5f);
+    }
+
     public void MoveTo(Vector3 pos) {
-        newPos = pos;     
-        lastPos = transform.position;
-        lerp = 0;  
+        _newPos = pos;     
+        _lastPos = transform.position;
+        _lerpPos = 0;  
+    }
+
+    public void RotateTo(float angle) {
+        _newRot = angle;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
@@ -12,7 +11,7 @@ public class PlayerController : MonoBehaviour {
 	/* Move */
 	public Vector3 moveDirection;
 	private float _currentSpeed;
-	public float defaultSpeed = 6;
+	public float defaultSpeed = 4;
 
 	/* Gravity */ 
 	private float _verticalVelocity = 0;
@@ -20,8 +19,11 @@ public class PlayerController : MonoBehaviour {
 	private float _gravity = 28;
     public Vector2 input;
 
+	private NetworkTransform networkTransform;
+
 	void Start () {
-		controller = GetComponent<CharacterController> ();
+		controller = GetComponent<CharacterController>();
+		networkTransform = GetComponent<NetworkTransform>();
 	}
 		
     void Update() {
@@ -42,12 +44,17 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	float GetRotationValue(float angle) {
+		float startAngle = angle;
 		if (KeyPressed()) {
             angle = Mathf.Atan2 (input.x, input.y) * Mathf.Rad2Deg;
             angle = Mathf.Round (angle / 45f);
             angle *= 45f;
             angle += Camera.main.transform.eulerAngles.y;
 		}	
+
+		if(startAngle != angle) {
+			networkTransform.ShareRotation(angle);
+		}
 
         return angle;	
 	}

@@ -52,6 +52,9 @@ public class ServerPacketHandler
             case 06:
                 onRemoveObject(data) ;
                 break;
+            case 07:
+                onUpdateRotation(data);
+                break;
         }
     }
 
@@ -134,4 +137,12 @@ public class ServerPacketHandler
         RemoveObjectPacket packet = new RemoveObjectPacket(data);
         World.GetInstance().RemoveObject(packet.getId());
     }
+
+    private void onUpdateRotation(byte[] data) {
+        UpdateRotationPacket packet = new UpdateRotationPacket(data);
+        int id = packet.getId();
+        float angle = packet.getAngle();
+        World.GetInstance().UpdateObject(id, angle);
+    }
+
 }

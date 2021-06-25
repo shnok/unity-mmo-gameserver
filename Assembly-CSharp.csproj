@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\Network\ClientPackets\LoadWorldPacket.cs" />
      <Compile Include="Assets\Scripts\Network\ClientPackets\PingPacket.cs" />
      <Compile Include="Assets\Scripts\Network\ClientPackets\RequestMovePacket.cs" />
+     <Compile Include="Assets\Scripts\Network\ClientPackets\RequestRotatePacket.cs" />
      <Compile Include="Assets\Scripts\Network\ClientPackets\SendMessagePacket.cs" />
      <Compile Include="Assets\Scripts\Network\Packet.cs" />
      <Compile Include="Assets\Scripts\Network\ServerPacketHandler.cs" />
@@ -63,6 +64,7 @@
      <Compile Include="Assets\Scripts\Network\ServerPackets\ServerPacket.cs" />
      <Compile Include="Assets\Scripts\Network\ServerPackets\SystemMessagePacket.cs" />
      <Compile Include="Assets\Scripts\Network\ServerPackets\UpdatePositionPacket.cs" />
+     <Compile Include="Assets\Scripts\Network\ServerPackets\UpdateRotationPacket.cs" />
      <Compile Include="Assets\Scripts\UI\Chat.cs" />
      <Compile Include="Assets\Scripts\UI\ChatInput.cs" />
      <Compile Include="Assets\Scripts\UI\Messages\MessageLoggedIn.cs" />

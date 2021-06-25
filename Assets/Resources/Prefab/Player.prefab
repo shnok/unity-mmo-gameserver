@@ -165,8 +165,6 @@ MonoBehaviour:
     _model: 0
     _position: {x: 0, y: 0, z: 0}
     owned: 0
-  lastPos: {x: 0, y: 0, z: 0}
-  newPos: {x: 0, y: 0, z: 0}
 --- !u!114 &6533464532387702777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,8 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDirection: {x: 0, y: 0, z: 0}
-  currentSpeed: 0
-  defaultSpeed: 5
+  defaultSpeed: 4
   input: {x: 0, y: 0}
 --- !u!1 &5982707739309256955
 GameObject:

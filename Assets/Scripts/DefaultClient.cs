@@ -51,7 +51,9 @@ public class DefaultClient : MonoBehaviour {
     }
 
     void OnApplicationQuit() {
-        client.Disconnect();
+        if(client != null) {
+            client.Disconnect();
+        }   
     }
 
     public void OnDisconnectReady() {

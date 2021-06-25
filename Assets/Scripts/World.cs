@@ -52,7 +52,6 @@ public class World : MonoBehaviour
     }
 
     public void InstantiatePlayer(NetworkIdentity identity, PlayerStatus status) {
-        Debug.Log(identity.GetPosition());
         GameObject go = (GameObject)Instantiate(playerPrefab, identity.GetPosition(), Quaternion.identity);
         NetworkTransform networkTransform = go.GetComponent<NetworkTransform>();
         networkTransform.SetIdentity(identity); 
@@ -75,6 +74,13 @@ public class World : MonoBehaviour
         NetworkTransform networkTransform;
         if(objects.TryGetValue(id, out networkTransform)) {
             _eventProcessor.QueueEvent(() => networkTransform.MoveTo(position));           
+        }
+    }
+
+    public void UpdateObject(int id, float angle) {
+        NetworkTransform networkTransform;
+        if(objects.TryGetValue(id, out networkTransform)) {
+            _eventProcessor.QueueEvent(() => networkTransform.RotateTo(angle));           
         }
     }
 }
