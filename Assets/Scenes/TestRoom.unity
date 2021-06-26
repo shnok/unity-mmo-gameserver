@@ -412,6 +412,7 @@ MonoBehaviour:
   target: {fileID: 250948475}
   camOffset: {x: 0, y: 0.25, z: 0}
   camDistance: 5
+  currentDistance: 0
   camSpeed: 20
   targetPos: {x: 0, y: 0, z: 0}
   detector:
@@ -519,10 +520,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3995705365864078446, guid: f8aeebf9d1caf0746a9790603fc9ec77,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4216450121159268604, guid: f8aeebf9d1caf0746a9790603fc9ec77,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216450121159268604, guid: f8aeebf9d1caf0746a9790603fc9ec77,
+        type: 3}
+      propertyPath: _jumpForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216450121159268604, guid: f8aeebf9d1caf0746a9790603fc9ec77,
+        type: 3}
+      propertyPath: _gravity
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 5615807650218408091, guid: f8aeebf9d1caf0746a9790603fc9ec77,
         type: 3}

@@ -10,25 +10,35 @@ public class PlayerController : MonoBehaviour {
 
 	/* Move */
 	public Vector3 moveDirection;
-	private float _currentSpeed;
+	public float _currentSpeed;
 	public float defaultSpeed = 4;
+	private Vector2 _axis;
 
 	/* Gravity */ 
 	private float _verticalVelocity = 0;
-	private float _jumpForce = 12;
-	private float _gravity = 28;
-    public Vector2 input;
+	public float _jumpForce = 10;
+	public float _gravity = 28;
 
 	private NetworkTransform networkTransform;
+	public static PlayerController _instance;
+    public static PlayerController GetInstance() {
+        return _instance;
+    }
+
+    void Awake() {
+        if (_instance == null) {
+            _instance = this;
+        }
+    }
 
 	void Start () {
 		controller = GetComponent<CharacterController>();
 		networkTransform = GetComponent<NetworkTransform>();
 	}
-		
-    void Update() {
-        input = new Vector2(Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
-    }
+
+	public void UpdateInputs(float x, float y) {
+		_axis = new Vector2(x, y);
+	}
 
 	void FixedUpdate () {
         /* Speed */
@@ -43,44 +53,51 @@ public class PlayerController : MonoBehaviour {
         controller.Move (moveDirection * Time.deltaTime);
 	}
 
-	float GetRotationValue(float angle) {
+	private float GetRotationValue(float angle) {
 		float startAngle = angle;
 		if (KeyPressed()) {
-            angle = Mathf.Atan2 (input.x, input.y) * Mathf.Rad2Deg;
+            angle = Mathf.Atan2 (_axis.x, _axis.y) * Mathf.Rad2Deg;
             angle = Mathf.Round (angle / 45f);
             angle *= 45f;
             angle += Camera.main.transform.eulerAngles.y;
 		}	
 
-		if(startAngle != angle) {
+		if(startAngle != angle && networkTransform.isActiveAndEnabled) {
 			networkTransform.ShareRotation(angle);
 		}
 
         return angle;	
 	}
 
-	Vector3 GetMoveDirection(Vector3 direction, float speed) {
+	private Vector3 GetMoveDirection(Vector3 direction, float speed) {
         Vector3 forward = Camera.main.transform.TransformDirection (Vector3.forward);
         forward.y = 0;
         Vector3 right = new Vector3 (forward.z, 0, -forward.x);
 
+		/* Handle gravity */
 		if (controller.isGrounded) {
-			_verticalVelocity = -1.25f; 	
+			if(_verticalVelocity < -1.25f) {
+				_verticalVelocity = -1.25f; 	
+			}
 		} else {
 			_verticalVelocity -= _gravity * Time.deltaTime; 
 		}
 
-		if (KeyPressed ()) {
-			direction = input.x * right + input.y * forward;
+		/* Handle input direction */
+		if (KeyPressed () && controller.isGrounded) {
+			direction = _axis.x * right + _axis.y * forward;		
+		} else if (!controller.isGrounded) {
+			direction = transform.forward;
 		}
 
-		direction = direction.normalized * speed;
+		direction = direction.normalized * speed;	
+		
 		direction.y = _verticalVelocity;	
 
         return direction;
 	}
 
-	float GetMoveSpeed(float speed) {
+	private float GetMoveSpeed(float speed) {
 		float smoothDuration = 0.2f;
 
 		if(KeyPressed()) {
@@ -89,14 +106,16 @@ public class PlayerController : MonoBehaviour {
 			speed -= (defaultSpeed/smoothDuration) * Time.deltaTime;
 		}
 
-		if(speed < 0) {
-			speed = 0;
-		}
-
-        return speed;
+        return speed < 0 ? 0 : speed;
 	}
 
-	public bool KeyPressed() {
-        return input.x != 0 || input.y != 0;
+	private bool KeyPressed() {
+        return _axis.x != 0 || _axis.y != 0;
+	}
+
+	public void Jump() {
+		if(controller.isGrounded) {
+			_verticalVelocity = _jumpForce;
+		}		
 	}
 }

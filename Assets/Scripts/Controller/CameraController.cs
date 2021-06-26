@@ -12,19 +12,36 @@ public class CameraController : MonoBehaviour
 	public float camSpeed = 25f;
 
 	public Vector3 targetPos;
-
+	private InputManager inputManager;
 	public CameraCollisionDetection detector;
+	public static CameraController _instance;
+    public static CameraController GetInstance() {
+        return _instance;
+    }
+
+    void Awake() {
+        if (_instance == null) {
+            _instance = this;
+        }
+    }
 
     void Start() {
+		inputManager = InputManager.GetInstance();
         detector = new CameraCollisionDetection(GetComponent<Camera>(), target, camOffset);
     }
 
 	void Update() {
 		detector.DetectCollision(camDistance);
-		x += Input.GetAxis ("Mouse X") * camSpeed * 0.1f;
-		y -= Input.GetAxis ("Mouse Y") * camSpeed * 0.1f;
+	}
+
+	public void UpdateInputs(float xi, float yi) {
+		x += xi * camSpeed * 0.1f;
+		y -= yi * camSpeed * 0.1f;
 		y = ClampAngle(y, -90, 90);
-		camDistance = Mathf.Clamp(camDistance - Input.GetAxis("Mouse ScrollWheel")*5, _minDistance, _maxDistance);	
+	}
+
+	public void UpdateZoom(float axis) {
+		camDistance = Mathf.Clamp(camDistance - axis *5, _minDistance, _maxDistance);	
 	}
 
     void FixedUpdate() {
@@ -37,9 +54,7 @@ public class CameraController : MonoBehaviour
 			currentDistance += ((adjustedDistance - currentDistance) / 0.2f) * Time.deltaTime;
 		} else {
 			currentDistance -= ((currentDistance - adjustedDistance) / 0.075f) * Time.deltaTime;
-		}
-
-		
+		}		
 		
 		targetPos = target.position + camOffset;
 		Vector3 adjustedPosition = rotation * (Vector3.forward * -currentDistance) + targetPos;

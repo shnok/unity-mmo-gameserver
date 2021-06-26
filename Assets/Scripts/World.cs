@@ -23,14 +23,6 @@ public class World : MonoBehaviour
         _eventProcessor = gameObject.GetComponent<EventProcessor>();
     }
 
-    void Start() {
-        
-    }
-
-    void Update() {
-        
-    }
-
     public void RemoveObject(int id) {
         NetworkTransform transform;
         if(objects.TryGetValue(id, out transform)) {
@@ -63,6 +55,7 @@ public class World : MonoBehaviour
 
         if(identity.IsOwned()) {
             go.GetComponent<PlayerController>().enabled = true;
+            go.GetComponent<InputManager>().enabled = true;
             Camera.main.GetComponent<CameraController>().target = go.transform;
             Camera.main.GetComponent<CameraController>().enabled = true;
         }
