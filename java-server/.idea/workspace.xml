@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6e86b1f-b4b3-4338-83d3-f6f3d23185c5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/ClientPacketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/RequestCharacterMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/RequestCharacterMove.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/RemoveObjectPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/RemoveObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/SystemMessagePacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/SystemMessage.java" afterDir="false" />
-    </list>
+    <list default="true" id="f6e86b1f-b4b3-4338-83d3-f6f3d23185c5" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,23 +18,26 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="1trNybTDhsmTpFDhO5CXgt8HUrR" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="restartRequiresConfirmation" value="false" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "F:/Stock/Projects/unity-mmo/java-server"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.shnok.serverpackets" />
@@ -52,7 +48,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.shnok.Server" />
-      <module name="java-rpg-server" />
+      <module name="java-server" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -79,7 +75,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

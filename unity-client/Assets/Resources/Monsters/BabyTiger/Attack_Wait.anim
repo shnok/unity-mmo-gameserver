@@ -1,0 +1,2626 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Attack_Wait
+  serializedVersion: 6
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.51291686, y: 0.51291746, z: -0.4867398, w: -0.48674056}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.51291686, y: 0.51291746, z: -0.4867398, w: -0.48674056}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.49999997, y: 0.50000006, z: 0.4999993, w: 0.5000007}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.49999997, y: 0.50000006, z: 0.4999993, w: 0.5000007}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.0000021553979, y: 0.00000074656134, z: -0.13524532, w: 0.9908122}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.0000021553979, y: 0.00000074656134, z: -0.13524532, w: 0.9908122}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.047413893, y: 0.039369974, z: -0.045986414, w: 0.9970392}
+        inSlope: {x: -0.004310757, y: -0.020244509, z: -0.08101612, w: -0.0032887459}
+        outSlope: {x: -0.004310757, y: -0.020244509, z: -0.08101612, w: -0.0032887459}
+        tangentMode: 0
+      - time: 0.45833334
+        value: {x: -0.04808463, y: 0.03637418, z: -0.058937017, w: 0.9964393}
+        inSlope: {x: 0.0045686504, y: 0.022926625, z: 0.0842365, w: 0.0043544765}
+        outSlope: {x: 0.0045686504, y: 0.022926625, z: 0.0842365, w: 0.0043544765}
+        tangentMode: 0
+      - time: 0.8333333
+        value: {x: -0.048149444, y: 0.034245867, z: -0.056635637, w: 0.99664503}
+        inSlope: {x: -0.0061507095, y: -0.04110987, z: -0.0931788, w: -0.004178525}
+        outSlope: {x: -0.0061507095, y: -0.04110987, z: -0.0931788, w: -0.004178525}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.047413893, y: 0.039369974, z: -0.045986414, w: 0.9970392}
+        inSlope: {x: 0.004818325, y: 0.032626778, z: 0.071535565, w: 0.0023689293}
+        outSlope: {x: 0.004818325, y: 0.032626778, z: 0.071535565, w: 0.0023689293}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.04003615, y: -0.08452206, z: 0.2241502, w: 0.9700566}
+        inSlope: {x: -0.009162337, y: -0.007009864, z: 0.11128163, w: -0.026229858}
+        outSlope: {x: -0.009162337, y: -0.007009864, z: 0.11128163, w: -0.026229858}
+        tangentMode: 0
+      - time: 0.4166667
+        value: {x: 0.037648592, y: -0.08205536, z: 0.24673252, w: 0.9648692}
+        inSlope: {x: 0.0052175233, y: 0.039951332, z: -0.09999868, w: 0.02871681}
+        outSlope: {x: 0.0052175233, y: 0.039951332, z: -0.09999868, w: 0.02871681}
+        tangentMode: 0
+      - time: 0.7916667
+        value: {x: 0.030947747, y: -0.06820483, z: 0.23557648, w: 0.9689655}
+        inSlope: {x: -0.06257765, y: 0.025347147, z: 0.13538006, w: -0.029175289}
+        outSlope: {x: -0.06257765, y: 0.025347147, z: 0.13538006, w: -0.029175289}
+        tangentMode: 0
+      - time: 1.1250001
+        value: {x: 0.028580694, y: -0.0730484, z: 0.24487197, w: 0.96637714}
+        inSlope: {x: 0.051048096, y: -0.052366085, z: -0.09132472, w: 0.017634623}
+        outSlope: {x: 0.051048096, y: -0.052366085, z: -0.09132472, w: 0.017634623}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.04003615, y: -0.08452206, z: 0.2241502, w: 0.9700566}
+        inSlope: {x: 0.04946034, y: -0.05111419, z: -0.089083396, w: 0.014372363}
+        outSlope: {x: 0.04946034, y: -0.05111419, z: -0.089083396, w: 0.014372363}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.000000018744846, y: -0.00000018167079, z: 0.070782416, w: 0.9974918}
+        inSlope: {x: -0.0000007385814, y: -0.0000004519103, z: 0.043465376, w: -0.003124237}
+        outSlope: {x: -0.0000007385814, y: -0.0000004519103, z: 0.043465376, w: -0.003124237}
+        tangentMode: 0
+      - time: 0.33333334
+        value: {x: -0.000000007537399, y: -0.00000020915036, z: 0.07581395, w: 0.997122}
+        inSlope: {x: -0.000000008560363, y: 0.000000754772, z: -0.17305627, w: 0.013072012}
+        outSlope: {x: -0.000000008560363, y: 0.000000754772, z: -0.17305627, w: 0.013072012}
+        tangentMode: 0
+      - time: 0.5833333
+        value: {x: -0.000000005077728, y: -0.00000015369167, z: 0.05995725, w: 0.99820095}
+        inSlope: {x: -0.00000033716967, y: -0.00000064852674, z: 0.13174905, w: -0.008026601}
+        outSlope: {x: -0.00000033716967, y: -0.00000064852674, z: 0.13174905, w: -0.008026601}
+        tangentMode: 0
+      - time: 0.875
+        value: {x: 0.000000017286682, y: -0.00000026702736, z: 0.08293281, w: 0.99655515}
+        inSlope: {x: -0.00000057602097, y: 0.00000025875056, z: -0.123809814, w: 0.010187383}
+        outSlope: {x: -0.00000057602097, y: 0.00000025875056, z: -0.123809814, w: 0.010187383}
+        tangentMode: 0
+      - time: 1.1250001
+        value: {x: -0.000000053738912, y: -0.00000015434037, z: 0.05899109, w: 0.99825853}
+        inSlope: {x: 0.0000010218621, y: -0.0000004849707, z: 0.043269835, w: -0.0025756354}
+        outSlope: {x: 0.0000010218621, y: -0.0000004849707, z: 0.043269835, w: -0.0025756354}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.000000018756513, y: -0.00000017052496, z: 0.0707824, w: 0.9974918}
+        inSlope: {x: 0.0000008497796, y: 0.0000011916308, z: 0.057047244, w: -0.0039796866}
+        outSlope: {x: 0.0000008497796, y: 0.0000011916308, z: 0.057047244, w: -0.0039796866}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.034484126, y: 0.009212377, z: 0.5056646, w: 0.8619915}
+        inSlope: {x: 0.005808234, y: -0.0076379925, z: -0.03814602, w: 0.022175789}
+        outSlope: {x: 0.005808234, y: -0.0076379925, z: -0.03814602, w: 0.022175789}
+        tangentMode: 0
+      - time: 0.4166667
+        value: {x: 0.0259506, y: 0.004996587, z: 0.49621642, w: 0.86779654}
+        inSlope: {x: -0.027673095, y: -0.008529259, z: 0.031007417, w: -0.01685429}
+        outSlope: {x: -0.027673095, y: -0.008529259, z: 0.031007417, w: -0.01685429}
+        tangentMode: 0
+      - time: 0.8333333
+        value: {x: 0.04679998, y: -0.007385655, z: 0.48894534, w: 0.8710268}
+        inSlope: {x: 0.10371385, y: -0.038864095, z: -0.021576064, w: 0.0062377537}
+        outSlope: {x: 0.10371385, y: -0.038864095, z: -0.021576064, w: 0.0062377537}
+        tangentMode: 0
+      - time: 1.1666667
+        value: {x: 0.05122306, y: 0.0010581351, z: 0.50200677, w: 0.8633448}
+        inSlope: {x: -0.09671107, y: 0.050725006, z: 0.024000429, w: -0.008301981}
+        outSlope: {x: -0.09671107, y: 0.050725006, z: 0.024000429, w: -0.008301981}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.034484126, y: 0.009212369, z: 0.5056646, w: 0.8619915}
+        inSlope: {x: -0.09579724, y: 0.043449916, z: 0.019659538, w: -0.007884987}
+        outSlope: {x: -0.09579724, y: 0.043449916, z: 0.019659538, w: -0.007884987}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1.1841342e-10, y: -4.4885803e-10, z: 1.0258172e-10, w: 1}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1.1841342e-10, y: -4.4885803e-10, z: 1.0258172e-10, w: 1}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bip01_ASCII32_HeadNu
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.000000009658704, y: 0.0000019578315, z: -0.70078915, w: 0.7133685}
+        inSlope: {x: 0.0000009794951, y: -0.00000092286064, z: 0.073124886, w: 0.071531296}
+        outSlope: {x: 0.0000009794951, y: -0.00000092286064, z: 0.073124886, w: 0.071531296}
+        tangentMode: 0
+      - time: 0.45833334
+        value: {x: 0.00000001710205, y: 0.0000019063524, z: -0.6969507, w: 0.7171191}
+        inSlope: {x: 0.00000027636483, y: 0.000000040828922, z: -0.08229016, w: -0.08006929}
+        outSlope: {x: 0.00000027636483, y: 0.000000040828922, z: -0.08229016, w: -0.08006929}
+        tangentMode: 0
+      - time: 0.5
+        value: {x: 0.000000040005926, y: 0.0000019210686, z: -0.70078915, w: 0.7133685}
+        inSlope: {x: -0.00000024906612, y: 0.0000011013998, z: -0.23840892, w: -0.23830593}
+        outSlope: {x: -0.00000024906612, y: 0.0000011013998, z: -0.23840892, w: -0.23830593}
+        tangentMode: 0
+      - time: 0.5416667
+        value: {x: -0.0000000036534678, y: 0.0000019981358, z: -0.7168181, w: 0.69726026}
+        inSlope: {x: -0.0000003387481, y: 0.0000004773474, z: -0.03846264, w: -0.037954807}
+        outSlope: {x: -0.0000003387481, y: 0.0000004773474, z: -0.03846264, w: -0.037954807}
+        tangentMode: 0
+      - time: 0.625
+        value: {x: -0.00000001990569, y: 0.0000019195702, z: -0.69229925, w: 0.72161055}
+        inSlope: {x: 0.00000028324644, y: -0.00000061026884, z: 0.08006999, w: 0.078630894}
+        outSlope: {x: 0.00000028324644, y: -0.00000061026884, z: 0.08006999, w: 0.078630894}
+        tangentMode: 0
+      - time: 0.6666667
+        value: {x: 0.000000035380765, y: 0.0000019099919, z: -0.6973219, w: 0.71675813}
+        inSlope: {x: -0.00000009726307, y: -0.000000481309, z: 0.23827419, w: 0.22245985}
+        outSlope: {x: -0.00000009726307, y: -0.000000481309, z: 0.23827419, w: 0.22245985}
+        tangentMode: 0
+      - time: 0.7083333
+        value: {x: -0.000000028010856, y: 0.0000018794611, z: -0.6724431, w: 0.74014884}
+        inSlope: {x: -0.00000024830342, y: -0.0000005552331, z: 0.33982185, w: 0.31801438}
+        outSlope: {x: -0.00000024830342, y: -0.0000005552331, z: 0.33982185, w: 0.31801438}
+        tangentMode: 0
+      - time: 0.75
+        value: {x: 0.0000000146889, y: 0.0000018637224, z: -0.6690034, w: 0.7432593}
+        inSlope: {x: -0.00000003830627, y: -0.00000031301292, z: 0.1673147, w: 0.14918081}
+        outSlope: {x: -0.00000003830627, y: -0.00000031301292, z: 0.1673147, w: 0.14918081}
+        tangentMode: 0
+      - time: 0.7916667
+        value: {x: -0.000000031203044, y: 0.0000018533767, z: -0.6585002, w: 0.7525806}
+        inSlope: {x: -0.00000035371463, y: -0.00000028434772, z: 0.07270277, w: 0.064907216}
+        outSlope: {x: -0.00000035371463, y: -0.00000028434772, z: 0.07270277, w: 0.064907216}
+        tangentMode: 0
+      - time: 0.9166667
+        value: {x: -0.000000023412825, y: 0.000001838652, z: -0.6728027, w: 0.739822}
+        inSlope: {x: -0.000000422489, y: 0.00000029510127, z: -0.1174722, w: -0.10681704}
+        outSlope: {x: -0.000000422489, y: 0.00000029510127, z: -0.1174722, w: -0.10681704}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.00000002152904, y: 0.0000019663662, z: -0.70078915, w: 0.7133685}
+        inSlope: {x: 0.0000009325751, y: 0.00000047219737, z: -0.042636435, w: -0.04178099}
+        outSlope: {x: 0.0000009325751, y: 0.00000047219737, z: -0.042636435, w: -0.04178099}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bip01_ASCII32_Ponytail
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.7073883, y: -0.7068252, z: -0.0000010074881, w: -0.0000010066863}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.7073883, y: -0.7068252, z: -0.0000010074881, w: -0.0000010066863}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bip01_ASCII32_Ponytail/Bip01_ASCII32_Ponytail1Nu
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.467391, y: 0.0145048695, z: 0.76113516, w: 0.4494537}
+        inSlope: {x: 0.045906544, y: -0.15903583, z: -0.039203167, w: 0.11727762}
+        outSlope: {x: 0.045906544, y: -0.15903583, z: -0.039203167, w: 0.11727762}
+        tangentMode: 0
+      - time: 0.5
+        value: {x: -0.46456185, y: 0.007965627, z: 0.76050204, w: 0.45360276}
+        inSlope: {x: -0.050950862, y: 0.21620497, z: 0.06617901, w: -0.16719845}
+        outSlope: {x: -0.050950862, y: 0.21620497, z: 0.06617901, w: -0.16719845}
+        tangentMode: 0
+      - time: 0.75
+        value: {x: -0.46934012, y: 0.023505514, z: 0.76404613, w: 0.44204175}
+        inSlope: {x: 0.030950889, y: -0.19269401, z: -0.06622264, w: 0.15667383}
+        outSlope: {x: 0.030950889, y: -0.19269401, z: -0.06622264, w: 0.15667383}
+        tangentMode: 0
+      - time: 1.0416667
+        value: {x: -0.46307358, y: -0.012557709, z: 0.75070304, w: 0.47100967}
+        inSlope: {x: -0.031193763, y: 0.13593428, z: 0.04696946, w: -0.102517344}
+        outSlope: {x: -0.031193763, y: 0.13593428, z: 0.04696946, w: -0.102517344}
+        tangentMode: 0
+      - time: 1.2916667
+        value: {x: -0.46823028, y: 0.02093325, z: 0.7635574, w: 0.4441874}
+        inSlope: {x: 0.032682568, y: -0.026044812, z: 0.016883628, w: 0.006599671}
+        outSlope: {x: 0.032682568, y: -0.026044812, z: 0.016883628, w: 0.006599671}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.46664202, y: 0.019201303, z: 0.7641488, w: 0.44491932}
+        inSlope: {x: 0.03811816, y: -0.04156677, z: 0.014193549, w: 0.017565982}
+        outSlope: {x: 0.03811816, y: -0.04156677, z: 0.014193549, w: 0.017565982}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bone05
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.000000031454277, y: 0.000000026951328, z: 0.016661331, w: 0.99986124}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.000000031454277, y: 0.000000026951328, z: 0.016661331, w: 0.99986124}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bone05/Bone06
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.012902786, y: 0.47107944, z: -0.45286715, w: 0.7568547}
+        inSlope: {x: -0.14834094, y: -0.07068372, z: -0.09434152, w: -0.010917664}
+        outSlope: {x: -0.14834094, y: -0.07068372, z: -0.09434152, w: -0.010917664}
+        tangentMode: 0
+      - time: 0.45833334
+        value: {x: -0.004417309, y: 0.46102634, z: -0.4629429, w: 0.7570463}
+        inSlope: {x: 0.10548117, y: 0.013561605, z: 0.084555015, w: 0.043904535}
+        outSlope: {x: 0.10548117, y: 0.013561605, z: 0.084555015, w: 0.043904535}
+        tangentMode: 0
+      - time: 0.7083333
+        value: {x: 0.0060127364, y: 0.46519035, z: -0.45581356, w: 0.75881207}
+        inSlope: {x: -0.110941045, y: 0.016310696, z: -0.10277654, w: -0.071069255}
+        outSlope: {x: -0.110941045, y: 0.016310696, z: -0.10277654, w: -0.071069255}
+        tangentMode: 0
+      - time: 1.0000001
+        value: {x: -0.010979445, y: 0.4711138, z: -0.47314826, w: 0.7443534}
+        inSlope: {x: 0.13721561, y: 0.035073265, z: 0.09960221, w: 0.042722225}
+        outSlope: {x: 0.13721561, y: 0.035073265, z: 0.09960221, w: 0.042722225}
+        tangentMode: 0
+      - time: 1.2500001
+        value: {x: 0.021099983, y: 0.47537333, z: -0.44781607, w: 0.75699127}
+        inSlope: {x: -0.06096485, y: -0.03943956, z: -0.034261845, w: 0.0060002673}
+        outSlope: {x: -0.06096485, y: -0.03943956, z: -0.034261845, w: 0.0060002673}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.012902179, y: 0.47107896, z: -0.45286754, w: 0.7568548}
+        inSlope: {x: -0.09840049, y: -0.05167513, z: -0.06044632, w: -0.0018882769}
+        outSlope: {x: -0.09840049, y: -0.05167513, z: -0.06044632, w: -0.0018882769}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bone07
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.000000023986543, y: -0.000000017105874, z: 0.01666134, w: 0.99986124}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.000000023986543, y: -0.000000017105874, z: 0.01666134, w: 0.99986124}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bone07/Bone08
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.6314113, y: 0.044551432, z: 0.77224714, w: 0.05449077}
+        inSlope: {x: 0.0019612312, y: 0.027515084, z: -0.0024089813, w: 0.033651084}
+        outSlope: {x: 0.0019612312, y: 0.027515084, z: -0.0024089813, w: 0.033651084}
+        tangentMode: 0
+      - time: 0.33333334
+        value: {x: -0.63117856, y: 0.047736414, z: 0.7719624, w: 0.058386177}
+        inSlope: {x: -0.008236884, y: -0.10954484, z: 0.0100615015, w: -0.13397872}
+        outSlope: {x: -0.008236884, y: -0.10954484, z: 0.0100615015, w: -0.13397872}
+        tangentMode: 0
+      - time: 0.5833333
+        value: {x: -0.6318583, y: 0.037699185, z: 0.77279216, w: 0.04611007}
+        inSlope: {x: 0.005041838, y: 0.08339691, z: -0.006179095, w: 0.10199776}
+        outSlope: {x: 0.005041838, y: 0.08339691, z: -0.006179095, w: 0.10199776}
+        tangentMode: 0
+      - time: 0.875
+        value: {x: -0.6308221, y: 0.05224275, z: 0.7715253, w: 0.063897535}
+        inSlope: {x: -0.0064322916, y: -0.078372546, z: 0.007838484, w: -0.095854014}
+        outSlope: {x: -0.0064322916, y: -0.078372546, z: 0.007838484, w: -0.095854014}
+        tangentMode: 0
+      - time: 1.1250001
+        value: {x: -0.6318938, y: 0.037087556, z: 0.772837, w: 0.04536213}
+        inSlope: {x: 0.0016207693, y: 0.027390491, z: -0.001980543, w: 0.033498775}
+        outSlope: {x: 0.0016207693, y: 0.027390491, z: -0.001980543, w: 0.033498775}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.6314114, y: 0.044551495, z: 0.7722471, w: 0.05449085}
+        inSlope: {x: 0.0025062584, y: 0.036112312, z: -0.003062728, w: 0.044166636}
+        outSlope: {x: 0.0025062584, y: 0.036112312, z: -0.003062728, w: 0.044166636}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_L_ASCII32_Clavic
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.5265076, y: -0.27130064, z: 0.5775537, w: 0.5617984}
+        inSlope: {x: 0.06458044, y: -0.15759516, z: -0.20419836, w: 0.19037819}
+        outSlope: {x: 0.06458044, y: -0.15759516, z: -0.20419836, w: 0.19037819}
+        tangentMode: 0
+      - time: 0.4166667
+        value: {x: -0.50471973, y: -0.3081134, z: 0.5304048, w: 0.60744965}
+        inSlope: {x: 0.0005772116, y: 0.09276762, z: 0.16102055, w: -0.093558334}
+        outSlope: {x: 0.0005772116, y: 0.09276762, z: 0.16102055, w: -0.093558334}
+        tangentMode: 0
+      - time: 0.7083333
+        value: {x: -0.5105563, y: -0.2738562, z: 0.57517314, w: 0.57750404}
+        inSlope: {x: -0.014220003, y: 0.04973461, z: -0.016309245, w: 0.027208317}
+        outSlope: {x: -0.014220003, y: 0.04973461, z: -0.016309245, w: 0.027208317}
+        tangentMode: 0
+      - time: 1.0416667
+        value: {x: -0.5214374, y: -0.26840496, z: 0.5543998, w: 0.5905105}
+        inSlope: {x: -0.031667978, y: -0.00915707, z: 0.027269151, w: -0.057775557}
+        outSlope: {x: -0.031667978, y: -0.00915707, z: 0.027269151, w: -0.057775557}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.5265076, y: -0.27130064, z: 0.5775537, w: 0.5617984}
+        inSlope: {x: -0.02005722, y: 0.002920392, z: 0.091022104, w: -0.11018954}
+        outSlope: {x: -0.02005722, y: 0.002920392, z: 0.091022104, w: -0.11018954}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_L_ASCII32_Clavic/Bip01_ASCII32_L_ASCII32_UpperA
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.000000003650273, y: -0.00000006303779, z: 0.46643987, w: 0.8845529}
+        inSlope: {x: 0.0000006030857, y: 0.0000017075254, z: 0.5660863, w: -0.3082924}
+        outSlope: {x: 0.0000006030857, y: 0.0000017075254, z: 0.5660863, w: -0.3082924}
+        tangentMode: 0
+      - time: 0.2916667
+        value: {x: -0.0000000147419765, y: -0.000000036731567, z: 0.60501623, w: 0.7962132}
+        inSlope: {x: 0.00000016214575, y: 0.00000024134823, z: 0.19041042, w: -0.14371851}
+        outSlope: {x: 0.00000016214575, y: 0.00000024134823, z: 0.19041042, w: -0.14371851}
+        tangentMode: 0
+      - time: 0.5833333
+        value: {x: 0.000000025807326, y: -0.000000025811781, z: 0.5380146, w: 0.84293556}
+        inSlope: {x: -0.0000000013243238, y: -0.00000007955583, z: -0.35509598, w: 0.22764452}
+        outSlope: {x: -0.0000000013243238, y: -0.00000007955583, z: -0.35509598, w: 0.22764452}
+        tangentMode: 0
+      - time: 0.7916667
+        value: {x: 0.000000033049613, y: 0.000000023406256, z: 0.5324731, w: 0.84644693}
+        inSlope: {x: 0.00000063723206, y: 0.00000057821137, z: 0.23500377, w: -0.14817743}
+        outSlope: {x: 0.00000063723206, y: 0.00000057821137, z: 0.23500377, w: -0.14817743}
+        tangentMode: 0
+      - time: 1.0416667
+        value: {x: 0.0000000034365546, y: -0.0000000038386316, z: 0.56730336, w: 0.8235089}
+        inSlope: {x: 0.000000045367074, y: 0.00000038329813, z: -0.14560188, w: 0.099805444}
+        outSlope: {x: 0.000000045367074, y: 0.00000038329813, z: -0.14560188, w: 0.099805444}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.0000000036502747, y: -0.000000063037795, z: 0.46643987, w: 0.8845529}
+        inSlope: {x: -0.0000009872865, y: -0.0000014819512, z: -0.39935485, w: 0.21543524}
+        outSlope: {x: -0.0000009872865, y: -0.0000014819512, z: -0.39935485, w: 0.21543524}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_L_ASCII32_Clavic/Bip01_ASCII32_L_ASCII32_UpperA/Bip01_ASCII32_L_ASCII32_Forea
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.8120279, y: 0.17760167, z: 0.07361769, w: 0.55104345}
+        inSlope: {x: 0.061095715, y: 0.28857923, z: -0.20910001, w: 0.020001411}
+        outSlope: {x: 0.061095715, y: 0.28857923, z: -0.20910001, w: 0.020001411}
+        tangentMode: 0
+      - time: 0.4166667
+        value: {x: -0.7938932, y: 0.24753477, z: 0.024289627, w: 0.55486053}
+        inSlope: {x: -0.027681835, y: -0.12091455, z: 0.11462964, w: 0.008869888}
+        outSlope: {x: -0.027681835, y: -0.12091455, z: 0.11462964, w: 0.008869888}
+        tangentMode: 0
+      - time: 0.7083333
+        value: {x: -0.8027611, y: 0.21150501, z: 0.05427278, w: 0.55488265}
+        inSlope: {x: 0.017572401, y: 0.08915626, z: -0.08123271, w: -0.0010821824}
+        outSlope: {x: 0.017572401, y: 0.08915626, z: -0.08123271, w: -0.0010821824}
+        tangentMode: 0
+      - time: 1.0416667
+        value: {x: -0.7944928, y: 0.25088194, z: 0.01577073, w: 0.5528027}
+        inSlope: {x: -0.035079036, y: -0.113324516, z: 0.08194617, w: -0.001843931}
+        outSlope: {x: -0.035079036, y: -0.113324516, z: 0.08194617, w: -0.001843931}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.8120279, y: 0.17760167, z: 0.07361769, w: 0.55104345}
+        inSlope: {x: -0.05506187, y: -0.2751874, z: 0.21068735, w: -0.01593019}
+        outSlope: {x: -0.05506187, y: -0.2751874, z: 0.21068735, w: -0.01593019}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_L_ASCII32_Clavic/Bip01_ASCII32_L_ASCII32_UpperA/Bip01_ASCII32_L_ASCII32_Forea/Bip01_ASCII32_L_ASCII32_Ha
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.016142385, y: -0.19934057, z: -0.007434065, w: 0.9797691}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.016142385, y: -0.19934057, z: -0.007434065, w: 0.9797691}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_L_ASCII32_Clavic/Bip01_ASCII32_L_ASCII32_UpperA/Bip01_ASCII32_L_ASCII32_Forea/Bip01_ASCII32_L_ASCII32_Ha/Bip01_ASCII32_L_ASCII32_Finge
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -1.8474006e-10, y: -7.98219e-12, z: 0.000000004512672, w: 1}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -1.8474006e-10, y: -7.98219e-12, z: 0.000000004512672, w: 1}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_L_ASCII32_Clavic/Bip01_ASCII32_L_ASCII32_UpperA/Bip01_ASCII32_L_ASCII32_Forea/Bip01_ASCII32_L_ASCII32_Ha/Bip01_ASCII32_L_ASCII32_Finge/Bip01_ASCII32_L_ASCII32_Finger0N
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.6314115, y: -0.04455358, z: 0.772247, w: 0.054489046}
+        inSlope: {x: -0.0019598007, y: -0.02751571, z: -0.0024104118, w: 0.033652335}
+        outSlope: {x: -0.0019598007, y: -0.02751571, z: -0.0024104118, w: 0.033652335}
+        tangentMode: 0
+      - time: 0.33333334
+        value: {x: 0.63117874, y: -0.04773859, z: 0.7719622, w: 0.058384437}
+        inSlope: {x: 0.008235454, y: 0.1095444, z: 0.010062217, w: -0.13397905}
+        outSlope: {x: 0.008235454, y: 0.1095444, z: 0.010062217, w: -0.13397905}
+        tangentMode: 0
+      - time: 0.5833333
+        value: {x: 0.6318584, y: -0.03770134, z: 0.77279204, w: 0.046108294}
+        inSlope: {x: -0.005041123, y: -0.08339651, z: -0.006179095, w: 0.10199736}
+        outSlope: {x: -0.005041123, y: -0.08339651, z: -0.006179095, w: 0.10199736}
+        tangentMode: 0
+      - time: 0.875
+        value: {x: 0.6308223, y: -0.052244898, z: 0.77152514, w: 0.06389581}
+        inSlope: {x: 0.006430146, y: 0.07837009, z: 0.007838484, w: -0.09585379}
+        outSlope: {x: 0.006430146, y: 0.07837009, z: 0.007838484, w: -0.09585379}
+        tangentMode: 0
+      - time: 1.1250001
+        value: {x: 0.631894, y: -0.03708979, z: 0.7728369, w: 0.045360386}
+        inSlope: {x: -0.001620054, y: -0.027388658, z: -0.001980543, w: 0.033498775}
+        outSlope: {x: -0.001620054, y: -0.027388658, z: -0.001980543, w: 0.033498775}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.6314115, y: -0.04455365, z: 0.772247, w: 0.054489102}
+        inSlope: {x: -0.002507689, y: -0.036111686, z: -0.0030612976, w: 0.044166993}
+        outSlope: {x: -0.002507689, y: -0.036111686, z: -0.0030612976, w: 0.044166993}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_R_ASCII32_Clavic
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.38214323, y: 0.4100457, z: 0.42672578, w: 0.70974237}
+        inSlope: {x: -0.14194393, y: 0.095608234, z: -0.14567542, w: 0.10695648}
+        outSlope: {x: -0.14194393, y: 0.095608234, z: -0.14567542, w: 0.10695648}
+        tangentMode: 0
+      - time: 0.4166667
+        value: {x: 0.34711134, y: 0.438282, z: 0.37892804, w: 0.73745245}
+        inSlope: {x: 0.11827114, y: -0.02703238, z: 0.039517175, w: -0.060125843}
+        outSlope: {x: 0.11827114, y: -0.02703238, z: 0.039517175, w: -0.060125843}
+        tangentMode: 0
+      - time: 0.75
+        value: {x: 0.3779597, y: 0.4307719, z: 0.398547, w: 0.7160603}
+        inSlope: {x: -0.05278156, y: 0.051190473, z: -0.0035043939, w: -0.0010485644}
+        outSlope: {x: -0.05278156, y: 0.051190473, z: -0.0035043939, w: -0.0010485644}
+        tangentMode: 0
+      - time: 1.0833334
+        value: {x: 0.367696, y: 0.43259007, z: 0.40720543, w: 0.7154364}
+        inSlope: {x: 0.04367134, y: -0.07492621, z: 0.072596274, w: -0.018507231}
+        outSlope: {x: 0.04367134, y: -0.07492621, z: 0.072596274, w: -0.018507231}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.38214323, y: 0.4100457, z: 0.42672578, w: 0.70974237}
+        inSlope: {x: 0.055608325, y: -0.08742007, z: 0.07548244, w: -0.024317287}
+        outSlope: {x: 0.055608325, y: -0.08742007, z: 0.07548244, w: -0.024317287}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_R_ASCII32_Clavic/Bip01_ASCII32_R_ASCII32_UpperA
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.000000038084814, y: 0.00000001983065, z: 0.700252, w: 0.71389574}
+        inSlope: {x: -0.00000092246074, y: 0.00000025328103, z: 0.21804571, w: -0.21663523}
+        outSlope: {x: -0.00000092246074, y: 0.00000025328103, z: 0.21804571, w: -0.21663523}
+        tangentMode: 0
+      - time: 0.4166667
+        value: {x: 0.000000011433023, y: -0.000000011309874, z: 0.7550311, w: 0.655689}
+        inSlope: {x: 0.00000031257252, y: 0.000000007191897, z: -0.10117939, w: 0.116178304}
+        outSlope: {x: 0.00000031257252, y: 0.000000007191897, z: -0.10117939, w: 0.116178304}
+        tangentMode: 0
+      - time: 0.7083333
+        value: {x: -5.822677e-10, y: -0.000000019358772, z: 0.72429246, w: 0.6894929}
+        inSlope: {x: -0.00000024928192, y: -0.00000011376031, z: 0.047575228, w: -0.05012726}
+        outSlope: {x: -0.00000024928192, y: -0.00000011376031, z: 0.047575228, w: -0.05012726}
+        tangentMode: 0
+      - time: 1.0833334
+        value: {x: -0.000000010314664, y: -0.000000028377357, z: 0.7471143, w: 0.6646956}
+        inSlope: {x: 0.00000016337444, y: 0.0000006614342, z: -0.11875239, w: 0.13311902}
+        outSlope: {x: 0.00000016337444, y: 0.0000006614342, z: -0.11875239, w: 0.13311902}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.000000010668734, y: 0.00000001979982, z: 0.700252, w: 0.71389574}
+        inSlope: {x: 0.000000085992404, y: 0.00000046970848, z: -0.19189042, w: 0.19035405}
+        outSlope: {x: 0.000000085992404, y: 0.00000046970848, z: -0.19189042, w: 0.19035405}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_R_ASCII32_Clavic/Bip01_ASCII32_R_ASCII32_UpperA/Bip01_ASCII32_R_ASCII32_Forea
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.77137154, y: 0.0069789477, z: -0.04663637, w: 0.63463557}
+        inSlope: {x: -0.006371498, y: -0.074475065, z: -0.052585065, w: 0.004424572}
+        outSlope: {x: -0.006371498, y: -0.074475065, z: -0.052585065, w: 0.004424572}
+        tangentMode: 0
+      - time: 0.5
+        value: {x: 0.7721752, y: 0.000016446984, z: -0.053221826, w: 0.63317686}
+        inSlope: {x: 0.016625397, y: 0.06351809, z: 0.03311807, w: -0.01748585}
+        outSlope: {x: 0.016625397, y: 0.06351809, z: 0.03311807, w: -0.01748585}
+        tangentMode: 0
+      - time: 0.8333333
+        value: {x: 0.77553123, y: -0.00869025, z: -0.064565435, w: 0.62793887}
+        inSlope: {x: 0.0028789062, y: -0.12522446, z: -0.107342206, w: -0.016358618}
+        outSlope: {x: 0.0028789062, y: -0.12522446, z: -0.107342206, w: -0.016358618}
+        tangentMode: 0
+      - time: 1.1250001
+        value: {x: 0.7738478, y: -0.020283742, z: -0.07242032, w: 0.62889063}
+        inSlope: {x: -0.010801072, y: 0.102779165, z: 0.09994373, w: 0.027934302}
+        outSlope: {x: -0.010801072, y: 0.102779165, z: 0.09994373, w: 0.027934302}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.77137154, y: 0.006978945, z: -0.046636354, w: 0.63463557}
+        inSlope: {x: -0.011926185, y: 0.12208346, z: 0.11669391, w: 0.022686504}
+        outSlope: {x: -0.011926185, y: 0.12208346, z: 0.11669391, w: 0.022686504}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_R_ASCII32_Clavic/Bip01_ASCII32_R_ASCII32_UpperA/Bip01_ASCII32_R_ASCII32_Forea/Bip01_ASCII32_R_ASCII32_Ha
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.016142376, y: 0.19934057, z: -0.00743411, w: 0.9797691}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.016142376, y: 0.19934057, z: -0.00743411, w: 0.9797691}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_R_ASCII32_Clavic/Bip01_ASCII32_R_ASCII32_UpperA/Bip01_ASCII32_R_ASCII32_Forea/Bip01_ASCII32_R_ASCII32_Ha/Bip01_ASCII32_R_ASCII32_Finge
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1.7021402e-10, y: 7.1952677e-10, z: 1, w: 6.110987e-17}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1.7021402e-10, y: 7.1952677e-10, z: 1, w: 6.110987e-17}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_R_ASCII32_Clavic/Bip01_ASCII32_R_ASCII32_UpperA/Bip01_ASCII32_R_ASCII32_Forea/Bip01_ASCII32_R_ASCII32_Ha/Bip01_ASCII32_R_ASCII32_Finge/Bip01_ASCII32_R_ASCII32_Finger0N
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.00000028599308, y: -0.00000134032, z: 0.7446704, w: 0.6674324}
+        inSlope: {x: 0.0000005446791, y: -0.0000008540592, z: -0.00016736984, w: 0.00018596649}
+        outSlope: {x: 0.0000005446791, y: -0.0000008540592, z: -0.00016736984, w: 0.00018596649}
+        tangentMode: 0
+      - time: 0.2916667
+        value: {x: 0.0000002688256, y: -0.0000014228465, z: 0.7582374, w: 0.6519786}
+        inSlope: {x: -0.00000022483533, y: 0.00000060201563, z: 0.0777054, w: -0.090278886}
+        outSlope: {x: -0.00000022483533, y: 0.00000060201563, z: 0.0777054, w: -0.090278886}
+        tangentMode: 0
+      - time: 0.5416667
+        value: {x: 0.00000032695633, y: -0.0000014504278, z: 0.74773693, w: 0.6639951}
+        inSlope: {x: 0.00000059742615, y: 0.000000092493224, z: -0.12967946, w: 0.1462498}
+        outSlope: {x: 0.00000059742615, y: 0.000000092493224, z: -0.12967946, w: 0.1462498}
+        tangentMode: 0
+      - time: 1.0416667
+        value: {x: 0.00000029454415, y: -0.00000139558, z: 0.75817955, w: 0.65204585}
+        inSlope: {x: 0.000000019677515, y: 0.0000009643031, z: -0.048901364, w: 0.056782775}
+        outSlope: {x: 0.000000019677515, y: 0.0000009643031, z: -0.048901364, w: 0.056782775}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.00000032382223, y: -0.0000013747896, z: 0.74467045, w: 0.6674323}
+        inSlope: {x: 0.0000001530797, y: 0.00000050883824, z: -0.002223017, w: 0.0024776482}
+        outSlope: {x: 0.0000001530797, y: 0.00000050883824, z: -0.002223017, w: 0.0024776482}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bone01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 4.901763e-10, y: -2.825895e-11, z: -2.3055735e-10, w: 1}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 4.901763e-10, y: -2.825895e-11, z: -2.3055735e-10, w: 1}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bone01/Bone02
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.020671006, y: -0.016061889, z: 0.7875676, w: 0.615672}
+        inSlope: {x: -0.0000020116568, y: -0.000002503395, z: 0.000071525574, w: -0.000091552734}
+        outSlope: {x: -0.0000020116568, y: -0.000002503395, z: 0.000071525574, w: -0.000091552734}
+        tangentMode: 0
+      - time: 0.2916667
+        value: {x: 0.02040903, y: -0.0163931, z: 0.7973959, w: 0.6028885}
+        inSlope: {x: -0.002186336, y: -0.0027276508, z: 0.08053496, w: -0.10648801}
+        outSlope: {x: -0.002186336, y: -0.0027276508, z: 0.08053496, w: -0.10648801}
+        tangentMode: 0
+      - time: 0.5416667
+        value: {x: 0.020480616, y: -0.016303113, z: 0.79474, w: 0.60638523}
+        inSlope: {x: 0.003368252, y: 0.004242384, z: -0.12549165, w: 0.16443591}
+        outSlope: {x: 0.003368252, y: 0.004242384, z: -0.12549165, w: 0.16443591}
+        tangentMode: 0
+      - time: 0.7916667
+        value: {x: 0.020643963, y: -0.016096376, z: 0.78859675, w: 0.61435324}
+        inSlope: {x: -0.0019392378, y: -0.0024877049, z: 0.073986076, w: -0.09505108}
+        outSlope: {x: -0.0019392378, y: -0.0024877049, z: 0.073986076, w: -0.09505108}
+        tangentMode: 0
+      - time: 1.1250001
+        value: {x: 0.0204103, y: -0.016391616, z: 0.7973513, w: 0.6029475}
+        inSlope: {x: 0.0016724014, y: 0.0020809912, z: -0.061523415, w: 0.081300944}
+        outSlope: {x: 0.0016724014, y: 0.0020809912, z: -0.061523415, w: 0.081300944}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.020671006, y: -0.016061883, z: 0.7875677, w: 0.615672}
+        inSlope: {x: 0.00024408125, y: 0.00031265646, z: -0.009302625, w: 0.011909019}
+        outSlope: {x: 0.00024408125, y: 0.00031265646, z: -0.009302625, w: 0.011909019}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bone03
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 9.570486e-10, y: 4.702613e-10, z: -0.0000000060342673, w: 1}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 9.570486e-10, y: 4.702613e-10, z: -0.0000000060342673, w: 1}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bone03/Bone04
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.7722583, y: -0.62776536, z: -0.09491027, w: 0.02280331}
+        inSlope: {x: -0.07950783, y: -0.09553671, z: -0.0158, w: -0.017904326}
+        outSlope: {x: -0.07950783, y: -0.09553671, z: -0.0158, w: -0.017904326}
+        tangentMode: 0
+      - time: 0.45833334
+        value: {x: 0.74642015, y: -0.65783393, z: -0.09875847, w: 0.018927827}
+        inSlope: {x: 0.076324925, y: 0.08541153, z: 0.011219768, w: 0.013027197}
+        outSlope: {x: 0.076324925, y: 0.08541153, z: 0.011219768, w: 0.013027197}
+        tangentMode: 0
+      - time: 1.0000001
+        value: {x: 0.78076696, y: -0.6168596, z: -0.09799652, w: 0.016848667}
+        inSlope: {x: 0.0032730068, y: 0.003947492, z: 0.0015718639, w: 0.002016463}
+        outSlope: {x: 0.0032730068, y: 0.003947492, z: 0.0015718639, w: 0.002016463}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.7722493, y: -0.62775093, z: -0.095056325, w: 0.022893824}
+        inSlope: {x: -0.037323512, y: -0.046792075, z: 0.00991256, w: 0.020842215}
+        outSlope: {x: -0.037323512, y: -0.046792075, z: 0.00991256, w: 0.020842215}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_L_ASCII32_Thi
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.0000000141265915, y: -0.000000016610727, z: 0.5270258, w: 0.8498493}
+        inSlope: {x: -0.00000046552296, y: -0.000000049722573, z: 0.1459651, w: -0.091245174}
+        outSlope: {x: -0.00000046552296, y: -0.000000049722573, z: 0.1459651, w: -0.091245174}
+        tangentMode: 0
+      - time: 0.45833334
+        value: {x: -0.000000009730325, y: 0.0000000021758875, z: 0.5530278, w: 0.8331628}
+        inSlope: {x: 0.00000040315717, y: 0.00000020081406, z: -0.07045697, w: 0.046751253}
+        outSlope: {x: 0.00000040315717, y: 0.00000020081406, z: -0.07045697, w: 0.046751253}
+        tangentMode: 0
+      - time: 0.75
+        value: {x: 0.000000006952149, y: 0.000000016349913, z: 0.56476855, w: 0.8252494}
+        inSlope: {x: 0.00000015164498, y: 0.00000017061654, z: 0.24865925, w: -0.17053333}
+        outSlope: {x: 0.00000015164498, y: 0.00000017061654, z: 0.24865925, w: -0.17053333}
+        tangentMode: 0
+      - time: 1.0416667
+        value: {x: 0.0000000011171603, y: -0.000000006188323, z: 0.6077978, w: 0.7940918}
+        inSlope: {x: -0.000000072963886, y: -0.0000003258728, z: -0.1218425, w: 0.09287748}
+        outSlope: {x: -0.000000072963886, y: -0.0000003258728, z: -0.1218425, w: 0.09287748}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.000000003684587, y: 0.000000025107065, z: 0.5270257, w: 0.84984934}
+        inSlope: {x: 0.000000039418868, y: 0.00000063202344, z: -0.30728847, w: 0.19379729}
+        outSlope: {x: 0.000000039418868, y: 0.00000063202344, z: -0.30728847, w: 0.19379729}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_L_ASCII32_Thi/Bip01_ASCII32_L_ASCII32_Ca
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.000000012631227, y: -0.00000003558549, z: -0.5433038, w: 0.8395362}
+        inSlope: {x: 0.0000006660825, y: 0.000001529314, z: -0.122599125, w: -0.07987118}
+        outSlope: {x: 0.0000006660825, y: 0.000001529314, z: -0.122599125, w: -0.07987118}
+        tangentMode: 0
+      - time: 0.5416667
+        value: {x: 0.000000012961799, y: -6.613524e-10, z: -0.57737035, w: 0.8164824}
+        inSlope: {x: 0.00000020805243, y: 0.00000017313226, z: 0.12651518, w: 0.08937982}
+        outSlope: {x: 0.00000020805243, y: 0.00000017313226, z: 0.12651518, w: 0.08937982}
+        tangentMode: 0
+      - time: 0.8333333
+        value: {x: 0.0000000062053447, y: -0.000000020181211, z: -0.5625351, w: 0.8267734}
+        inSlope: {x: 0.00000016743525, y: 0.000000119199655, z: -0.08488728, w: -0.057843454}
+        outSlope: {x: 0.00000016743525, y: 0.000000119199655, z: -0.08488728, w: -0.057843454}
+        tangentMode: 0
+      - time: 1.1250001
+        value: {x: -0.000000008689737, y: -0.000000043097238, z: -0.5725099, w: 0.8198979}
+        inSlope: {x: -0.00000068344434, y: -0.0000000067424253, z: 0.10202548, w: 0.07113073}
+        outSlope: {x: -0.00000068344434, y: -0.0000000067424253, z: 0.10202548, w: 0.07113073}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.000000020329592, y: -0.0000000067373076, z: -0.54330397, w: 0.83953613}
+        inSlope: {x: 0.0000006595335, y: 0.0000012829042, z: 0.1421286, w: 0.09269437}
+        outSlope: {x: 0.0000006595335, y: 0.0000012829042, z: 0.1421286, w: 0.09269437}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_L_ASCII32_Thi/Bip01_ASCII32_L_ASCII32_Ca/Bip01_ASCII32_L_ASCII32_HorseLi
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.07080898, y: 0.03957845, z: 0.1025435, w: 0.99141544}
+        inSlope: {x: -0.0030984879, y: 0.044132262, z: -0.14440906, w: 0.0124697685}
+        outSlope: {x: -0.0030984879, y: 0.044132262, z: -0.14440906, w: 0.0124697685}
+        tangentMode: 0
+      - time: 0.37500003
+        value: {x: -0.07256132, y: 0.051847517, z: 0.074662425, w: 0.99321306}
+        inSlope: {x: -0.002523332, y: -0.016823888, z: 0.10604908, w: -0.0073313704}
+        outSlope: {x: -0.002523332, y: -0.016823888, z: 0.10604908, w: -0.0073313704}
+        tangentMode: 0
+      - time: 0.7083333
+        value: {x: -0.07075914, y: 0.044317525, z: 0.08299235, w: 0.9930465}
+        inSlope: {x: 0.006770881, y: 0.011497602, z: -0.1561122, w: 0.012937549}
+        outSlope: {x: 0.006770881, y: 0.011497602, z: -0.1561122, w: 0.012937549}
+        tangentMode: 0
+      - time: 1.0416667
+        value: {x: -0.07026874, y: 0.047544476, z: 0.061665617, w: 0.9944844}
+        inSlope: {x: -0.0023502433, y: -0.018014045, z: 0.104360655, w: -0.005832916}
+        outSlope: {x: -0.0023502433, y: -0.018014045, z: 0.104360655, w: -0.005832916}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.07064289, y: 0.039623998, z: 0.10255476, w: 0.99142426}
+        inSlope: {x: -0.00018739718, y: -0.025784815, z: 0.1298886, w: -0.012046348}
+        outSlope: {x: -0.00018739718, y: -0.025784815, z: 0.1298886, w: -0.012046348}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_L_ASCII32_Thi/Bip01_ASCII32_L_ASCII32_Ca/Bip01_ASCII32_L_ASCII32_HorseLi/Bip01_ASCII32_L_ASCII32_Fo
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.0677731, y: 0.067773156, z: -0.70385134, w: 0.70385146}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.0677731, y: 0.067773156, z: -0.70385134, w: 0.70385146}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_L_ASCII32_Thi/Bip01_ASCII32_L_ASCII32_Ca/Bip01_ASCII32_L_ASCII32_HorseLi/Bip01_ASCII32_L_ASCII32_Fo/Bip01_ASCII32_L_ASCII32_To
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.0000000037492374, y: -0.0000000070638992, z: 1, w: 8.7716575e-17}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.0000000037492374, y: -0.0000000070638992, z: 1, w: 8.7716575e-17}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_L_ASCII32_Thi/Bip01_ASCII32_L_ASCII32_Ca/Bip01_ASCII32_L_ASCII32_HorseLi/Bip01_ASCII32_L_ASCII32_Fo/Bip01_ASCII32_L_ASCII32_To/Bip01_ASCII32_L_ASCII32_Toe0N
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.83068043, y: -0.5453192, z: 0.10808829, w: -0.03023086}
+        inSlope: {x: -0.041745186, y: -0.060871124, z: 0.019887686, w: 0.026566029}
+        outSlope: {x: -0.041745186, y: -0.060871124, z: 0.019887686, w: 0.026566029}
+        tangentMode: 0
+      - time: 0.5
+        value: {x: 0.81577957, y: -0.5667696, z: 0.11236982, w: -0.025473468}
+        inSlope: {x: 0.05849716, y: 0.08199616, z: -0.016259186, w: -0.021130031}
+        outSlope: {x: 0.05849716, y: 0.08199616, z: -0.016259186, w: -0.021130031}
+        tangentMode: 0
+      - time: 1.1250001
+        value: {x: 0.838918, y: -0.5322716, z: 0.110801786, w: -0.02503289}
+        inSlope: {x: -0.028382055, y: -0.046098217, z: -0.011640515, w: -0.021770388}
+        outSlope: {x: -0.028382055, y: -0.046098217, z: -0.011640515, w: -0.021770388}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.83068025, y: -0.5453195, z: 0.10808831, w: -0.03023098}
+        inSlope: {x: -0.040599383, y: -0.06320721, z: -0.012193155, w: -0.023369662}
+        outSlope: {x: -0.040599383, y: -0.06320721, z: -0.012193155, w: -0.023369662}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_R_ASCII32_Thi
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.000000009684573, y: 5.237151e-10, z: 0.5669107, w: 0.8237793}
+        inSlope: {x: 0.00000022695484, y: -0.00000003697566, z: 0.22177362, w: -0.15446806}
+        outSlope: {x: 0.00000022695484, y: -0.00000003697566, z: 0.22177362, w: -0.15446806}
+        tangentMode: 0
+      - time: 0.4166667
+        value: {x: -9.885607e-10, y: 0.000000011690423, z: 0.6170881, w: 0.7868941}
+        inSlope: {x: 0.00000040353788, y: -0.00000001265326, z: -0.09815028, w: 0.07681419}
+        outSlope: {x: 0.00000040353788, y: -0.00000001265326, z: -0.09815028, w: 0.07681419}
+        tangentMode: 0
+      - time: 0.75
+        value: {x: 6.6174866e-10, y: 0.0000000145634464, z: 0.6066369, w: 0.79497904}
+        inSlope: {x: 0.00000026117465, y: -0.0000000786412, z: 0.21573319, w: -0.16503373}
+        outSlope: {x: 0.00000026117465, y: -0.0000000786412, z: 0.21573319, w: -0.16503373}
+        tangentMode: 0
+      - time: 1.0416667
+        value: {x: -0.000000009136012, y: 0.00000002281102, z: 0.6462336, w: 0.7631397}
+        inSlope: {x: 0.00000019414553, y: 0.00000021524274, z: -0.122268796, w: 0.1031221}
+        outSlope: {x: 0.00000019414553, y: 0.00000021524274, z: -0.122268796, w: 0.1031221}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.00000000849368, y: -0.000000017055466, z: 0.56690955, w: 0.82378006}
+        inSlope: {x: -0.0000001390686, y: -0.0000009252706, z: -0.300834, w: 0.21043701}
+        outSlope: {x: -0.0000001390686, y: -0.0000009252706, z: -0.300834, w: 0.21043701}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_R_ASCII32_Thi/Bip01_ASCII32_R_ASCII32_Ca
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.00000002204934, y: 0.00000003976632, z: -0.49808192, w: 0.86713004}
+        inSlope: {x: -0.00000081402635, y: -0.0000006835291, z: -0.101398945, w: -0.058575153}
+        outSlope: {x: -0.00000081402635, y: -0.0000006835291, z: -0.101398945, w: -0.058575153}
+        tangentMode: 0
+      - time: 0.33333334
+        value: {x: 0.000000014750931, y: -0.000000025567935, z: -0.541529, w: 0.8406821}
+        inSlope: {x: 0.00000018313564, y: 0.00000046370204, z: -0.14275074, w: -0.091676466}
+        outSlope: {x: 0.00000018313564, y: 0.00000046370204, z: -0.14275074, w: -0.091676466}
+        tangentMode: 0
+      - time: 0.6666667
+        value: {x: -0.000000003727266, y: 0.0000000054273737, z: -0.5208123, w: 0.8536713}
+        inSlope: {x: -0.000000014592434, y: -0.00000020038524, z: 0.123376615, w: 0.075531006}
+        outSlope: {x: -0.000000014592434, y: -0.00000020038524, z: 0.123376615, w: 0.075531006}
+        tangentMode: 0
+      - time: 1.1250001
+        value: {x: 0.000000010941297, y: 0.000000039654847, z: -0.526124, w: 0.8504079}
+        inSlope: {x: 0.00000008176937, y: 0.00000024637797, z: 0.09804866, w: 0.06056927}
+        outSlope: {x: 0.00000008176937, y: 0.00000024637797, z: 0.09804866, w: 0.06056927}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.0000000038690513, y: -0.0000000043302277, z: -0.49808317, w: 0.86712927}
+        inSlope: {x: 0.0000003437034, y: 0.00000047475226, z: 0.13677992, w: 0.07916744}
+        outSlope: {x: 0.0000003437034, y: 0.00000047475226, z: 0.13677992, w: 0.07916744}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_R_ASCII32_Thi/Bip01_ASCII32_R_ASCII32_Ca/Bip01_ASCII32_R_ASCII32_HorseLi
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.0054391543, y: -0.04012814, z: 0.10048548, w: 0.9941141}
+        inSlope: {x: -0.002935432, y: -0.03912565, z: -0.22243291, w: 0.019811153}
+        outSlope: {x: -0.002935432, y: -0.03912565, z: -0.22243291, w: 0.019811153}
+        tangentMode: 0
+      - time: 0.33333334
+        value: {x: -0.005736317, y: -0.052508283, z: 0.051734142, w: 0.997263}
+        inSlope: {x: 0.0067464644, y: -0.006188038, z: 0.11349854, w: -0.006342171}
+        outSlope: {x: 0.0067464644, y: -0.006188038, z: 0.11349854, w: -0.006342171}
+        tangentMode: 0
+      - time: 0.6666667
+        value: {x: -0.0055738618, y: -0.044126645, z: 0.08781133, w: 0.9951437}
+        inSlope: {x: -0.0065815896, y: 0.011946959, z: -0.10858847, w: 0.009932045}
+        outSlope: {x: -0.0065815896, y: 0.011946959, z: -0.10858847, w: 0.009932045}
+        tangentMode: 0
+      - time: 1.0000001
+        value: {x: -0.0067522004, y: -0.045698423, z: 0.05537992, w: 0.9973962}
+        inSlope: {x: 0.0033014463, y: 0.0051074657, z: 0.07348559, w: -0.0038838382}
+        outSlope: {x: 0.0033014463, y: 0.0051074657, z: 0.07348559, w: -0.0038838382}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.0054391264, y: -0.04012807, z: 0.100487985, w: 0.99411386}
+        inSlope: {x: 0.0028622663, y: 0.017148541, z: 0.13108647, w: -0.012173664}
+        outSlope: {x: 0.0028622663, y: 0.017148541, z: 0.13108647, w: -0.012173664}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_R_ASCII32_Thi/Bip01_ASCII32_R_ASCII32_Ca/Bip01_ASCII32_R_ASCII32_HorseLi/Bip01_ASCII32_R_ASCII32_Fo
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.000000011973281, y: 5.7638766e-10, z: -0.7071068, w: 0.7071068}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.000000011973281, y: 5.7638766e-10, z: -0.7071068, w: 0.7071068}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_R_ASCII32_Thi/Bip01_ASCII32_R_ASCII32_Ca/Bip01_ASCII32_R_ASCII32_HorseLi/Bip01_ASCII32_R_ASCII32_Fo/Bip01_ASCII32_R_ASCII32_To
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -2.4493173e-15, y: -0.0000000016272401, z: 1.3634285e-14, w: 1}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -2.4493173e-15, y: -0.0000000016272401, z: 1.3634285e-14, w: 1}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_R_ASCII32_Thi/Bip01_ASCII32_R_ASCII32_Ca/Bip01_ASCII32_R_ASCII32_HorseLi/Bip01_ASCII32_R_ASCII32_Fo/Bip01_ASCII32_R_ASCII32_To/Bip01_ASCII32_R_ASCII32_Toe0N
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.0000015948137, y: -0.00000088647766, z: 0.8783785, w: -0.4779657}
+        inSlope: {x: -0.00000025615827, y: 0.0000000983905, z: 0.092030525, w: 0.17076874}
+        outSlope: {x: -0.00000025615827, y: 0.0000000983905, z: 0.092030525, w: 0.17076874}
+        tangentMode: 0
+      - time: 0.25000003
+        value: {x: 0.0000015342252, y: -0.0000009139119, z: 0.88854814, w: -0.45878342}
+        inSlope: {x: 0.00000021776717, y: 0.000000057444232, z: -0.04631638, w: -0.08956181}
+        outSlope: {x: 0.00000021776717, y: 0.000000057444232, z: -0.04631638, w: -0.08956181}
+        tangentMode: 0
+      - time: 0.625
+        value: {x: 0.0000015785171, y: -0.0000008805053, z: 0.88136786, w: -0.47243062}
+        inSlope: {x: -0.000000049588813, y: 0.00000016051187, z: 0.059790343, w: 0.11164206}
+        outSlope: {x: -0.000000049588813, y: 0.00000016051187, z: 0.059790343, w: 0.11164206}
+        tangentMode: 0
+      - time: 0.9583333
+        value: {x: 0.0000015577556, y: -0.0000008950739, z: 0.88641787, w: -0.4628859}
+        inSlope: {x: -0.00000013900367, y: -0.00000042743378, z: -0.058088746, w: -0.11112671}
+        outSlope: {x: -0.00000013900367, y: -0.00000042743378, z: -0.058088746, w: -0.11112671}
+        tangentMode: 0
+      - time: 1.2916667
+        value: {x: 0.0000016048729, y: -0.00000088611375, z: 0.87703294, w: -0.48043022}
+        inSlope: {x: 0.000000041567134, y: 0.00000011595181, z: 0.034734998, w: 0.06337851}
+        outSlope: {x: 0.000000041567134, y: 0.00000011595181, z: 0.034734998, w: 0.06337851}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.0000015948137, y: -0.00000088647766, z: 0.8783785, w: -0.4779657}
+        inSlope: {x: -0.00000024141923, y: -0.000000008733886, z: 0.032293826, w: 0.05914813}
+        outSlope: {x: -0.00000024141923, y: -0.000000008733886, z: 0.032293826, w: 0.05914813}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Tai
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -2.4736202e-10, y: -0.0000002369337, z: 0.0877202, w: 0.9961452}
+        inSlope: {x: -0.0051199878, y: 0.06959971, z: -0.08162445, w: 0.006945133}
+        outSlope: {x: -0.0051199878, y: 0.06959971, z: -0.08162445, w: 0.006945133}
+        tangentMode: 0
+      - time: 0.2916667
+        value: {x: -0.0015079967, y: 0.017534167, z: 0.084983766, w: 0.9962269}
+        inSlope: {x: -0.0058291554, y: 0.044471294, z: 0.1526879, w: -0.013863806}
+        outSlope: {x: -0.0058291554, y: 0.044471294, z: 0.1526879, w: -0.013863806}
+        tangentMode: 0
+      - time: 0.5416667
+        value: {x: -0.00064974884, y: 0.0026891793, z: 0.09205724, w: 0.9957499}
+        inSlope: {x: 0.013690449, y: -0.17320786, z: -0.124888435, w: 0.011908296}
+        outSlope: {x: 0.013690449, y: -0.17320786, z: -0.124888435, w: 0.011908296}
+        tangentMode: 0
+      - time: 0.875
+        value: {x: 0.002123552, y: -0.030299567, z: 0.06618569, w: 0.9973449}
+        inSlope: {x: -0.0018446828, y: 0.03772628, z: 0.029078707, w: -0.00080609287}
+        outSlope: {x: -0.0018446828, y: 0.03772628, z: 0.029078707, w: -0.00080609287}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -2.4075084e-10, y: -0.00000023701956, z: 0.0877202, w: 0.9961452}
+        inSlope: {x: -0.0055194437, y: 0.06721319, z: 0.044357162, w: -0.0037694012}
+        outSlope: {x: -0.0055194437, y: 0.06721319, z: 0.044357162, w: -0.0037694012}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Tai/Bip01_ASCII32_Tail
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -0.000000026424958, y: 0.00000054056744, z: -0.19025266, w: 0.98173517}
+        inSlope: {x: -0.020286698, y: -0.11864184, z: 0.11730194, w: 0.02212286}
+        outSlope: {x: -0.020286698, y: -0.11864184, z: 0.11730194, w: 0.02212286}
+        tangentMode: 0
+      - time: 0.2916667
+        value: {x: -0.0038912077, y: -0.022844346, z: -0.16997659, w: 0.9851756}
+        inSlope: {x: 0.0022272929, y: 0.013190213, z: -0.03800959, w: -0.006255628}
+        outSlope: {x: 0.0022272929, y: 0.013190213, z: -0.03800959, w: -0.006255628}
+        tangentMode: 0
+      - time: 0.45833334
+        value: {x: -0.0012911444, y: -0.0067537786, z: -0.16070966, w: 0.9869778}
+        inSlope: {x: 0.033804677, y: 0.21225545, z: 0.21241948, w: 0.03567838}
+        outSlope: {x: 0.033804677, y: 0.21225545, z: 0.21241948, w: 0.03567838}
+        tangentMode: 0
+      - time: 0.625
+        value: {x: 0.0019833785, y: 0.013482811, z: -0.14813933, w: 0.98887265}
+        inSlope: {x: -0.0009192764, y: -0.010632472, z: -0.12628657, w: -0.018926373}
+        outSlope: {x: -0.0009192764, y: -0.010632472, z: -0.12628657, w: -0.018926373}
+        tangentMode: 0
+      - time: 0.9583333
+        value: {x: -0.0011390792, y: -0.0068136165, z: -0.1827885, w: 0.983128}
+        inSlope: {x: -0.014262754, y: -0.083837286, z: 0.084346116, w: 0.015017498}
+        outSlope: {x: -0.014262754, y: -0.083837286, z: 0.084346116, w: 0.015017498}
+        tangentMode: 0
+      - time: 1.2500001
+        value: {x: -0.0015180763, y: -0.008880513, z: -0.17936146, w: 0.983742}
+        inSlope: {x: 0.01839855, y: 0.10800961, z: -0.1325472, w: -0.023211472}
+        outSlope: {x: 0.01839855, y: 0.10800961, z: -0.1325472, w: -0.023211472}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: -0.000000026399196, y: 0.0000005407137, z: -0.19025266, w: 0.98173517}
+        inSlope: {x: 0.017265348, y: 0.10083582, z: -0.12404227, w: -0.023479007}
+        outSlope: {x: 0.017265348, y: 0.10083582, z: -0.12404227, w: -0.023479007}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Tai/Bip01_ASCII32_Tail/Bip01_ASCII32_Tail
+      1
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.000000023855913, y: 0.00000050749827, z: -0.17309006, w: 0.984906}
+        inSlope: {x: -0.005388366, y: -0.031705827, z: -0.011405826, w: -0.0020284653}
+        outSlope: {x: -0.005388366, y: -0.031705827, z: -0.011405826, w: -0.0020284653}
+        tangentMode: 0
+      - time: 0.33333334
+        value: {x: -0.0015036112, y: -0.008595611, z: -0.17308345, w: 0.9848685}
+        inSlope: {x: 0.005673212, y: 0.0426427, z: 0.13540754, w: 0.02374434}
+        outSlope: {x: 0.005673212, y: 0.0426427, z: 0.13540754, w: 0.02374434}
+        tangentMode: 0
+      - time: 0.5416667
+        value: {x: 0.0015909781, y: 0.013052572, z: -0.12125981, w: 0.99253374}
+        inSlope: {x: 0.0038715648, y: 0.023049194, z: 0.04218494, w: 0.0049831825}
+        outSlope: {x: 0.0038715648, y: 0.023049194, z: 0.04218494, w: 0.0049831825}
+        tangentMode: 0
+      - time: 0.875
+        value: {x: -0.0004562176, y: -0.0035361939, z: -0.15075843, w: 0.9885642}
+        inSlope: {x: -0.0124054765, y: -0.09574285, z: 0.04215644, w: 0.0059945555}
+        outSlope: {x: -0.0124054765, y: -0.09574285, z: 0.04215644, w: 0.0059945555}
+        tangentMode: 0
+      - time: 1.2500001
+        value: {x: -0.002466143, y: -0.018777689, z: -0.1472277, w: 0.9889213}
+        inSlope: {x: 0.027547844, y: 0.21222714, z: -0.29566497, w: -0.040446986}
+        outSlope: {x: 0.027547844, y: 0.21222714, z: -0.29566497, w: -0.040446986}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.000000023862542, y: 0.00000050753744, z: -0.17309006, w: 0.984906}
+        inSlope: {x: 0.028623138, y: 0.21662158, z: -0.29949683, w: -0.04967456}
+        outSlope: {x: 0.028623138, y: 0.21662158, z: -0.29949683, w: -0.04967456}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Tai/Bip01_ASCII32_Tail/Bip01_ASCII32_Tail
+      1/Bip01_ASCII32_Tail 2
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.7073883, y: -0.7068252, z: -0.0000009654254, w: -0.000000964657}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.7073883, y: -0.7068252, z: -0.0000009654254, w: -0.000000964657}
+        inSlope: {x: 0, y: 0, z: 0, w: 0}
+        outSlope: {x: 0, y: 0, z: 0, w: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Tai/Bip01_ASCII32_Tail/Bip01_ASCII32_Tail
+      1/Bip01_ASCII32_Tail 2/Bip01_ASCII32_TailNu
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 0.0000000047683586, y: 0.09750162, z: 0.15772666}
+        inSlope: {x: -0, y: -0.04329157, z: -0.020406531}
+        outSlope: {x: -0, y: -0.04329157, z: -0.020406531}
+        tangentMode: 0
+      - time: 0.37500003
+        value: {x: 0.0000000047683586, y: 0.08426632, z: 0.15143764}
+        inSlope: {x: -0, y: 0.015003164, z: 0.0070632747}
+        outSlope: {x: -0, y: 0.0150028365, z: 0.007062537}
+        tangentMode: 0
+      - time: 0.7083333
+        value: {x: 0.0000000047683586, y: 0.0937545, z: 0.15472834}
+        inSlope: {x: -0, y: 0.0051006363, z: -0.013912595}
+        outSlope: {x: -0, y: 0.0051006363, z: -0.013912214}
+        tangentMode: 0
+      - time: 1.1
+        value: {x: 0.0000000047683586, y: 0.09429456, z: 0.15124275}
+        inSlope: {x: -0, y: 0.011256419, z: 0.019921893}
+        outSlope: {x: -0, y: 0.012625074, z: 0.024248412}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 0.0000000047683586, y: 0.09750162, z: 0.15772666}
+        inSlope: {x: -0, y: 0.012998211, z: 0.025428222}
+        outSlope: {x: -0, y: 0.012998211, z: 0.025428222}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01
+  m_ScaleCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bip01_ASCII32_Ponytail
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bip01_ASCII32_Ponytail/Bip01_ASCII32_Ponytail1Nu
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bone05
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bone05/Bone06
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bone07
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_hea/Bone07/Bone08
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_L_ASCII32_Clavic
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_L_ASCII32_Clavic/Bip01_ASCII32_L_ASCII32_UpperA
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_L_ASCII32_Clavic/Bip01_ASCII32_L_ASCII32_UpperA/Bip01_ASCII32_L_ASCII32_Forea
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_L_ASCII32_Clavic/Bip01_ASCII32_L_ASCII32_UpperA/Bip01_ASCII32_L_ASCII32_Forea/Bip01_ASCII32_L_ASCII32_Ha
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_L_ASCII32_Clavic/Bip01_ASCII32_L_ASCII32_UpperA/Bip01_ASCII32_L_ASCII32_Forea/Bip01_ASCII32_L_ASCII32_Ha/Bip01_ASCII32_L_ASCII32_Finge
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_R_ASCII32_Clavic
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_R_ASCII32_Clavic/Bip01_ASCII32_R_ASCII32_UpperA
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_R_ASCII32_Clavic/Bip01_ASCII32_R_ASCII32_UpperA/Bip01_ASCII32_R_ASCII32_Forea
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_R_ASCII32_Clavic/Bip01_ASCII32_R_ASCII32_UpperA/Bip01_ASCII32_R_ASCII32_Forea/Bip01_ASCII32_R_ASCII32_Ha
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_R_ASCII32_Clavic/Bip01_ASCII32_R_ASCII32_UpperA/Bip01_ASCII32_R_ASCII32_Forea/Bip01_ASCII32_R_ASCII32_Ha/Bip01_ASCII32_R_ASCII32_Finge
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bip01_ASCII32_Nec/Bip01_ASCII32_R_ASCII32_Clavic/Bip01_ASCII32_R_ASCII32_UpperA/Bip01_ASCII32_R_ASCII32_Forea/Bip01_ASCII32_R_ASCII32_Ha/Bip01_ASCII32_R_ASCII32_Finge/Bip01_ASCII32_R_ASCII32_Finger0N
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bone01
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Spin/Bip01_ASCII32_Spine/bip01_ASCII32_spine/Bone03
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_L_ASCII32_Thi
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_L_ASCII32_Thi/Bip01_ASCII32_L_ASCII32_Ca
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_L_ASCII32_Thi/Bip01_ASCII32_L_ASCII32_Ca/Bip01_ASCII32_L_ASCII32_HorseLi
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_L_ASCII32_Thi/Bip01_ASCII32_L_ASCII32_Ca/Bip01_ASCII32_L_ASCII32_HorseLi/Bip01_ASCII32_L_ASCII32_Fo
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_L_ASCII32_Thi/Bip01_ASCII32_L_ASCII32_Ca/Bip01_ASCII32_L_ASCII32_HorseLi/Bip01_ASCII32_L_ASCII32_Fo/Bip01_ASCII32_L_ASCII32_To
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_L_ASCII32_Thi/Bip01_ASCII32_L_ASCII32_Ca/Bip01_ASCII32_L_ASCII32_HorseLi/Bip01_ASCII32_L_ASCII32_Fo/Bip01_ASCII32_L_ASCII32_To/Bip01_ASCII32_L_ASCII32_Toe0N
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_R_ASCII32_Thi
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_R_ASCII32_Thi/Bip01_ASCII32_R_ASCII32_Ca
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_R_ASCII32_Thi/Bip01_ASCII32_R_ASCII32_Ca/Bip01_ASCII32_R_ASCII32_HorseLi
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_R_ASCII32_Thi/Bip01_ASCII32_R_ASCII32_Ca/Bip01_ASCII32_R_ASCII32_HorseLi/Bip01_ASCII32_R_ASCII32_Fo
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_R_ASCII32_Thi/Bip01_ASCII32_R_ASCII32_Ca/Bip01_ASCII32_R_ASCII32_HorseLi/Bip01_ASCII32_R_ASCII32_Fo/Bip01_ASCII32_R_ASCII32_To
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Tai
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Tai/Bip01_ASCII32_Tail
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Tai/Bip01_ASCII32_Tail/Bip01_ASCII32_Tail
+      1
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Tai/Bip01_ASCII32_Tail/Bip01_ASCII32_Tail
+      1/Bip01_ASCII32_Tail 2
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - time: 1.3333334
+        value: {x: 1, y: 1, z: 1}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Bip01/Bip01_ASCII32_Pelvi/Bip01_ASCII32_Tai/Bip01_ASCII32_Tail/Bip01_ASCII32_Tail
+      1/Bip01_ASCII32_Tail 2/Bip01_ASCII32_TailNu
+  m_FloatCurves: []
+  m_PPtrCurves: []
+  m_SampleRate: 24
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - path: 2018908708
+      attribute: 1
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3971581608
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2207246127
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1848149336
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1979002475
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3862793853
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2304333057
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1733768237
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 97173374
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3491010323
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1857704893
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 48437836
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3278862155
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1725537414
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1028464099
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 4197198717
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 418922011
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 4143341367
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 479061766
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3914269357
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2205319754
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 969148311
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1382829420
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3616268126
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2920828684
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3208520709
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1004762321
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 360563740
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1508950680
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1876874986
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2018908708
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2040267970
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 164909850
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3216899416
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2027943018
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 655634842
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2190023648
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3632898095
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1624685353
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1297009153
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3294635152
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3378510205
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1645828917
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2552809876
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 204621522
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2718873259
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 224715080
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3512354587
+      attribute: 2
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2018908708
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2040267970
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 164909850
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3971581608
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2207246127
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1979002475
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3862793853
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2027943018
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2304333057
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 655634842
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1733768237
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2190023648
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 97173374
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3491010323
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1857704893
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 48437836
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3632898095
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3278862155
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1725537414
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1028464099
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 4197198717
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1297009153
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3294635152
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 418922011
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 4143341367
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 479061766
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3914269357
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2205319754
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 969148311
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2552809876
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 204621522
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1382829420
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3616268126
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2920828684
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3208520709
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 2718873259
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1004762321
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 360563740
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1508950680
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 1876874986
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    - path: 3512354587
+      attribute: 3
+      script: {fileID: 0}
+      classID: 4
+      customType: 0
+      isPPtrCurve: 0
+    pptrCurveMapping: []
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 1.3333334
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 0
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_GenerateMotionCurves: 0
+  m_Events: []
