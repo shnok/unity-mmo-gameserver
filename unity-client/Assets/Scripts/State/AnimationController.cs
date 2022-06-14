@@ -83,7 +83,7 @@ public class AnimationController : MonoBehaviour {
 		SetFloat ("Speed", pc._currentSpeed);
 
 		/* Run */
-		if (pc.KeyPressed()) {
+		if (pc.KeyPressed() && pc.canMove) {
 			SetBool ("Moving", true);
 		} else {
 			SetBool ("Moving", false);
@@ -217,8 +217,8 @@ public class AnimationController : MonoBehaviour {
 
 				if(Input.anyKey) {
 					currentState = State.Running;
-					attackValue = -1;
-					yield return new WaitForSeconds (0.1f);
+					//attackValue = -1;
+					//yield return new WaitForSeconds (0.1f);
 					attackValue = 0;
 					yield break;
 				}

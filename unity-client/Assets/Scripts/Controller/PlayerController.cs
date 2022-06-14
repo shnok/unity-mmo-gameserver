@@ -3,7 +3,7 @@
 public class PlayerController : MonoBehaviour {
 
 	/* Components */
-	private CharacterController controller;
+	public CharacterController controller;
 
 	/*Rotate*/
 	private float _finalAngle;
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour {
 
 	private float GetRotationValue(float angle) {
 		float startAngle = angle;
-		if(KeyPressed()) {
+		if(KeyPressed() && canMove) {
 			angle = Mathf.Atan2(_axis.x, _axis.y) * Mathf.Rad2Deg;
 			angle = Mathf.Round(angle / 45f);
 			angle *= 45f;
@@ -85,11 +85,13 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		/* Handle input direction */
-		if(KeyPressed() && controller.isGrounded) {
+		if(KeyPressed() && controller.isGrounded && canMove) {
 			direction = _axis.x * right + _axis.y * forward;
 		} else if(!controller.isGrounded) {
 			direction = transform.forward;
-		}
+		} else {
+			direction = Vector3.zero;
+        }
 
 		direction = direction.normalized * speed;
 
