@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void Jump() {
-		if(controller.isGrounded) {
+		if(controller.isGrounded && canMove) {
 			_verticalVelocity = _jumpForce;
 		}
 	}

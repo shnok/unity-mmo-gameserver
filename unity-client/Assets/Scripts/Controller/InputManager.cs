@@ -28,6 +28,7 @@ public class InputManager : MonoBehaviour
         cameraController.UpdateInputs(Input.GetAxis ("Mouse X"), Input.GetAxis ("Mouse Y"));
         
         playerController.UpdateInputs(Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
+
         if(Input.GetKeyDown(KeyCode.Space)) {
             playerController.Jump();
         }
