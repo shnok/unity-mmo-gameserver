@@ -8,7 +8,7 @@ public class SwordAttackState : PlayerStateBase {
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetPlayerController(animator);
+        LoadComponents(animator);
         start = Time.time;
         pc.canMove = false;
         SetBool("Attack", false);
@@ -18,6 +18,9 @@ public class SwordAttackState : PlayerStateBase {
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if(!_network.GetIdentity().owned)
+            return;
+
         elapsed = Time.time - start;
         if(elapsed >= 0.3f) {
             if(Input.GetMouseButton(0)) {

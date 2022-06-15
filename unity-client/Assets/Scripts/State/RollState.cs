@@ -5,7 +5,7 @@ using UnityEngine;
 public class RollState : PlayerStateBase {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetPlayerController(animator);
+        LoadComponents(animator);
         SetBool("Dodge", false);
     }
 

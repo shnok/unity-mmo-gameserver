@@ -55,6 +55,9 @@ public class ServerPacketHandler
             case 07:
                 onUpdateRotation(data);
                 break;
+            case 08:
+                onUpdateAnimation(data);
+                break;
         }
     }
 
@@ -143,6 +146,13 @@ public class ServerPacketHandler
         int id = packet.getId();
         float angle = packet.getAngle();
         World.GetInstance().UpdateObject(id, angle);
+    }
+    private void onUpdateAnimation(byte[] data) {
+        UpdateAnimationPacket packet = new UpdateAnimationPacket(data);
+        int id = packet.getId();
+        int animId = packet.getAnimId();
+        float value = packet.getValue();
+        World.GetInstance().UpdateObject(id, animId, value);
     }
 
 }

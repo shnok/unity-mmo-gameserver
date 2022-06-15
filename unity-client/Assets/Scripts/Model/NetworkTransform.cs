@@ -4,7 +4,8 @@ public class NetworkTransform : MonoBehaviour {
     public NetworkIdentity identity;
     private Vector3 _lastPos, _newPos, _lastRotForward;
     private Quaternion _lastRot, _newRot;
-    private float _rotLerpValue, _posLerpValue;
+    private float _rotLerpValue, _posLerpValue, _lastSharedPosTime, _lastSharedRotTime;
+    private Animator _animator;
 
     public void SetIdentity(NetworkIdentity i) {
        identity = i; 
@@ -14,10 +15,13 @@ public class NetworkTransform : MonoBehaviour {
         return identity;
     }
     void Start() {
+        _animator = GetComponent<Animator>();
         _lastPos = transform.position;
         _newPos = transform.position;
         _newRot = transform.rotation;
         _lastRot = transform.rotation;
+        _lastSharedPosTime = Time.time;
+        _lastSharedRotTime = Time.time;
     }
 
     void Update() {
@@ -31,14 +35,16 @@ public class NetworkTransform : MonoBehaviour {
     }
 
     public void SharePosition() {
-        if(Vector3.Distance(transform.position, _lastPos) > .25f) {
+        if(Vector3.Distance(transform.position, _lastPos) > .25f || Time.time - _lastSharedPosTime >= 1f) {
+            _lastSharedPosTime = Time.time;
             ClientPacketHandler.GetInstance().UpdatePosition(transform.position);
             _lastPos = transform.position;
         }
     }
 
     public void ShareRotation() {
-        if(Vector3.Angle(_lastRotForward, transform.forward) >= 15.0f) {
+        if(Vector3.Angle(_lastRotForward, transform.forward) >= 15.0f || Time.time - _lastSharedRotTime >= 1f) {
+            _lastSharedRotTime = Time.time;
             _lastRotForward = transform.forward;
             ClientPacketHandler.GetInstance().UpdateRotation(transform.eulerAngles.y);
         }
@@ -76,5 +82,25 @@ public class NetworkTransform : MonoBehaviour {
         _newRot = rot;
         _lastRot = transform.rotation;
         _rotLerpValue = 0;
+    }
+
+    public void SetAnimationProperty(int animId, float value) {
+        if(animId > 0 && animId < _animator.parameters.Length) {
+            AnimatorControllerParameter anim = _animator.parameters[animId];
+            switch(anim.type) {
+                case AnimatorControllerParameterType.Float:
+                    _animator.SetFloat(anim.name, value);
+                    break;
+                case AnimatorControllerParameterType.Int:
+                    _animator.SetInteger(anim.name, (int)value);
+                    break;
+                case AnimatorControllerParameterType.Bool:
+                    _animator.SetBool(anim.name, (int)value == 1);
+                    break;
+                case AnimatorControllerParameterType.Trigger:
+                    _animator.SetTrigger(anim.name);
+                    break;
+            }
+        }     
     }
 }

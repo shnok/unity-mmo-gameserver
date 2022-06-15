@@ -5,11 +5,14 @@ using UnityEngine;
 public class IdleAttack : PlayerStateBase {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetPlayerController(animator);
+        LoadComponents(animator);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if(!_network.GetIdentity().owned)
+            return;
+
         if(Input.GetMouseButtonDown(0) && pc.controller.isGrounded && (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))) {  
             SetTrigger("Attack");
             if(!animator.GetNextAnimatorStateInfo(0).IsName("Attack1")) {

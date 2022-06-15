@@ -8,7 +8,7 @@ public class PlayerStateBase : StateMachineBehaviour
 	public Animator _animator;
 	public NetworkTransform _network;
 
-    public void SetPlayerController(Animator animator) {
+    public void LoadComponents(Animator animator) {
         if(!pc)
             pc = animator.GetComponentInParent<PlayerController>();
 		if(!_animator)
@@ -17,7 +17,10 @@ public class PlayerStateBase : StateMachineBehaviour
 			_network = animator.GetComponentInParent<NetworkTransform>();
     }
 
-	public void SetBool(string name, bool value) {	
+	public void SetBool(string name, bool value) {
+		if(!_network.GetIdentity().owned)
+			return;
+
 		if(_animator.GetBool(name) != value) {
 			_animator.SetBool(name, value);
 
@@ -26,6 +29,9 @@ public class PlayerStateBase : StateMachineBehaviour
 	}
 
 	public void SetFloat(string name, float value) {
+		if(!_network.GetIdentity().owned)
+			return;
+
 		if(Mathf.Abs(_animator.GetFloat(name) - value) > 0.2f) {
 			_animator.SetFloat(name, value);
 
@@ -34,6 +40,9 @@ public class PlayerStateBase : StateMachineBehaviour
 	}
 
 	public void SetInteger(string name, int value) {
+		if(!_network.GetIdentity().owned)
+			return;
+
 		if(_animator.GetInteger(name) != value) {
 			_animator.SetInteger(name, value);
 
@@ -42,6 +51,9 @@ public class PlayerStateBase : StateMachineBehaviour
 	}
 
 	public void SetTrigger(string name) {
+		if(!_network.GetIdentity().owned)
+			return;
+
 		_animator.SetTrigger(name);
 
 		EmitAnimatorInfo(name, 0);

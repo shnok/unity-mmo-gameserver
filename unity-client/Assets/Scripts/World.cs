@@ -79,4 +79,11 @@ public class World : MonoBehaviour
             _eventProcessor.QueueEvent(() => networkTransform.RotateTo(angle));           
         }
     }
+
+    public void UpdateObject(int id, int animId, float value) {
+        NetworkTransform networkTransform;
+        if(objects.TryGetValue(id, out networkTransform)) {
+            _eventProcessor.QueueEvent(() => networkTransform.SetAnimationProperty(animId, value));
+        }
+    }
 }

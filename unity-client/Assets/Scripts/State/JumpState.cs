@@ -6,12 +6,15 @@ public class JumpState : PlayerStateBase {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     bool jumping;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetPlayerController(animator);
+        LoadComponents(animator);
         jumping = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if(!_network.GetIdentity().owned)
+            return;
+
         if(!jumping && !pc.controller.isGrounded) {
             jumping = true;
         }
