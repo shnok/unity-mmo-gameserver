@@ -2,16 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Jump : PlayerStateBase {
+public class JumpState : PlayerStateBase {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    bool jumping;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetPlayerController(animator);      
+        SetPlayerController(animator);
+        jumping = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if(pc.controller.isGrounded && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f) {
-            SetBool("Jump", false);
+        if(!jumping && !pc.controller.isGrounded) {
+            jumping = true;
+        }
+
+        if(pc.controller.isGrounded && jumping) {
+           SetBool("Jump", false);
         }
 
         if(pc.KeyPressed()) {

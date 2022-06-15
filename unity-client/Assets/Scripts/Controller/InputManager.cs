@@ -30,7 +30,7 @@ public class InputManager : MonoBehaviour
         playerController.UpdateInputs(Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
 
         if(Input.GetKeyDown(KeyCode.Space)) {
-            playerController.Jump();
+           // playerController.Jump();
         }
     }
 }

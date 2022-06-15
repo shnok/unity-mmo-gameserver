@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour {
 
 	/* Components */
 	public CharacterController controller;
+	public Animator animator;
 
 	/*Rotate*/
 	private float _finalAngle;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour {
 	void Start() {
 		controller = GetComponent<CharacterController>();
 		networkTransform = GetComponent<NetworkTransform>();
+		animator = GetComponent<Animator>();
 	}
 
 	public void UpdateInputs(float x, float y) {

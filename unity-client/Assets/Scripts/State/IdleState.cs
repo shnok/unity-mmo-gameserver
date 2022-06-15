@@ -18,8 +18,9 @@ public class IdleState : PlayerStateBase
             SetBool("Moving", true);
         }
 
-        if(Input.GetKeyDown(KeyCode.Space) && pc.canMove) {
+        if(Input.GetKeyDown(KeyCode.Space) && pc.canMove && pc.controller.isGrounded && !animator.IsInTransition(0)) {
             SetBool("Jump", true);
+            pc.Jump();
         }
     }
 

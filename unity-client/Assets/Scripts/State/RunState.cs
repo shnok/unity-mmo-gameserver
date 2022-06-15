@@ -16,11 +16,12 @@ public class RunState : PlayerStateBase
             SetBool("Moving", false);
         }
 
-        if(Input.GetKeyDown(KeyCode.Space) && pc.canMove) {
+        if(Input.GetKeyDown(KeyCode.Space) && pc.canMove && pc.controller.isGrounded && !animator.IsInTransition(0)) {
             SetBool("Jump", true);
+            pc.Jump();
         }
 
-        if(Input.GetKeyDown(KeyCode.LeftShift) && pc.controller.isGrounded) {
+        if(Input.GetKeyDown(KeyCode.LeftShift) && pc.canMove && pc.controller.isGrounded) {
             pc.LookForward("input");
             SetBool("Dodge", true);
         }
