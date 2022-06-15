@@ -17,7 +17,7 @@ public abstract class Packet {
     public Packet(byte[] d) {
         _packetData = d;
 
-        Debug.Log("Received: [" + string.Join(",", d) + "]");
+        //Debug.Log("Received: [" + string.Join(",", d) + "]");
     }
 
     public void SetData(byte[] data) {
@@ -25,7 +25,7 @@ public abstract class Packet {
         _packetLength = data[1];
         _packetData = data;
 
-        Debug.Log("Sent: [" + string.Join(",", _packetData) + "]");
+       // Debug.Log("Sent: [" + string.Join(",", _packetData) + "]");
     }
 
     public byte[] GetData() {

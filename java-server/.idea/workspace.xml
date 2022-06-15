@@ -5,13 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6e86b1f-b4b3-4338-83d3-f6f3d23185c5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Resources/Player/Motions/Jump2.anim" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Resources/Player/Motions/Jump2.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Resources/Player/Simple.controller" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Resources/Player/Simple.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Scripts/Model/NetworkTransform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Scripts/Model/NetworkTransform.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Scripts/Network/ClientPacketHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Scripts/Network/ClientPacketHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Scripts/State/PlayerStateBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Scripts/State/PlayerStateBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/ClientPacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/World.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../unity-client/Logs/AssetImportWorker0.log" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Logs/AssetImportWorker0.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../unity-client/Logs/AssetImportWorker1.log" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Logs/AssetImportWorker1.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../unity-client/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,13 +86,19 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/shnok/World.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/AuthResponse.java</url>
-          <line>10</line>
-          <properties class="com.shnok.serverpackets.AuthResponse" method="&lt;init&gt;">
+          <url>file://$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java</url>
+          <line>45</line>
+          <properties class="com.shnok.GameClient" method="removeSelf">
             <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
           </properties>
-          <option name="timeStamp" value="4" />
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

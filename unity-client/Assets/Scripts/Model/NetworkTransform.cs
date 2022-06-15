@@ -1,10 +1,10 @@
 using UnityEngine;
 
 public class NetworkTransform : MonoBehaviour {
-    public NetworkIdentity identity; 
-    private Vector3 _lastPos, _newPos;
-    private float _newRot;
-    private float _lerpPos;
+    public NetworkIdentity identity;
+    private Vector3 _lastPos, _newPos, _lastRotForward;
+    private Quaternion _lastRot, _newRot;
+    private float _rotLerpValue, _posLerpValue;
 
     public void SetIdentity(NetworkIdentity i) {
        identity = i; 
@@ -16,12 +16,14 @@ public class NetworkTransform : MonoBehaviour {
     void Start() {
         _lastPos = transform.position;
         _newPos = transform.position;
-        _newRot = transform.eulerAngles.y;
+        _newRot = transform.rotation;
+        _lastRot = transform.rotation;
     }
 
     void Update() {
         if(identity.owned) {
             SharePosition();
+            ShareRotation();
         } else {
             LerpToPosition();
             LerpToRotation();
@@ -35,8 +37,11 @@ public class NetworkTransform : MonoBehaviour {
         }
     }
 
-    public void ShareRotation(float angle) {
-        ClientPacketHandler.GetInstance().UpdateRotation(angle);
+    public void ShareRotation() {
+        if(Vector3.Angle(_lastRotForward, transform.forward) >= 15.0f) {
+            _lastRotForward = transform.forward;
+            ClientPacketHandler.GetInstance().UpdateRotation(transform.eulerAngles.y);
+        }
     }
 
     public void ShareAnimation(int id, float value) {
@@ -45,23 +50,31 @@ public class NetworkTransform : MonoBehaviour {
     }
 
     public void LerpToPosition() {
-        if(Vector3.Distance(transform.position, _newPos) > 0.05f) {
-            transform.position = Vector3.Lerp (_lastPos, _newPos, _lerpPos);
-            _lerpPos += (1 / 0.10f) * Time.deltaTime;
-        }
+        transform.position = Vector3.Lerp(_lastPos, _newPos, _posLerpValue);
+        _posLerpValue += (1 / 0.10f) * Time.deltaTime;
     }
 
     public void LerpToRotation() {
-        transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler (Vector3.up * _newRot), Time.deltaTime * 7.5f);
+        if(Mathf.Abs(transform.rotation.eulerAngles.y - _newRot.eulerAngles.y) > 2f) {
+            transform.rotation = Quaternion.Lerp(_lastRot, _newRot, _rotLerpValue);
+            _rotLerpValue += Time.deltaTime * 7.5f;
+        }
     }
 
     public void MoveTo(Vector3 pos) {
         _newPos = pos;     
         _lastPos = transform.position;
-        _lerpPos = 0;  
+        _posLerpValue = 0;
     }
 
     public void RotateTo(float angle) {
-        _newRot = angle;
+        Quaternion rot = transform.rotation;
+        Vector3 eulerAngles = transform.rotation.eulerAngles;
+        eulerAngles.y = angle;
+        rot.eulerAngles = eulerAngles;
+
+        _newRot = rot;
+        _lastRot = transform.rotation;
+        _rotLerpValue = 0;
     }
 }

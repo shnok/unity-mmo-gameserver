@@ -12,7 +12,6 @@ public class CameraController : MonoBehaviour
 	public float camSpeed = 25f;
 
 	public Vector3 targetPos;
-	private InputManager inputManager;
 	public CameraCollisionDetection detector;
 	public static CameraController _instance;
     public static CameraController GetInstance() {
@@ -26,7 +25,6 @@ public class CameraController : MonoBehaviour
     }
 
     void Start() {
-		inputManager = InputManager.GetInstance();
         detector = new CameraCollisionDetection(GetComponent<Camera>(), target, camOffset);
     }
 

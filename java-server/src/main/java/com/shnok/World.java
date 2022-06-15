@@ -46,7 +46,7 @@ public class World {
     }
 
     public void removePlayer(GameObject player) {
-        _allPlayers.remove(player);
+        _allPlayers.remove(player.getName());
     }
 
     public GameObject getPlayer(String name) {

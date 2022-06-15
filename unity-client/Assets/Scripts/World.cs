@@ -58,6 +58,9 @@ public class World : MonoBehaviour
             go.GetComponent<InputManager>().enabled = true;
             Camera.main.GetComponent<CameraController>().target = go.transform;
             Camera.main.GetComponent<CameraController>().enabled = true;
+        } else {
+            go.GetComponent<PlayerController>().enabled = false;
+            go.GetComponent<InputManager>().enabled = false;
         }
         
         go.SetActive(true);  

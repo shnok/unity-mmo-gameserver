@@ -1,9 +1,6 @@
 package com.shnok;
 
-import com.shnok.clientpackets.AuthRequest;
-import com.shnok.clientpackets.RequestCharacterMove;
-import com.shnok.clientpackets.RequestCharacterRotate;
-import com.shnok.clientpackets.RequestSendMessage;
+import com.shnok.clientpackets.*;
 import com.shnok.model.PlayerInstance;
 import com.shnok.model.Point3D;
 import com.shnok.serverpackets.*;
@@ -43,6 +40,9 @@ public class ClientPacketHandler {
                 break;
             case 0x05:
                 onRequestCharacterRotate(data);
+                break;
+            case 0x06:
+                onRequestCharacterAnimation(data);
                 break;
         }
     }
@@ -116,5 +116,11 @@ public class ClientPacketHandler {
         RequestCharacterRotate packet = new RequestCharacterRotate(data);
         ObjectRotation objectRotation = new ObjectRotation(_client.getCurrentPlayer().getId(), packet.getAngle());
         Server.getInstance().broadcast(objectRotation, _client);
+    }
+
+    private void onRequestCharacterAnimation(byte[] data) {
+        RequestCharacterAnimation packet = new RequestCharacterAnimation(data);
+        ObjectAnimation objectAnimation = new ObjectAnimation(_client.getCurrentPlayer().getId(), packet.getAnimId(), packet.getValue());
+        Server.getInstance().broadcast(objectAnimation, _client);
     }
 }

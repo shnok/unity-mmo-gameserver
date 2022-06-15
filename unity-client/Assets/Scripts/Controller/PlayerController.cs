@@ -65,10 +65,6 @@ public class PlayerController : MonoBehaviour {
 			angle += Camera.main.transform.eulerAngles.y;
 		}
 
-		if(startAngle != angle && networkTransform.isActiveAndEnabled) {
-			networkTransform.ShareRotation(angle);
-		}
-
 		return angle;
 	}
 

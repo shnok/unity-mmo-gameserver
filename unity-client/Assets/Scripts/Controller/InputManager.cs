@@ -4,22 +4,16 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public static InputManager _instance;
     private CameraController cameraController;
     private PlayerController playerController;
-    public static InputManager GetInstance() {
-        return _instance;
-    }
 
     void Awake() {
-        if (_instance == null) {
-            _instance = this;
-        }
+
     }
     
     void Start() {
         cameraController = CameraController.GetInstance();
-        playerController = PlayerController.GetInstance();
+        playerController = transform.GetComponent<PlayerController>();
     }
 
     void Update() {
