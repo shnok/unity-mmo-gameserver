@@ -8,11 +8,12 @@ public class SwordAttackState : PlayerStateBase {
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        animator.ResetTrigger("ExitAttack");
-        animator.ResetTrigger("Attack");
         SetPlayerController(animator);
         start = Time.time;
         pc.canMove = false;
+        SetBool("Attack", false);
+        SetBool("ExitAttack", false);
+        SetBool("ForceExitAttack", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -20,7 +21,7 @@ public class SwordAttackState : PlayerStateBase {
         elapsed = Time.time - start;
         if(elapsed >= 0.3f) {
             if(Input.GetMouseButton(0)) {
-                SetTrigger("Attack");
+                SetBool("Attack", true);
                 if(!animator.GetNextAnimatorStateInfo(0).IsName("Attack1") && 
                     !animator.GetNextAnimatorStateInfo(0).IsName("Attack2") && 
                     !animator.GetNextAnimatorStateInfo(0).IsName("Attack3")) {
@@ -30,10 +31,10 @@ public class SwordAttackState : PlayerStateBase {
             if(elapsed >= 0.5f) {
                 pc.canMove = true;
                 if(elapsed >= 1f || animator.GetCurrentAnimatorStateInfo(0).IsName("Run")) {
-                    SetTrigger("ExitAttack");
+                    SetBool("ExitAttack", true);
                 }
                 if(animator.GetNextAnimatorStateInfo(0).IsName("Jump")) {
-                    SetTrigger("ForceExitAttack");
+                    SetBool("ForceExitAttack", true);
                 }
             }
         } else {
@@ -43,8 +44,9 @@ public class SwordAttackState : PlayerStateBase {
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        animator.ResetTrigger("Attack");
-        animator.ResetTrigger("ExitAttack");
+        SetBool("Attack", false);
+        SetBool("ExitAttack", false);
+        SetBool("ForceExitAttack", false);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

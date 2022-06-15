@@ -39,6 +39,11 @@ public class NetworkTransform : MonoBehaviour {
         ClientPacketHandler.GetInstance().UpdateRotation(angle);
     }
 
+    public void ShareAnimation(int id, float value) {
+        Debug.Log("Share animation");
+        ClientPacketHandler.GetInstance().UpdateAnimation(id, value);
+    }
+
     public void LerpToPosition() {
         if(Vector3.Distance(transform.position, _newPos) > 0.05f) {
             transform.position = Vector3.Lerp (_lastPos, _newPos, _lerpPos);

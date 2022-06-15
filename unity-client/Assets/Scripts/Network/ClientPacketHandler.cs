@@ -51,4 +51,9 @@ public class ClientPacketHandler
         RequestRotatePacket packet = new RequestRotatePacket(angle);
         _client.SendPacket(packet);
     }
+
+    public void UpdateAnimation(int anim, float value) {
+        RequestAnimPacket packet = new RequestAnimPacket(anim, value);
+        _client.SendPacket(packet);
+    }
 }

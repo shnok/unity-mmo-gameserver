@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6e86b1f-b4b3-4338-83d3-f6f3d23185c5" name="Default Changelist" comment="" />
+    <list default="true" id="f6e86b1f-b4b3-4338-83d3-f6f3d23185c5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Resources/Player/Motions/Jump2.anim" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Resources/Player/Motions/Jump2.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Resources/Player/Simple.controller" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Resources/Player/Simple.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Scripts/Model/NetworkTransform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Scripts/Model/NetworkTransform.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Scripts/Network/ClientPacketHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Scripts/Network/ClientPacketHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Scripts/State/PlayerStateBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Scripts/State/PlayerStateBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../unity-client/Logs/AssetImportWorker0.log" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Logs/AssetImportWorker0.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../unity-client/Logs/AssetImportWorker1.log" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Logs/AssetImportWorker1.log" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,13 +39,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "F:/Stock/Projects/unity-mmo/java-server"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/Stock/Projects/unity-mmo/java-server&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.shnok.serverpackets" />

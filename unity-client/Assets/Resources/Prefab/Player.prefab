@@ -1073,7 +1073,6 @@ GameObject:
   - component: {fileID: 1752075019}
   - component: {fileID: 1752075020}
   - component: {fileID: 1752075021}
-  - component: {fileID: -4544735914421529922}
   m_Layer: 8
   m_Name: Player
   m_TagString: player
@@ -1178,6 +1177,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 177531594d4642b4189b20af7d630654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  animator: {fileID: 0}
   moveDirection: {x: 0, y: 0, z: 0}
   _currentSpeed: 0
   defaultSpeed: 4
@@ -1202,21 +1203,6 @@ MonoBehaviour:
     _model: 0
     _position: {x: 0, y: 0, z: 0}
     owned: 0
---- !u!114 &-4544735914421529922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 167764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 852945e8ec9a0cc44ba24c5a4b57f2b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackValue: 0
-  editorState: 0
-  local: 0
 --- !u!1 &173668
 GameObject:
   m_ObjectHideFlags: 0
