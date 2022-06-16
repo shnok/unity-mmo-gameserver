@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour {
 
 	private float GetRotationValue(float angle) {
 		float startAngle = angle;
-		if(KeyPressed() && canMove) {
+		if(InputManager.GetInstance().AxisPressed() && canMove) {
 			angle = Mathf.Atan2(_axis.x, _axis.y) * Mathf.Rad2Deg;
 			angle = Mathf.Round(angle / 45f);
 			angle *= 45f;
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		/* Handle input direction */
-		if(KeyPressed() && controller.isGrounded && canMove) {
+		if(InputManager.GetInstance().AxisPressed() && controller.isGrounded && canMove) {
 			direction = _axis.x * right + _axis.y * forward;
 		} else if(!controller.isGrounded) {
 			direction = transform.forward;
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour {
 	private float GetMoveSpeed(float speed) {
 		float smoothDuration = 0.2f;
 
-		if(KeyPressed()) {
+		if(InputManager.GetInstance().AxisPressed()) {
 			speed = defaultSpeed;
 		} else if(speed > 0 && controller.isGrounded) {
 			speed -= (defaultSpeed / smoothDuration) * Time.deltaTime;
@@ -110,9 +110,9 @@ public class PlayerController : MonoBehaviour {
 		return speed < 0 ? 0 : speed;
 	}
 
-	public bool KeyPressed() {
+	/*public bool KeyPressed() {
 		return _axis.x != 0 || _axis.y != 0;
-	}
+	}*/
 
 	public void Jump() {
 		if(controller.isGrounded && canMove) {

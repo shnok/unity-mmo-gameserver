@@ -83,7 +83,7 @@ public class AnimationController : MonoBehaviour {
 		SetFloat ("Speed", pc._currentSpeed);
 
 		/* Run */
-		if (pc.KeyPressed() && pc.canMove) {
+		if (InputManager.GetInstance().AxisPressed() && pc.canMove) {
 			SetBool ("Moving", true);
 		} else {
 			SetBool ("Moving", false);

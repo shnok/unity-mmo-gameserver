@@ -6,7 +6,7 @@ public class RollState : PlayerStateBase {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
-        SetBool("Dodge", false);
+        animator.SetBool("Dodge", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

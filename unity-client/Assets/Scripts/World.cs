@@ -39,11 +39,13 @@ public class World : MonoBehaviour
         }
     }
 
-    public void SpawnPlayer(NetworkIdentity identity, PlayerStatus player) {              
+    public void SpawnPlayer(NetworkIdentity identity, PlayerStatus player) {
+        Debug.Log("New player");
         _eventProcessor.QueueEvent(() => InstantiatePlayer(identity, player));
     }
 
     public void InstantiatePlayer(NetworkIdentity identity, PlayerStatus status) {
+        Debug.Log("Instantiate Player");
         GameObject go = (GameObject)Instantiate(playerPrefab, identity.GetPosition(), Quaternion.identity);
         NetworkTransform networkTransform = go.GetComponent<NetworkTransform>();
         networkTransform.SetIdentity(identity); 
@@ -55,12 +57,13 @@ public class World : MonoBehaviour
 
         if(identity.IsOwned()) {
             go.GetComponent<PlayerController>().enabled = true;
-            go.GetComponent<InputManager>().enabled = true;
             Camera.main.GetComponent<CameraController>().target = go.transform;
             Camera.main.GetComponent<CameraController>().enabled = true;
+            Camera.main.GetComponent<InputManager>().SetCameraController(Camera.main.GetComponent<CameraController>());
+            Camera.main.GetComponent<InputManager>().SetPlayerController(go.GetComponent<PlayerController>());
+            Camera.main.GetComponent<InputManager>().enabled = true;
         } else {
             go.GetComponent<PlayerController>().enabled = false;
-            go.GetComponent<InputManager>().enabled = false;
         }
         
         go.SetActive(true);  

@@ -112,6 +112,7 @@ public class ServerPacketHandler
         ReceiveMessagePacket packet = new ReceiveMessagePacket(data);
         String sender = packet.GetSender();
         String text = packet.GetText();
+        Debug.Log("MEsasge receive");
         Chat.AddMessage(sender, text);
     }
 

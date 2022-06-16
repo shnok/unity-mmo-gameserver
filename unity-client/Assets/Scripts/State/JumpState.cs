@@ -23,7 +23,7 @@ public class JumpState : PlayerStateBase {
            SetBool("Jump", false);
         }
 
-        if(pc.KeyPressed()) {
+        if(InputManager.GetInstance().AxisPressed()) {
             SetBool("Moving", true);
         }
     }

@@ -23,6 +23,9 @@ public class UIOffline : MonoBehaviour
         var finalString = new String(stringChars);
 
         field.text = finalString;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void Update() {

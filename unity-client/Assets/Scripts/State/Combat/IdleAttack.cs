@@ -13,11 +13,9 @@ public class IdleAttack : PlayerStateBase {
         if(!_network.GetIdentity().owned)
             return;
 
-        if(Input.GetMouseButtonDown(0) && pc.controller.isGrounded && (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))) {  
-            SetTrigger("Attack");
-            if(!animator.GetNextAnimatorStateInfo(0).IsName("Attack1")) {
-                pc.LookForward("camera");
-            }
+        if(InputManager.GetInstance().Attack() && !animator.GetNextAnimatorStateInfo(0).IsName("Attack1") && pc.controller.isGrounded && (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))) {  
+            SetBool("Attack", true);         
+            pc.LookForward("camera");   
         }
     }
 

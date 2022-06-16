@@ -7,8 +7,8 @@ public class DefaultClient : MonoBehaviour {
     static AsynchronousClient client;
     public Player currentPlayer;
     public string username; 
-    private static DefaultClient _instance;
 
+    private static DefaultClient _instance;
     public static DefaultClient GetInstance() {
         return _instance;
     }
@@ -47,6 +47,7 @@ public class DefaultClient : MonoBehaviour {
     }
  
     public void Disconnect() {
+        Debug.Log("Disconnect");
         GameStateManager.SetState(GameState.MENU);
     }
 
@@ -57,10 +58,13 @@ public class DefaultClient : MonoBehaviour {
     }
 
     public void OnDisconnectReady() {
-        client.Disconnect();
+        if(client != null) {
+            client.Disconnect();
+            client = null;
+        }
+
         World.GetInstance().objects.Clear();
         World.GetInstance().players.Clear();
         Chat.Clear();     
-        client = null;   
     }
 }

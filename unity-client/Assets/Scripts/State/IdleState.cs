@@ -17,11 +17,11 @@ public class IdleState : PlayerStateBase
             return;
 
         /* Run */
-        if(pc.KeyPressed() && pc.canMove) {
+        if(InputManager.GetInstance().AxisPressed() && pc.canMove) {
             SetBool("Moving", true);
         }
 
-        if(Input.GetKeyDown(KeyCode.Space) && pc.canMove && pc.controller.isGrounded && !animator.IsInTransition(0)) {
+        if(InputManager.GetInstance().Jump() && pc.canMove && pc.controller.isGrounded && !animator.IsInTransition(0)) {
             SetBool("Jump", true);
             pc.Jump();
         }

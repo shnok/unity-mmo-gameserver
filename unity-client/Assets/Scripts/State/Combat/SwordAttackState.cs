@@ -11,9 +11,9 @@ public class SwordAttackState : PlayerStateBase {
         LoadComponents(animator);
         start = Time.time;
         pc.canMove = false;
-        SetBool("Attack", false);
-        SetBool("ExitAttack", false);
-        SetBool("ForceExitAttack", false);
+        animator.SetBool("Attack", false);
+        animator.SetBool("ExitAttack", false);
+        animator.SetBool("ForceExitAttack", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -23,7 +23,7 @@ public class SwordAttackState : PlayerStateBase {
 
         elapsed = Time.time - start;
         if(elapsed >= 0.3f) {
-            if(Input.GetMouseButton(0)) {
+            if(InputManager.GetInstance().Attack()) {
                 SetBool("Attack", true);
                 if(!animator.GetNextAnimatorStateInfo(0).IsName("Attack1") && 
                     !animator.GetNextAnimatorStateInfo(0).IsName("Attack2") && 
@@ -47,9 +47,9 @@ public class SwordAttackState : PlayerStateBase {
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetBool("Attack", false);
-        SetBool("ExitAttack", false);
-        SetBool("ForceExitAttack", false);
+        animator.SetBool("Attack", false);
+        animator.SetBool("ExitAttack", false);
+        animator.SetBool("ForceExitAttack", false);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
