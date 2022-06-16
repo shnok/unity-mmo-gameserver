@@ -19,11 +19,11 @@ public class PlayerInfoPacket : ServerPacket {
             _identity.SetPosY(ReadF());
             _identity.SetPosZ(ReadF());
             _identity.SetOwned(_identity.GetName() == DefaultClient.GetInstance().username);
-            _status.SetLevel(ReadI());
-            _status.SetHp(ReadI());
-            _status.SetMaxHp(ReadI());
-            _status.SetStamina(ReadI());
-            _status.SetMaxStamina(ReadI());
+            _status.Level = ReadI();
+            _status.Hp = ReadI();
+            _status.MaxHp = ReadI();
+            _status.Stamina = ReadI();
+            _status.MaxStamina = ReadI();
         } catch(Exception e) {
             Debug.Log(e);
         }

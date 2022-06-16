@@ -74,7 +74,7 @@ public class PlayerStateBase : StateMachineBehaviour
 		if(_network.GetIdentity().owned) {
 			int index = SerializeAnimatorInfo(name);
 			if(index != -1) {
-				_network.ShareAnimation(index, value);
+				_network.ShareAnimation((byte)index, value);
             }
         }
 	}

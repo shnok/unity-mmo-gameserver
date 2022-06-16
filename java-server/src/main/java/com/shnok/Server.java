@@ -66,6 +66,16 @@ public class Server {
         }
     }
 
+    public void broadcastAll(ServerPacket packet) {
+        synchronized (_clients) {
+            for(GameClient c : _clients) {
+                if(c.authenticated) {
+                    c.sendPacket(packet);
+                }
+            }
+        }
+    }
+
     public boolean userExists(String user) {
         synchronized (_clients) {
             for(GameClient c : _clients) {

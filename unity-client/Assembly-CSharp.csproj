@@ -89,7 +89,7 @@
     <Compile Include="Assets\Scripts\State\Combat\SwordAttackState.cs" />
     <Compile Include="Assets\OldSchool\EntityAnimationOld.cs" />
     <Compile Include="Assets\Scripts\Network\ClientPackets\AuthRequestPacket.cs" />
-    <Compile Include="Assets\Scripts\Model\Player.cs" />
+    <Compile Include="Assets\Scripts\Model\Entity.cs" />
     <Compile Include="Assets\Scripts\UI\UIOnline.cs" />
     <Compile Include="Assets\Scripts\Network\ServerPackets\ReceiveMessagePacket.cs" />
     <Compile Include="Assets\Scripts\Network\AsynchronousClient.cs" />
@@ -106,6 +106,10 @@
     <Compile Include="Assets\Scripts\Network\Packet.cs" />
     <Compile Include="Assets\Scripts\State\RollState.cs" />
     <Compile Include="Assets\Scripts\GameStateManager.cs" />
+    <Compile Include="Assets\Scripts\Model\Status.cs" />
+    <Compile Include="Assets\Scripts\Model\NpcStatus.cs" />
+    <Compile Include="Assets\Scripts\Network\ClientPackets\InflictAttackPacket.cs" />
+    <Compile Include="Assets\Scripts\Network\ServerPackets\InflictDamagePacket.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

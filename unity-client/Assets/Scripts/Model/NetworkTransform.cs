@@ -50,7 +50,7 @@ public class NetworkTransform : MonoBehaviour {
         }
     }
 
-    public void ShareAnimation(int id, float value) {
+    public void ShareAnimation(byte id, float value) {
         Debug.Log("Share animation");
         ClientPacketHandler.GetInstance().UpdateAnimation(id, value);
     }

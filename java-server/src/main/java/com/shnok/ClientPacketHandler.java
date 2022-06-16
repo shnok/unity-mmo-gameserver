@@ -44,6 +44,9 @@ public class ClientPacketHandler {
             case 0x06:
                 onRequestCharacterAnimation(data);
                 break;
+            case 0x07:
+                onRequestAttack(data);
+                break;
         }
     }
 
@@ -122,5 +125,12 @@ public class ClientPacketHandler {
         RequestCharacterAnimation packet = new RequestCharacterAnimation(data);
         ObjectAnimation objectAnimation = new ObjectAnimation(_client.getCurrentPlayer().getId(), packet.getAnimId(), packet.getValue());
         Server.getInstance().broadcast(objectAnimation, _client);
+    }
+
+    private void onRequestAttack(byte[] data) {
+        RequestAttack packet = new RequestAttack(data);
+        ApplyDamage applyDamage = new ApplyDamage(_client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackId(), packet.getDamage());
+        System.out.println(packet.getTargetId());
+        Server.getInstance().broadcastAll(applyDamage);
     }
 }

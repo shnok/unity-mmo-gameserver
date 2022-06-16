@@ -7,7 +7,7 @@ public class World : MonoBehaviour
 {
     public GameObject playerPrefab;
     private EventProcessor _eventProcessor;
-    public Dictionary<string, Player> players = new Dictionary<string, Player>();
+    public Dictionary<string, Entity> players = new Dictionary<string, Entity>();
     public Dictionary<int, NetworkTransform> objects = new Dictionary<int, NetworkTransform>();
     public static World _instance;
     public static World GetInstance() {
@@ -28,7 +28,7 @@ public class World : MonoBehaviour
         if(objects.TryGetValue(id, out transform)) {
             string name = transform.GetIdentity().GetName();
 
-            Player player;
+            Entity player;
             if(players.TryGetValue(name, out player)) {
                players.Remove(name);
             }
@@ -48,9 +48,9 @@ public class World : MonoBehaviour
         Debug.Log("Instantiate Player");
         GameObject go = (GameObject)Instantiate(playerPrefab, identity.GetPosition(), Quaternion.identity);
         NetworkTransform networkTransform = go.GetComponent<NetworkTransform>();
-        networkTransform.SetIdentity(identity); 
-        Player player = go.GetComponent<Player>();
-        player.SetStatus(status);   
+        networkTransform.SetIdentity(identity);
+        Entity player = go.GetComponent<Entity>();
+        player.Status = status;   
 
         players.Add(identity.GetName(), player);     
         objects.Add(identity.GetId(), networkTransform);  
@@ -66,6 +66,7 @@ public class World : MonoBehaviour
             go.GetComponent<PlayerController>().enabled = false;
         }
         
+        go.transform.name = identity.GetName();
         go.SetActive(true);  
     }
 
@@ -87,6 +88,15 @@ public class World : MonoBehaviour
         NetworkTransform networkTransform;
         if(objects.TryGetValue(id, out networkTransform)) {
             _eventProcessor.QueueEvent(() => networkTransform.SetAnimationProperty(animId, value));
+        }
+    }
+
+    public void InflictDamageTo(int sender, int target, byte attackId, int value) {
+        NetworkTransform networkTransform;
+        if(objects.TryGetValue(target, out networkTransform)) {
+            _eventProcessor.QueueEvent(() => {
+                networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
+            });
         }
     }
 }

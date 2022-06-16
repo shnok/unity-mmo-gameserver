@@ -40,6 +40,10 @@ public class InputManager : MonoBehaviour
             _attack = false;
         }
 
+        if(Input.GetKeyDown(KeyCode.X)) {
+            _playerController.GetComponentInParent<Entity>().Attack(5);
+        }
+
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) {
             ChatInput.GetInstance().ToggleOpenChat();
 

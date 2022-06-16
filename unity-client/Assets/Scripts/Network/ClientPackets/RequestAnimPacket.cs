@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class RequestAnimPacket : ClientPacket {
 
-    public RequestAnimPacket(int anim, float value) : base(0x06) {
-        WriteI(anim);
+    public RequestAnimPacket(byte anim, float value) : base(0x06) {
+        WriteB(anim);
         WriteF(value);
 
         BuildPacket();

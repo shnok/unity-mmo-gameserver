@@ -5,7 +5,7 @@ using System.Collections;
 
 public class DefaultClient : MonoBehaviour {
     static AsynchronousClient client;
-    public Player currentPlayer;
+    public Entity currentPlayer;
     public string username; 
 
     private static DefaultClient _instance;

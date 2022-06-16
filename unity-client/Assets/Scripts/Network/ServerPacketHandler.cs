@@ -58,6 +58,9 @@ public class ServerPacketHandler
             case 08:
                 onUpdateAnimation(data);
                 break;
+            case 09:
+                onInflictDamage(data);
+                break;
         }
     }
 
@@ -112,7 +115,6 @@ public class ServerPacketHandler
         ReceiveMessagePacket packet = new ReceiveMessagePacket(data);
         String sender = packet.GetSender();
         String text = packet.GetText();
-        Debug.Log("MEsasge receive");
         Chat.AddMessage(sender, text);
     }
 
@@ -155,5 +157,8 @@ public class ServerPacketHandler
         float value = packet.getValue();
         World.GetInstance().UpdateObject(id, animId, value);
     }
-
+    private void onInflictDamage(byte[] data) {
+        InflictDamagePacket packet = new InflictDamagePacket(data);
+        World.GetInstance().InflictDamageTo(packet.SenderId, packet.TargetId, packet.AttackId, packet.Value);
+    }
 }

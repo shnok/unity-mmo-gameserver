@@ -52,8 +52,13 @@ public class ClientPacketHandler
         _client.SendPacket(packet);
     }
 
-    public void UpdateAnimation(int anim, float value) {
+    public void UpdateAnimation(byte anim, float value) {
         RequestAnimPacket packet = new RequestAnimPacket(anim, value);
+        _client.SendPacket(packet);
+    }
+
+    public void InflictAttack(int targetId, byte attackId, int damage) {
+        InflictAttackPacket packet = new InflictAttackPacket(targetId, attackId, damage);
         _client.SendPacket(packet);
     }
 }
