@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-public abstract class GameServerThread extends Thread {
+public abstract class ClientThread extends Thread {
     private final Socket _connection;
     private final String _connectionIp;
     private InputStream _in;
@@ -19,7 +19,7 @@ public abstract class GameServerThread extends Thread {
     abstract void removeSelf();
     abstract void handlePacket(byte[] data);
 
-    public GameServerThread(Socket con) {
+    public ClientThread(Socket con) {
         _connection = con;
         _connectionIp = con.getInetAddress().getHostAddress();
 

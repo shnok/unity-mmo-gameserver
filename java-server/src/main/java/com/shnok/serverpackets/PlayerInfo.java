@@ -1,6 +1,6 @@
 package com.shnok.serverpackets;
 
-import com.shnok.model.PlayerInstance;
+import com.shnok.model.entities.PlayerInstance;
 
 public class PlayerInfo extends ServerPacket {
     public PlayerInfo(PlayerInstance player) {

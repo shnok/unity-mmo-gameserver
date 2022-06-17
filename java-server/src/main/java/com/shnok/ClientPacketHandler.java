@@ -1,14 +1,13 @@
 package com.shnok;
 
 import com.shnok.clientpackets.*;
-import com.shnok.model.PlayerInstance;
+import com.shnok.model.entities.PlayerInstance;
 import com.shnok.model.Point3D;
 import com.shnok.serverpackets.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.util.Map;
 
 public class ClientPacketHandler {

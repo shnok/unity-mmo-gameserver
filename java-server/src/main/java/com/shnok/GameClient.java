@@ -1,13 +1,13 @@
 package com.shnok;
 
-import com.shnok.model.PlayerInstance;
+import com.shnok.model.entities.PlayerInstance;
 import com.shnok.serverpackets.PlayerInfo;
 import com.shnok.serverpackets.RemoveObject;
 import com.shnok.serverpackets.SystemMessage;
 
 import java.net.Socket;
 
-public class GameClient extends GameServerThread {
+public class GameClient extends ClientThread {
     private ClientPacketHandler _cph;
     private String _username;
     private PlayerInstance _player;

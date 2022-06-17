@@ -6,7 +6,7 @@ package com.shnok.model;
  * Such as : Players or AIs<BR>
  * <BR>
  */
-public class Entity extends GameObject {
+public  abstract class Entity extends GameObject {
     private EntityStatus _status;
 
     public Entity(int id) {
