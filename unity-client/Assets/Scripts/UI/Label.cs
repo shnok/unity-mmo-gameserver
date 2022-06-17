@@ -3,60 +3,46 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Label : MonoBehaviour {
+	private bool _visible;
+	private float _distance;
+	private GameObject _target;
 
-#if false
-	public bool isVisible;
-	public float viewDistance = 15f;
+	public RectTransform _healthBar;
+	public RectTransform _barContour;
+	public Text _name;
+	public Text _level;
 
-	public Transform target;
-
-	public float height;
-	private Camera camera;
-
-	private NetworkTransform nt;
-	private NetworkManager nm;
-
-	void Start() {
-		nm = GameObject.Find ("Network").GetComponent<NetworkManager> ();
-		camera = Camera.main;
-	}
-		
-	void Update() {
-		CheckState ();
+    void Start() {
+		_healthBar = transform.GetChild(0).Find("HealthBar").GetComponent<RectTransform>();
+		_barContour = transform.GetChild(0).Find("Contour").GetComponent<RectTransform>();
+		_level = transform.GetChild(0).Find("Level").GetComponent<Text>();
+		_name = transform.GetChild(0).Find("Name").GetComponent<Text>();
 	}
 
-
-	private void CheckState() {
-
-		if(target == null) {
-			Destroy (this.gameObject);
-			return;
+    void Update() {
+		if(_target == null) {
+			Destroy(gameObject);
 		}
-			
-		Vector3 viewPort = camera.WorldToViewportPoint (target.position);
 
-		bool insideView = viewPort.x <= 1 && viewPort.x >= 0 && viewPort.y <= 1 && viewPort.y >= 0 && viewPort.z >= -0.2f;
-		bool inRange = Vector3.Distance (target.position, nm.user.transform.position) < viewDistance;
+		_visible = Camera.main.GetComponent<CameraController>().IsVisible(_target);
 
-		isVisible = insideView && inRange;
+		if(_visible) {
+			transform.position = Camera.main.WorldToScreenPoint(_target.transform.position + Vector3.up * 1.25f);
+			transform.GetChild(0).gameObject.SetActive(true);
 
-		if(isVisible) {
-			if (!GetComponent<Text>().enabled) {
-				transform.position = camera.WorldToScreenPoint (target.position + Vector3.up * height);;
-				GetComponent<Text>().enabled = true;
-			}
+			Status targetStatus = _target.GetComponent<Entity>().status;
+			float hpPercent = (float)targetStatus.Hp / (float)targetStatus.MaxHp;
+			hpPercent = Mathf.Clamp(hpPercent, 0.0f, 1.0f);
+			_healthBar.sizeDelta = new Vector2(hpPercent * _barContour.sizeDelta.x, _healthBar.sizeDelta.y);
+			_level.text = targetStatus.Level.ToString();
+			_name.text = _target.transform.name;
 		} else {
-			GetComponent<Text>().enabled = false;
-		}
-
-	}
-
-
-	void LateUpdate() {
-		if(isVisible && target!=null) {
-			transform.position = camera.WorldToScreenPoint (target.position + Vector3.up * height);
+			transform.GetChild(0).gameObject.SetActive(false);
 		}
 	}
-#endif 
+
+	public void SetTarget(GameObject target) {
+		_target = target;
+	}
 
 }

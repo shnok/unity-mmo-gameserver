@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class World : MonoBehaviour
 {
     public GameObject playerPrefab;
+    public GameObject labelPrefab;
     private EventProcessor _eventProcessor;
     public Dictionary<string, Entity> players = new Dictionary<string, Entity>();
     public Dictionary<int, NetworkTransform> objects = new Dictionary<int, NetworkTransform>();
@@ -20,6 +21,7 @@ public class World : MonoBehaviour
         }
         
         playerPrefab = Resources.Load("Prefab/Player") as GameObject;
+        labelPrefab = Resources.Load("Prefab/EntityLabel") as GameObject;
         _eventProcessor = gameObject.GetComponent<EventProcessor>();
     }
 
@@ -65,7 +67,17 @@ public class World : MonoBehaviour
         }
         
         go.transform.name = identity.GetName();
-        go.SetActive(true);  
+        go.SetActive(true);
+
+        InstantiateLabel(go);
+    }
+
+    public void InstantiateLabel(GameObject target) {
+        GameObject go = (GameObject)Instantiate(labelPrefab, Vector3.zero, Quaternion.identity);  
+        go.GetComponent<Label>().SetTarget(target);
+        go.GetComponent<Label>().enabled = true;
+        go.transform.SetParent(GameObject.Find("UI").transform);
+        go.SetActive(true);
     }
 
     public void UpdateObject(int id, Vector3 position) {

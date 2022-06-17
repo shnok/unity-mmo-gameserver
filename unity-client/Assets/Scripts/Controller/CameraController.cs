@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class CameraController : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class CameraController : MonoBehaviour
 	public Vector3 targetPos;
 	public CameraCollisionDetection detector;
 	public static CameraController _instance;
+
     public static CameraController GetInstance() {
         return _instance;
     }
@@ -32,6 +34,16 @@ public class CameraController : MonoBehaviour
 		detector.DetectCollision(camDistance);
 	}
 
+	public bool IsVisible(GameObject target) {
+		if(Vector3.Angle(target.transform.position - transform.position, transform.forward) <= Camera.main.fieldOfView) {
+            RaycastHit hit;
+			if(Physics.Linecast(transform.position, target.transform.position + Vector3.up, out hit, ~LayerMask.GetMask("Entity"))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public void UpdateInputs(float xi, float yi) {
 		x += xi * camSpeed * 0.1f;
 		y -= yi * camSpeed * 0.1f;
@@ -43,22 +55,26 @@ public class CameraController : MonoBehaviour
 	}
 
     void FixedUpdate() {
+		UpdatePosition();		
+    }
+
+	private void UpdatePosition() {
 		Quaternion rotation = Quaternion.Euler(y, x, 0);
-		transform.rotation = rotation;			
-		
+		transform.rotation = rotation;
+
 		float adjustedDistance = detector.GetCameraDistance();
-		
+
 		if(adjustedDistance > Vector3.Distance(targetPos + camOffset, transform.position)) {
 			currentDistance += ((adjustedDistance - currentDistance) / 0.2f) * Time.deltaTime;
 		} else {
 			currentDistance -= ((currentDistance - adjustedDistance) / 0.075f) * Time.deltaTime;
-		}		
-		
+		}
+
 		targetPos = target.position + camOffset;
 		Vector3 adjustedPosition = rotation * (Vector3.forward * -currentDistance) + targetPos;
 
-		transform.position = adjustedPosition;		
-    }
+		transform.position = adjustedPosition;
+	}
 
 	private float ClampAngle(float angle, float min, float max) {
 		if (angle < -360F)

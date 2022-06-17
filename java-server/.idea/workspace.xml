@@ -6,15 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f6e86b1f-b4b3-4338-83d3-f6f3d23185c5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/ClientPacketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/RequestAttack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/RequestAttack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/RequestCharacterRotate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/clientpackets/RequestCharacterRotate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ApplyDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ApplyDamage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ObjectAnimation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ObjectAnimation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../unity-client/.vs/unity-client/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/.vs/unity-client/v17/.suo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../unity-client/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../unity-client/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/UserSettings/EditorUserSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Resources/Prefab/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Resources/Prefab/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Resources/Prefab/training_dummy.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Resources/Prefab/training_dummy.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../unity-client/Assets/Scripts/Controller/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/Assets/Scripts/Controller/CameraController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
