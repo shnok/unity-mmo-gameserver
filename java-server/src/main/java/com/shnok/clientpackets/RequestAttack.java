@@ -2,25 +2,18 @@ package com.shnok.clientpackets;
 
 public class RequestAttack extends ClientPacket {
     private int targetId;
-    private byte attackId;
-    private int damage;
-
+    private byte attackType;
     public RequestAttack(byte[] data) {
         super(data);
         targetId = readI();
-        attackId = readB();
-        damage = readI();
+        attackType = readB();
     }
 
     public int getTargetId() {
         return targetId;
     }
 
-    public byte getAttackId() {
-        return attackId;
-    }
-
-    public int getDamage() {
-        return damage;
+    public byte getAttackType() {
+        return attackType;
     }
 }

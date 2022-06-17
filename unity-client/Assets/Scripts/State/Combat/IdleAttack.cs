@@ -6,6 +6,7 @@ public class IdleAttack : PlayerStateBase {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
+        animator.GetComponentInChildren<Xft.XWeaponTrail>(true).Deactivate();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -13,7 +14,7 @@ public class IdleAttack : PlayerStateBase {
         if(!_network.GetIdentity().owned)
             return;
 
-        if(InputManager.GetInstance().Attack() && !animator.GetNextAnimatorStateInfo(0).IsName("Attack1") && pc.controller.isGrounded && (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))) {  
+        if(InputManager.GetInstance().Attack() && !animator.GetNextAnimatorStateInfo(0).IsName("Attack1") && pc.controller.isGrounded && (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))) {   
             SetBool("Attack", true);         
             pc.LookForward("camera");   
         }

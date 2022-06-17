@@ -129,7 +129,7 @@ public class ClientPacketHandler {
 
     private void onRequestAttack(byte[] data) {
         RequestAttack packet = new RequestAttack(data);
-        ApplyDamage applyDamage = new ApplyDamage(_client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackId(), packet.getDamage());
+        ApplyDamage applyDamage = new ApplyDamage(_client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), 1);
         System.out.println(packet.getTargetId());
         Server.getInstance().broadcastAll(applyDamage);
     }

@@ -40,12 +40,10 @@ public class World : MonoBehaviour
     }
 
     public void SpawnPlayer(NetworkIdentity identity, PlayerStatus player) {
-        Debug.Log("New player");
         _eventProcessor.QueueEvent(() => InstantiatePlayer(identity, player));
     }
 
     public void InstantiatePlayer(NetworkIdentity identity, PlayerStatus status) {
-        Debug.Log("Instantiate Player");
         GameObject go = (GameObject)Instantiate(playerPrefab, identity.GetPosition(), Quaternion.identity);
         NetworkTransform networkTransform = go.GetComponent<NetworkTransform>();
         networkTransform.SetIdentity(identity);
@@ -92,11 +90,15 @@ public class World : MonoBehaviour
     }
 
     public void InflictDamageTo(int sender, int target, byte attackId, int value) {
-        NetworkTransform networkTransform;
-        if(objects.TryGetValue(target, out networkTransform)) {
-            _eventProcessor.QueueEvent(() => {
-                networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
-            });
+        NetworkTransform senderNetworkTransform;
+        NetworkTransform targetNetworkTransform;
+        if(objects.TryGetValue(sender, out senderNetworkTransform)) {
+            if(objects.TryGetValue(target, out targetNetworkTransform)) {
+                _eventProcessor.QueueEvent(() => {
+                    //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
+                    Combat.GetInstance().ApplyDamage(senderNetworkTransform.transform, targetNetworkTransform.transform, attackId, value);
+                });
+            }
         }
     }
 }

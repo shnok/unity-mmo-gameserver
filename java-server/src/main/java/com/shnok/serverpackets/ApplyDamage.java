@@ -1,11 +1,11 @@
 package com.shnok.serverpackets;
 
 public class ApplyDamage extends ServerPacket {
-    public ApplyDamage(int sender, int target, byte attackId, int value) {
+    public ApplyDamage(int sender, int target, byte attackType, int value) {
         super((byte)0x09);
         writeI(sender);
         writeI(target);
-        writeB(attackId);
+        writeB(attackType);
         writeI(value);
 
         buildPacket();

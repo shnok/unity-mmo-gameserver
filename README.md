@@ -24,7 +24,7 @@ An honest try at making an online action rpg demo with java (server) and unity3D
 # 0x06 : RequestAnimPacket
 [Byte: `animation id` | Float: `value`]
 # 0x07 : RequestAttack
-[Int: `target id` | Byte: `attack id` | Int: `damage`]
+[Int: `target id` | Byte: `attack type`]
 ```
 
 ## Server Packets
@@ -53,6 +53,6 @@ An honest try at making an online action rpg demo with java (server) and unity3D
 # 0x08 : ObjectAnimation
 [Int: `object id` | Byte: `animation id` | Float: `value`]
 # 0x09 : ApplyDamage
-[Int: `sender id` | Int: `target id` | Byte: `attack id` | Int: `value`]
+[Int: `sender id` | Int: `target id` | Byte: `attack type` | Int: `value`]
 
 ```

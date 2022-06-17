@@ -41,7 +41,8 @@ public class InputManager : MonoBehaviour
         }
 
         if(Input.GetKeyDown(KeyCode.X)) {
-            _playerController.GetComponentInParent<Entity>().Attack(5);
+            if(GameObject.Find("test") != null)
+                Combat.GetInstance().Attack(GameObject.Find("test").transform, AttackType.AutoAttack);
         }
 
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) {

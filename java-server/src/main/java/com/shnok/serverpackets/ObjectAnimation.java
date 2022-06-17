@@ -9,6 +9,7 @@ public class ObjectAnimation extends ServerPacket {
         writeI(id);
         writeB(animId);
         writeF(value);
+        System.out.println("Anim:" + id + ":" + animId + ":" + value);
         buildPacket();
     }
 }

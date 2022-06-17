@@ -45,6 +45,7 @@ public class GameClient extends GameServerThread {
     @Override
     void removeSelf() {
         if(authenticated) {
+            authenticated = false;
             Server.getInstance().broadcast(new SystemMessage(SystemMessage.MessageType.USER_LOGGED_OFF, _username), this);
             Server.getInstance().broadcast(new RemoveObject(_player.getId()), this);
             World.getInstance().removePlayer(_player);

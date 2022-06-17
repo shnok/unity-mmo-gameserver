@@ -7,14 +7,13 @@ public class Entity : MonoBehaviour {
     public Status Status { get => status; set => status = value; }
 
     /* Called when ApplyDamage packet is received */
-    public void ApplyDamage(int sender, byte attackId, int value) {
-        Debug.Log(_network.GetIdentity().GetName() + " received " + value + " damage (s) from " + sender);
-        Debug.Log(transform.name);
+    public void ApplyDamage(byte attackId, int value) {
+        status.Hp--;
     }
 
     /* Notify server that entity got attacked */
-    public void Attack(int damage) {
-        ClientPacketHandler.GetInstance().InflictAttack(_network.GetIdentity().GetId(), 0, damage);
+    public void Attack(AttackType attackType) {
+        ClientPacketHandler.GetInstance().InflictAttack(_network.GetIdentity().GetId(), attackType);
     }
 
     void Start() {

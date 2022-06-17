@@ -6,8 +6,6 @@ public class RequestCharacterRotate extends ClientPacket {
     public RequestCharacterRotate(byte[] data) {
         super(data);
         _angle = readF();
-
-        System.out.println(_angle);
     }
 
     public float getAngle() {

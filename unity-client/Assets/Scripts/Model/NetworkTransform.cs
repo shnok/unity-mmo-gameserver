@@ -35,15 +35,17 @@ public class NetworkTransform : MonoBehaviour {
     }
 
     public void SharePosition() {
-        if(Vector3.Distance(transform.position, _lastPos) > .25f || Time.time - _lastSharedPosTime >= 1f) {
+        if(Vector3.Distance(transform.position, _lastPos) > .25f || Time.time - _lastSharedPosTime >= 5f) {
             _lastSharedPosTime = Time.time;
             ClientPacketHandler.GetInstance().UpdatePosition(transform.position);
             _lastPos = transform.position;
+
+            ClientPacketHandler.GetInstance().UpdateRotation(transform.eulerAngles.y);
         }
     }
 
     public void ShareRotation() {
-        if(Vector3.Angle(_lastRotForward, transform.forward) >= 15.0f || Time.time - _lastSharedRotTime >= 1f) {
+        if(Vector3.Angle(_lastRotForward, transform.forward) >= 10.0f) {
             _lastSharedRotTime = Time.time;
             _lastRotForward = transform.forward;
             ClientPacketHandler.GetInstance().UpdateRotation(transform.eulerAngles.y);
@@ -51,7 +53,6 @@ public class NetworkTransform : MonoBehaviour {
     }
 
     public void ShareAnimation(byte id, float value) {
-        Debug.Log("Share animation");
         ClientPacketHandler.GetInstance().UpdateAnimation(id, value);
     }
 
@@ -87,7 +88,6 @@ public class NetworkTransform : MonoBehaviour {
     public void SetAnimationProperty(int animId, float value) {
         if(animId > 0 && animId < _animator.parameters.Length) {
             AnimatorControllerParameter anim = _animator.parameters[animId];
-            Debug.Log("Received anim:" + anim.name + " : " + value);
             switch(anim.type) {
                 case AnimatorControllerParameterType.Float:
                     _animator.SetFloat(anim.name, value);

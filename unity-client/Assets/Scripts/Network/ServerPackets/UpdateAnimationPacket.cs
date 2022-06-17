@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 public class UpdateAnimationPacket : ServerPacket {
     private int _id;
-    private int _animId;
+    private byte _animId;
     private float _value;
 
     public UpdateAnimationPacket(){}
@@ -13,7 +13,7 @@ public class UpdateAnimationPacket : ServerPacket {
     public override void Parse() {    
         try {
             _id = ReadI();
-            _animId = ReadI();
+            _animId = ReadB();
             _value = ReadF();
         } catch(Exception e) {
             Debug.Log(e);
@@ -24,7 +24,7 @@ public class UpdateAnimationPacket : ServerPacket {
         return _id;
     }
 
-    public int getAnimId() {
+    public byte getAnimId() {
         return _animId;
     }
 

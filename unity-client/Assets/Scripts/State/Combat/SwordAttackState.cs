@@ -14,6 +14,7 @@ public class SwordAttackState : PlayerStateBase {
         animator.SetBool("Attack", false);
         animator.SetBool("ExitAttack", false);
         animator.SetBool("ForceExitAttack", false);
+        animator.GetComponentInChildren<Xft.XWeaponTrail>(true).Activate();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
