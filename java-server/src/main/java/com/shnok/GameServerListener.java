@@ -23,6 +23,7 @@ public class GameServerListener extends Thread {
         while (true) {
             Socket connection = null;
             try {
+                System.out.println("New connection");
                 connection = _serverSocket.accept();
                 Server.getInstance().addClient(connection);
             } catch (Exception e) {
@@ -37,6 +38,7 @@ public class GameServerListener extends Thread {
 
                 if (isInterrupted()) {
                     try {
+                        System.out.println("Connection interrupted");
                         _serverSocket.close();
                     } catch (IOException io) {
                         io.printStackTrace();

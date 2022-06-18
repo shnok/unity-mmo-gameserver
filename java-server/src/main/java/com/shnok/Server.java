@@ -13,6 +13,7 @@ public class Server {
     private final GameServerListener _gameServerListener;
     private final List<GameClient> _clients = new ArrayList<>();
     private static Server _instance;
+    private Shutdown _shutdownHandler;
 
     public static Server getInstance() {
         if(_instance == null) {
@@ -22,17 +23,21 @@ public class Server {
     }
 
     public Server() {
-        _gameServerListener = new GameServerListener(PORT);
-    }
-
-    public static void main(String[] av) {
         ThreadPoolManager.getInstance();
-        Server.getInstance();
-        Server.getInstance().getGameServerListener().start();
+        _gameServerListener = new GameServerListener(PORT);
+        _gameServerListener.start();
+
         World.getInstance();
         SpawnHandler.getInstance();
         SpawnHandler.getInstance().FillSpawnList();
         SpawnHandler.getInstance().SpawnMonsters();
+
+        _shutdownHandler = Shutdown.getInstance();
+        Runtime.getRuntime().addShutdownHook(_shutdownHandler);
+    }
+
+    public static void main(String[] av) {
+        Server.getInstance();
     }
 
     public GameServerListener getGameServerListener() {
@@ -49,6 +54,10 @@ public class Server {
         synchronized (_clients) {
             _clients.remove(s);
         }
+    }
+
+    public List<GameClient> getAllClients() {
+        return _clients;
     }
 
     public void broadcast(ServerPacket packet) {

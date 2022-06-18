@@ -11,53 +11,60 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
-public class ClientPacketHandler {
+public class ClientPacketHandler extends Thread {
     private final GameClient _client;
-    private long _lastEcho;
+    private byte[] _data;
 
-    public ClientPacketHandler(GameClient client) {
+    public ClientPacketHandler(GameClient client, byte[] data) {
         _client = client;
+        _data = data;
+    }
+    @Override
+    public void run(){
+        System.out.println("run packet handler thread");
+        handle();
     }
 
-    public void handle(byte[] data) {
-        byte type = data[0];
+    public void handle() {
+        System.out.println("handle packet");
+        byte type = _data[0];
 
         switch (type) {
             case 0x00:
                 onReceiveEcho();
                 break;
             case 0x01:
-                onReceiveAuth(data);
+                onReceiveAuth(_data);
                 break;
             case 0x02:
-                onReceiveMessage(data);
+                onReceiveMessage(_data);
                 break;
             case 0x03:
-                onRequestCharacterMove(data);
+                onRequestCharacterMove(_data);
                 break;
             case 0x04:
                 onRequestLoadWorld();
                 break;
             case 0x05:
-                onRequestCharacterRotate(data);
+                onRequestCharacterRotate(_data);
                 break;
             case 0x06:
-                onRequestCharacterAnimation(data);
+                onRequestCharacterAnimation(_data);
                 break;
             case 0x07:
-                onRequestAttack(data);
+                onRequestAttack(_data);
                 break;
         }
     }
 
     private void onReceiveEcho() {
         _client.sendPacket(new PingPacket());
-        _lastEcho = System.currentTimeMillis();
+        _client.setLastEcho(System.currentTimeMillis());
 
         Timer timer = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if(System.currentTimeMillis() - _lastEcho > 1500) {
+                if(System.currentTimeMillis() - _client.getLastEcho() > 1500) {
                     _client.removeSelf();
                     _client.disconnect();
                 }

@@ -7,13 +7,12 @@
     <list default="true" id="f6e86b1f-b4b3-4338-83d3-f6f3d23185c5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/ClientPacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/ClientPacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/ClientThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/ClientThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GameClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/GameServerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/GameServerListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/World.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/model/spawner/SpawnHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/model/spawner/SpawnHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/model/spawner/SpawnInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/model/spawner/SpawnInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/model/spawner/SpawnThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/model/spawner/SpawnThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../unity-client/.vs/unity-client/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/.vs/unity-client/v17/.suo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../unity-client/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/../unity-client/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/ThreadPoolManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/ThreadPoolManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ObjectAnimation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shnok/serverpackets/ObjectAnimation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

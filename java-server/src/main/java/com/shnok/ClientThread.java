@@ -15,6 +15,8 @@ public abstract class ClientThread extends Thread {
     private OutputStream _out;
     public boolean authenticated;
 
+    private long lastEcho;
+
     abstract void authenticate();
     abstract void removeSelf();
     abstract void handlePacket(byte[] data);
@@ -66,6 +68,7 @@ public abstract class ClientThread extends Thread {
                 handlePacket(data);
             }
         } catch (Exception e) {
+            System.out.println("Exception while reading packets");
             e.printStackTrace();
         } finally {
             System.out.println("User " + _connectionIp +" disconnected");
@@ -93,5 +96,13 @@ public abstract class ClientThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public long getLastEcho() {
+        return lastEcho;
+    }
+
+    public void setLastEcho(long lastEcho) {
+        this.lastEcho = lastEcho;
     }
 }

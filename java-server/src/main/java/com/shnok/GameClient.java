@@ -8,13 +8,11 @@ import com.shnok.serverpackets.SystemMessage;
 import java.net.Socket;
 
 public class GameClient extends ClientThread {
-    private ClientPacketHandler _cph;
     private String _username;
     private PlayerInstance _player;
 
     public GameClient(Socket con) {
         super(con);
-        _cph = new ClientPacketHandler(this);
     }
 
     public String getUsername() {
@@ -31,7 +29,7 @@ public class GameClient extends ClientThread {
 
     @Override
     void handlePacket(byte[] data) {
-        _cph.handle(data);
+        ThreadPoolManager.getInstance().handlePacket(new ClientPacketHandler(this, data));
     }
 
     @Override
@@ -52,5 +50,6 @@ public class GameClient extends ClientThread {
         }
 
         Server.getInstance().removeClient(this);
+        this.interrupt();
     }
 }

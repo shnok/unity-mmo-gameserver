@@ -12,6 +12,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ThreadPoolManager {
     private static ThreadPoolManager _instance;
     private final ScheduledThreadPoolExecutor _spawnThreadPool;
+    private final ThreadPoolExecutor _packetsThreadPool;
+    private boolean _shutdown = false;
 
     public static ThreadPoolManager getInstance()
     {
@@ -24,6 +26,7 @@ public class ThreadPoolManager {
 
     public ThreadPoolManager() {
         _spawnThreadPool = new ScheduledThreadPoolExecutor(5);
+        _packetsThreadPool = new ScheduledThreadPoolExecutor(5);
     }
 
     public ScheduledFuture<?> scheduleSpawn(Runnable r, long delay)
@@ -40,5 +43,36 @@ public class ThreadPoolManager {
         {
             return null; /* shutdown, ignore */
         }
+    }
+
+    public void handlePacket(ClientPacketHandler cph)
+    {
+        _packetsThreadPool.execute(cph);
+    }
+
+    public void shutdown()
+    {
+        _shutdown = true;
+        try
+        {
+            _spawnThreadPool.awaitTermination(1, TimeUnit.SECONDS);
+            _packetsThreadPool.shutdown();
+            System.out.println("All ThreadPools are now stoped");
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isShutdown()
+    {
+        return _shutdown;
+    }
+
+    public void purge()
+    {
+        _spawnThreadPool.purge();
+        _packetsThreadPool.purge();
     }
 }
