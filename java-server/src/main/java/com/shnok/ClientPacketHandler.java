@@ -21,12 +21,10 @@ public class ClientPacketHandler extends Thread {
     }
     @Override
     public void run(){
-        System.out.println("run packet handler thread");
         handle();
     }
 
     public void handle() {
-        System.out.println("handle packet");
         byte type = _data[0];
 
         switch (type) {
