@@ -25,7 +25,7 @@ public class NetworkTransform : MonoBehaviour {
     }
 
     void Update() {
-        if(identity.owned) {
+        if(identity.Owned) {
             SharePosition();
             ShareRotation();
         } else {

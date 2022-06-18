@@ -18,7 +18,7 @@ public class PlayerStateBase : StateMachineBehaviour
     }
 
 	public void SetBool(string name, bool value) {
-		if(!_network.GetIdentity().owned)
+		if(!_network.GetIdentity().Owned)
 			return;
 
 		if(_animator.GetBool(name) != value) {
@@ -29,7 +29,7 @@ public class PlayerStateBase : StateMachineBehaviour
 	}
 
 	public void SetFloat(string name, float value) {
-		if(!_network.GetIdentity().owned)
+		if(!_network.GetIdentity().Owned)
 			return;
 
 		if(Mathf.Abs(_animator.GetFloat(name) - value) > 0.2f) {
@@ -40,7 +40,7 @@ public class PlayerStateBase : StateMachineBehaviour
 	}
 
 	public void SetInteger(string name, int value) {
-		if(!_network.GetIdentity().owned)
+		if(!_network.GetIdentity().Owned)
 			return;
 
 		if(_animator.GetInteger(name) != value) {
@@ -51,7 +51,7 @@ public class PlayerStateBase : StateMachineBehaviour
 	}
 
 	public void SetTrigger(string name) {
-		if(!_network.GetIdentity().owned)
+		if(!_network.GetIdentity().Owned)
 			return;
 
 		_animator.SetTrigger(name);
@@ -71,7 +71,7 @@ public class PlayerStateBase : StateMachineBehaviour
 		if(!_network)
 			return;
 
-		if(_network.GetIdentity().owned) {
+		if(_network.GetIdentity().Owned) {
 			int index = SerializeAnimatorInfo(name);
 			if(index != -1) {
 				_network.ShareAnimation((byte)index, value);

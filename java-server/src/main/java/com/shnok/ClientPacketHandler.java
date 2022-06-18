@@ -1,6 +1,7 @@
 package com.shnok;
 
 import com.shnok.clientpackets.*;
+import com.shnok.model.entities.NpcInstance;
 import com.shnok.model.entities.PlayerInstance;
 import com.shnok.model.Point3D;
 import com.shnok.serverpackets.*;
@@ -111,6 +112,11 @@ public class ClientPacketHandler {
         for (Map.Entry<String, PlayerInstance> pair : World.getInstance().getAllPlayers().entrySet()) {
             System.out.println(pair.getValue());
             _client.sendPacket(new PlayerInfo(pair.getValue()));
+        }
+
+        for (Map.Entry<Integer, NpcInstance> pair : World.getInstance().getAllNpcs().entrySet()) {
+            System.out.println(pair.getValue());
+            _client.sendPacket(new NpcInfo(pair.getValue()));
         }
     }
 

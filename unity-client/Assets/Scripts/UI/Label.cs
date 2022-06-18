@@ -24,18 +24,22 @@ public class Label : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
-		_visible = Camera.main.GetComponent<CameraController>().IsVisible(_target);
+		bool objectVisible = Camera.main.GetComponent<CameraController>().IsObjectVisible(_target);
+		bool inRange = Vector3.Distance(_target.transform.position, World.GetInstance().mainPlayer.transform.position) < 8f;
+
+		_visible = objectVisible && inRange;
 
 		if(_visible) {
 			transform.position = Camera.main.WorldToScreenPoint(_target.transform.position + Vector3.up * 1.25f);
 			transform.GetChild(0).gameObject.SetActive(true);
 
 			Status targetStatus = _target.GetComponent<Entity>().status;
+			NetworkIdentity identity = _target.GetComponent<NetworkTransform>().identity;
 			float hpPercent = (float)targetStatus.Hp / (float)targetStatus.MaxHp;
 			hpPercent = Mathf.Clamp(hpPercent, 0.0f, 1.0f);
 			_healthBar.sizeDelta = new Vector2(hpPercent * _barContour.sizeDelta.x, _healthBar.sizeDelta.y);
 			_level.text = targetStatus.Level.ToString();
-			_name.text = _target.transform.name;
+			_name.text = identity.Name;
 		} else {
 			transform.GetChild(0).gameObject.SetActive(false);
 		}

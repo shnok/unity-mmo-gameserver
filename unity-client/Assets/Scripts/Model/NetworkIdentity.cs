@@ -5,70 +5,56 @@ using UnityEngine;
 [System.Serializable]
 public class NetworkIdentity
 {
-    public int _id;
-    public string _name;
-    public int _model;
-    public Vector3 _position = new Vector3(0,0,0);
-    public bool owned = false;
+    [SerializeField]
+    private int id;
+    [SerializeField]
+    private int npcId;
+    [SerializeField]
+    private string name;
+    [SerializeField]
+    private int model;
+    [SerializeField]
+    private Vector3 position = new Vector3(0, 0, 0);
+    [SerializeField]
+    private bool owned = false;
+
+    public int Id { get => id; set => id = value; }
+    public int NpcId { get => npcId; set => npcId = value; }
+    public string Name { get => name; set => name = value; }
+    public int Model { get => model; set => model = value; }
+    public Vector3 Position { get => position; set => position = value; }
+    public bool Owned { get => owned; set => owned = value; }
 
     public NetworkIdentity() {}
     public NetworkIdentity(int id) {
-        _id = id;
+        Id = id;
     }
 
     public NetworkIdentity(int id, string name) {
-        _id = id;
-        _name = name;
-    }
-
-    public int GetId() {
-        return _id;
-    }
-
-    public void SetId(int id) {
-        _id = id;
-    }
-
-    public string GetName() {
-        return _name;
-    }
-
-    public void SetName(string name) {
-        _name = name;
+        Id = id;
+        Name = name;
     }
 
     public void SetPosX(float x) {
-        _position.x = x;
+        position.x = x;
     }
 
     public void SetPosY(float y) {
-        _position.y = y;
+        position.y = y;
     }
     public void SetPosZ(float z) {
-        _position.z = z;
+        position.z = z;
     }
 
     public int GetPosX() {
-        return (int) _position.x;
+        return (int)position.x;
     }
 
     public int GetPosY() {
-        return (int) _position.y;
+        return (int)position.y;
     }
 
     public int GetPosZ() {
-        return (int) _position.z;
-    }
-
-    public Vector3 GetPosition() {
-        return _position;
-    }
-
-    public void SetOwned(bool value) {
-        owned = value;
-    }
-
-    public bool IsOwned() {
-        return owned;
+        return (int)position.z;
     }
 }

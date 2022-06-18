@@ -11,7 +11,7 @@ public class IdleAttack : PlayerStateBase {
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if(!_network.GetIdentity().owned)
+        if(!_network.GetIdentity().Owned)
             return;
 
         if(InputManager.GetInstance().Attack() && !animator.GetNextAnimatorStateInfo(0).IsName("Attack1") && pc.controller.isGrounded && (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))) {   

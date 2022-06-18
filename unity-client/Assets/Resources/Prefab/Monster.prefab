@@ -107,8 +107,9 @@ GameObject:
   - component: {fileID: 5615497917579445399}
   - component: {fileID: 1677659028670961777}
   - component: {fileID: 2061602139}
+  - component: {fileID: -6675406421609846233}
   m_Layer: 8
-  m_Name: training_dummy
+  m_Name: Monster
   m_TagString: entity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,6 +185,18 @@ CapsuleCollider:
   m_Height: 1.99
   m_Direction: 1
   m_Center: {x: 0, y: 0.97, z: 0}
+--- !u!114 &-6675406421609846233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4697017240656324050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fb28759fcfea764db75b84c9a7ee07d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6774080502169825540
 GameObject:
   m_ObjectHideFlags: 0

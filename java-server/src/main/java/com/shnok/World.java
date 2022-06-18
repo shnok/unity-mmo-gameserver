@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class World {
-    private static World _instance = new World();
+    private static World _instance;
     private final Map<String, PlayerInstance> _allPlayers;
     private final Map<Integer, NpcInstance> _allNPCs;
     private final Map<Integer, GameObject> _allObjects;
@@ -47,8 +47,16 @@ public class World {
         _allNPCs.put(npc.getId(), npc);
     }
 
+    public void removeNPC(NpcInstance npc) {
+        _allNPCs.remove(npc.getId());
+    }
+
     public Map<String, PlayerInstance> getAllPlayers() {
         return _allPlayers;
+    }
+
+    public Map<Integer, NpcInstance> getAllNpcs() {
+        return _allNPCs;
     }
 
     public void removePlayer(GameObject player) {

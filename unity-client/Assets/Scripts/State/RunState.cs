@@ -11,7 +11,7 @@ public class RunState : PlayerStateBase
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if(!_network.GetIdentity().owned)
+        if(!_network.GetIdentity().Owned)
             return;
 
         /* Run */

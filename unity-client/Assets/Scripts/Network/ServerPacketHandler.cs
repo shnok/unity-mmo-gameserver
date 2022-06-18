@@ -31,35 +31,38 @@ public class ServerPacketHandler
         byte packetType = data[0];
         switch (packetType)
         {
-            case 00:
+            case 0x00:
                 onPingReceive();
                 break;
-            case 01:
+            case 0x01:
                 onAuthReceive(data);
                 break;
-            case 02: 
+            case 0x02: 
                 onMessageReceive(data);
                 break;
-            case 03:
+            case 0x03:
                 onSystemMessageReceive(data);
                 break;
-            case 04:
+            case 0x04:
                 onPlayerInfoReceive(data);
                 break;
-            case 05:
+            case 0x05:
                 onUpdatePosition(data);
                 break;
-            case 06:
+            case 0x06:
                 onRemoveObject(data) ;
                 break;
-            case 07:
+            case 0x07:
                 onUpdateRotation(data);
                 break;
-            case 08:
+            case 0x08:
                 onUpdateAnimation(data);
                 break;
-            case 09:
+            case 0x09:
                 onInflictDamage(data);
+                break;
+            case 0x0A:
+                onNpcInfoReceive(data);
                 break;
         }
     }
@@ -117,13 +120,11 @@ public class ServerPacketHandler
         String text = packet.GetText();
         Chat.AddMessage(sender, text);
     }
-
     private void onSystemMessageReceive(byte[] data) {
         SystemMessagePacket packet = new SystemMessagePacket(data);
         SystemMessage message = packet.GetMessage();
         Chat.AddMessage(message);
     }
-
     private void onPlayerInfoReceive(byte[] data) {
         PlayerInfoPacket packet = new PlayerInfoPacket(data);
         NetworkIdentity identity = packet.GetIdentity();
@@ -131,14 +132,12 @@ public class ServerPacketHandler
 
         World.GetInstance().SpawnPlayer(identity, status);
     }
-
     private void onUpdatePosition(byte[] data) {
         UpdatePositionPacket packet = new UpdatePositionPacket(data);
         int id = packet.getId();
         Vector3 position = packet.getPosition();
         World.GetInstance().UpdateObject(id, position);
     }
-
     private void onRemoveObject(byte[] data) {
         RemoveObjectPacket packet = new RemoveObjectPacket(data);
         World.GetInstance().RemoveObject(packet.getId());
@@ -160,5 +159,12 @@ public class ServerPacketHandler
     private void onInflictDamage(byte[] data) {
         InflictDamagePacket packet = new InflictDamagePacket(data);
         World.GetInstance().InflictDamageTo(packet.SenderId, packet.TargetId, packet.AttackId, packet.Value);
+    }
+    private void onNpcInfoReceive(byte[] data) {
+        NpcInfoPacket packet = new NpcInfoPacket(data);
+        NetworkIdentity identity = packet.GetIdentity();
+        NpcStatus status = packet.GetStatus();
+
+        World.GetInstance().SpawnNpc(identity, status);
     }
 }

@@ -13,7 +13,7 @@ public class Entity : MonoBehaviour {
 
     /* Notify server that entity got attacked */
     public void Attack(AttackType attackType) {
-        ClientPacketHandler.GetInstance().InflictAttack(_network.GetIdentity().GetId(), attackType);
+        ClientPacketHandler.GetInstance().InflictAttack(_network.GetIdentity().Id, attackType);
     }
 
     void Start() {

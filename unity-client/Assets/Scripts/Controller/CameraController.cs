@@ -34,14 +34,18 @@ public class CameraController : MonoBehaviour
 		detector.DetectCollision(camDistance);
 	}
 
-	public bool IsVisible(GameObject target) {
+	public bool IsObjectVisible(GameObject target) {
 		if(Vector3.Angle(target.transform.position - transform.position, transform.forward) <= Camera.main.fieldOfView) {
             RaycastHit hit;
 			if(Physics.Linecast(transform.position, target.transform.position + Vector3.up, out hit, ~LayerMask.GetMask("Entity"))) {
 				return false;
 			}
 		}
-		return true;
+
+		Vector3 viewPort = Camera.main.WorldToViewportPoint(target.transform.position);
+
+		bool insideView = viewPort.x <= 1 && viewPort.x >= 0 && viewPort.y <= 1 && viewPort.y >= 0 && viewPort.z >= -0.2f;
+		return insideView;
 	}
 
 	public void UpdateInputs(float xi, float yi) {

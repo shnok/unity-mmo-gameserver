@@ -24,7 +24,7 @@ An honest try at making an online action rpg demo with java (server) and unity3D
 # 0x06 : RequestAnimPacket
 [Byte: `animation id` | Float: `value`]
 # 0x07 : RequestAttack
-[Int: `target id` | Byte: `attack type`]
+[Int: `object id` | Byte: `attack type`]
 ```
 
 ## Server Packets
@@ -43,7 +43,7 @@ An honest try at making an online action rpg demo with java (server) and unity3D
 # 0x03 : SystemMessage
 [Byte: `Message type` | String: `message`]
 # 0x04 : PlayerInfo
-[Int: `player id` | String: `player name` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Int: `level`| Int: `hp`| Int: `maxhp`| Int: `stamina`| Int: `maxstamina`]
+[Int: `object id` | String: `player name` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Int: `level`| Int: `hp`| Int: `maxhp`| Int: `stamina`| Int: `maxstamina`]
 # 0x05 : ObjectPosition
 [Int: `object id` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`]
 # 0x06 : RemoveObject
@@ -54,5 +54,7 @@ An honest try at making an online action rpg demo with java (server) and unity3D
 [Int: `object id` | Byte: `animation id` | Float: `value`]
 # 0x09 : ApplyDamage
 [Int: `sender id` | Int: `target id` | Byte: `attack type` | Int: `value`]
+# 0x0A : NpcInfo
+[Int: `id` | Int: `npc id` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Int: `level`| Int: `hp`| Int: `maxhp`]
 
 ```

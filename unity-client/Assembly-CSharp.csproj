@@ -56,13 +56,19 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Resources\Particles\XWeaponTrail\Scripts\XWeaponTrail.cs" />
+    <Compile Include="Assets\Scripts\UI\Label.cs" />
     <Compile Include="Assets\Scripts\UI\UIOffline.cs" />
+    <Compile Include="Assets\Resources\Particles\XWeaponTrail\Scripts\SplineControlPoint.cs" />
     <Compile Include="Assets\Scripts\Network\ClientPackets\SendMessagePacket.cs" />
     <Compile Include="Assets\Scripts\UI\Messages\MessageLoggedOut.cs" />
     <Compile Include="Assets\Scripts\Network\ClientPackets\PingPacket.cs" />
     <Compile Include="Assets\Scripts\Model\Status.cs" />
+    <Compile Include="Assets\Resources\Particles\XWeaponTrail\Scripts\XWeaponTrailDemo.cs" />
+    <Compile Include="Assets\Resources\Particles\XWeaponTrail\Scripts\Spline.cs" />
     <Compile Include="Assets\Scripts\Controller\InputManager.cs" />
     <Compile Include="Assets\Scripts\Network\ServerPackets\ServerPacket.cs" />
+    <Compile Include="Assets\Scripts\UI\DamageText.cs" />
     <Compile Include="Assets\Scripts\Model\PlayerStatus.cs" />
     <Compile Include="Assets\Scripts\World.cs" />
     <Compile Include="Assets\Scripts\Network\ClientPackets\RequestAnimPacket.cs" />
@@ -85,7 +91,9 @@
     <Compile Include="Assets\Scripts\State\AnimationController.cs" />
     <Compile Include="Assets\Scripts\UI\Messages\MessageLoggedIn.cs" />
     <Compile Include="Assets\Scripts\Network\ClientPackets\LoadWorldPacket.cs" />
+    <Compile Include="Assets\Resources\Particles\XWeaponTrail\Scripts\VertexPool.cs" />
     <Compile Include="Assets\Scripts\Network\ClientPackets\RequestMovePacket.cs" />
+    <Compile Include="Assets\Scripts\Combat\Combat.cs" />
     <Compile Include="Assets\Scripts\Model\NpcStatus.cs" />
     <Compile Include="Assets\Scripts\UI\ChatInput.cs" />
     <Compile Include="Assets\Scripts\Network\ClientPacketHandler.cs" />
@@ -110,14 +118,7 @@
     <Compile Include="Assets\Scripts\Network\Packet.cs" />
     <Compile Include="Assets\Scripts\State\RollState.cs" />
     <Compile Include="Assets\Scripts\GameStateManager.cs" />
-    <Compile Include="Assets\Scripts\UI\DamageText.cs" />
-    <Compile Include="Assets\Scripts\UI\Label.cs" />
-    <Compile Include="Assets\Resources\Particles\XWeaponTrail\Scripts\XWeaponTrailDemo.cs" />
-    <Compile Include="Assets\Resources\Particles\XWeaponTrail\Scripts\SplineControlPoint.cs" />
-    <Compile Include="Assets\Resources\Particles\XWeaponTrail\Scripts\Spline.cs" />
-    <Compile Include="Assets\Resources\Particles\XWeaponTrail\Scripts\XWeaponTrail.cs" />
-    <Compile Include="Assets\Resources\Particles\XWeaponTrail\Scripts\VertexPool.cs" />
-    <Compile Include="Assets\Scripts\Combat\Combat.cs" />
+    <Compile Include="Assets\Scripts\Network\ServerPackets\NpcInfoPacket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Particles\XWeaponTrail\Model\readme.txt" />

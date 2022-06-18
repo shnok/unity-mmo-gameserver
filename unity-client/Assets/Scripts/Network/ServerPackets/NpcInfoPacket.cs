@@ -1,29 +1,29 @@
-using UnityEngine;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class PlayerInfoPacket : ServerPacket {
+public class NpcInfoPacket : ServerPacket {
 
     private NetworkIdentity _identity = new NetworkIdentity();
-    private PlayerStatus _status = new PlayerStatus();
+    private NpcStatus _status = new NpcStatus();
 
-    public PlayerInfoPacket(){}
-    public PlayerInfoPacket(byte[] d) : base(d) {
+    public NpcInfoPacket() { }
+    public NpcInfoPacket(byte[] d) : base(d) {
         Parse();
     }
-    
-    public override void Parse() {    
+
+    public override void Parse() {
         try {
             _identity.Id = ReadI();
-            _identity.Name = ReadS();
+            _identity.NpcId = ReadI();
             _identity.SetPosX(ReadF());
             _identity.SetPosY(ReadF());
             _identity.SetPosZ(ReadF());
-            _identity.Owned = _identity.Name == DefaultClient.GetInstance().username;
             _status.Level = ReadI();
             _status.Hp = ReadI();
             _status.MaxHp = ReadI();
-            _status.Stamina = ReadI();
-            _status.MaxStamina = ReadI();
+            _identity.Owned = false;
         } catch(Exception e) {
             Debug.Log(e);
         }
@@ -33,7 +33,7 @@ public class PlayerInfoPacket : ServerPacket {
         return _identity;
     }
 
-    public PlayerStatus GetStatus() {
+    public NpcStatus GetStatus() {
         return _status;
     }
 }

@@ -1,5 +1,6 @@
 package com.shnok;
 
+import com.shnok.model.spawner.SpawnHandler;
 import com.shnok.serverpackets.ServerPacket;
 
 import java.net.Socket;
@@ -11,7 +12,6 @@ public class Server {
     public final int PORT = 11000;
     private final GameServerListener _gameServerListener;
     private final List<GameClient> _clients = new ArrayList<>();
-
     private static Server _instance;
 
     public static Server getInstance() {
@@ -26,8 +26,13 @@ public class Server {
     }
 
     public static void main(String[] av) {
-        Server s = getInstance();
-        s.getGameServerListener().start();
+        ThreadPoolManager.getInstance();
+        Server.getInstance();
+        Server.getInstance().getGameServerListener().start();
+        World.getInstance();
+        SpawnHandler.getInstance();
+        SpawnHandler.getInstance().FillSpawnList();
+        SpawnHandler.getInstance().SpawnMonsters();
     }
 
     public GameServerListener getGameServerListener() {
