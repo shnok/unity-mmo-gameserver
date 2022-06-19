@@ -1,6 +1,8 @@
 package com.shnok;
 
 import com.shnok.clientpackets.*;
+import com.shnok.model.GameObject;
+import com.shnok.model.entities.Entity;
 import com.shnok.model.entities.NpcInstance;
 import com.shnok.model.entities.PlayerInstance;
 import com.shnok.model.Point3D;
@@ -114,7 +116,7 @@ public class ClientPacketHandler extends Thread {
     }
 
     private void onRequestLoadWorld() {
-        for (Map.Entry<String, PlayerInstance> pair : World.getInstance().getAllPlayers().entrySet()) {
+        for (Map.Entry<Integer, PlayerInstance> pair : World.getInstance().getAllPlayers().entrySet()) {
             System.out.println(pair.getValue());
             _client.sendPacket(new PlayerInfo(pair.getValue()));
         }
@@ -139,6 +141,10 @@ public class ClientPacketHandler extends Thread {
 
     private void onRequestAttack(byte[] data) {
         RequestAttack packet = new RequestAttack(data);
+
+        Entity entity = World.getInstance().getEntity(packet.getTargetId());
+        entity.inflictDamage(1);
+
         ApplyDamage applyDamage = new ApplyDamage(_client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), 1);
         System.out.println(packet.getTargetId());
         Server.getInstance().broadcastAll(applyDamage);

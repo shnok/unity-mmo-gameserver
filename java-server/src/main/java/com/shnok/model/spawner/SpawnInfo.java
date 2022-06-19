@@ -9,6 +9,7 @@ public class SpawnInfo
     private int _respawnDelay;
     private boolean _spawned;
     private Point3D _spawnPos;
+    private boolean _randomSpawn;
 
     public SpawnInfo(int objectId, int npcId, int respawnDelay, Point3D spawnPos) {
         _objectId = objectId;
@@ -16,6 +17,15 @@ public class SpawnInfo
         _respawnDelay = respawnDelay;
         _spawnPos = spawnPos;
         _spawned = false;
+        _randomSpawn = false;
+    }
+
+    public SpawnInfo(int objectId, int npcId, int respawnDelay) {
+        _objectId = objectId;
+        _npcId = npcId;
+        _respawnDelay = respawnDelay;
+        _spawned = false;
+        _randomSpawn = true;
     }
 
     public int getNpcId() {
@@ -47,5 +57,9 @@ public class SpawnInfo
     }
     public void setSpawnPos(Point3D spawnPos) {
         _spawnPos = spawnPos;
+    }
+
+    public boolean isRandomSpawn() {
+        return _randomSpawn;
     }
 }

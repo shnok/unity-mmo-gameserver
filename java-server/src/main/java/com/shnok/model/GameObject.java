@@ -7,7 +7,7 @@ package com.shnok.model;
  * <BR>
  */
 public abstract class GameObject {
-    private int _id;
+    int _id;
     private int _model;
     private Point3D _position = new Point3D(0,0,0);
 

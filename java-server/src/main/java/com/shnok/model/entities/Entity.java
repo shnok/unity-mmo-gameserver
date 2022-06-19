@@ -14,9 +14,9 @@ public  abstract class Entity extends GameObject {
         super(id);
     }
 
-    abstract void inflictDamage(int value);
+    public abstract void inflictDamage(int value);
 
-    abstract Status getStatus();
+    public abstract Status getStatus();
 
-    abstract void setStatus(Status status);
+    public abstract void setStatus(Status status);
 }

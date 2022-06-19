@@ -24,20 +24,26 @@ public class SpawnHandler {
         _registeredSpawns = new HashMap<>();
     }
 
-    public void FillSpawnList() {
+    /* Later should load spawnlist from database */
+    public void fillSpawnList() {
         for(int i = 0; i < 5; i++) {
-            float randomX = (float)(Math.random()*(10f+1)-5f);
-            float randomZ = (float)(Math.random()*(10f+1)-5f);
-            Point3D randomPos = new Point3D(randomX, 0, randomZ);
-            SpawnInfo info = new SpawnInfo(World.getInstance().nextID(), 0, 1000, randomPos);
+            SpawnInfo info = new SpawnInfo(World.getInstance().nextID(), 0, 1000);
             _registeredSpawns.put(info.getObjectId(), info);
         }
+
+        SpawnInfo info = new SpawnInfo(World.getInstance().nextID(), 0, 1000, new Point3D(3, 0, 3));
+        _registeredSpawns.put(info.getObjectId(), info);
     }
 
-    public void SpawnMonsters() {
+    public void spawnMonsters() {
         _registeredSpawns.forEach((k, v) -> {
-            ThreadPoolManager.getInstance().scheduleSpawn(new SpawnThread(v.getObjectId()), 0);
+            ThreadPoolManager.getInstance().scheduleSpawn(new SpawnThread(v), 0);
         });
+    }
+
+    public void respawn(int id) {
+        SpawnInfo info = _registeredSpawns.get(id);
+        ThreadPoolManager.getInstance().scheduleSpawn(new SpawnThread(info), info.getRespawnDelay());
     }
 
     public Map<Integer, SpawnInfo> getRegisteredSpawns() {

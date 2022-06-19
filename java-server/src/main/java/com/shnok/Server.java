@@ -29,8 +29,8 @@ public class Server {
 
         World.getInstance();
         SpawnHandler.getInstance();
-        SpawnHandler.getInstance().FillSpawnList();
-        SpawnHandler.getInstance().SpawnMonsters();
+        SpawnHandler.getInstance().fillSpawnList();
+        SpawnHandler.getInstance().spawnMonsters();
 
         _shutdownHandler = Shutdown.getInstance();
         Runtime.getRuntime().addShutdownHook(_shutdownHandler);

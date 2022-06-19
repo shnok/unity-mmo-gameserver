@@ -1,6 +1,7 @@
 package com.shnok;
 
 import com.shnok.model.GameObject;
+import com.shnok.model.entities.Entity;
 import com.shnok.model.entities.NpcInstance;
 import com.shnok.model.entities.PlayerInstance;
 
@@ -9,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class World {
     private static World _instance;
-    private final Map<String, PlayerInstance> _allPlayers;
+    private final Map<Integer, PlayerInstance> _allPlayers;
     private final Map<Integer, NpcInstance> _allNPCs;
     private final Map<Integer, GameObject> _allObjects;
     private int _idFactory = 0;
@@ -35,12 +36,21 @@ public class World {
         _allObjects.remove(object);
     }
 
-    public GameObject findObject(int id) {
+    public GameObject getObject(int id) {
         return _allObjects.get(id);
     }
 
+    public Entity getEntity(int id) {
+        Entity e = _allPlayers.get(id);
+        if(e == null) {
+            return _allNPCs.get(id);
+        }
+
+        return null;
+    }
+
     public void addPlayer(PlayerInstance player) {
-        _allPlayers.put(player.getName(), player);
+        _allPlayers.put(player.getId(), player);
     }
 
     public void addNPC(NpcInstance npc) {
@@ -51,7 +61,7 @@ public class World {
         _allNPCs.remove(npc.getId());
     }
 
-    public Map<String, PlayerInstance> getAllPlayers() {
+    public Map<Integer, PlayerInstance> getAllPlayers() {
         return _allPlayers;
     }
 

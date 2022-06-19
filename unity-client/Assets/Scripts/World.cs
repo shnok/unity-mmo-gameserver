@@ -9,7 +9,7 @@ public class World : MonoBehaviour
     public GameObject npcPrefab;
     public GameObject labelPrefab;
     private EventProcessor _eventProcessor;
-    public Dictionary<string, Entity> players = new Dictionary<string, Entity>();
+    public Dictionary<int, Entity> players = new Dictionary<int, Entity>();
     public Dictionary<int, Entity> npcs = new Dictionary<int, Entity>();
     public Dictionary<int, NetworkTransform> objects = new Dictionary<int, NetworkTransform>();
     public GameObject mainPlayer;
@@ -33,13 +33,8 @@ public class World : MonoBehaviour
     public void RemoveObject(int id) {
         NetworkTransform transform;
         if(objects.TryGetValue(id, out transform)) {
-            string name = transform.GetIdentity().Name;
-
-            Entity player;
-            if(players.TryGetValue(name, out player)) {
-               players.Remove(name);
-            }
-
+            players.Remove(id);
+            npcs.Remove(id);
             objects.Remove(id);
 
              _eventProcessor.QueueEvent(() => Object.Destroy(transform.gameObject));
@@ -61,7 +56,7 @@ public class World : MonoBehaviour
         Entity player = go.GetComponent<Entity>();
         player.Status = status;   
 
-        players.Add(identity.Name, player);     
+        players.Add(identity.Id, player);     
         objects.Add(identity.Id, networkTransform);  
 
         if(identity.Owned) {
