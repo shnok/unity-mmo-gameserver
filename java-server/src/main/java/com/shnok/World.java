@@ -70,7 +70,7 @@ public class World {
     }
 
     public void removePlayer(PlayerInstance player) {
-        _allPlayers.remove(player.getName());
+        _allPlayers.remove(player.getId());
     }
 
     public GameObject getPlayer(String name) {

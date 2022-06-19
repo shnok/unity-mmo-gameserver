@@ -65,6 +65,7 @@ public class DefaultClient : MonoBehaviour {
 
         World.GetInstance().objects.Clear();
         World.GetInstance().players.Clear();
+        World.GetInstance().npcs.Clear();
         Chat.Clear();     
     }
 }
