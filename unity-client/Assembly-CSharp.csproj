@@ -113,12 +113,13 @@
     <Compile Include="Assets\Scripts\Network\ServerPackets\UpdatePositionPacket.cs" />
     <Compile Include="Assets\Scripts\UI\Chat.cs" />
     <Compile Include="Assets\Scripts\Network\ClientPackets\ClientPacket.cs" />
+    <Compile Include="Assets\Scripts\Network\ServerPackets\NpcInfoPacket.cs" />
     <Compile Include="Assets\Scripts\State\Combat\IdleAttack.cs" />
     <Compile Include="Assets\Scripts\Controller\CameraCollisionDetection.cs" />
     <Compile Include="Assets\Scripts\Network\Packet.cs" />
     <Compile Include="Assets\Scripts\State\RollState.cs" />
     <Compile Include="Assets\Scripts\GameStateManager.cs" />
-    <Compile Include="Assets\Scripts\Network\ServerPackets\NpcInfoPacket.cs" />
+    <Compile Include="Assets\Scripts\Combat\HitDetection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Particles\XWeaponTrail\Model\readme.txt" />

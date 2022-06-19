@@ -66,6 +66,8 @@ public class World : MonoBehaviour
 
         if(identity.Owned) {
             go.GetComponent<PlayerController>().enabled = true;
+            go.GetComponent<HitDetection>().enabled = true;
+
             Camera.main.GetComponent<CameraController>().target = go.transform;
             Camera.main.GetComponent<CameraController>().enabled = true;
             Camera.main.GetComponent<InputManager>().SetCameraController(Camera.main.GetComponent<CameraController>());

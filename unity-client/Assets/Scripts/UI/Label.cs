@@ -24,6 +24,9 @@ public class Label : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
+		if(World.GetInstance().mainPlayer == null)
+			return;
+
 		bool objectVisible = Camera.main.GetComponent<CameraController>().IsObjectVisible(_target);
 		bool inRange = Vector3.Distance(_target.transform.position, World.GetInstance().mainPlayer.transform.position) < 8f;
 

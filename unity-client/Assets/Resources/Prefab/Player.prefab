@@ -1073,6 +1073,7 @@ GameObject:
   - component: {fileID: 1752075019}
   - component: {fileID: 1752075020}
   - component: {fileID: 1752075021}
+  - component: {fileID: 5548995295057530338}
   m_Layer: 8
   m_Name: Player
   m_TagString: entity
@@ -1187,11 +1188,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   identity:
-    _id: 0
-    _name: 
-    _model: 0
-    _position: {x: 0, y: 0, z: 0}
+    id: 0
+    npcId: 0
+    name: 
+    model: 0
+    position: {x: 0, y: 0, z: 0}
     owned: 0
+--- !u!114 &5548995295057530338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167764}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112eac8c951f87f488f91403f07331a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  castCenter: {x: 0, y: 0.5, z: 0}
+  castHalfExtents: {x: 0.25, y: 0.4, z: 0.25}
+  castDirection: {x: 0, y: 0, z: 0}
+  castDistance: 0.5
+  castLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  targets: []
 --- !u!1 &173668
 GameObject:
   m_ObjectHideFlags: 0
