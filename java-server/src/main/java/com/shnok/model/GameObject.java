@@ -7,18 +7,12 @@ package com.shnok.model;
  * <BR>
  */
 public abstract class GameObject {
-    private String _name;
     private int _id;
     private int _model;
     private Point3D _position = new Point3D(0,0,0);
 
     public GameObject(int id) {
         _id = id;
-    }
-
-    public GameObject(int id, String name) {
-        _id = id;
-        _name = name;
     }
 
     public int getId() {
@@ -35,10 +29,6 @@ public abstract class GameObject {
 
     public float getPosZ() {
         return _position.getZ();
-    }
-
-    public String getName() {
-        return _name;
     }
 
     public void setPosition(Point3D pos) {

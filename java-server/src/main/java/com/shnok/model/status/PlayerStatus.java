@@ -1,15 +1,12 @@
-package com.shnok.model;
+package com.shnok.model.status;
 
-public class EntityStatus {
-    private int _maxHp;
-    private int _hp;
+public class PlayerStatus extends Status {
     private int _stamina;
     private int _maxStamina;
-    private int _level;
     private int _exp;
     private int _maxExp;
 
-    public EntityStatus() {
+    public PlayerStatus() {
         _maxHp = 100;
         _hp = _maxHp;
         _maxStamina = 100;
@@ -19,30 +16,9 @@ public class EntityStatus {
         _maxExp = 100;
     }
 
-    public void setCurrentHp(int value) {
-        _hp = value;
-    }
-
-    public int getCurrentHp() {
-        return _hp;
-    }
-
-    public int getMaxHp() {
-        return _maxHp;
-    }
-
-    public void setLevel(int value) {
-        _level += value;
-    }
-
-    public int getLevel() {
-        return _level;
-    }
-
     public int getStamina() {
         return _stamina;
     }
-
     public int getMaxStamina() {
         return _maxStamina;
     }

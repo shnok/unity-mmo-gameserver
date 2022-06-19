@@ -59,7 +59,7 @@ public class World {
         return _allNPCs;
     }
 
-    public void removePlayer(GameObject player) {
+    public void removePlayer(PlayerInstance player) {
         _allPlayers.remove(player.getName());
     }
 

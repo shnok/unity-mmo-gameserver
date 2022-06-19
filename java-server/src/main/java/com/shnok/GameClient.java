@@ -1,6 +1,7 @@
 package com.shnok;
 
 import com.shnok.model.entities.PlayerInstance;
+import com.shnok.model.status.PlayerStatus;
 import com.shnok.serverpackets.PlayerInfo;
 import com.shnok.serverpackets.RemoveObject;
 import com.shnok.serverpackets.SystemMessage;
@@ -36,6 +37,7 @@ public class GameClient extends ClientThread {
     void authenticate() {
         Server.getInstance().broadcast(new SystemMessage(SystemMessage.MessageType.USER_LOGGED_IN, _username));
         _player = new PlayerInstance(World.getInstance().nextID(), _username);
+        _player.setStatus(new PlayerStatus());
         World.getInstance().addPlayer(_player);
         Server.getInstance().broadcast(new PlayerInfo(_player), this);
     }
