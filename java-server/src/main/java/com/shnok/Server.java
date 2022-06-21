@@ -1,6 +1,9 @@
 package com.shnok;
 
 import com.shnok.model.spawner.SpawnHandler;
+import com.shnok.pathfinding.Geodata;
+import com.shnok.pathfinding.PathFinding;
+import com.shnok.pathfinding.node.NodeLoc;
 import com.shnok.serverpackets.ServerPacket;
 
 import java.net.Socket;
@@ -13,7 +16,6 @@ public class Server {
     private final GameServerListener _gameServerListener;
     private final List<GameClient> _clients = new ArrayList<>();
     private static Server _instance;
-    private Shutdown _shutdownHandler;
 
     public static Server getInstance() {
         if(_instance == null) {
@@ -23,20 +25,22 @@ public class Server {
     }
 
     public Server() {
-        ThreadPoolManager.getInstance();
         _gameServerListener = new GameServerListener(PORT);
         _gameServerListener.start();
 
-        World.getInstance();
         SpawnHandler.getInstance();
         SpawnHandler.getInstance().fillSpawnList();
         SpawnHandler.getInstance().spawnMonsters();
 
-        _shutdownHandler = Shutdown.getInstance();
+        Shutdown _shutdownHandler = Shutdown.getInstance();
         Runtime.getRuntime().addShutdownHook(_shutdownHandler);
     }
 
     public static void main(String[] av) {
+        ThreadPoolManager.getInstance();
+        Geodata.getInstance();
+        World.getInstance();
+        PathFinding.getInstance();
         Server.getInstance();
     }
 
