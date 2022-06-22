@@ -37,8 +37,9 @@ public class PlayerInstance extends Entity {
     }
 
     @Override
-    public void moveTo(int x, int y, int z) {
+    public boolean moveTo(int x, int y, int z) {
 
+        return false;
     }
 
     @Override

@@ -143,6 +143,7 @@ public class PathFinding {
     public List<NodeLoc> constructPath(Node node)
     {
         LinkedList<NodeLoc> path = new LinkedList<>();
+        LinkedList<NodeLoc> path2 = new LinkedList<>();
         int prevX = -1000;
         int prevY = -1000;
         int dirX;
@@ -156,8 +157,9 @@ public class PathFinding {
                 prevY = dirY;
                 path.addFirst(node.getLoc());
             }
+            path2.addFirst(node.getLoc());
             node = node.getParent();
         }
-        return path;
+        return path2;
     }
 }

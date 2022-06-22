@@ -12,10 +12,13 @@ public abstract class BaseAI {
 
     protected void moveTo(int x, int y, int z) {
         if (_owner.canMove()) {
-            _moving = true;
-            _owner.moveTo(x, y, z);
 
-            // Send a packet to notify npc moving
+            if(_owner.moveTo(x, y, z)) {
+                _moving = true;
+                // Send a packet to notify npc moving
+            }
+
+
         }
     }
 

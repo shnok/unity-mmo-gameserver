@@ -14,6 +14,12 @@ public class Point3D implements Serializable {
         _z = pZ;
     }
 
+    public Point3D(int pX, int pY, int pZ) {
+        _x = (float)pX;
+        _y = (float)pY;
+        _z = (float)pZ;
+    }
+
     public Point3D(float pX, float pY) {
         _x = pX;
         _y = pY;

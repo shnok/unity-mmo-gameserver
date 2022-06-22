@@ -30,7 +30,7 @@ public class MonsterAI extends BaseAI implements Runnable {
 
         /* Check if need to patrol */
         Random r = new Random();
-        if ((npc.getSpawn() != null) && (r.nextInt(2) == 0) && !_moving) {
+        if ((npc.getSpawn() != null) && (r.nextInt(10) == 0) && !_moving) {
             int x1, y1, z1;
             int maxDriftRange = 5;
 
@@ -66,6 +66,7 @@ public class MonsterAI extends BaseAI implements Runnable {
 
     @Override
     protected void onEvtArrived() {
+        System.out.println("Arrived");
         stopMove();
     }
 }

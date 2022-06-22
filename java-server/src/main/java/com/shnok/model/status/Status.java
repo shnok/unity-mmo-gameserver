@@ -1,9 +1,10 @@
 package com.shnok.model.status;
 
 public abstract class Status {
-    int _maxHp;
-    int _hp;
-    int _level;
+    protected int _maxHp;
+    protected int _hp;
+    protected int _level;
+    protected float _moveSpeed = 1f;
 
     public Status() {
         /*_maxHp = 100;
@@ -15,7 +16,7 @@ public abstract class Status {
         _maxExp = 100;*/
     }
 
-    public Status(int level, int maxHp) {
+    protected Status(int level, int maxHp) {
         this._maxHp = maxHp;
         this._hp = maxHp;
         this._level = level;
@@ -39,5 +40,9 @@ public abstract class Status {
 
     public int getLevel() {
         return _level;
+    }
+
+    public float getMoveSpeed() {
+        return _moveSpeed;
     }
 }

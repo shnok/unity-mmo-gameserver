@@ -38,6 +38,7 @@ public class Server {
 
     public static void main(String[] av) {
         ThreadPoolManager.getInstance();
+        GameTimeController.getInstance();
         Geodata.getInstance();
         World.getInstance();
         PathFinding.getInstance();
