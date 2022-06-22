@@ -6,6 +6,7 @@ public class NetworkTransform : MonoBehaviour {
     private Quaternion _lastRot, _newRot;
     private float _rotLerpValue, _posLerpValue, _lastSharedPosTime, _lastSharedRotTime;
     private Animator _animator;
+    public float lerpSpeed = 0.2f;
 
     public void SetIdentity(NetworkIdentity i) {
        identity = i; 
@@ -14,6 +15,7 @@ public class NetworkTransform : MonoBehaviour {
     public NetworkIdentity GetIdentity() {
         return identity;
     }
+
     void Start() {
         _animator = GetComponent<Animator>();
         _lastPos = transform.position;
@@ -58,7 +60,7 @@ public class NetworkTransform : MonoBehaviour {
 
     public void LerpToPosition() {
         transform.position = Vector3.Lerp(_lastPos, _newPos, _posLerpValue);
-        _posLerpValue += (1 / 0.10f) * Time.deltaTime;
+        _posLerpValue += (1 / lerpSpeed) * Time.deltaTime;
     }
 
     public void LerpToRotation() {

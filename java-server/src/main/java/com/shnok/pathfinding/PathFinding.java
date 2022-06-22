@@ -99,7 +99,7 @@ public class PathFinding {
         //System.out.println("Read node: " + nodeX + "," + nodeY + "," + nodeZ);
         NodeType type = Geodata.getInstance().getNodeType(nodeX, nodeY, nodeZ);
 
-        if (type == null || type == NodeType.NOT_WALKABLE) {
+        if (type == null || type == NodeType.UNWALKABLE) {
             return null;
         }
 

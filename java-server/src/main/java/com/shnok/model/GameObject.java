@@ -31,6 +31,10 @@ public abstract class GameObject {
         return _position.getZ();
     }
 
+    public Point3D getPos() {
+        return _position;
+    }
+
     public void setPosition(Point3D pos) {
         _position = pos;
     }

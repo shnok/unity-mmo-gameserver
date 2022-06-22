@@ -8,11 +8,11 @@ import java.util.List;
 public class GameTimeController {
     public static final int TICKS_PER_SECOND = 10;
     public static final int MILLIS_IN_TICK = 1000 / TICKS_PER_SECOND;
+    private static final GameTimeController _instance = new GameTimeController();
+    private static final List<Entity> _movingObjects = new FastList<>();
     protected static int _gameTicks;
     protected static long _gameStartTime;
     protected static TimerThread _timer;
-    private static final GameTimeController _instance = new GameTimeController();
-    private static final List<Entity> _movingObjects = new FastList<>();
 
     private GameTimeController() {
         _gameStartTime = System.currentTimeMillis() - 3600000; // offset so that the server starts a day begin
@@ -35,12 +35,9 @@ public class GameTimeController {
     }
 
     protected synchronized void moveObjects() {
-        // Get all L2Character from the ArrayList movingObjects and put them into a table
         Entity[] entities = _movingObjects.toArray(new Entity[_movingObjects.size()]);
-
         for (Entity e : entities) {
-            boolean end = e.updatePosition(_gameTicks);
-            if (end) {
+            if (e.updatePosition(_gameTicks)) {
                 _movingObjects.remove(e);
             }
         }

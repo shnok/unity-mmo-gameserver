@@ -2,7 +2,7 @@ package com.shnok.model.spawner;
 
 import com.shnok.Server;
 import com.shnok.World;
-import com.shnok.ai.MonsterAI;
+import com.shnok.ai.NpcAI;
 import com.shnok.model.Point3D;
 import com.shnok.model.entities.NpcInstance;
 import com.shnok.model.status.NpcStatus;
@@ -27,13 +27,11 @@ public class SpawnThread implements Runnable {
             }
 
             _spawnInfo.setSpawned(true);
-            NpcInstance npc = new NpcInstance(_spawnInfo.getObjectId(), _spawnInfo.getNpcId());
+            NpcInstance npc = new NpcInstance(_spawnInfo);
             npc.setStatus(new NpcStatus(1, 3));
-            npc.setPosition(_spawnInfo.getSpawnPos());
-            npc.setSpawn(_spawnInfo);
             World.getInstance().addNPC(npc);
             Server.getInstance().broadcastAll(new NpcInfo(npc));
-            MonsterAI ai = new MonsterAI();
+            NpcAI ai = new NpcAI();
             ai.setOwner(npc);
             npc.attachAI(ai);
             System.out.println("Spawned monster at " + _spawnInfo.getSpawnPos().toString());

@@ -1,5 +1,7 @@
 package com.shnok.pathfinding.node;
 
+import com.shnok.model.Point3D;
+
 public class NodeLoc {
     private final int _x;
     private final int _y;
@@ -21,6 +23,10 @@ public class NodeLoc {
 
     public int getZ() {
         return _z;
+    }
+
+    public Point3D getPos() {
+        return new Point3D(_x, _y, _z);
     }
 
     public String toString() {

@@ -1,13 +1,16 @@
 package com.shnok.model.entities;
 
 import com.shnok.GameTimeController;
+import com.shnok.Server;
 import com.shnok.ai.BaseAI;
 import com.shnok.ai.enums.Event;
 import com.shnok.model.GameObject;
 import com.shnok.model.Point3D;
 import com.shnok.model.status.Status;
+import com.shnok.pathfinding.Geodata;
 import com.shnok.pathfinding.PathFinding;
 import com.shnok.pathfinding.node.NodeLoc;
+import com.shnok.serverpackets.ObjectPosition;
 
 import java.util.List;
 
@@ -38,63 +41,79 @@ public abstract class Entity extends GameObject {
 
     public boolean moveTo(int x, int y, int z) {
         System.out.println("AI find path: " + x + "," + y + "," + z);
-
-        if (_moveData == null) {
-            _moveData = new NpcInstance.MoveData();
+        if (!isOnGeoData()) {
+            return false;
         }
 
+        _moveData = new NpcInstance.MoveData();
+
+        /* find path using pathfinder */
         if (_moveData.path == null || _moveData.path.size() == 0) {
             _moveData.path = PathFinding.getInstance().findPath((int) getPosX(), (int) getPosY(), (int) getPosZ(), x, y, z);
         }
 
-        if (_moveData.path != null && _moveData.path.size() > 0) {
-            followPath();
-            GameTimeController.getInstance().addMovingObject(this);
-            return true;
+        /* check if path was found */
+        if (_moveData.path == null || _moveData.path.size() == 0) {
+            return false;
         }
 
-        return false;
+        moveToNextRoutePoint();
+        GameTimeController.getInstance().addMovingObject(this);
+        return true;
     }
 
-    private void followPath() {
+    private float calcDistance(Point3D from, Point3D to) {
+        double dx = (to.getX() - from.getX());
+        double dy = (to.getY() - from.getY());
+        double dz = (to.getZ() - from.getZ());
+        return (float) Math.sqrt((dx * dx) + (dz * dz) + (dy * dy));
+    }
+
+    /* calculate how many ticks do we need to move to destination */
+    public boolean moveToNextRoutePoint() {
         float speed = getStatus().getMoveSpeed();
         if ((speed <= 0) || !canMove()) {
-            return;
+            return false;
         }
 
-        final float curX = getPosX();
-        final float curY = getPosY();
-        final float curZ = getPosZ();
+        if (_moveData == null || _moveData.path == null || _moveData.path.size() == 0) {
+            return false;
+        }
 
-        double x = _moveData.path.get(0).getX();
-        double y = _moveData.path.get(0).getY();
-        double z = _moveData.path.get(0).getZ();
+        if (!isOnGeoData()) {
+            // Cancel the move action
+            _moveData = null;
+            return false;
+        }
+
+        float x = _moveData.path.get(0).getX();
+        float y = _moveData.path.get(0).getY();
+        float z = _moveData.path.get(0).getZ();
+        float distance = calcDistance(getPos(), _moveData.path.get(0).getPos());
+        float dx = (x - getPosX());
+        float dy = (y - getPosY());
+        float dz = (z - getPosZ());
+        float xt = dx / distance;
+        float yt = dy / distance;
+        float zt = dz / distance;
+
+        // calculate the number of ticks between the current position and the destination
+        _moveData._ticksToMove = 1 + (int) ((GameTimeController.TICKS_PER_SECOND * distance) / speed);
+        // calculate the distance to travel for each tick
+        _moveData._xSpeedTicks = (xt * speed) / GameTimeController.TICKS_PER_SECOND;
+        _moveData._ySpeedTicks = (yt * speed) / GameTimeController.TICKS_PER_SECOND;
+        _moveData._zSpeedTicks = (zt * speed) / GameTimeController.TICKS_PER_SECOND;
         _moveData._xDestination = (int) x;
         _moveData._yDestination = (int) y;
         _moveData._zDestination = (int) z;
-
-        double dx = (x - curX);
-        double dy = (y - curY);
-        double dz = (z - curZ);
-        double distance = Math.sqrt((dx * dx) + (dz * dz));
-        double cos = dx / distance;
-        double sin = dz / distance;
-        int heading = (int) (Math.atan2(-sin, -cos) * 10430.378350470452724949566316381);
-        heading += 32768;
-
-
-        // Caclulate the Nb of ticks between the current position and the destination
-        _moveData._ticksToMove = 1 + (int) ((GameTimeController.TICKS_PER_SECOND * distance) / speed);
-
-        // Calculate the xspeed and yspeed in unit/ticks in function of the movement speed
-        _moveData._xSpeedTicks = (float) ((cos * speed) / GameTimeController.TICKS_PER_SECOND);
-        _moveData._ySpeedTicks = (float) ((sin * speed) / GameTimeController.TICKS_PER_SECOND);
         _moveData._moveStartTime = GameTimeController.getGameTicks();
+        _moveData.path.remove(0);
 
-        /*System.out.println(_moveData._xSpeedTicks);
-        System.out.println(_moveData._ySpeedTicks);
-        System.out.println(_moveData._moveStartTime);
-        System.out.println(_moveData._ticksToMove);*/
+        return true;
+    }
+
+    public boolean isOnGeoData() {
+        return Geodata.getInstance().isInsideBounds((int) getPosX(), (int) getPosY(), (int) getPosZ());
     }
 
     public boolean updatePosition(int gameTicks) {
@@ -106,19 +125,18 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
-        // Calculate the time between the beginning of the deplacement and now
+        // calculate the time since started moving
         int elapsed = gameTicks - _moveData._moveStartTime;
 
         if (elapsed >= _moveData._ticksToMove) {
-            // Set the timer of last position update to now
             _moveData._moveTimestamp = gameTicks;
 
-            setPosition(new Point3D(_moveData._xDestination, _moveData._yDestination, _moveData._zDestination));
             System.out.println("Update position: " + new Point3D(_moveData._xDestination, _moveData._yDestination, _moveData._zDestination));
+            setPosition(new Point3D(_moveData._xDestination, _moveData._yDestination, _moveData._zDestination));
+            Server.getInstance().broadcastAll(new ObjectPosition(getId(), getPos()));
 
             if (_moveData.path.size() > 0) {
-                followPath();
-                _moveData.path.remove(0);
+                moveToNextRoutePoint();
                 return false;
             }
 
@@ -141,69 +159,15 @@ public abstract class Entity extends GameObject {
     }
 
     public static class MoveData {
-        /**
-         * The _move timestamp.
-         */
         public int _moveTimestamp;
-
-        /**
-         * The _x destination.
-         */
         public int _xDestination;
-
-        /**
-         * The _y destination.
-         */
         public int _yDestination;
-
-        /**
-         * The _z destination.
-         */
         public int _zDestination;
-
-        /**
-         * The _x move from.
-         */
-        public int _xMoveFrom;
-
-        /**
-         * The _y move from.
-         */
-        public int _yMoveFrom;
-
-        /**
-         * The _z move from.
-         */
-        public int _zMoveFrom;
-
-        /**
-         * The _heading.
-         */
-        public int _heading;
-
-        /**
-         * The _move start time.
-         */
         public int _moveStartTime;
-
-        /**
-         * The _ticks to move.
-         */
         public int _ticksToMove;
-
-        /**
-         * The _x speed ticks.
-         */
         public float _xSpeedTicks;
-
-        /**
-         * The _y speed ticks.
-         */
         public float _ySpeedTicks;
-
-        /**
-         * The geo path.
-         */
+        public float _zSpeedTicks;
         public List<NodeLoc> path;
     }
 }

@@ -1,7 +1,7 @@
 package com.shnok.pathfinding.node;
 
 public enum NodeType {
-    NOT_WALKABLE((byte) 0), WALKABLE((byte) 1);
+    UNWALKABLE((byte) 0), WALKABLE((byte) 1);
 
     private final byte value;
 

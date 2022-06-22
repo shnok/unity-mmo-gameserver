@@ -10,13 +10,19 @@ import com.shnok.model.status.Status;
 import com.shnok.serverpackets.RemoveObject;
 
 public class NpcInstance extends Entity {
+    private final boolean _isStatic = false;
     private int _npcId;
     private NpcStatus _status;
-    private final boolean _isStatic = false;
     private SpawnInfo _spawnInfo;
 
     public NpcInstance(int id, int npcId) {
         super(id);
+    }
+
+    public NpcInstance(SpawnInfo spawnInfo) {
+        super(spawnInfo.getObjectId());
+        setSpawn(spawnInfo);
+        setPosition(spawnInfo.getSpawnPos());
     }
 
     public int getNpcId() {

@@ -1,29 +1,14 @@
 package com.shnok.ai;
 
 import com.shnok.ai.enums.Event;
+import com.shnok.ai.enums.Intention;
+import com.shnok.model.Point3D;
 import com.shnok.model.entities.Entity;
 
 public abstract class BaseAI {
     protected Entity _owner;
     protected boolean _moving = false;
-
-    protected void moveTo(int x, int y, int z) {
-        if (_owner.canMove()) {
-
-            if (_owner.moveTo(x, y, z)) {
-                _moving = true;
-                // Send a packet to notify npc moving
-            }
-
-
-        }
-    }
-
-    protected void stopMove() {
-        _moving = false;
-
-        // Send a packet to notify npc stop moving
-    }
+    private Intention _intention = Intention.INTENTION_IDLE;
 
     public void notifyEvent(Event evt) {
         switch (evt) {
@@ -48,5 +33,31 @@ public abstract class BaseAI {
     public void setOwner(Entity owner) {
         _owner = owner;
     }
+
+    public Intention getIntention() {
+        return _intention;
+    }
+
+
+    public void setIntention(Intention intention) {
+        setIntention(intention, null);
+    }
+
+    public void setIntention(Intention intention, Object arg0) {
+        switch (intention) {
+            case INTENTION_IDLE:
+                onIntentionIdle();
+                break;
+            case INTENTION_MOVE_TO:
+                onIntentionMoveTo((Point3D) arg0);
+                break;
+        }
+
+        _intention = intention;
+    }
+
+    protected abstract void onIntentionMoveTo(Point3D arg0);
+
+    protected abstract void onIntentionIdle();
 
 }
