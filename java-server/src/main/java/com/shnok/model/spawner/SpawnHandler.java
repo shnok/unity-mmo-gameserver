@@ -26,10 +26,10 @@ public class SpawnHandler {
 
     /* Later should load spawnlist from database */
     public void fillSpawnList() {
-        for(int i = 0; i < 5; i++) {
+        /*for(int i = 0; i < 5; i++) {
             SpawnInfo info = new SpawnInfo(World.getInstance().nextID(), 0, 1000);
             _registeredSpawns.put(info.getObjectId(), info);
-        }
+        }*/
 
         SpawnInfo info = new SpawnInfo(World.getInstance().nextID(), 0, 1000, new Point3D(3, 0, 3));
         _registeredSpawns.put(info.getObjectId(), info);

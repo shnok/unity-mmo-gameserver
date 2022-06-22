@@ -1,6 +1,6 @@
 package com.shnok.pathfinding;
 
-import com.shnok.ThreadPoolManager;
+import com.shnok.pathfinding.Geodata.*;
 import com.shnok.pathfinding.node.FastNodeList;
 import com.shnok.pathfinding.node.Node;
 import com.shnok.pathfinding.node.NodeLoc;
@@ -21,9 +21,9 @@ public class PathFinding {
 
     public List<NodeLoc> findPath(int x, int y, int z, int tx, int ty, int tz) {
         Node start = readNode(x, y, z);
-        System.out.println("Start: " + start.getLoc().toString());
+        //System.out.println("Start: " + start.getLoc().toString());
         Node end = readNode(tx, ty, tz);
-        System.out.println("End: " + end.getLoc().toString());
+        //System.out.println("End: " + end.getLoc().toString());
 
         if ((start == null) || (end == null)) {
             return null;
@@ -83,7 +83,7 @@ public class PathFinding {
                     n.setCost((dx * dx) + (dz * dz));
                     for (int index = 0; index < to_visit.size(); index++) {
                         if (to_visit.get(index).getCost() > n.getCost()) {
-                            System.out.println(n.getLoc().toString());
+                            //System.out.println(n.getLoc().toString());
                             to_visit.add(index, n);
                             added = true;
                             break;

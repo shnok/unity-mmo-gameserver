@@ -30,4 +30,19 @@ public class PlayerInstance extends Entity {
     public void setStatus(Status status) {
         _status = (PlayerStatus) status;
     }
+
+    @Override
+    public boolean canMove() {
+        return _canMove;
+    }
+
+    @Override
+    public void moveTo(int x, int y, int z) {
+
+    }
+
+    @Override
+    public void onDeath() {
+
+    }
 }

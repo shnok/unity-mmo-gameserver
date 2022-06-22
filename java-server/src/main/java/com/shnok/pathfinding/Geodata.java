@@ -43,7 +43,11 @@ public class Geodata
             return (World.WORLD_SIZE/2) + coord;
         return coord - (World.WORLD_SIZE/2);
     }
+
     public NodeType getNodeType(int x, int y, int z) {
+        x = Math.max(0, Math.min(World.WORLD_SIZE, x));
+        y = Math.max(0, Math.min(World.WORLD_HEIGHT, y));
+        z = Math.max(0, Math.min(World.WORLD_SIZE, z));
         NodeType n = _geoData.get(flatten(x, y, z));
         return n;
     }

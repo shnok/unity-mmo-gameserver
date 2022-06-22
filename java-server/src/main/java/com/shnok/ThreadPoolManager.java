@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ThreadPoolManager {
     private static ThreadPoolManager _instance;
     private final ScheduledThreadPoolExecutor _spawnThreadPool;
+    private final ScheduledThreadPoolExecutor _aiThreadPool;
     private final ThreadPoolExecutor _packetsThreadPool;
     private boolean _shutdown = false;
 
@@ -26,15 +27,15 @@ public class ThreadPoolManager {
 
     public ThreadPoolManager() {
         _spawnThreadPool = new ScheduledThreadPoolExecutor(5);
-        _packetsThreadPool = new ScheduledThreadPoolExecutor(5);
+        _aiThreadPool = new ScheduledThreadPoolExecutor(100);
+        _packetsThreadPool = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
     }
 
     public ScheduledFuture<?> scheduleSpawn(Runnable r, long delay)
     {
         try
         {
-            if (delay < 0)
-            {
+            if (delay < 0) {
                 delay = 0;
             }
             return _spawnThreadPool.schedule(r, delay, TimeUnit.MILLISECONDS);
@@ -42,6 +43,22 @@ public class ThreadPoolManager {
         catch (RejectedExecutionException e)
         {
             return null; /* shutdown, ignore */
+        }
+    }
+
+    public ScheduledFuture<?> scheduleAiAtFixedRate(Runnable r, long initial, long delay) {
+        try
+        {
+            if (delay < 0)
+                delay = 0;
+            if (initial < 0)
+                initial = 0;
+
+            return _aiThreadPool.scheduleAtFixedRate(r, initial, delay, TimeUnit.MILLISECONDS);
+        }
+        catch (RejectedExecutionException e)
+        {
+            return null;
         }
     }
 
@@ -56,6 +73,7 @@ public class ThreadPoolManager {
         try
         {
             _spawnThreadPool.awaitTermination(1, TimeUnit.SECONDS);
+            _aiThreadPool.awaitTermination(1, TimeUnit.SECONDS);
             _packetsThreadPool.shutdown();
             System.out.println("All ThreadPools are now stoped");
         }
@@ -73,6 +91,7 @@ public class ThreadPoolManager {
     public void purge()
     {
         _spawnThreadPool.purge();
+        _aiThreadPool.purge();
         _packetsThreadPool.purge();
     }
 }
