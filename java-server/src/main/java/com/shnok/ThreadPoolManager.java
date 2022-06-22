@@ -1,13 +1,6 @@
 package com.shnok;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.*;
 
 public class ThreadPoolManager {
     private static ThreadPoolManager _instance;
@@ -16,80 +9,64 @@ public class ThreadPoolManager {
     private final ThreadPoolExecutor _packetsThreadPool;
     private boolean _shutdown = false;
 
-    public static ThreadPoolManager getInstance()
-    {
-        if (_instance == null)
-        {
-            _instance = new ThreadPoolManager();
-        }
-        return _instance;
-    }
-
     public ThreadPoolManager() {
         _spawnThreadPool = new ScheduledThreadPoolExecutor(5);
         _aiThreadPool = new ScheduledThreadPoolExecutor(100);
         _packetsThreadPool = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
     }
 
-    public ScheduledFuture<?> scheduleSpawn(Runnable r, long delay)
-    {
-        try
-        {
+    public static ThreadPoolManager getInstance() {
+        if (_instance == null) {
+            _instance = new ThreadPoolManager();
+        }
+        return _instance;
+    }
+
+    public ScheduledFuture<?> scheduleSpawn(Runnable r, long delay) {
+        try {
             if (delay < 0) {
                 delay = 0;
             }
             return _spawnThreadPool.schedule(r, delay, TimeUnit.MILLISECONDS);
-        }
-        catch (RejectedExecutionException e)
-        {
+        } catch (RejectedExecutionException e) {
             return null; /* shutdown, ignore */
         }
     }
 
     public ScheduledFuture<?> scheduleAiAtFixedRate(Runnable r, long initial, long delay) {
-        try
-        {
+        try {
             if (delay < 0)
                 delay = 0;
             if (initial < 0)
                 initial = 0;
 
             return _aiThreadPool.scheduleAtFixedRate(r, initial, delay, TimeUnit.MILLISECONDS);
-        }
-        catch (RejectedExecutionException e)
-        {
+        } catch (RejectedExecutionException e) {
             return null;
         }
     }
 
-    public void handlePacket(ClientPacketHandler cph)
-    {
+    public void handlePacket(ClientPacketHandler cph) {
         _packetsThreadPool.execute(cph);
     }
 
-    public void shutdown()
-    {
+    public void shutdown() {
         _shutdown = true;
-        try
-        {
+        try {
             _spawnThreadPool.awaitTermination(1, TimeUnit.SECONDS);
             _aiThreadPool.awaitTermination(1, TimeUnit.SECONDS);
             _packetsThreadPool.shutdown();
             System.out.println("All ThreadPools are now stoped");
-        }
-        catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public boolean isShutdown()
-    {
+    public boolean isShutdown() {
         return _shutdown;
     }
 
-    public void purge()
-    {
+    public void purge() {
         _spawnThreadPool.purge();
         _aiThreadPool.purge();
         _packetsThreadPool.purge();

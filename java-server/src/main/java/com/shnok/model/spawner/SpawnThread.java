@@ -4,15 +4,13 @@ import com.shnok.Server;
 import com.shnok.World;
 import com.shnok.ai.MonsterAI;
 import com.shnok.model.Point3D;
-import com.shnok.model.status.NpcStatus;
-import com.shnok.model.status.Status;
 import com.shnok.model.entities.NpcInstance;
+import com.shnok.model.status.NpcStatus;
 import com.shnok.serverpackets.NpcInfo;
-import com.shnok.serverpackets.RemoveObject;
 
 public class SpawnThread implements Runnable {
 
-    private SpawnInfo _spawnInfo;
+    private final SpawnInfo _spawnInfo;
 
     public SpawnThread(SpawnInfo spawnInfo) {
         _spawnInfo = spawnInfo;
@@ -21,9 +19,9 @@ public class SpawnThread implements Runnable {
     @Override
     public void run() {
         try {
-            if(_spawnInfo.isRandomSpawn()) {
-                float randomX = (float)(Math.random()*(10f+1)-5f);
-                float randomZ = (float)(Math.random()*(10f+1)-5f);
+            if (_spawnInfo.isRandomSpawn()) {
+                float randomX = (float) (Math.random() * (10f + 1) - 5f);
+                float randomZ = (float) (Math.random() * (10f + 1) - 5f);
                 Point3D randomPos = new Point3D(randomX, 0, randomZ);
                 _spawnInfo.setSpawnPos(randomPos);
             }
@@ -39,9 +37,7 @@ public class SpawnThread implements Runnable {
             ai.setOwner(npc);
             npc.attachAI(ai);
             System.out.println("Spawned monster at " + _spawnInfo.getSpawnPos().toString());
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

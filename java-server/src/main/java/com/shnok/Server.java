@@ -3,7 +3,6 @@ package com.shnok;
 import com.shnok.model.spawner.SpawnHandler;
 import com.shnok.pathfinding.Geodata;
 import com.shnok.pathfinding.PathFinding;
-import com.shnok.pathfinding.node.NodeLoc;
 import com.shnok.serverpackets.ServerPacket;
 
 import java.net.Socket;
@@ -12,17 +11,10 @@ import java.util.List;
 
 public class Server {
 
+    private static Server _instance;
     public final int PORT = 11000;
     private final GameServerListener _gameServerListener;
     private final List<GameClient> _clients = new ArrayList<>();
-    private static Server _instance;
-
-    public static Server getInstance() {
-        if(_instance == null) {
-            _instance = new Server();
-        }
-        return _instance;
-    }
 
     public Server() {
         _gameServerListener = new GameServerListener(PORT);
@@ -34,6 +26,13 @@ public class Server {
 
         Shutdown _shutdownHandler = Shutdown.getInstance();
         Runtime.getRuntime().addShutdownHook(_shutdownHandler);
+    }
+
+    public static Server getInstance() {
+        if (_instance == null) {
+            _instance = new Server();
+        }
+        return _instance;
     }
 
     public static void main(String[] av) {
@@ -67,8 +66,8 @@ public class Server {
 
     public void broadcast(ServerPacket packet) {
         synchronized (_clients) {
-            for(GameClient c : _clients) {
-                if(c.authenticated) {
+            for (GameClient c : _clients) {
+                if (c.authenticated) {
                     c.sendPacket(packet);
                 }
             }
@@ -77,8 +76,8 @@ public class Server {
 
     public void broadcast(ServerPacket packet, GameClient current) {
         synchronized (_clients) {
-            for(GameClient c : _clients) {
-                if(c.authenticated && c != current) {
+            for (GameClient c : _clients) {
+                if (c.authenticated && c != current) {
                     c.sendPacket(packet);
                 }
             }
@@ -87,8 +86,8 @@ public class Server {
 
     public void broadcastAll(ServerPacket packet) {
         synchronized (_clients) {
-            for(GameClient c : _clients) {
-                if(c.authenticated) {
+            for (GameClient c : _clients) {
+                if (c.authenticated) {
                     c.sendPacket(packet);
                 }
             }
@@ -97,8 +96,8 @@ public class Server {
 
     public boolean userExists(String user) {
         synchronized (_clients) {
-            for(GameClient c : _clients) {
-                if(c.authenticated) {
+            for (GameClient c : _clients) {
+                if (c.authenticated) {
                     return c.getUsername().equals(user);
                 }
             }

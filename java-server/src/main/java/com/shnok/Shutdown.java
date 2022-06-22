@@ -2,18 +2,16 @@ package com.shnok;
 
 public class Shutdown extends Thread {
     private static Shutdown _instance;
-    public static Shutdown getInstance()
-    {
-        if (_instance == null)
-        {
+
+    public static Shutdown getInstance() {
+        if (_instance == null) {
             _instance = new Shutdown();
         }
         return _instance;
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         try {
             Server.getInstance().getGameServerListener().interrupt();
         } catch (Exception e) {
@@ -21,7 +19,7 @@ public class Shutdown extends Thread {
         }
 
         try {
-            for(GameClient c : Server.getInstance().getAllClients()) {
+            for (GameClient c : Server.getInstance().getAllClients()) {
                 c.interrupt();
             }
         } catch (Exception e) {

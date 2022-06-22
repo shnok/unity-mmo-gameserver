@@ -11,15 +11,10 @@ import java.net.Socket;
 public abstract class ClientThread extends Thread {
     private final Socket _connection;
     private final String _connectionIp;
+    public boolean authenticated;
     private InputStream _in;
     private OutputStream _out;
-    public boolean authenticated;
-
     private long lastEcho;
-
-    abstract void authenticate();
-    abstract void removeSelf();
-    abstract void handlePacket(byte[] data);
 
     public ClientThread(Socket con) {
         _connection = con;
@@ -34,6 +29,12 @@ public abstract class ClientThread extends Thread {
         }
     }
 
+    abstract void authenticate();
+
+    abstract void removeSelf();
+
+    abstract void handlePacket(byte[] data);
+
     @Override
     public void run() {
         startReadingPackets();
@@ -44,7 +45,7 @@ public abstract class ClientThread extends Thread {
         int packetLength;
 
         try {
-            for (;;) {
+            for (; ; ) {
                 packetType = _in.read();
                 packetLength = _in.read();
 
@@ -71,7 +72,7 @@ public abstract class ClientThread extends Thread {
             System.out.println("Exception while reading packets");
             e.printStackTrace();
         } finally {
-            System.out.println("User " + _connectionIp +" disconnected");
+            System.out.println("User " + _connectionIp + " disconnected");
             removeSelf();
             disconnect();
         }

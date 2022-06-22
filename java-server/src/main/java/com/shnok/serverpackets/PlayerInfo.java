@@ -4,7 +4,7 @@ import com.shnok.model.entities.PlayerInstance;
 
 public class PlayerInfo extends ServerPacket {
     public PlayerInfo(PlayerInstance player) {
-        super((byte)0x04);
+        super((byte) 0x04);
 
         writeI(player.getId());
         writeS(player.getName());

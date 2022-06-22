@@ -9,8 +9,12 @@ import java.util.Map;
 
 public class SpawnHandler {
 
-    private Map<Integer, SpawnInfo> _registeredSpawns;
     private static SpawnHandler _instance;
+    private final Map<Integer, SpawnInfo> _registeredSpawns;
+
+    private SpawnHandler() {
+        _registeredSpawns = new HashMap<>();
+    }
 
     public static SpawnHandler getInstance() {
         if (_instance == null) {
@@ -18,10 +22,6 @@ public class SpawnHandler {
         }
 
         return _instance;
-    }
-
-    private SpawnHandler() {
-        _registeredSpawns = new HashMap<>();
     }
 
     /* Later should load spawnlist from database */

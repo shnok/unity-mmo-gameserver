@@ -3,9 +3,9 @@ package com.shnok.model.entities;
 import com.shnok.GameTimeController;
 import com.shnok.ai.BaseAI;
 import com.shnok.ai.enums.Event;
+import com.shnok.model.GameObject;
 import com.shnok.model.Point3D;
 import com.shnok.model.status.Status;
-import com.shnok.model.GameObject;
 import com.shnok.pathfinding.PathFinding;
 import com.shnok.pathfinding.node.NodeLoc;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * Such as : Players or AIs<BR>
  * <BR>
  */
-public  abstract class Entity extends GameObject {
+public abstract class Entity extends GameObject {
     protected boolean _canMove = true;
     protected MoveData _moveData;
     protected BaseAI _ai;
@@ -39,15 +39,15 @@ public  abstract class Entity extends GameObject {
     public boolean moveTo(int x, int y, int z) {
         System.out.println("AI find path: " + x + "," + y + "," + z);
 
-        if(_moveData == null) {
+        if (_moveData == null) {
             _moveData = new NpcInstance.MoveData();
         }
 
         if (_moveData.path == null || _moveData.path.size() == 0) {
-            _moveData.path = PathFinding.getInstance().findPath((int)getPosX(), (int)getPosY(), (int)getPosZ(), x, y, z);
+            _moveData.path = PathFinding.getInstance().findPath((int) getPosX(), (int) getPosY(), (int) getPosZ(), x, y, z);
         }
 
-        if(_moveData.path != null && _moveData.path.size() > 0) {
+        if (_moveData.path != null && _moveData.path.size() > 0) {
             followPath();
             GameTimeController.getInstance().addMovingObject(this);
             return true;
@@ -116,13 +116,13 @@ public  abstract class Entity extends GameObject {
             setPosition(new Point3D(_moveData._xDestination, _moveData._yDestination, _moveData._zDestination));
             System.out.println("Update position: " + new Point3D(_moveData._xDestination, _moveData._yDestination, _moveData._zDestination));
 
-            if(_moveData.path.size() > 0) {
+            if (_moveData.path.size() > 0) {
                 followPath();
                 _moveData.path.remove(0);
                 return false;
             }
 
-            if(_ai != null) {
+            if (_ai != null) {
                 _ai.notifyEvent(Event.ARRIVED);
             }
 
@@ -140,45 +140,70 @@ public  abstract class Entity extends GameObject {
         _ai = null;
     }
 
-    public static class MoveData
-    {
-        /** The _move timestamp. */
+    public static class MoveData {
+        /**
+         * The _move timestamp.
+         */
         public int _moveTimestamp;
 
-        /** The _x destination. */
+        /**
+         * The _x destination.
+         */
         public int _xDestination;
 
-        /** The _y destination. */
+        /**
+         * The _y destination.
+         */
         public int _yDestination;
 
-        /** The _z destination. */
+        /**
+         * The _z destination.
+         */
         public int _zDestination;
 
-        /** The _x move from. */
+        /**
+         * The _x move from.
+         */
         public int _xMoveFrom;
 
-        /** The _y move from. */
+        /**
+         * The _y move from.
+         */
         public int _yMoveFrom;
 
-        /** The _z move from. */
+        /**
+         * The _z move from.
+         */
         public int _zMoveFrom;
 
-        /** The _heading. */
+        /**
+         * The _heading.
+         */
         public int _heading;
 
-        /** The _move start time. */
+        /**
+         * The _move start time.
+         */
         public int _moveStartTime;
 
-        /** The _ticks to move. */
+        /**
+         * The _ticks to move.
+         */
         public int _ticksToMove;
 
-        /** The _x speed ticks. */
+        /**
+         * The _x speed ticks.
+         */
         public float _xSpeedTicks;
 
-        /** The _y speed ticks. */
+        /**
+         * The _y speed ticks.
+         */
         public float _ySpeedTicks;
 
-        /** The geo path. */
+        /**
+         * The geo path.
+         */
         public List<NodeLoc> path;
     }
 }

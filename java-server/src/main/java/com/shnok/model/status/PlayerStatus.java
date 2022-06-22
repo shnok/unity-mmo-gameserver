@@ -1,10 +1,10 @@
 package com.shnok.model.status;
 
 public class PlayerStatus extends Status {
-    private int _stamina;
-    private int _maxStamina;
+    private final int _stamina;
+    private final int _maxStamina;
     private int _exp;
-    private int _maxExp;
+    private final int _maxExp;
 
     public PlayerStatus() {
         _maxHp = 100;
@@ -19,9 +19,11 @@ public class PlayerStatus extends Status {
     public int getStamina() {
         return _stamina;
     }
+
     public int getMaxStamina() {
         return _maxStamina;
     }
+
     public void addExp(int value) {
         _exp += value;
     }

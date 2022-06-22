@@ -1,7 +1,6 @@
 package com.shnok.pathfinding.node;
 
-public class NodeLoc
-{
+public class NodeLoc {
     private final int _x;
     private final int _y;
     private final int _z;

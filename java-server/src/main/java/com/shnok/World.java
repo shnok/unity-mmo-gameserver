@@ -24,7 +24,7 @@ public class World {
     }
 
     public static World getInstance() {
-        if(_instance == null) {
+        if (_instance == null) {
             _instance = new World();
         }
         return _instance;
@@ -44,7 +44,7 @@ public class World {
 
     public Entity getEntity(int id) {
         Entity e = _allPlayers.get(id);
-        if(e == null) {
+        if (e == null) {
             return _allNPCs.get(id);
         }
 

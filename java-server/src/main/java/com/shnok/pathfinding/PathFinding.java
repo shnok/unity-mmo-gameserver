@@ -1,6 +1,5 @@
 package com.shnok.pathfinding;
 
-import com.shnok.pathfinding.Geodata.*;
 import com.shnok.pathfinding.node.FastNodeList;
 import com.shnok.pathfinding.node.Node;
 import com.shnok.pathfinding.node.NodeLoc;
@@ -11,8 +10,8 @@ import java.util.List;
 
 public class PathFinding {
     private static PathFinding _instance;
-    public static PathFinding getInstance()
-    {
+
+    public static PathFinding getInstance() {
         if (_instance == null) {
             _instance = new PathFinding();
         }
@@ -34,8 +33,7 @@ public class PathFinding {
         return searchByClosest(start, end);
     }
 
-    public List<NodeLoc> searchByClosest(Node start, Node end)
-    {
+    public List<NodeLoc> searchByClosest(Node start, Node end) {
         // List of Visited Nodes
         FastNodeList visited = new FastNodeList(550);
 
@@ -47,13 +45,11 @@ public class PathFinding {
         int dx, dz;
         boolean added;
         int i = 0;
-        while (i < 550)
-        {
+        while (i < 550) {
             Node node;
             try {
                 node = to_visit.removeFirst();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("No path found");
                 // No Path found
                 return null;
@@ -71,7 +67,7 @@ public class PathFinding {
                 continue;
             }
             for (Node n : neighbors) {
-                if(n == null) {
+                if (n == null) {
                     continue;
                 }
                 if (!visited.containsRev(n) && !to_visit.contains(n)) {
@@ -103,7 +99,7 @@ public class PathFinding {
         //System.out.println("Read node: " + nodeX + "," + nodeY + "," + nodeZ);
         NodeType type = Geodata.getInstance().getNodeType(nodeX, nodeY, nodeZ);
 
-        if(type == null || type == NodeType.NOT_WALKABLE) {
+        if (type == null || type == NodeType.NOT_WALKABLE) {
             return null;
         }
 
@@ -121,13 +117,13 @@ public class PathFinding {
                 if (x == 0 && z == 0)
                     continue;
 
-                Node node = readNode (nodeX + x, nodeY, nodeZ + z);
-                if(node == null)
-                    node = readNode (nodeX + x, nodeY - 1, nodeZ + z);
-                if(node == null)
-                    node = readNode (nodeX + x, nodeY + 1, nodeZ + z);
+                Node node = readNode(nodeX + x, nodeY, nodeZ + z);
+                if (node == null)
+                    node = readNode(nodeX + x, nodeY - 1, nodeZ + z);
+                if (node == null)
+                    node = readNode(nodeX + x, nodeY + 1, nodeZ + z);
 
-                if(node != null) {
+                if (node != null) {
                     //System.out.println("Parent: (" + nodeX + "," + nodeY + "," + nodeZ + ")" + " Neighbor:" + node.getLoc().toString());
                 }
                 returnList[i] = node;
@@ -140,8 +136,7 @@ public class PathFinding {
         return returnList;
     }
 
-    public List<NodeLoc> constructPath(Node node)
-    {
+    public List<NodeLoc> constructPath(Node node) {
         LinkedList<NodeLoc> path = new LinkedList<>();
         LinkedList<NodeLoc> path2 = new LinkedList<>();
         int prevX = -1000;

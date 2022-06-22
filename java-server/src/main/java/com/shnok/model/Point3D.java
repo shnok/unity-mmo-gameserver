@@ -7,7 +7,9 @@ public class Point3D implements Serializable {
 
     private volatile float _x, _y, _z;
 
-    public Point3D() {}
+    public Point3D() {
+    }
+
     public Point3D(float pX, float pY, float pZ) {
         _x = pX;
         _y = pY;
@@ -15,9 +17,9 @@ public class Point3D implements Serializable {
     }
 
     public Point3D(int pX, int pY, int pZ) {
-        _x = (float)pX;
-        _y = (float)pY;
-        _z = (float)pZ;
+        _x = (float) pX;
+        _y = (float) pY;
+        _z = (float) pZ;
     }
 
     public Point3D(float pX, float pY) {
@@ -34,6 +36,26 @@ public class Point3D implements Serializable {
         }
     }
 
+    public static float distanceSquared(Point3D point1, Point3D point2) {
+        float dx, dy;
+        synchronized (point1) {
+            synchronized (point2) {
+                dx = point1._x - point2._x;
+                dy = point1._y - point2._y;
+            }
+        }
+        return (dx * dx) + (dy * dy);
+    }
+
+    public static boolean distanceLessThan(Point3D point1, Point3D point2, double distance) {
+        return distanceSquared(point1, point2) < (distance * distance);
+    }
+
+    /*@Override
+    public int hashCode() {
+        return _x ^ _y ^ _z;
+    }*/
+
     public synchronized void setTo(Point3D point) {
         synchronized (point) {
             _x = point._x;
@@ -46,11 +68,6 @@ public class Point3D implements Serializable {
     public String toString() {
         return "(" + _x + ", " + _y + ", " + _z + ")";
     }
-
-    /*@Override
-    public int hashCode() {
-        return _x ^ _y ^ _z;
-    }*/
 
     @Override
     public synchronized boolean equals(Object o) {
@@ -76,21 +93,6 @@ public class Point3D implements Serializable {
             dy = _y - point._y;
         }
         return (dx * dx) + (dy * dy);
-    }
-
-    public static float distanceSquared(Point3D point1, Point3D point2) {
-        float dx, dy;
-        synchronized (point1) {
-            synchronized (point2) {
-                dx = point1._x - point2._x;
-                dy = point1._y - point2._y;
-            }
-        }
-        return (dx * dx) + (dy * dy);
-    }
-
-    public static boolean distanceLessThan(Point3D point1, Point3D point2, double distance) {
-        return distanceSquared(point1, point2) < (distance * distance);
     }
 
     public float getX() {

@@ -13,7 +13,7 @@ public class GameServerListener extends Thread {
             System.out.println("Create gameserverlistener");
             _serverSocket = new ServerSocket(port);
             _port = port;
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException("Could not create ServerSocket ", e);
         }
     }

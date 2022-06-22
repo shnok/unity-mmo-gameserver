@@ -17,13 +17,13 @@ public abstract class Packet {
         return _packetData;
     }
 
-    public byte getType() {
-        return _packetType;
-    }
-
     public void setData(byte[] data) {
         _packetType = data[0];
         _packetLength = data[1];
         _packetData = data;
+    }
+
+    public byte getType() {
+        return _packetType;
     }
 }

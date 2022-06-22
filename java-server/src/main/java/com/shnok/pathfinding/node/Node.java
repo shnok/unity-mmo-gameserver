@@ -2,8 +2,7 @@ package com.shnok.pathfinding.node;
 
 import com.shnok.pathfinding.PathFinding;
 
-public class Node
-{
+public class Node {
     private final NodeLoc _loc;
     private Node[] _neighbors;
     private Node _parent;
@@ -11,14 +10,6 @@ public class Node
 
     public Node(NodeLoc Loc) {
         _loc = Loc;
-    }
-
-    public void setParent(Node p) {
-        _parent = p;
-    }
-
-    public void setCost(int cost) {
-        _cost = (short) cost;
     }
 
     public void attacheNeighbors() {
@@ -37,12 +28,20 @@ public class Node
         return _parent;
     }
 
+    public void setParent(Node p) {
+        _parent = p;
+    }
+
     public NodeLoc getLoc() {
         return _loc;
     }
 
     public short getCost() {
         return _cost;
+    }
+
+    public void setCost(int cost) {
+        _cost = (short) cost;
     }
 
     @Override

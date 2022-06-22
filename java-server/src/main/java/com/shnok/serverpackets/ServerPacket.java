@@ -3,7 +3,6 @@ package com.shnok.serverpackets;
 import com.shnok.Packet;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +19,7 @@ public abstract class ServerPacket extends Packet {
 
     protected void writeS(String s) {
         try {
-            if(s != null) {
+            if (s != null) {
                 byte[] d = s.getBytes(StandardCharsets.UTF_8);
                 write(d);
             }
@@ -34,25 +33,25 @@ public abstract class ServerPacket extends Packet {
     }
 
     protected void writeI(int i) {
-        Byte[] array = new Byte[] { (byte)((i >> 24) & 0xff),
-                (byte)((i >> 16) & 0xff),
-                (byte)((i >> 8) & 0xff),
-                (byte)((i >> 0) & 0xff)};
+        Byte[] array = new Byte[]{(byte) ((i >> 24) & 0xff),
+                (byte) ((i >> 16) & 0xff),
+                (byte) ((i >> 8) & 0xff),
+                (byte) ((i >> 0) & 0xff)};
 
         buffer.addAll(Arrays.asList(array));
     }
 
     protected void writeF(float f) {
-        int intBits =  Float.floatToIntBits(f);
-        Byte[] array = new Byte[] {
-                (byte) (intBits >> 24), (byte) (intBits >> 16), (byte) (intBits >> 8), (byte) (intBits) };
+        int intBits = Float.floatToIntBits(f);
+        Byte[] array = new Byte[]{
+                (byte) (intBits >> 24), (byte) (intBits >> 16), (byte) (intBits >> 8), (byte) (intBits)};
 
-       buffer.addAll(Arrays.asList(array));
+        buffer.addAll(Arrays.asList(array));
     }
 
     protected void write(byte[] data) {
 
-        buffer.add((byte)data.length);
+        buffer.add((byte) data.length);
         List<Byte> byteList = IntStream.range(0, data.length)
                 .mapToObj((int j) -> data[j])
                 .collect(Collectors.toList());
@@ -61,7 +60,7 @@ public abstract class ServerPacket extends Packet {
 
     protected void buildPacket() {
         buffer.add(0, _packetType);
-        buffer.add(1, (byte)(buffer.size() + 1));
+        buffer.add(1, (byte) (buffer.size() + 1));
         Byte[] array = buffer.toArray(new Byte[0]);
         setData(ArrayUtils.toPrimitive(array));
 

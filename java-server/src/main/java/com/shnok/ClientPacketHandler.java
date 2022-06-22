@@ -1,11 +1,10 @@
 package com.shnok;
 
 import com.shnok.clientpackets.*;
-import com.shnok.model.GameObject;
+import com.shnok.model.Point3D;
 import com.shnok.model.entities.Entity;
 import com.shnok.model.entities.NpcInstance;
 import com.shnok.model.entities.PlayerInstance;
-import com.shnok.model.Point3D;
 import com.shnok.serverpackets.*;
 
 import javax.swing.*;
@@ -15,14 +14,15 @@ import java.util.Map;
 
 public class ClientPacketHandler extends Thread {
     private final GameClient _client;
-    private byte[] _data;
+    private final byte[] _data;
 
     public ClientPacketHandler(GameClient client, byte[] data) {
         _client = client;
         _data = data;
     }
+
     @Override
-    public void run(){
+    public void run() {
         handle();
     }
 
@@ -64,7 +64,7 @@ public class ClientPacketHandler extends Thread {
         Timer timer = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if(System.currentTimeMillis() - _client.getLastEcho() > 1500) {
+                if (System.currentTimeMillis() - _client.getLastEcho() > 1500) {
                     _client.removeSelf();
                     _client.disconnect();
                 }
@@ -79,9 +79,9 @@ public class ClientPacketHandler extends Thread {
         String username = packet.getUsername();
 
         AuthResponse authResponse;
-        if(Server.getInstance().userExists(username)) {
+        if (Server.getInstance().userExists(username)) {
             authResponse = new AuthResponse(AuthResponse.AuthResponseType.ALREADY_CONNECTED);
-        } else if(username.length() <= 0 || username.length() > 16) {
+        } else if (username.length() <= 0 || username.length() > 16) {
             authResponse = new AuthResponse(AuthResponse.AuthResponseType.INVALID_USERNAME);
         } else {
             authResponse = new AuthResponse(AuthResponse.AuthResponseType.ALLOW);
@@ -91,7 +91,7 @@ public class ClientPacketHandler extends Thread {
 
         _client.sendPacket(authResponse);
 
-        if(_client.authenticated) {
+        if (_client.authenticated) {
             _client.authenticate();
         }
     }

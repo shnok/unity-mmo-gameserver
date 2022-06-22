@@ -1,11 +1,10 @@
 package com.shnok.serverpackets;
 
 import com.shnok.model.entities.NpcInstance;
-import com.shnok.model.entities.PlayerInstance;
 
 public class NpcInfo extends ServerPacket {
     public NpcInfo(NpcInstance npc) {
-        super((byte)0x0A);
+        super((byte) 0x0A);
 
         writeI(npc.getId());
         writeI(npc.getNpcId());

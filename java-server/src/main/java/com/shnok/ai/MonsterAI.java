@@ -2,7 +2,6 @@ package com.shnok.ai;
 
 import com.shnok.ThreadPoolManager;
 import com.shnok.model.entities.NpcInstance;
-import com.shnok.pathfinding.PathFinding;
 
 import java.util.Random;
 import java.util.concurrent.Future;
@@ -10,6 +9,7 @@ import java.util.concurrent.Future;
 public class MonsterAI extends BaseAI implements Runnable {
     private Future<?> _aiTask;
     private boolean _thinking = false;
+
     public MonsterAI() {
         startAITask();
     }
@@ -34,9 +34,9 @@ public class MonsterAI extends BaseAI implements Runnable {
             int x1, y1, z1;
             int maxDriftRange = 5;
 
-            x1 = ((int)npc.getSpawn().getSpawnPos().getX() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
+            x1 = ((int) npc.getSpawn().getSpawnPos().getX() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
             y1 = 0;
-            z1 = ((int)npc.getSpawn().getSpawnPos().getZ() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
+            z1 = ((int) npc.getSpawn().getSpawnPos().getZ() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
 
             moveTo(x1, y1, z1);
         }

@@ -1,14 +1,10 @@
 package com.shnok.pathfinding.node;
 
-import com.shnok.pathfinding.node.Node;
-
-public class FastNodeList
-{
+public class FastNodeList {
     private final Node[] _list;
     private int _size;
 
-    public FastNodeList(int size)
-    {
+    public FastNodeList(int size) {
         _list = new Node[size];
     }
 
