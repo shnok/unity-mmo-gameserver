@@ -53,6 +53,13 @@ public class GameTimeController {
         }
     }
 
+    public synchronized void removeMovingObject(Entity e) {
+        if (e == null) {
+            return;
+        }
+        _movingObjects.remove(e);
+    }
+
     public void stopTimer() {
         _timer.interrupt();
     }

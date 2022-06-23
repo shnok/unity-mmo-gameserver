@@ -31,7 +31,7 @@ public class SpawnHandler {
             _registeredSpawns.put(info.getObjectId(), info);
         }*/
 
-        SpawnInfo info = new SpawnInfo(World.getInstance().nextID(), 0, 1000, new Point3D(1, 0, 1));
+        SpawnInfo info = new SpawnInfo(World.getInstance().nextID(), 0, 5000, new Point3D(1, 0, 1));
         _registeredSpawns.put(info.getObjectId(), info);
     }
 

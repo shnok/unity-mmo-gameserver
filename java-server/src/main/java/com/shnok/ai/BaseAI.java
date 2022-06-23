@@ -8,7 +8,7 @@ import com.shnok.model.entities.Entity;
 public abstract class BaseAI {
     protected Entity _owner;
     protected boolean _moving = false;
-    private Intention _intention = Intention.INTENTION_IDLE;
+    protected Intention _intention = Intention.INTENTION_IDLE;
 
     public void notifyEvent(Event evt) {
         switch (evt) {
@@ -52,8 +52,6 @@ public abstract class BaseAI {
                 onIntentionMoveTo((Point3D) arg0);
                 break;
         }
-
-        _intention = intention;
     }
 
     protected abstract void onIntentionMoveTo(Point3D arg0);

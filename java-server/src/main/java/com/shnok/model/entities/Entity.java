@@ -10,6 +10,7 @@ import com.shnok.model.status.Status;
 import com.shnok.pathfinding.Geodata;
 import com.shnok.pathfinding.PathFinding;
 import com.shnok.pathfinding.node.NodeLoc;
+import com.shnok.serverpackets.ObjectMoveTo;
 import com.shnok.serverpackets.ObjectPosition;
 
 import java.util.List;
@@ -109,6 +110,10 @@ public abstract class Entity extends GameObject {
         _moveData._moveStartTime = GameTimeController.getGameTicks();
         _moveData.path.remove(0);
 
+        /* send destination to clients */
+        ObjectMoveTo packet = new ObjectMoveTo(getId(), new Point3D(x, y, z));
+        Server.getInstance().broadcastAll(packet);
+
         return true;
     }
 
@@ -131,9 +136,12 @@ public abstract class Entity extends GameObject {
         if (elapsed >= _moveData._ticksToMove) {
             _moveData._moveTimestamp = gameTicks;
 
-            System.out.println("Update position: " + new Point3D(_moveData._xDestination, _moveData._yDestination, _moveData._zDestination));
-            setPosition(new Point3D(_moveData._xDestination, _moveData._yDestination, _moveData._zDestination));
-            Server.getInstance().broadcastAll(new ObjectPosition(getId(), getPos()));
+            Point3D newPos = new Point3D(_moveData._xDestination, _moveData._yDestination, _moveData._zDestination);
+            setPosition(newPos);
+
+            /* share new position with clients */
+            ObjectPosition packet = new ObjectPosition(getId(), newPos);
+            Server.getInstance().broadcastAll(packet);
 
             if (_moveData.path.size() > 0) {
                 moveToNextRoutePoint();

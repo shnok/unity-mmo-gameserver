@@ -31,5 +31,11 @@ public class Shutdown extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try {
+            GameTimeController.getInstance().stopTimer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

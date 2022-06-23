@@ -197,6 +197,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb28759fcfea764db75b84c9a7ee07d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  identity:
+    id: 0
+    npcId: 0
+    name: 
+    model: 0
+    position: {x: 0, y: 0, z: 0}
+    owned: 0
+  lerpSpeed: 2.7
 --- !u!1 &6774080502169825540
 GameObject:
   m_ObjectHideFlags: 0

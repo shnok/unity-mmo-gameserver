@@ -1,16 +1,20 @@
 package com.shnok.ai;
 
+import com.shnok.GameTimeController;
+import com.shnok.Server;
 import com.shnok.ThreadPoolManager;
 import com.shnok.ai.enums.Intention;
 import com.shnok.model.Point3D;
 import com.shnok.model.entities.NpcInstance;
 import com.shnok.pathfinding.Geodata;
 import com.shnok.pathfinding.node.NodeType;
+import com.shnok.serverpackets.ObjectAnimation;
 
 import java.util.Random;
 import java.util.concurrent.Future;
 
 public class NpcAI extends BaseAI implements Runnable {
+    private final int patrolRate = 1;
     private Future<?> _aiTask;
     private boolean _thinking = false;
 
@@ -28,7 +32,6 @@ public class NpcAI extends BaseAI implements Runnable {
         if (_thinking || _owner == null) {
             return;
         }
-        System.out.println("Think");
 
         NpcInstance npc = (NpcInstance) _owner;
         _thinking = true;
@@ -37,7 +40,7 @@ public class NpcAI extends BaseAI implements Runnable {
         if (getIntention() == Intention.INTENTION_IDLE) {
             /* Check if npc needs to patrol */
             Random r = new Random();
-            if ((npc.getSpawn() != null) && (r.nextInt(5) == 0) && npc.isOnGeoData()) {
+            if ((npc.getSpawn() != null) && (r.nextInt(patrolRate) == 0) && npc.isOnGeoData()) {
                 int x1, y1, z1;
                 int maxDriftRange = 5;
 
@@ -55,6 +58,7 @@ public class NpcAI extends BaseAI implements Runnable {
             }
         }
 
+        //System.out.println(getIntention());
         _thinking = false;
         startAITask();
     }
@@ -68,19 +72,21 @@ public class NpcAI extends BaseAI implements Runnable {
 
     private void stopAITask() {
         if (_aiTask != null) {
-            _aiTask.cancel(false);
+            _aiTask.cancel(true);
             _aiTask = null;
         }
     }
 
     @Override
     protected void onEvtDead() {
+        if (getIntention() == Intention.INTENTION_MOVE_TO) {
+            GameTimeController.getInstance().removeMovingObject(_owner);
+        }
         stopAITask();
     }
 
     @Override
     protected void onEvtArrived() {
-        System.out.println("Arrived");
         if (_owner.moveToNextRoutePoint()) {
             return;
         }
@@ -92,27 +98,28 @@ public class NpcAI extends BaseAI implements Runnable {
 
     @Override
     protected void onIntentionMoveTo(Point3D pos) {
-        moveTo((int) pos.getX(), (int) pos.getY(), (int) pos.getZ());
+        _intention = Intention.INTENTION_MOVE_TO;
+
+        if (_owner.canMove()) {
+            if (_owner.moveTo((int) pos.getX(), (int) pos.getY(), (int) pos.getZ())) {
+                _moving = true;
+                return;
+            }
+        }
+
+        setIntention(Intention.INTENTION_IDLE);
     }
 
     @Override
     protected void onIntentionIdle() {
         if (getIntention() == Intention.INTENTION_MOVE_TO) {
-            stopMoving();
-        }
-    }
+            _moving = false;
 
-    private void moveTo(int x, int y, int z) {
-        if (_owner.canMove()) {
-            if (_owner.moveTo(x, y, z)) {
-                _moving = true;
-                // Send a packet to notify npc moving
-            }
+            // Send a packet to notify npc stop moving
+            ObjectAnimation packet = new ObjectAnimation(_owner.getId(), (byte) 0, 0f);
+            Server.getInstance().broadcastAll(packet);
         }
-    }
 
-    private void stopMoving() {
-        _moving = false;
-        // Send a packet to notify npc stop moving
+        _intention = Intention.INTENTION_IDLE;
     }
 }

@@ -24,16 +24,14 @@ public class Geodata {
 
     private void initGeodata() {
         _geoData = new FastMap<>();
-        for (int x = -World.WORLD_SIZE; x < World.WORLD_SIZE; x++) {
-            for (int z = -World.WORLD_SIZE; z < World.WORLD_SIZE; z++) {
+        for (int z = -World.WORLD_SIZE; z < World.WORLD_SIZE; z++) {
+            for (int x = -World.WORLD_SIZE; x < World.WORLD_SIZE; x++) {
                 _geoData.put(flatten(x, 0, z), NodeType.WALKABLE);
             }
         }
-        for (int x = -World.WORLD_SIZE + 1; x < World.WORLD_SIZE - 1; x++) {
+        for (int x = -World.WORLD_SIZE + 2; x < World.WORLD_SIZE - 1; x++) {
             _geoData.put(flatten(x, 0, 0), NodeType.UNWALKABLE);
         }
-
-        _geoData.remove(-1);
     }
 
     public Point3D clampToWorld(Point3D pos) {
@@ -44,19 +42,20 @@ public class Geodata {
     }
 
     public boolean isInsideBounds(int x, int y, int z) {
-        return !(x <= -World.WORLD_SIZE || y <= -World.WORLD_HEIGHT || z <= -World.WORLD_SIZE ||
-                x >= World.WORLD_SIZE || y >= World.WORLD_HEIGHT || z >= World.WORLD_SIZE);
+        return (x > -World.WORLD_SIZE && y > -World.WORLD_HEIGHT && z > -World.WORLD_SIZE &&
+                x < World.WORLD_SIZE && y < World.WORLD_HEIGHT && z < World.WORLD_SIZE);
     }
 
     public NodeType getNodeType(int x, int y, int z) {
-        if (!isInsideBounds(x, y, z)) {
+        int id = flatten(x, y, z);
+        if (!isInsideBounds(x, y, z) || !_geoData.containsKey(id)) {
             return NodeType.UNWALKABLE;
         }
 
-        return _geoData.get(flatten(x, y, z));
+        return _geoData.get(id);
     }
 
     public int flatten(int x, int y, int z) {
-        return (y * World.WORLD_SIZE * World.WORLD_SIZE) + (z * World.WORLD_SIZE) + x;
+        return (y * World.WORLD_HEIGHT * 2 * World.WORLD_SIZE * 2) + (z * World.WORLD_SIZE * 2) + x;
     }
 }

@@ -64,6 +64,9 @@ public class ServerPacketHandler
             case 0x0A:
                 onNpcInfoReceive(data);
                 break;
+            case 0x0B:
+                onObjectMoveTo(data);
+                break;
         }
     }
 
@@ -136,25 +139,24 @@ public class ServerPacketHandler
         UpdatePositionPacket packet = new UpdatePositionPacket(data);
         int id = packet.getId();
         Vector3 position = packet.getPosition();
-        World.GetInstance().UpdateObject(id, position);
+        World.GetInstance().UpdateObjectPosition(id, position, false);
     }
     private void onRemoveObject(byte[] data) {
         RemoveObjectPacket packet = new RemoveObjectPacket(data);
         World.GetInstance().RemoveObject(packet.getId());
     }
-
     private void onUpdateRotation(byte[] data) {
         UpdateRotationPacket packet = new UpdateRotationPacket(data);
         int id = packet.getId();
         float angle = packet.getAngle();
-        World.GetInstance().UpdateObject(id, angle);
+        World.GetInstance().UpdateObjectRotation(id, angle);
     }
     private void onUpdateAnimation(byte[] data) {
         UpdateAnimationPacket packet = new UpdateAnimationPacket(data);
         int id = packet.getId();
         int animId = packet.getAnimId();
         float value = packet.getValue();
-        World.GetInstance().UpdateObject(id, animId, value);
+        World.GetInstance().UpdateObjectAnimation(id, animId, value);
     }
     private void onInflictDamage(byte[] data) {
         InflictDamagePacket packet = new InflictDamagePacket(data);
@@ -166,5 +168,12 @@ public class ServerPacketHandler
         NpcStatus status = packet.GetStatus();
 
         World.GetInstance().SpawnNpc(identity, status);
+    }
+    private void onObjectMoveTo(byte[] data) {
+        ObjectMoveToPacket packet = new ObjectMoveToPacket(data);
+        int id = packet.getId();
+        Vector3 position = packet.getPosition();
+        World.GetInstance().UpdateObjectPosition(id, position, true);
+        World.GetInstance().UpdateObjectAnimation(id, 0, 1);
     }
 }

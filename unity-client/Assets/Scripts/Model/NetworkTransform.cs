@@ -59,8 +59,9 @@ public class NetworkTransform : MonoBehaviour {
     }
 
     public void LerpToPosition() {
-        transform.position = Vector3.Lerp(_lastPos, _newPos, _posLerpValue);
-        _posLerpValue += (1 / lerpSpeed) * Time.deltaTime;
+        //transform.position = Vector3.Lerp(_lastPos, _newPos, _posLerpValue);
+        //_posLerpValue += (1 / lerpSpeed) * Time.deltaTime;
+        transform.position =  Vector3.MoveTowards(transform.position, _newPos, Time.deltaTime * lerpSpeed);
     }
 
     public void LerpToRotation() {
@@ -74,6 +75,14 @@ public class NetworkTransform : MonoBehaviour {
         _newPos = pos;     
         _lastPos = transform.position;
         _posLerpValue = 0;
+    }
+
+    public void LookAt(Vector3 dest) {
+        var heading = dest - transform.position;
+        float angle = Vector3.Angle(heading, Vector3.forward);
+        Vector3 cross = Vector3.Cross(heading, Vector3.forward);
+        if(cross.y >= 0) angle = -angle;
+        RotateTo(angle);
     }
 
     public void RotateTo(float angle) {

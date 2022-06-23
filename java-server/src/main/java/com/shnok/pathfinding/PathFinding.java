@@ -50,12 +50,11 @@ public class PathFinding {
             try {
                 node = to_visit.removeFirst();
             } catch (Exception e) {
-                System.out.println("No path found");
                 // No Path found
                 return null;
             }
             if (node.equals(end)) {
-                System.out.println("Found path");
+                //System.out.println("Found path");
                 return constructPath(node);
             }
 
@@ -98,12 +97,10 @@ public class PathFinding {
     private Node readNode(int nodeX, int nodeY, int nodeZ) {
         //System.out.println("Read node: " + nodeX + "," + nodeY + "," + nodeZ);
         NodeType type = Geodata.getInstance().getNodeType(nodeX, nodeY, nodeZ);
-
-        if (type == null || type == NodeType.UNWALKABLE) {
+        if (type == NodeType.UNWALKABLE) {
             return null;
         }
 
-        //System.out.println("Found node at " + nodeX + "," + nodeY + "," + nodeZ);
         return new Node(new NodeLoc(nodeX, nodeY, nodeZ));
     }
 
@@ -124,7 +121,7 @@ public class PathFinding {
                     node = readNode(nodeX + x, nodeY + 1, nodeZ + z);
 
                 if (node != null) {
-                    //System.out.println("Parent: (" + nodeX + "," + nodeY + "," + nodeZ + ")" + " Neighbor:" + node.getLoc().toString());
+                    //System.out.println("Node: (" + nodeX + "," + nodeY + "," + nodeZ + ")" + " Neighbor:" + node.getLoc().toString());
                 }
                 returnList[i] = node;
 
