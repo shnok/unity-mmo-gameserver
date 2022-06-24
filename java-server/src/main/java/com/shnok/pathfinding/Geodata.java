@@ -5,7 +5,12 @@ import com.shnok.model.Point3D;
 import com.shnok.pathfinding.node.NodeType;
 import javolution.util.FastMap;
 
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Map;
+import java.util.Objects;
 
 public class Geodata {
     private static Geodata _instance;
@@ -24,6 +29,51 @@ public class Geodata {
 
     private void initGeodata() {
         _geoData = new FastMap<>();
+        loadFromFile();
+    }
+
+    private void loadFromFile() {
+        DataInputStream is = openFile("terrain.dat");
+        if (is != null) {
+            parseFile(is);
+        }
+    }
+
+    private DataInputStream openFile(String fileName) {
+        try {
+            ClassLoader classLoader = getClass().getClassLoader();
+            File f = new File(Objects.requireNonNull(classLoader.getResource(fileName)).getFile());
+            DataInputStream in = new DataInputStream(Files.newInputStream(f.toPath()));
+
+            return in;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void parseFile(DataInputStream in) {
+        try {
+            int index;
+            while (true) {
+                index = swapint(in.readInt());
+                NodeType type = NodeType.values()[in.readByte()];
+                System.out.println(index + "," + type);
+                _geoData.put(index, type);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private int swapint(int intvalue) {
+        int byte0 = ((intvalue >> 24) & 0xFF);
+        int byte1 = ((intvalue >> 16) & 0xFF);
+        int byte2 = ((intvalue >> 8) & 0xFF);
+        int byte3 = (intvalue & 0xFF);
+        return (byte3 << 24) + (byte2 << 16) + (byte1 << 8) + (byte0);
+    }
+
+    private void generateData() {
         for (int z = -World.WORLD_SIZE; z < World.WORLD_SIZE; z++) {
             for (int x = -World.WORLD_SIZE; x < World.WORLD_SIZE; x++) {
                 _geoData.put(flatten(x, 0, z), NodeType.WALKABLE);

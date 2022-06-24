@@ -29,11 +29,18 @@ public class SpawnThread implements Runnable {
             _spawnInfo.setSpawned(true);
             NpcInstance npc = new NpcInstance(_spawnInfo);
             npc.setStatus(new NpcStatus(1, 3));
+            if (npc.getNpcId() == 0) {
+                npc.setStatic(true);
+            }
             World.getInstance().addNPC(npc);
             Server.getInstance().broadcastAll(new NpcInfo(npc));
-            NpcAI ai = new NpcAI();
-            ai.setOwner(npc);
-            npc.attachAI(ai);
+
+            if (!npc.isStatic()) {
+                NpcAI ai = new NpcAI();
+                ai.setOwner(npc);
+                npc.attachAI(ai);
+            }
+
             System.out.println("Spawned monster at " + _spawnInfo.getSpawnPos().toString());
         } catch (Exception e) {
             e.printStackTrace();

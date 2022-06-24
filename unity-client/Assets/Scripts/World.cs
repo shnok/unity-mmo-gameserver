@@ -13,9 +13,6 @@ public class World : MonoBehaviour
     public Dictionary<int, Entity> npcs = new Dictionary<int, Entity>();
     public Dictionary<int, NetworkTransform> objects = new Dictionary<int, NetworkTransform>();
     public GameObject mainPlayer;
-    public Dictionary<Vector3, int> debugTerrain = new Dictionary<Vector3, int>();
-    public static int WORLD_SIZE = 10;
-    public static int WORLD_HEIGHT = 10;
 
     public static World _instance;
     public static World GetInstance() {
@@ -31,7 +28,6 @@ public class World : MonoBehaviour
         npcPrefab = Resources.Load("Prefab/Monster") as GameObject;
         labelPrefab = Resources.Load("Prefab/EntityLabel") as GameObject;
         _eventProcessor = gameObject.GetComponent<EventProcessor>();
-        PrepareTerrain();
     }
 
     public void RemoveObject(int id) {
@@ -143,32 +139,5 @@ public class World : MonoBehaviour
                 });
             }
         }
-    }
-
-    private void PrepareTerrain() {
-        for(int u = -World.WORLD_SIZE; u < World.WORLD_SIZE; u++) {
-            Debug.Log(u);
-            debugTerrain.TryAdd(new Vector3(World.WORLD_SIZE - 1, 0, u), 0);
-            debugTerrain.TryAdd(new Vector3(-World.WORLD_SIZE, 0, u), 0);
-            debugTerrain.TryAdd(new Vector3(u, 0, World.WORLD_SIZE - 1), 0);
-            debugTerrain.TryAdd(new Vector3(u, 0, -World.WORLD_SIZE), 0);
-        }
-
-        for(int x = -World.WORLD_SIZE + 2; x < World.WORLD_SIZE - 2; x++) {
-            debugTerrain.Add(new Vector3(x, 0, 0), 0);
-        }
-    }
-    private void OnDrawGizmos() {
-        foreach(var item in debugTerrain) {
-            if(item.Value == 0) {
-                Gizmos.color = Color.red;
-                Gizmos.DrawCube(new Vector3(item.Key.x + 0.5f, item.Key.y + 0.1f, item.Key.z + 0.5f), new Vector3(0.8f, 0.2f, 0.8f));
-            } else {
-                Gizmos.color = Color.white;
-                Gizmos.DrawCube(new Vector3(item.Key.x + 0.5f, item.Key.y + 0.1f, item.Key.z + 0.5f), new Vector3(0.8f, 0.2f, 0.8f));
-            }
-            
-        }
-        
     }
 }

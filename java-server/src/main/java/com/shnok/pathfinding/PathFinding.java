@@ -51,10 +51,11 @@ public class PathFinding {
                 node = to_visit.removeFirst();
             } catch (Exception e) {
                 // No Path found
+                System.out.println("No path found - " + start.getLoc() + " - " + end.getLoc());
                 return null;
             }
             if (node.equals(end)) {
-                //System.out.println("Found path");
+                System.out.println("Found path - " + start.getLoc() + " - " + end.getLoc());
                 return constructPath(node);
             }
 
@@ -134,8 +135,12 @@ public class PathFinding {
     }
 
     public List<NodeLoc> constructPath(Node node) {
+        //return constructPathSimplified(node);
+        return constructPathFull(node);
+    }
+
+    public List<NodeLoc> constructPathSimplified(Node node) {
         LinkedList<NodeLoc> path = new LinkedList<>();
-        LinkedList<NodeLoc> path2 = new LinkedList<>();
         int prevX = -1000;
         int prevY = -1000;
         int dirX;
@@ -149,9 +154,17 @@ public class PathFinding {
                 prevY = dirY;
                 path.addFirst(node.getLoc());
             }
-            path2.addFirst(node.getLoc());
             node = node.getParent();
         }
-        return path2;
+        return path;
+    }
+
+    public List<NodeLoc> constructPathFull(Node node) {
+        LinkedList<NodeLoc> path = new LinkedList<>();
+        while (node.getParent() != null) {
+            path.addFirst(node.getLoc());
+            node = node.getParent();
+        }
+        return path;
     }
 }
