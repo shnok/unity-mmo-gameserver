@@ -105,6 +105,37 @@ public class Geodata {
         return _geoData.get(id);
     }
 
+    /* Find a valid location based on geodata */
+    public Point3D randomLocation() {
+        int iterations = 0;
+
+        /* Loop until valid location found */
+        while (iterations < 20) {
+            int layer = 0;
+            int[] layers = new int[World.WORLD_HEIGHT * 2];
+            int randomX = (int) (Math.random() * (World.WORLD_SIZE + 1) - (float) World.WORLD_SIZE / 2f);
+            int randomZ = (int) (Math.random() * (World.WORLD_SIZE + 1) - (float) World.WORLD_SIZE / 2f);
+
+            /* find layers */
+            for (int y = -World.WORLD_HEIGHT; y < World.WORLD_HEIGHT; y++) {
+                if (getNodeType(randomX, y, randomZ) == NodeType.WALKABLE) {
+                    layers[layer] = y;
+                    layer++;
+                }
+            }
+
+            /* found a layer */
+            if (layer != 0) {
+                layer = (int) (Math.random() * layer);
+                return new Point3D(randomX, layers[layer], randomZ);
+            }
+
+            iterations++;
+        }
+
+        return new Point3D(0, 0, 0);
+    }
+
     public int flatten(int x, int y, int z) {
         return (y * World.WORLD_HEIGHT * 2 * World.WORLD_SIZE * 2) + (z * World.WORLD_SIZE * 2) + x;
     }

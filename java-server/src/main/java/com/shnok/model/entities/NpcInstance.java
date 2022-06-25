@@ -3,6 +3,7 @@ package com.shnok.model.entities;
 import com.shnok.Server;
 import com.shnok.World;
 import com.shnok.ai.enums.Event;
+import com.shnok.model.Point3D;
 import com.shnok.model.spawner.SpawnHandler;
 import com.shnok.model.spawner.SpawnInfo;
 import com.shnok.model.status.NpcStatus;
@@ -11,19 +12,24 @@ import com.shnok.serverpackets.RemoveObject;
 
 public class NpcInstance extends Entity {
     private boolean _isStatic = false;
+    private boolean _patrol = false;
+    private boolean _randomWalk = false;
+    private Point3D[] _patrolWaypoints;
     private int _npcId;
     private NpcStatus _status;
     private SpawnInfo _spawnInfo;
 
-    public NpcInstance(int id, int npcId) {
-        super(id);
+    public NpcInstance(int npcId, NpcStatus status, boolean isStatic, boolean randomWalk, boolean patrol, Point3D[] patrolWaypoints) {
+        _npcId = npcId;
+        _status = status;
+        _isStatic = isStatic;
+        _randomWalk = randomWalk;
+        _patrol = patrol;
+        _patrolWaypoints = patrolWaypoints;
     }
 
-    public NpcInstance(SpawnInfo spawnInfo) {
-        super(spawnInfo.getObjectId());
-        setSpawn(spawnInfo);
-        setPosition(spawnInfo.getSpawnPos());
-        setNpcId(spawnInfo.getNpcId());
+    public NpcInstance(int id, int npcId) {
+        super(id);
     }
 
     public int getNpcId() {
@@ -73,8 +79,7 @@ public class NpcInstance extends Entity {
 
         World.getInstance().removeNPC(this);
         Server.getInstance().broadcastAll(new RemoveObject(getId()));
-        SpawnHandler.getInstance().getRegisteredSpawns().get(getId()).setSpawned(false);
-        SpawnHandler.getInstance().respawn(getId());
+        SpawnHandler.getInstance().respawn(getSpawn().getId());
     }
 
     public SpawnInfo getSpawn() {
@@ -83,5 +88,29 @@ public class NpcInstance extends Entity {
 
     public void setSpawn(SpawnInfo spawnInfo) {
         _spawnInfo = spawnInfo;
+    }
+
+    public boolean doPatrol() {
+        return _patrol;
+    }
+
+    public void setPatrol(boolean patrol) {
+        this._patrol = patrol;
+    }
+
+    public Point3D[] getPatrolWaypoints() {
+        return _patrolWaypoints;
+    }
+
+    public void setPatrolWaypoints(Point3D[] patrolWaypoints) {
+        this._patrolWaypoints = patrolWaypoints;
+    }
+
+    public boolean doRandomWalk() {
+        return _randomWalk;
+    }
+
+    public void setRandomWalk(boolean randomWalk) {
+        this._randomWalk = randomWalk;
     }
 }

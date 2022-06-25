@@ -5,6 +5,7 @@ import com.shnok.Server;
 import com.shnok.ThreadPoolManager;
 import com.shnok.ai.enums.Intention;
 import com.shnok.model.Point3D;
+import com.shnok.model.entities.Entity;
 import com.shnok.model.entities.NpcInstance;
 import com.shnok.pathfinding.Geodata;
 import com.shnok.pathfinding.node.NodeType;
@@ -14,7 +15,10 @@ import java.util.Random;
 import java.util.concurrent.Future;
 
 public class NpcAI extends BaseAI implements Runnable {
-    private final int patrolRate = 1;
+    private final int _randomWalkRate = 5;
+    private int patrolIndex = 0;
+    private int patrolDirection = 0;
+    private NpcInstance _npc;
     private Future<?> _aiTask;
     private boolean _thinking = false;
 
@@ -32,29 +36,21 @@ public class NpcAI extends BaseAI implements Runnable {
         if (_thinking || _owner == null) {
             return;
         }
+        if (_npc == null) {
+            _npc = (NpcInstance) _owner;
+        }
 
-        NpcInstance npc = (NpcInstance) _owner;
         _thinking = true;
 
         /* Is NPC waiting ? */
         if (getIntention() == Intention.INTENTION_IDLE) {
-            /* Check if npc needs to patrol */
-            Random r = new Random();
-            if ((npc.getSpawn() != null) && (r.nextInt(patrolRate) == 0) && npc.isOnGeoData()) {
-                int x1, y1, z1;
-                int maxDriftRange = 5;
-
-                for (int i = 0; i < 5; i++) {
-                    x1 = ((int) npc.getSpawn().getSpawnPos().getX() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
-                    y1 = 0;
-                    z1 = ((int) npc.getSpawn().getSpawnPos().getZ() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
-
-                    Point3D pos = Geodata.getInstance().clampToWorld(new Point3D(x1, y1, z1));
-                    if (Geodata.getInstance().getNodeType((int) pos.getX(), (int) pos.getY(), (int) pos.getZ()) == NodeType.WALKABLE) {
-                        setIntention(Intention.INTENTION_MOVE_TO, new Point3D(x1, y1, z1));
-                        break;
-                    }
+            /* Check if npc needs to random walk */
+            if (_npc.doPatrol() && _npc.getPatrolWaypoints() != null) {
+                if (_npc.getPatrolWaypoints().length > 0) {
+                    patrol();
                 }
+            } else if (_npc.doRandomWalk()) {
+                randomWalk();
             }
         }
 
@@ -63,6 +59,46 @@ public class NpcAI extends BaseAI implements Runnable {
         startAITask();
     }
 
+    private void patrol() {
+        Point3D wayPoint = new Point3D();
+        if (patrolDirection == 0) {
+            if (patrolIndex < _npc.getPatrolWaypoints().length - 1) {
+                wayPoint = _npc.getPatrolWaypoints()[patrolIndex++];
+            } else {
+                patrolDirection = 1;
+                wayPoint = _npc.getPatrolWaypoints()[patrolIndex--];
+            }
+        } else if (patrolDirection == 1) {
+            if (patrolIndex > 0) {
+                wayPoint = _npc.getPatrolWaypoints()[patrolIndex--];
+            } else {
+                patrolDirection = 0;
+                wayPoint = _npc.getPatrolWaypoints()[patrolIndex++];
+            }
+        }
+
+        setIntention(Intention.INTENTION_MOVE_TO, wayPoint);
+    }
+
+    private void randomWalk() {
+        Random r = new Random();
+        if ((_npc.getSpawn() != null) && (r.nextInt(_randomWalkRate) == 0) && _npc.isOnGeoData()) {
+            int x1, y1, z1;
+            int maxDriftRange = 5;
+
+            for (int i = 0; i < 5; i++) {
+                x1 = ((int) _npc.getSpawn().getSpawnPos().getX() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
+                y1 = 0;
+                z1 = ((int) _npc.getSpawn().getSpawnPos().getZ() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
+
+                Point3D pos = Geodata.getInstance().clampToWorld(new Point3D(x1, y1, z1));
+                if (Geodata.getInstance().getNodeType((int) pos.getX(), (int) pos.getY(), (int) pos.getZ()) == NodeType.WALKABLE) {
+                    setIntention(Intention.INTENTION_MOVE_TO, new Point3D(x1, y1, z1));
+                    break;
+                }
+            }
+        }
+    }
 
     private void startAITask() {
         if (_aiTask == null) {
@@ -94,6 +130,11 @@ public class NpcAI extends BaseAI implements Runnable {
         if (getIntention() == Intention.INTENTION_MOVE_TO) {
             setIntention(Intention.INTENTION_IDLE);
         }
+    }
+
+    @Override
+    public void setOwner(Entity owner) {
+        _owner = owner;
     }
 
     @Override

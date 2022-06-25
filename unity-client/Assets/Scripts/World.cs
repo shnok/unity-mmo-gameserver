@@ -83,7 +83,7 @@ public class World : MonoBehaviour
         /* Should check at npc id to load right npc name and model */
         GameObject go = (GameObject)Instantiate(npcPrefab, identity.Position, Quaternion.identity);
         NetworkTransform networkTransform = go.GetComponent<NetworkTransform>();
-        identity.Name = "Nigger";
+        identity.Name = "Dummy";
         networkTransform.SetIdentity(identity);
         Entity npc = go.GetComponent<Entity>();
         npc.Status = status;

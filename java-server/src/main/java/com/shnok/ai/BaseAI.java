@@ -30,9 +30,7 @@ public abstract class BaseAI {
 
     protected abstract void onEvtArrived();
 
-    public void setOwner(Entity owner) {
-        _owner = owner;
-    }
+    protected abstract void setOwner(Entity owner);
 
     public Intention getIntention() {
         return _intention;

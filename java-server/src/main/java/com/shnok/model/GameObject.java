@@ -11,12 +11,19 @@ public abstract class GameObject {
     protected int _model;
     protected Point3D _position = new Point3D(0, 0, 0);
 
+    public GameObject() {
+    }
+
     public GameObject(int id) {
         _id = id;
     }
 
     public int getId() {
         return _id;
+    }
+
+    public void setId(int id) {
+        _id = id;
     }
 
     public float getPosX() {

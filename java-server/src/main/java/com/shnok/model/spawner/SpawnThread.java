@@ -3,9 +3,10 @@ package com.shnok.model.spawner;
 import com.shnok.Server;
 import com.shnok.World;
 import com.shnok.ai.NpcAI;
+import com.shnok.model.FakeDatabase;
 import com.shnok.model.Point3D;
 import com.shnok.model.entities.NpcInstance;
-import com.shnok.model.status.NpcStatus;
+import com.shnok.pathfinding.Geodata;
 import com.shnok.serverpackets.NpcInfo;
 
 public class SpawnThread implements Runnable {
@@ -20,26 +21,27 @@ public class SpawnThread implements Runnable {
     public void run() {
         try {
             if (_spawnInfo.isRandomSpawn()) {
-                float randomX = (float) (Math.random() * (10f + 1) - 5f);
-                float randomZ = (float) (Math.random() * (10f + 1) - 5f);
-                Point3D randomPos = new Point3D(randomX, 0, randomZ);
-                _spawnInfo.setSpawnPos(randomPos);
+                Point3D randomPos = Geodata.getInstance().randomLocation();
+                _spawnInfo.setSpawnPos(new Point3D(randomPos.getX() + 0.5f, randomPos.getY(), randomPos.getZ() + 0.5f));
             }
 
-            _spawnInfo.setSpawned(true);
-            NpcInstance npc = new NpcInstance(_spawnInfo);
-            npc.setStatus(new NpcStatus(1, 3));
-            if (npc.getNpcId() == 0) {
-                npc.setStatic(true);
+            NpcInstance npc = FakeDatabase.getInstance().getNpc(_spawnInfo.getNpcId());
+            if (npc == null) {
+                return;
             }
-            World.getInstance().addNPC(npc);
-            Server.getInstance().broadcastAll(new NpcInfo(npc));
+
+            npc.setId(World.getInstance().nextID());
+            npc.setPosition(_spawnInfo.getSpawnPos());
+            npc.setSpawn(_spawnInfo);
 
             if (!npc.isStatic()) {
                 NpcAI ai = new NpcAI();
                 ai.setOwner(npc);
                 npc.attachAI(ai);
             }
+
+            World.getInstance().addNPC(npc);
+            Server.getInstance().broadcastAll(new NpcInfo(npc));
 
             System.out.println("Spawned monster at " + _spawnInfo.getSpawnPos().toString());
         } catch (Exception e) {

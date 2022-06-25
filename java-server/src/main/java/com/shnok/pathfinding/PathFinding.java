@@ -55,7 +55,6 @@ public class PathFinding {
                 return null;
             }
             if (node.equals(end)) {
-                System.out.println("Found path - " + start.getLoc() + " - " + end.getLoc());
                 return constructPath(node);
             }
 
@@ -121,11 +120,7 @@ public class PathFinding {
                 if (node == null)
                     node = readNode(nodeX + x, nodeY + 1, nodeZ + z);
 
-                if (node != null) {
-                    //System.out.println("Node: (" + nodeX + "," + nodeY + "," + nodeZ + ")" + " Neighbor:" + node.getLoc().toString());
-                }
                 returnList[i] = node;
-
                 i++;
             }
 

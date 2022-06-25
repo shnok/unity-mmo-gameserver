@@ -1,19 +1,18 @@
 package com.shnok.model.spawner;
 
 import com.shnok.ThreadPoolManager;
-import com.shnok.World;
-import com.shnok.model.Point3D;
+import com.shnok.model.FakeDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpawnHandler {
 
     private static SpawnHandler _instance;
-    private final Map<Integer, SpawnInfo> _registeredSpawns;
+    private List<SpawnInfo> _registeredSpawns;
 
     private SpawnHandler() {
-        _registeredSpawns = new HashMap<>();
+        _registeredSpawns = new ArrayList<>();
     }
 
     public static SpawnHandler getInstance() {
@@ -26,17 +25,11 @@ public class SpawnHandler {
 
     /* Later should load spawnlist from database */
     public void fillSpawnList() {
-        for (int i = 0; i < 5; i++) {
-            SpawnInfo info = new SpawnInfo(World.getInstance().nextID(), 0, 1000);
-            _registeredSpawns.put(info.getObjectId(), info);
-        }
-
-        SpawnInfo info = new SpawnInfo(World.getInstance().nextID(), 1, 5000, new Point3D(-5, 2, 6));
-        _registeredSpawns.put(info.getObjectId(), info);
+        _registeredSpawns = FakeDatabase.getInstance().getSpawnList();
     }
 
     public void spawnMonsters() {
-        _registeredSpawns.forEach((k, v) -> {
+        _registeredSpawns.forEach((v) -> {
             ThreadPoolManager.getInstance().scheduleSpawn(new SpawnThread(v), 0);
         });
     }
@@ -44,9 +37,5 @@ public class SpawnHandler {
     public void respawn(int id) {
         SpawnInfo info = _registeredSpawns.get(id);
         ThreadPoolManager.getInstance().scheduleSpawn(new SpawnThread(info), info.getRespawnDelay());
-    }
-
-    public Map<Integer, SpawnInfo> getRegisteredSpawns() {
-        return _registeredSpawns;
     }
 }

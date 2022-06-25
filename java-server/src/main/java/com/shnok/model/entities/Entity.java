@@ -26,6 +26,9 @@ public abstract class Entity extends GameObject {
     protected MoveData _moveData;
     protected BaseAI _ai;
 
+    public Entity() {
+    }
+
     public Entity(int id) {
         super(id);
     }
@@ -87,10 +90,10 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
-        float x = _moveData.path.get(0).getX();
+        float x = _moveData.path.get(0).getX() + 0.5f;
         float y = _moveData.path.get(0).getY();
-        float z = _moveData.path.get(0).getZ();
-        float distance = calcDistance(getPos(), _moveData.path.get(0).getPos());
+        float z = _moveData.path.get(0).getZ() + 0.5f;
+        float distance = calcDistance(getPos(), new Point3D(x, y, z));
         float dx = (x - getPosX());
         float dy = (y - getPosY());
         float dz = (z - getPosZ());
@@ -104,9 +107,9 @@ public abstract class Entity extends GameObject {
         _moveData._xSpeedTicks = (xt * speed) / GameTimeController.TICKS_PER_SECOND;
         _moveData._ySpeedTicks = (yt * speed) / GameTimeController.TICKS_PER_SECOND;
         _moveData._zSpeedTicks = (zt * speed) / GameTimeController.TICKS_PER_SECOND;
-        _moveData._xDestination = (int) x;
-        _moveData._yDestination = (int) y;
-        _moveData._zDestination = (int) z;
+        _moveData._xDestination = x;
+        _moveData._yDestination = y;
+        _moveData._zDestination = z;
         _moveData._moveStartTime = GameTimeController.getGameTicks();
         _moveData.path.remove(0);
 
@@ -168,9 +171,9 @@ public abstract class Entity extends GameObject {
 
     public static class MoveData {
         public int _moveTimestamp;
-        public int _xDestination;
-        public int _yDestination;
-        public int _zDestination;
+        public float _xDestination;
+        public float _yDestination;
+        public float _zDestination;
         public int _moveStartTime;
         public int _ticksToMove;
         public float _xSpeedTicks;
