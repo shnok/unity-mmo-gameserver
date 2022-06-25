@@ -130,8 +130,8 @@ public class PathFinding {
     }
 
     public List<NodeLoc> constructPath(Node node) {
-        //return constructPathSimplified(node);
-        return constructPathFull(node);
+        return constructPathSimplified(node);
+        //return constructPathFull(node);
     }
 
     public List<NodeLoc> constructPathSimplified(Node node) {
@@ -143,7 +143,7 @@ public class PathFinding {
         while (node.getParent() != null) {
             // only add a new route point if moving direction changes
             dirX = node.getLoc().getX() - node.getParent().getLoc().getX();
-            dirY = node.getLoc().getY() - node.getParent().getLoc().getY();
+            dirY = node.getLoc().getZ() - node.getParent().getLoc().getZ();
             if ((dirX != prevX) || (dirY != prevY)) {
                 prevX = dirX;
                 prevY = dirY;

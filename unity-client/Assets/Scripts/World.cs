@@ -11,8 +11,9 @@ public class World : MonoBehaviour
     private EventProcessor _eventProcessor;
     public Dictionary<int, Entity> players = new Dictionary<int, Entity>();
     public Dictionary<int, Entity> npcs = new Dictionary<int, Entity>();
-    public Dictionary<int, NetworkTransform> objects = new Dictionary<int, NetworkTransform>();
+    public Dictionary<int, Entity> objects = new Dictionary<int, Entity>();
     public GameObject mainPlayer;
+    public LayerMask groundMask;
 
     public static World _instance;
     public static World GetInstance() {
@@ -31,7 +32,7 @@ public class World : MonoBehaviour
     }
 
     public void RemoveObject(int id) {
-        NetworkTransform transform;
+        Entity transform;
         if(objects.TryGetValue(id, out transform)) {
             players.Remove(id);
             npcs.Remove(id);
@@ -50,19 +51,20 @@ public class World : MonoBehaviour
     }
 
     public void InstantiatePlayer(NetworkIdentity identity, PlayerStatus status) {
+        identity.SetPosY(getGroundHeight(identity.Position));
         GameObject go = (GameObject)Instantiate(playerPrefab, identity.Position, Quaternion.identity);
-        NetworkTransform networkTransform = go.GetComponent<NetworkTransform>();
-        networkTransform.SetIdentity(identity);
         Entity player = go.GetComponent<Entity>();
-        player.Status = status;   
+        player.Status = status;
+        player.Identity = identity;
 
         players.Add(identity.Id, player);     
-        objects.Add(identity.Id, networkTransform);  
+        objects.Add(identity.Id, player);  
 
         if(identity.Owned) {
             go.GetComponent<PlayerController>().enabled = true;
             go.GetComponent<HitDetection>().enabled = true;
-
+            go.GetComponent<NetworkTransformReceive>().enabled = false;
+            go.GetComponent<NetworkTransformShare>().enabled = true;
             Camera.main.GetComponent<CameraController>().target = go.transform;
             Camera.main.GetComponent<CameraController>().enabled = true;
             Camera.main.GetComponent<InputManager>().SetCameraController(Camera.main.GetComponent<CameraController>());
@@ -71,6 +73,8 @@ public class World : MonoBehaviour
             mainPlayer = go;
         } else {
             go.GetComponent<PlayerController>().enabled = false;
+            go.GetComponent<NetworkTransformReceive>().enabled = true;
+            go.GetComponent<NetworkTransformShare>().enabled = false;
         }
         
         go.transform.name = identity.Name;
@@ -81,19 +85,28 @@ public class World : MonoBehaviour
 
     public void InstantiateNpc(NetworkIdentity identity, NpcStatus status) {
         /* Should check at npc id to load right npc name and model */
+        identity.SetPosY(getGroundHeight(identity.Position));
         GameObject go = (GameObject)Instantiate(npcPrefab, identity.Position, Quaternion.identity);
-        NetworkTransform networkTransform = go.GetComponent<NetworkTransform>();
         identity.Name = "Dummy";
-        networkTransform.SetIdentity(identity);
         Entity npc = go.GetComponent<Entity>();
         npc.Status = status;
+        npc.Identity = identity;
 
         npcs.Add(identity.Id, npc);
-        objects.Add(identity.Id, networkTransform);
+        objects.Add(identity.Id, npc);
 
         go.SetActive(true);
 
         InstantiateLabel(go);
+    }
+
+    public float getGroundHeight(Vector3 pos) {
+        RaycastHit hit;
+        if(Physics.Raycast(pos + Vector3.up, Vector3.down, out hit, 1.1f, groundMask)) {
+            return hit.point.y;
+        }
+
+        return pos.y;
     }
 
     public void InstantiateLabel(GameObject target) {
@@ -104,38 +117,43 @@ public class World : MonoBehaviour
         go.SetActive(true);
     }
 
-    public void UpdateObjectPosition(int id, Vector3 position, bool lookAt) {
-        NetworkTransform networkTransform;
-        if(objects.TryGetValue(id, out networkTransform)) {
-            _eventProcessor.QueueEvent(() => networkTransform.MoveTo(position));
-            if(lookAt) {
-                _eventProcessor.QueueEvent(() => networkTransform.LookAt(position));
-            }
+    public void UpdateObjectPosition(int id, Vector3 position) {
+        Entity e;
+        if(objects.TryGetValue(id, out e)) {
+            _eventProcessor.QueueEvent(() => e.GetComponent<NetworkTransformReceive>().SetNewPosition(position));
+        }
+    }
+
+    public void UpdateObjectDestination(int id, Vector3 position) {
+        Entity e;
+        if(objects.TryGetValue(id, out e)) {
+            _eventProcessor.QueueEvent(() => e.GetComponent<NetworkTransformReceive>().SetDestination(position));
+            _eventProcessor.QueueEvent(() => e.GetComponent<NetworkTransformReceive>().LookAt(position));
         }
     }
 
     public void UpdateObjectRotation(int id, float angle) {
-        NetworkTransform networkTransform;
-        if(objects.TryGetValue(id, out networkTransform)) {
-            _eventProcessor.QueueEvent(() => networkTransform.RotateTo(angle));           
+        Entity e;
+        if(objects.TryGetValue(id, out e)) {
+            _eventProcessor.QueueEvent(() => e.GetComponent<NetworkTransformReceive>().RotateTo(angle));           
         }
     }
 
     public void UpdateObjectAnimation(int id, int animId, float value) {
-        NetworkTransform networkTransform;
-        if(objects.TryGetValue(id, out networkTransform)) {
-            _eventProcessor.QueueEvent(() => networkTransform.SetAnimationProperty(animId, value));
+        Entity e;
+        if(objects.TryGetValue(id, out e)) {
+            _eventProcessor.QueueEvent(() => e.GetComponent<NetworkTransformReceive>().SetAnimationProperty(animId, value));
         }
     }
 
     public void InflictDamageTo(int sender, int target, byte attackId, int value) {
-        NetworkTransform senderNetworkTransform;
-        NetworkTransform targetNetworkTransform;
-        if(objects.TryGetValue(sender, out senderNetworkTransform)) {
-            if(objects.TryGetValue(target, out targetNetworkTransform)) {
+        Entity senderEntity;
+        Entity targetEntity;
+        if(objects.TryGetValue(sender, out senderEntity)) {
+            if(objects.TryGetValue(target, out targetEntity)) {
                 _eventProcessor.QueueEvent(() => {
                     //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
-                    Combat.GetInstance().ApplyDamage(senderNetworkTransform.transform, targetNetworkTransform.transform, attackId, value);
+                    Combat.GetInstance().ApplyDamage(senderEntity.transform, targetEntity.transform, attackId, value);
                 });
             }
         }

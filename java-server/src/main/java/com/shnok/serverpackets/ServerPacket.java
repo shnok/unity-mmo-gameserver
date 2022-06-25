@@ -64,6 +64,6 @@ public abstract class ServerPacket extends Packet {
         Byte[] array = buffer.toArray(new Byte[0]);
         setData(ArrayUtils.toPrimitive(array));
 
-        System.out.println("Sent: " + Arrays.toString(_packetData));
+        //System.out.println("Sent: " + Arrays.toString(_packetData));
     }
 }

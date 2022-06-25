@@ -139,7 +139,7 @@ public class ServerPacketHandler
         UpdatePositionPacket packet = new UpdatePositionPacket(data);
         int id = packet.getId();
         Vector3 position = packet.getPosition();
-        World.GetInstance().UpdateObjectPosition(id, position, false);
+        World.GetInstance().UpdateObjectPosition(id, position);
     }
     private void onRemoveObject(byte[] data) {
         RemoveObjectPacket packet = new RemoveObjectPacket(data);
@@ -173,7 +173,7 @@ public class ServerPacketHandler
         ObjectMoveToPacket packet = new ObjectMoveToPacket(data);
         int id = packet.getId();
         Vector3 position = packet.getPosition();
-        World.GetInstance().UpdateObjectPosition(id, position, true);
+        World.GetInstance().UpdateObjectDestination(id, position);
         World.GetInstance().UpdateObjectAnimation(id, 0, 1);
     }
 }

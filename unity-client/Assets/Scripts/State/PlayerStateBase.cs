@@ -6,19 +6,19 @@ public class PlayerStateBase : StateMachineBehaviour
 {
     public PlayerController pc;
 	public Animator _animator;
-	public NetworkTransform _network;
+	public bool owned;
 
     public void LoadComponents(Animator animator) {
         if(!pc)
             pc = animator.GetComponentInParent<PlayerController>();
 		if(!_animator)
 			_animator = animator;
-		if(!_network)
-			_network = animator.GetComponentInParent<NetworkTransform>();
-    }
+
+		owned = animator.GetComponentInParent<Entity>().Identity.Owned;
+	}
 
 	public void SetBool(string name, bool value) {
-		if(!_network.GetIdentity().Owned)
+		if(!owned)
 			return;
 
 		if(_animator.GetBool(name) != value) {
@@ -29,7 +29,7 @@ public class PlayerStateBase : StateMachineBehaviour
 	}
 
 	public void SetFloat(string name, float value) {
-		if(!_network.GetIdentity().Owned)
+		if(!owned)
 			return;
 
 		if(Mathf.Abs(_animator.GetFloat(name) - value) > 0.2f) {
@@ -40,7 +40,7 @@ public class PlayerStateBase : StateMachineBehaviour
 	}
 
 	public void SetInteger(string name, int value) {
-		if(!_network.GetIdentity().Owned)
+		if(!owned)
 			return;
 
 		if(_animator.GetInteger(name) != value) {
@@ -51,7 +51,7 @@ public class PlayerStateBase : StateMachineBehaviour
 	}
 
 	public void SetTrigger(string name) {
-		if(!_network.GetIdentity().Owned)
+		if(!owned)
 			return;
 
 		_animator.SetTrigger(name);
@@ -68,13 +68,10 @@ public class PlayerStateBase : StateMachineBehaviour
 	}
 
 	private void EmitAnimatorInfo(string name, float value) {
-		if(!_network)
-			return;
-
-		if(_network.GetIdentity().Owned) {
+		if(owned) {
 			int index = SerializeAnimatorInfo(name);
 			if(index != -1) {
-				_network.ShareAnimation((byte)index, value);
+				_animator.GetComponentInParent<NetworkTransformShare>().ShareAnimation((byte)index, value);
             }
         }
 	}

@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.shnok.Server
+Class-Path: commons-lang3-3.12.0.jar javolution-5.5.1.jar
+

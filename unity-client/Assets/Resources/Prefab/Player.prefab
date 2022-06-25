@@ -1072,6 +1072,7 @@ GameObject:
   - component: {fileID: 9570812}
   - component: {fileID: 1752075019}
   - component: {fileID: 1752075020}
+  - component: {fileID: 5331155002264248658}
   - component: {fileID: 1752075021}
   - component: {fileID: 5548995295057530338}
   m_Layer: 8
@@ -1150,6 +1151,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status:
     rid: -2
+  _identity:
+    rid: -2
   references:
     version: 2
     RefIds:
@@ -1167,14 +1170,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 177531594d4642b4189b20af7d630654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  animator: {fileID: 0}
+  controller: {fileID: 14343514}
+  animator: {fileID: 9570812}
   moveDirection: {x: 0, y: 0, z: 0}
   _currentSpeed: 0
   defaultSpeed: 4
   canMove: 1
   _jumpForce: 10
   _gravity: 28
+  _realSpeed: 0
+--- !u!114 &5331155002264248658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167764}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d305b34a98d7498448ee3c74efc25d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _serverPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1752075021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1182,18 +1199,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 167764}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fb28759fcfea764db75b84c9a7ee07d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  identity:
-    id: 0
-    npcId: 0
-    name: 
-    model: 0
-    position: {x: 0, y: 0, z: 0}
-    owned: 0
+  _serverPosition: {x: 0, y: 0, z: 0}
+  moveSpeed: 4
+  lerpDuration: 0.3
+  noclip: 1
 --- !u!114 &5548995295057530338
 MonoBehaviour:
   m_ObjectHideFlags: 0

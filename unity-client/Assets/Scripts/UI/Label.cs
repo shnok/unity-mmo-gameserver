@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class Label : MonoBehaviour {
 	private bool _visible;
@@ -38,7 +39,7 @@ public class Label : MonoBehaviour {
 				transform.GetChild(0).gameObject.SetActive(true);
 
 				Status targetStatus = _target.GetComponent<Entity>().status;
-				NetworkIdentity identity = _target.GetComponent<NetworkTransform>().identity;
+				NetworkIdentity identity = _target.GetComponent<Entity>().Identity;
 				float hpPercent = (float)targetStatus.Hp / (float)targetStatus.MaxHp;
 				hpPercent = Mathf.Clamp(hpPercent, 0.0f, 1.0f);
 				_healthBar.sizeDelta = new Vector2(hpPercent * _barContour.sizeDelta.x, _healthBar.sizeDelta.y);
@@ -47,7 +48,7 @@ public class Label : MonoBehaviour {
 			} else {
 				transform.GetChild(0).gameObject.SetActive(false);
 			}
-		} catch (MissingReferenceException ex) {
+		} catch (Exception ex) {
 
         }
 

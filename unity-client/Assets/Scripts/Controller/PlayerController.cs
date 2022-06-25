@@ -4,7 +4,6 @@ public class PlayerController : MonoBehaviour {
 
 	/* Components */
 	public CharacterController controller;
-	public Animator animator;
 
 	/*Rotate*/
 	private float _finalAngle;
@@ -21,7 +20,10 @@ public class PlayerController : MonoBehaviour {
 	public float _jumpForce = 10;
 	public float _gravity = 28;
 
-	private NetworkTransform networkTransform;
+	public float _realSpeed;
+	private Vector3 current_pos;
+	private Vector3 last_pos;
+
 	public static PlayerController _instance;
 	public static PlayerController GetInstance() {
 		return _instance;
@@ -35,8 +37,6 @@ public class PlayerController : MonoBehaviour {
 
 	void Start() {
 		controller = GetComponent<CharacterController>();
-		networkTransform = GetComponent<NetworkTransform>();
-		animator = GetComponent<Animator>();
 	}
 
 	public void UpdateInputs(float x, float y) {
@@ -54,6 +54,10 @@ public class PlayerController : MonoBehaviour {
 		/* Direction */
 		moveDirection = GetMoveDirection(moveDirection, _currentSpeed);
 		controller.Move(moveDirection * Time.deltaTime);
+
+		current_pos = transform.position;
+		_realSpeed = (current_pos - last_pos).magnitude / Time.deltaTime;
+		last_pos = current_pos;
 	}
 
 	private float GetRotationValue(float angle) {
@@ -83,7 +87,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		/* Handle input direction */
-		if(InputManager.GetInstance().AxisPressed() && controller.isGrounded && canMove) {
+		if(controller.isGrounded && canMove) {
 			direction = _axis.x * right + _axis.y * forward;
 		} else if(!controller.isGrounded) {
 			direction = transform.forward;

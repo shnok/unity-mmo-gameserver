@@ -1100,7 +1100,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 167764, guid: 3519280cb594b2047848c036d8bb625d, type: 3}
+  npcPrefab: {fileID: 0}
   labelPrefab: {fileID: 0}
+  mainPlayer: {fileID: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &1676363315
 MonoBehaviour:
   m_ObjectHideFlags: 0
