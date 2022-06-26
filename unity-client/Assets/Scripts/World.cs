@@ -153,7 +153,7 @@ public class World : MonoBehaviour
             if(objects.TryGetValue(target, out targetEntity)) {
                 _eventProcessor.QueueEvent(() => {
                     //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
-                    Combat.GetInstance().ApplyDamage(senderEntity.transform, targetEntity.transform, attackId, value);
+                    WorldCombat.GetInstance().ApplyDamage(senderEntity.transform, targetEntity.transform, attackId, value);
                 });
             }
         }

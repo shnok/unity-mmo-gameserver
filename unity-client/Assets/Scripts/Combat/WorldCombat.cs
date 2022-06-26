@@ -7,17 +7,18 @@ public enum AttackType {
     FallDamage
 }
 
-public class Combat : MonoBehaviour
+public class WorldCombat : MonoBehaviour
 {
     public GameObject impactParticle;
 
-    private static Combat _instance;
+    private static WorldCombat _instance;
+
     void Awake() {
         if(_instance == null)
             _instance = this;
     }
 
-    public static Combat GetInstance() {
+    public static WorldCombat GetInstance() {
         return _instance;
     }
 

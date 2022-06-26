@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
     private bool _jump = false;
     private bool _dodge = false;
     private bool _attack = false;
+    private bool _holsterWeapons = false;
 
     private static InputManager _instance;
     public static InputManager GetInstance() {
@@ -40,9 +41,10 @@ public class InputManager : MonoBehaviour
             _attack = false;
         }
 
-        if(Input.GetKeyDown(KeyCode.X)) {
-            if(GameObject.Find("test") != null)
-                Combat.GetInstance().Attack(GameObject.Find("test").transform, AttackType.AutoAttack);
+        if(Input.GetKeyDown(KeyCode.X) && !UIOnline.GetInstance().mouseEnabled) {
+            _holsterWeapons = true;
+        } else {
+            _holsterWeapons = false;
         }
 
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) {
@@ -80,5 +82,9 @@ public class InputManager : MonoBehaviour
 
     public bool Attack() {
         return _attack;
+    }
+
+    public bool HolsterWeapons() {
+        return _holsterWeapons;
     }
 }

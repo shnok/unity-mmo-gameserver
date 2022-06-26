@@ -2,7 +2,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class CameraCollisionDetection {
-	public LayerMask collisionLayer = ~LayerMask.GetMask("Entity");
+	public LayerMask collisionLayer = ~LayerMask.GetMask(new string[] {"Entity", "PlayerEntity"});
 	private Camera _camera;
     private Transform _target;
     private Vector3 _offset;

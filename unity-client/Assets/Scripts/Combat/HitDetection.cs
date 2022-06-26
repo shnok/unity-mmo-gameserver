@@ -28,7 +28,7 @@ public class HitDetection : MonoBehaviour
 
     private void SendAttack(AttackType attackType) {
         foreach(Transform t in targets) {
-            Combat.GetInstance().Attack(t, attackType);
+            WorldCombat.GetInstance().Attack(t, attackType);
         }
     }
 

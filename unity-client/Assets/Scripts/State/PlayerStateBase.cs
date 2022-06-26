@@ -5,12 +5,15 @@ using UnityEngine;
 public class PlayerStateBase : StateMachineBehaviour
 {
     public PlayerController pc;
+    public CombatController cc;
 	public Animator _animator;
 	public bool owned;
 
     public void LoadComponents(Animator animator) {
         if(!pc)
             pc = animator.GetComponentInParent<PlayerController>();
+		if(!cc)
+			cc = animator.GetComponentInParent<CombatController>();
 		if(!_animator)
 			_animator = animator;
 

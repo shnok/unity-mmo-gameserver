@@ -2,31 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleAttack : PlayerStateBase {
+public class HolsterWeaponState : PlayerStateBase {
+    public bool holsterApplied;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
-        animator.GetComponentInChildren<Xft.XWeaponTrail>(true).Deactivate();
+        holsterApplied = false;
+        animator.SetBool("TakeWeapon", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if(!owned)
-            return;
-
-        if(InputManager.GetInstance().Attack() && !animator.GetNextAnimatorStateInfo(0).IsName("Attack1") && pc.controller.isGrounded && (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))) {   
-            SetBool("Attack", true);         
-            pc.LookForward("camera");   
-        }
-
-        if(InputManager.GetInstance().HolsterWeapons()) {
-            SetBool("TakeWeapon", true);
+        if(!animator.IsInTransition(1) && animator.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.9f && !holsterApplied) {
+            cc.HolsterWeapons();
+            holsterApplied = true;
+            animator.SetBool("TakeWeapon", false);
         }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-
+        animator.SetBool("TakeWeapon", false);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

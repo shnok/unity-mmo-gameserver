@@ -21,9 +21,11 @@ public class IdleState : PlayerStateBase
             SetBool("Moving", true);
         }
 
-        if(InputManager.GetInstance().Jump() && pc.canMove && pc.controller.isGrounded && !animator.IsInTransition(0)) {
-            SetBool("Jump", true);
-            pc.Jump();
+        if(InputManager.GetInstance().Jump() && pc.canMove && pc.controller.isGrounded) {
+            if(!animator.IsInTransition(0) || InputManager.GetInstance().AxisPressed()) {
+                SetBool("Jump", true);
+                pc.Jump();
+            }
         }
     }
 

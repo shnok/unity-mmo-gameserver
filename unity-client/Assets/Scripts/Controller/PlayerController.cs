@@ -114,10 +114,6 @@ public class PlayerController : MonoBehaviour {
 		return speed < 0 ? 0 : speed;
 	}
 
-	/*public bool KeyPressed() {
-		return _axis.x != 0 || _axis.y != 0;
-	}*/
-
 	public void Jump() {
 		if(controller.isGrounded && canMove) {
 			_verticalVelocity = _jumpForce;
