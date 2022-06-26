@@ -81,7 +81,6 @@ public class NpcAI extends BaseAI implements Runnable {
     }
 
     private void randomWalk() {
-        System.out.println("Random walk");
         Random r = new Random();
         if ((_npc.getSpawn() != null) && (r.nextInt(_randomWalkRate) == 0) && _npc.isOnGeoData()) {
             int x1, y1, z1;

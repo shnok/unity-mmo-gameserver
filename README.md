@@ -56,5 +56,7 @@ An honest try at making an online action rpg demo with java (server) and unity3D
 [Int: `sender id` | Int: `target id` | Byte: `attack type` | Int: `value`]
 # 0x0A : NpcInfo
 [Int: `id` | Int: `npc id` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Int: `level`| Int: `hp`| Int: `maxhp`]
+# 0x0B : ObjectMoveTo
+[Int: `id` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`]
 
 ```
