@@ -44,7 +44,7 @@ public abstract class Entity extends GameObject {
     public abstract void onDeath();
 
     public boolean moveTo(int x, int y, int z) {
-        System.out.println("AI find path: " + x + "," + y + "," + z);
+        //System.out.println("AI find path: " + x + "," + y + "," + z);
         if (!isOnGeoData()) {
             return false;
         }
@@ -53,7 +53,8 @@ public abstract class Entity extends GameObject {
 
         /* find path using pathfinder */
         if (_moveData.path == null || _moveData.path.size() == 0) {
-            _moveData.path = PathFinding.getInstance().findPath((int) getPosX(), (int) getPosY(), (int) getPosZ(), x, y, z);
+            _moveData.path = PathFinding.getInstance().findPath(
+                    (int) Math.floor(getPosX()), (int) Math.floor(getPosY()), (int) Math.floor(getPosZ()), x, y, z);
         }
 
         /* check if path was found */
@@ -121,7 +122,8 @@ public abstract class Entity extends GameObject {
     }
 
     public boolean isOnGeoData() {
-        return Geodata.getInstance().isInsideBounds((int) getPosX(), (int) getPosY(), (int) getPosZ());
+        return Geodata.getInstance().isInsideBounds(
+                (int) Math.floor(getPosX()), (int) Math.floor(getPosY()), (int) Math.floor(getPosZ()));
     }
 
     public boolean updatePosition(int gameTicks) {

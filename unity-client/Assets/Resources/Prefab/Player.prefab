@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 493630}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: UpVector_Leg_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 445586}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: FullBodyIK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 453386}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_UpperLeg_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400410}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_Hand_R
   m_TagString: rightHand
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 486606}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_Arm_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 457254}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_Hand_L
   m_TagString: leftHand
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 403476}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Locator_Leg_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,7 +231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 401580}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_Spine01
   m_TagString: back
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 428244}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: X-WeaponTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 489846}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_Foot_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,7 +327,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 409066}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_ForeArm_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,7 +359,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 462966}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: UpVector_Leg_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,7 +390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 484300}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_Foot_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -421,7 +421,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 449142}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_Leg_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -453,7 +453,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 436266}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: FullBodyIK (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,7 +484,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 447822}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_Spine02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -520,7 +520,7 @@ GameObject:
   - component: {fileID: 449690}
   - component: {fileID: 2391176}
   - component: {fileID: 3385874}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Sword
   m_TagString: weapon
   m_Icon: {fileID: 0}
@@ -602,7 +602,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 452354}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -639,7 +639,7 @@ GameObject:
   m_Component:
   - component: {fileID: 489532}
   - component: {fileID: 13783616}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Knight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -740,7 +740,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 404584}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Locator_Leg_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -773,7 +773,7 @@ GameObject:
   m_Component:
   - component: {fileID: 433076}
   - component: {fileID: 13756014}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -873,7 +873,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 491968}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Group Locator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -908,7 +908,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 496640}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -942,7 +942,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 454304}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: StartPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -973,7 +973,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 462434}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1004,7 +1004,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 453970}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_Arm_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1036,7 +1036,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 487462}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_ForeArm_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1075,7 +1075,7 @@ GameObject:
   - component: {fileID: 5331155002264248658}
   - component: {fileID: 1752075021}
   - component: {fileID: 5548995295057530338}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Player
   m_TagString: entity
   m_Icon: {fileID: 0}
@@ -1171,7 +1171,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 14343514}
-  animator: {fileID: 9570812}
   moveDirection: {x: 0, y: 0, z: 0}
   _currentSpeed: 0
   defaultSpeed: 4
@@ -1237,7 +1236,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 495728}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Goal (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1270,7 +1269,7 @@ GameObject:
   - component: {fileID: 441614}
   - component: {fileID: 3317108}
   - component: {fileID: 2397092}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1351,7 +1350,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 435718}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_UpperLeg_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1384,7 +1383,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 493154}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: EndPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1415,7 +1414,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 437672}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Goal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1446,7 +1445,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 438306}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Skeleton_Leg_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1481,7 +1480,7 @@ GameObject:
   - component: {fileID: 33000013176332554}
   - component: {fileID: 23000011094262696}
   - component: {fileID: 95000010152362342}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Shield
   m_TagString: shield
   m_Icon: {fileID: 0}
@@ -1582,7 +1581,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3117000152205075154}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1614,9 +1613,21 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 400410}
     m_Modifications:
+    - target: {fileID: 100000, guid: 846903343dd218248863aa5037fd59fa, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 846903343dd218248863aa5037fd59fa, type: 3}
       propertyPath: m_Name
       value: WeaponTrail
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 846903343dd218248863aa5037fd59fa, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 846903343dd218248863aa5037fd59fa, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 846903343dd218248863aa5037fd59fa, type: 3}
       propertyPath: m_LocalPosition.x

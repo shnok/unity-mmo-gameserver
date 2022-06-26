@@ -81,6 +81,7 @@ public class NpcAI extends BaseAI implements Runnable {
     }
 
     private void randomWalk() {
+        System.out.println("Random walk");
         Random r = new Random();
         if ((_npc.getSpawn() != null) && (r.nextInt(_randomWalkRate) == 0) && _npc.isOnGeoData()) {
             int x1, y1, z1;
@@ -88,7 +89,7 @@ public class NpcAI extends BaseAI implements Runnable {
 
             for (int i = 0; i < 5; i++) {
                 x1 = ((int) _npc.getSpawn().getSpawnPos().getX() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
-                y1 = 0;
+                y1 = (int) _npc.getSpawn().getSpawnPos().getY();
                 z1 = ((int) _npc.getSpawn().getSpawnPos().getZ() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
 
                 Point3D pos = Geodata.getInstance().clampToWorld(new Point3D(x1, y1, z1));
