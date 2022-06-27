@@ -9,6 +9,7 @@ unity-client/[Oo]bj/
 unity-client/[Tt]emp/
 unity-client/[Uu]nityGenerated/
 unity-client/[Ll]ogs/
+unity-client/[Uu]serSettings/
 # file on crash reports
 unity-client/sysinfo.txt
 # Unity3D generated meta files
@@ -45,4 +46,3 @@ Thumbs.db
 workspace.xml
 tasks.xml
 java-server/out/
-java-server/target/**
