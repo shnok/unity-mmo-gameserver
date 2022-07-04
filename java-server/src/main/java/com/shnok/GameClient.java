@@ -8,7 +8,7 @@ import com.shnok.serverpackets.SystemMessage;
 
 import java.net.Socket;
 
-public class GameClient extends ClientThread {
+public class GameClient extends Client {
     private String _username;
     private PlayerInstance _player;
 

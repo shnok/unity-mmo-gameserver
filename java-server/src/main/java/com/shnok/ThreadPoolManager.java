@@ -56,6 +56,9 @@ public class ThreadPoolManager {
             _spawnThreadPool.awaitTermination(1, TimeUnit.SECONDS);
             _aiThreadPool.awaitTermination(1, TimeUnit.SECONDS);
             _packetsThreadPool.shutdown();
+
+            purge();
+            
             System.out.println("All ThreadPools are now stoped");
         } catch (InterruptedException e) {
             e.printStackTrace();

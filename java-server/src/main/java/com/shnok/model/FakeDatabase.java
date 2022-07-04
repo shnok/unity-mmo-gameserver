@@ -11,7 +11,6 @@ import java.util.List;
 
 public class FakeDatabase {
     private static FakeDatabase _instance;
-
     private final FastMap<Integer, Entity> _npcList = new FastMap<>();
     private final List<SpawnInfo> _spawnList = new ArrayList<>();
 

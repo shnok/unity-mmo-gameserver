@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-public abstract class ClientThread extends Thread {
+public abstract class Client extends Thread {
     private final Socket _connection;
     private final String _connectionIp;
     public boolean authenticated;
@@ -16,7 +16,7 @@ public abstract class ClientThread extends Thread {
     private OutputStream _out;
     private long lastEcho;
 
-    public ClientThread(Socket con) {
+    public Client(Socket con) {
         _connection = con;
         _connectionIp = con.getInetAddress().getHostAddress();
 
