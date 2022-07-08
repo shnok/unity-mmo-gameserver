@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  camOffset: {x: 0, y: 0.8, z: 0}
-  camDistance: 5
+  camOffset: {x: 0, y: 1.6, z: 0}
+  camDistance: 10
   currentDistance: 0
   camSpeed: 25
   targetPos: {x: 0, y: 0, z: 0}

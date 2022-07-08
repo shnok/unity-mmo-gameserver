@@ -113,8 +113,8 @@ public class Geodata {
         while (iterations < 20) {
             int layer = 0;
             int[] layers = new int[World.WORLD_HEIGHT * 2];
-            int randomX = (int) (Math.random() * (World.WORLD_SIZE + 1) - (float) World.WORLD_SIZE / 2f);
-            int randomZ = (int) (Math.random() * (World.WORLD_SIZE + 1) - (float) World.WORLD_SIZE / 2f);
+            int randomX = (int) (Math.random() * (World.WORLD_SIZE * 2 + 1) - (float) World.WORLD_SIZE);
+            int randomZ = (int) (Math.random() * (World.WORLD_SIZE * 2 + 1) - (float) World.WORLD_SIZE);
 
             /* find layers */
             for (int y = -World.WORLD_HEIGHT; y < World.WORLD_HEIGHT; y++) {

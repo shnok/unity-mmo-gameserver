@@ -124,7 +124,7 @@ Transform:
   m_GameObject: {fileID: 4697017240656324050}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8033125610158513919}
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serverPosition: {x: 0, y: 0, z: 0}
-  moveSpeed: 2.9
+  moveSpeed: 4.9
   lerpDuration: 0.3
   noclip: 0
 --- !u!143 &225210602147569458

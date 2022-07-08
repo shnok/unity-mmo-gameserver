@@ -32,15 +32,20 @@ public class Node  : ICloneable{
 
 	public void CalculateNodeStatus(LayerMask collisionMask) {
 
-		/* Erosion */
-		if(CheckErosion())
-			Terrain.terrain.Remove (this.position);
+	
 
 		/* Covered */
 		if(!CheckObstacle(collisionMask)) {
 			walkable = true;
 		}
-			
+
+		/* Erosion */
+		if(CheckErosion()) {
+			//Terrain.terrain.Remove(this.position);
+			this.walkable = false;
+			//Terrain.terrain.Add(this.position, this);
+
+		}
 	}
 
 	private bool CheckErosion() {

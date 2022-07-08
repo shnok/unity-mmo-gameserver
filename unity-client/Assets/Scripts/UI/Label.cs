@@ -13,6 +13,9 @@ public class Label : MonoBehaviour {
 	public Text _name;
 	public Text _level;
 
+	public Vector3 offset = new Vector3(0, 0.5f, 0);
+	public float maxRange = 15f;
+
     void Start() {
 		_healthBar = transform.GetChild(0).Find("HealthBar").GetComponent<RectTransform>();
 		_barContour = transform.GetChild(0).Find("Contour").GetComponent<RectTransform>();
@@ -30,12 +33,18 @@ public class Label : MonoBehaviour {
 
 		try {
 			bool objectVisible = Camera.main.GetComponent<CameraController>().IsObjectVisible(_target);
-			bool inRange = Vector3.Distance(_target.transform.position, World.GetInstance().mainPlayer.transform.position) < 8f;
+			bool inRange = Vector3.Distance(_target.transform.position, World.GetInstance().mainPlayer.transform.position) < maxRange;
 
 			_visible = objectVisible && inRange;
 
 			if(_visible) {
-				transform.position = Camera.main.WorldToScreenPoint(_target.transform.position + Vector3.up * 1.25f);
+				SkinnedMeshRenderer renderer = _target.GetComponentInChildren<SkinnedMeshRenderer>();
+				float height = 0f;
+				if(renderer != null) {
+					height = renderer.bounds.extents.y * 2f;
+                }
+
+				transform.position = Camera.main.WorldToScreenPoint(_target.transform.position + Vector3.up * height + offset);
 				transform.GetChild(0).gameObject.SetActive(true);
 
 				Status targetStatus = _target.GetComponent<Entity>().status;

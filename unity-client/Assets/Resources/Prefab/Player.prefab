@@ -1094,7 +1094,7 @@ Transform:
   m_GameObject: {fileID: 167764}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -5.047859, y: -0.5699999, z: 0.05642555}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 491968}
@@ -1112,10 +1112,10 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 0.82
-  m_Radius: 0.2
+  m_Height: 0.91
+  m_Radius: 0.1
   m_SlopeLimit: 45
-  m_StepOffset: 0.03
+  m_StepOffset: 0.15
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.5, z: 0}
@@ -1175,10 +1175,10 @@ MonoBehaviour:
   controller: {fileID: 14343514}
   moveDirection: {x: 0, y: 0, z: 0}
   _currentSpeed: 0
-  defaultSpeed: 4
+  defaultSpeed: 8
   canMove: 1
-  _jumpForce: 10
-  _gravity: 28
+  _jumpForce: 18
+  _gravity: 45
   _realSpeed: 0
 --- !u!114 &5331155002264248658
 MonoBehaviour:
@@ -1221,10 +1221,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 112eac8c951f87f488f91403f07331a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  castCenter: {x: 0, y: 0.5, z: 0}
-  castHalfExtents: {x: 0.25, y: 0.4, z: 0.25}
+  castCenter: {x: 0, y: 1, z: 0}
+  castHalfExtents: {x: 0.5, y: 0.8, z: 0.5}
   castDirection: {x: 0, y: 0, z: 0}
-  castDistance: 0.5
+  castDistance: 1
   castLayerMask:
     serializedVersion: 2
     m_Bits: 256

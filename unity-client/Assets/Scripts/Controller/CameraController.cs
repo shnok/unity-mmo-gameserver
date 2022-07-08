@@ -37,7 +37,7 @@ public class CameraController : MonoBehaviour
 	public bool IsObjectVisible(GameObject target) {
 		if(Vector3.Angle(target.transform.position - transform.position, transform.forward) <= Camera.main.fieldOfView) {
             RaycastHit hit;
-			if(Physics.Linecast(transform.position, target.transform.position + Vector3.up, out hit, ~LayerMask.GetMask("Entity"))) {
+			if(Physics.Linecast(transform.position, target.transform.position + Vector3.up, out hit, ~LayerMask.GetMask(new string[] { "Entity", "PlayerEntity" }))) {
 				return false;
 			}
 		}

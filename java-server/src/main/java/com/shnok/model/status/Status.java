@@ -4,7 +4,7 @@ public abstract class Status {
     protected int _maxHp;
     protected int _hp;
     protected int _level;
-    protected float _moveSpeed = 3f;
+    protected float _moveSpeed = 5f;
 
     public Status() {
         /*_maxHp = 100;
