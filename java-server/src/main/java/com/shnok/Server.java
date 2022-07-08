@@ -37,11 +37,11 @@ public class Server {
 
     public static void main(String[] av) {
         ThreadPoolManager.getInstance();
+        Server.getInstance();
         GameTimeController.getInstance();
         Geodata.getInstance();
         World.getInstance();
         PathFinding.getInstance();
-        Server.getInstance();
     }
 
     public GameServerListener getGameServerListener() {

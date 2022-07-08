@@ -7,12 +7,12 @@ using System.Diagnostics;
 public class Terrain : MonoBehaviour {
 
 	public static Dictionary<Vector3, Node> terrain = new Dictionary<Vector3, Node>();
-	public static int WORLD_SIZE = 10;
-	public static int WORLD_HEIGHT = 10;
+	public static int WORLD_SIZE = 18;
+	public static int WORLD_HEIGHT = 18;
 	public bool drawGizmos = true;
 	public LayerMask collisionMask;
 	public static LayerMask mask;
-	public int terrainSize = 15;
+	public int terrainSize = 18;
 	public LayerMask walkableMask;
 
 	// Use this for initialization

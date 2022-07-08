@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class World {
     public static int WORLD_SIZE = 18;
-    public static int WORLD_HEIGHT = 10;
+    public static int WORLD_HEIGHT = 18;
     private static World _instance;
     private final Map<Integer, PlayerInstance> _allPlayers;
     private final Map<Integer, NpcInstance> _allNPCs;

@@ -11,10 +11,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 public class Geodata {
     private static Geodata _instance;
     private Map<Integer, NodeType> _geoData;
+    private Object[] values;
+    private Object[] keys;
 
     public Geodata() {
         initGeodata();
@@ -58,10 +61,11 @@ public class Geodata {
             while (true) {
                 index = swapint(in.readInt());
                 NodeType type = NodeType.values()[in.readByte()];
-                System.out.println(index + "," + type);
                 _geoData.put(index, type);
             }
         } catch (Exception e) {
+            values = _geoData.values().toArray();
+            keys = _geoData.keySet().toArray();
         }
     }
 
@@ -107,36 +111,28 @@ public class Geodata {
 
     /* Find a valid location based on geodata */
     public Point3D randomLocation() {
-        int iterations = 0;
+        Random generator = new Random();
+        int randomIndex = generator.nextInt(values.length);
+        NodeType type = (NodeType) values[randomIndex];
 
-        /* Loop until valid location found */
-        while (iterations < 20) {
-            int layer = 0;
-            int[] layers = new int[World.WORLD_HEIGHT * 2];
-            int randomX = (int) (Math.random() * (World.WORLD_SIZE * 2 + 1) - (float) World.WORLD_SIZE);
-            int randomZ = (int) (Math.random() * (World.WORLD_SIZE * 2 + 1) - (float) World.WORLD_SIZE);
-
-            /* find layers */
-            for (int y = -World.WORLD_HEIGHT; y < World.WORLD_HEIGHT; y++) {
-                if (getNodeType(randomX, y, randomZ) == NodeType.WALKABLE) {
-                    layers[layer] = y;
-                    layer++;
-                }
-            }
-
-            /* found a layer */
-            if (layer != 0) {
-                layer = (int) (Math.random() * layer);
-                return new Point3D(randomX, layers[layer], randomZ);
-            }
-
-            iterations++;
+        while (type != NodeType.WALKABLE) {
+            randomIndex = generator.nextInt(values.length);
+            type = (NodeType) values[randomIndex];
         }
 
-        return new Point3D(0, 0, 0);
+        return parseIndex((int) keys[randomIndex]);
+    }
+
+    public Point3D parseIndex(int index) {
+        float y = (float) index / (float) Math.pow(World.WORLD_HEIGHT * 2, 2);
+        float vy = (y - Math.round(y)) * (float) Math.pow(World.WORLD_HEIGHT * 2, 2);
+        float z = vy / (World.WORLD_SIZE * 2);
+        float x = (z - Math.round(z)) * (float) (World.WORLD_SIZE * 2);
+        System.out.println(Math.round(x) + "," + Math.round(y) + "," + Math.round(z));
+        return new Point3D(Math.round(x), Math.round(y), Math.round(z));
     }
 
     public int flatten(int x, int y, int z) {
-        return (y * World.WORLD_HEIGHT * 2 * World.WORLD_SIZE * 2) + (z * World.WORLD_SIZE * 2) + x;
+        return (y * (int) Math.pow(World.WORLD_HEIGHT * 2, 2)) + (z * World.WORLD_SIZE * 2) + x;
     }
 }

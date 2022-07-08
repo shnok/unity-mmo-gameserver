@@ -41,18 +41,21 @@ public class FakeDatabase {
                 new Point3D(5, 0, 5)
         }));
         _npcList.put(3, new NpcInstance(3, status, false, false, true, new Point3D[]{
-                new Point3D(6, 2, 6),
-                new Point3D(6, 0, 6)
+                new Point3D(10, 4, 13),
+                new Point3D(10, 0, 13)
         }));
     }
 
     private void generateSpawnList() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             _spawnList.add(new SpawnInfo(_spawnList.size(), 0, 1000));
+        }
+        for (int i = 0; i < 2; i++) {
+            _spawnList.add(new SpawnInfo(_spawnList.size(), 1, 1000));
         }
         _spawnList.add(new SpawnInfo(_spawnList.size(), 1, 5000, new Point3D(-5, 2, 6)));
         _spawnList.add(new SpawnInfo(_spawnList.size(), 2, 5000, new Point3D(-5, 0, 5)));
-        _spawnList.add(new SpawnInfo(_spawnList.size(), 3, 5000, new Point3D(6, 2, 6)));
+        _spawnList.add(new SpawnInfo(_spawnList.size(), 3, 5000, new Point3D(10, 4, 13)));
     }
 
     public NpcInstance getNpc(int id) {
