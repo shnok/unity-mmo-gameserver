@@ -118,6 +118,9 @@ public abstract class Entity extends GameObject {
         ObjectMoveTo packet = new ObjectMoveTo(getId(), new Point3D(x, y, z));
         Server.getInstance().broadcastAll(packet);
 
+        Point3D newPos = new Point3D(_moveData._xDestination, _moveData._yDestination, _moveData._zDestination);
+        setPosition(newPos);
+
         return true;
     }
 
@@ -141,11 +144,11 @@ public abstract class Entity extends GameObject {
         if (elapsed >= _moveData._ticksToMove) {
             _moveData._moveTimestamp = gameTicks;
 
-            Point3D newPos = new Point3D(_moveData._xDestination, _moveData._yDestination, _moveData._zDestination);
-            setPosition(newPos);
+            //Point3D newPos = new Point3D(_moveData._xDestination, _moveData._yDestination, _moveData._zDestination);
+            //setPosition(newPos);
 
             /* share new position with clients */
-            ObjectPosition packet = new ObjectPosition(getId(), newPos);
+            ObjectPosition packet = new ObjectPosition(getId(), getPos());
             Server.getInstance().broadcastAll(packet);
 
             if (_moveData.path.size() > 0) {
