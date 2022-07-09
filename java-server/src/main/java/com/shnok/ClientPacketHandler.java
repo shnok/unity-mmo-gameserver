@@ -146,7 +146,6 @@ public class ClientPacketHandler extends Thread {
         entity.inflictDamage(1);
 
         ApplyDamage applyDamage = new ApplyDamage(_client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), 1);
-        System.out.println(packet.getTargetId());
         Server.getInstance().broadcastAll(applyDamage);
     }
 }

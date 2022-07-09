@@ -19,13 +19,6 @@ public class Server {
     public Server() {
         _gameServerListener = new GameServerListener(PORT);
         _gameServerListener.start();
-
-        SpawnHandler.getInstance();
-        SpawnHandler.getInstance().fillSpawnList();
-        SpawnHandler.getInstance().spawnMonsters();
-
-        Shutdown _shutdownHandler = Shutdown.getInstance();
-        Runtime.getRuntime().addShutdownHook(_shutdownHandler);
     }
 
     public static Server getInstance() {
@@ -42,6 +35,11 @@ public class Server {
         Geodata.getInstance();
         World.getInstance();
         PathFinding.getInstance();
+        SpawnHandler.getInstance();
+        SpawnHandler.getInstance().fillSpawnList();
+        SpawnHandler.getInstance().spawnMonsters();
+        Shutdown _shutdownHandler = Shutdown.getInstance();
+        Runtime.getRuntime().addShutdownHook(_shutdownHandler);
     }
 
     public GameServerListener getGameServerListener() {

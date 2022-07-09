@@ -20,9 +20,7 @@ public class PathFinding {
 
     public List<NodeLoc> findPath(int x, int y, int z, int tx, int ty, int tz) {
         Node start = readNode(x, y, z);
-        //System.out.println("Start: " + start.getLoc().toString());
         Node end = readNode(tx, ty, tz);
-        //System.out.println("End: " + end.getLoc().toString());
 
         if ((start == null) || (end == null)) {
             return null;
@@ -42,10 +40,11 @@ public class PathFinding {
         to_visit.add(start);
         int targetx = end.getLoc().getX();
         int targetz = end.getLoc().getZ();
-        int dx, dz;
+        int targety = end.getLoc().getY();
+        int dx, dz, dy;
         boolean added;
         int i = 0;
-        while (i < 550) {
+        while (i++ < 1500) {
             Node node;
             try {
                 node = to_visit.removeFirst();
@@ -55,10 +54,10 @@ public class PathFinding {
                 return null;
             }
             if (node.equals(end)) {
+                System.out.println("Found path - " + start.getLoc() + " - " + end.getLoc() + " i: " + i);
                 return constructPath(node);
             }
 
-            i++;
             visited.add(node);
             node.attacheNeighbors();
             Node[] neighbors = node.getNeighbors();
@@ -70,15 +69,14 @@ public class PathFinding {
                     continue;
                 }
                 if (!visited.containsRev(n) && !to_visit.contains(n)) {
-
                     added = false;
                     n.setParent(node);
                     dx = targetx - n.getLoc().getX();
                     dz = targetz - n.getLoc().getZ();
-                    n.setCost((dx * dx) + (dz * dz));
+                    dy = targety - n.getLoc().getY();
+                    n.setCost((dx * dx) + (dz * dz) + (dy * dy));
                     for (int index = 0; index < to_visit.size(); index++) {
                         if (to_visit.get(index).getCost() > n.getCost()) {
-                            //System.out.println(n.getLoc().toString());
                             to_visit.add(index, n);
                             added = true;
                             break;
@@ -91,6 +89,7 @@ public class PathFinding {
             }
         }
         // No Path found
+        System.out.println("No path found (timeout)");
         return null;
     }
 
@@ -107,21 +106,34 @@ public class PathFinding {
 
     public Node[] readNeighbors(int nodeX, int nodeY, int nodeZ) {
         Node[] returnList = new Node[8];
-
         short i = 0;
+        /*for (int y = -1; y <= 1; y++) {
+            for (int x = -1; x <= 1; x++) {
+                for (int z = -1; z <= 1; z++) {
+                    if (x == 0 && z == 0)
+                        continue;
+
+                    Node node = readNode(nodeX + x, nodeY + y, nodeZ + z);
+                    returnList[i++] = node;
+                }
+            }
+        }*/
         for (int x = -1; x <= 1; x++) {
             for (int z = -1; z <= 1; z++) {
                 if (x == 0 && z == 0)
                     continue;
 
                 Node node = readNode(nodeX + x, nodeY, nodeZ + z);
-                if (node == null)
-                    node = readNode(nodeX + x, nodeY - 1, nodeZ + z);
-                if (node == null)
+                if (node == null) {
                     node = readNode(nodeX + x, nodeY + 1, nodeZ + z);
+                }
+                if (node == null) {
+                    node = readNode(nodeX + x, nodeY - 1, nodeZ + z);
+                }
 
-                returnList[i] = node;
-                i++;
+                /*if (node != null)
+                    System.out.println(node.getLoc());*/
+                returnList[i++] = node;
             }
 
         }

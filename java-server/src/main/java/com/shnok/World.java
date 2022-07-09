@@ -7,6 +7,7 @@ import com.shnok.model.entities.PlayerInstance;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class World {
     public static int WORLD_SIZE = 18;
@@ -15,12 +16,13 @@ public class World {
     private final Map<Integer, PlayerInstance> _allPlayers;
     private final Map<Integer, NpcInstance> _allNPCs;
     private final Map<Integer, GameObject> _allObjects;
-    private int _idFactory = 0;
+    private final AtomicInteger _idFactory;
 
     private World() {
         _allPlayers = new ConcurrentHashMap<>();
         _allNPCs = new ConcurrentHashMap<>();
         _allObjects = new ConcurrentHashMap<>();
+        _idFactory = new AtomicInteger(0);
     }
 
     public static World getInstance() {
@@ -80,10 +82,14 @@ public class World {
     }
 
     public int nextID() {
-        return _idFactory++;
+        return _idFactory.getAndIncrement();
+    }
+
+    public void incrementID() {
+        _idFactory.incrementAndGet();
     }
 
     public int getIDFactory() {
-        return _idFactory;
+        return _idFactory.get();
     }
 }

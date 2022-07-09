@@ -43,7 +43,7 @@ public class SpawnThread implements Runnable {
             World.getInstance().addNPC(npc);
             Server.getInstance().broadcastAll(new NpcInfo(npc));
 
-            System.out.println("Spawned monster at " + _spawnInfo.getSpawnPos().toString());
+            System.out.println("Spawned monster (" + npc.getNpcId() + ") with id " + npc.getId() + " at " + _spawnInfo.getSpawnPos().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
