@@ -1,8 +1,26 @@
-# unity-mmo
+# unity-mmo-server
 
-An honest try at making an online action rpg demo with java (server) and unity3D (client). 
+<p>This project is firstly a self-learning experience about online games netcode.</p>
 
-## Client Packets
+It is used to handle multiplayer in my other project [l2-unity](https://gitlab.com/shnok/l2-unity).
+## Current features
+
+For now it contains only basic features of an online RPG game. <p>Such as:
+- Chat features
+- Player sync
+	- Position
+	- Rotation
+	- Animation
+- Basic NPC AI
+	- Patrol around point
+	- Defined patrol path
+	- Spawn/respawn
+- Pathfinding
+</p>
+
+## Packets structure
+
+### Client Packets
 
 ```python
 ' Packet structure '
@@ -27,7 +45,7 @@ An honest try at making an online action rpg demo with java (server) and unity3D
 [Int: `object id` | Byte: `attack type`]
 ```
 
-## Server Packets
+### Server Packets
 
 ```python
 ' Packet structure '

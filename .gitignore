@@ -46,3 +46,5 @@ Thumbs.db
 workspace.xml
 tasks.xml
 java-server/out/
+*.bak
+*.log
