@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.springframework.boot' version '2.7.13'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+group 'com.shnok.javaserver'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'org.apache.logging.log4j:log4j-api:2.21.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.21.0'
+    implementation 'log4j:log4j:1.2.16'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'javolution:javolution:5.5.1'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+}
+
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+}
+
+bootRun {
+    systemProperty "log4j.configurationFile", "classpath:log4j2.properties"
+}
+
+mainClassName="com.shnok.javaserver.Main"
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': 'com.shnok.javaserver.Main'
+    }
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
