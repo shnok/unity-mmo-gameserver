@@ -2,11 +2,11 @@ package com.shnok.javaserver.dto.clientpackets;
 
 import com.shnok.javaserver.dto.ClientPacket;
 
-public class RequestSendMessage extends ClientPacket {
+public class RequestSendMessagePacket extends ClientPacket {
 
     private final String _message;
 
-    public RequestSendMessage(byte[] data) {
+    public RequestSendMessagePacket(byte[] data) {
         super(data);
 
         _message = readS();

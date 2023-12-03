@@ -8,7 +8,7 @@ import com.shnok.javaserver.service.DatabaseMockupService;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entities.NpcInstance;
 import com.shnok.javaserver.pathfinding.Geodata;
-import com.shnok.javaserver.dto.serverpackets.NpcInfo;
+import com.shnok.javaserver.dto.serverpackets.NpcInfoPacket;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -51,7 +51,7 @@ public class SpawnThread implements Runnable {
             }
 
             worldManagerService.addNPC(npc);
-            serverService.broadcastAll(new NpcInfo(npc));
+            serverService.broadcastAll(new NpcInfoPacket(npc));
 
             log.debug("Spawned monster {} with id {} at {}.", npc.getNpcId(), npc.getId(), spawnInfo.getSpawnPos().toString());
         } catch (Exception e) {

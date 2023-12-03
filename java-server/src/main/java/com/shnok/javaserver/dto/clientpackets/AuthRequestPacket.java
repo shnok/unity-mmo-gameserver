@@ -2,11 +2,11 @@ package com.shnok.javaserver.dto.clientpackets;
 
 import com.shnok.javaserver.dto.ClientPacket;
 
-public class AuthRequest extends ClientPacket {
+public class AuthRequestPacket extends ClientPacket {
 
     private final String _username;
 
-    public AuthRequest(byte[] data) {
+    public AuthRequestPacket(byte[] data) {
         super(data);
 
         _username = readS();

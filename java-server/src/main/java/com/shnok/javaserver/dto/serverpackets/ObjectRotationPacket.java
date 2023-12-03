@@ -1,10 +1,11 @@
 package com.shnok.javaserver.dto.serverpackets;
 
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.enums.ServerPacketType;
 
-public class ObjectRotation extends ServerPacket {
-    public ObjectRotation(int id, float angle) {
-        super((byte) 0x07);
+public class ObjectRotationPacket extends ServerPacket {
+    public ObjectRotationPacket(int id, float angle) {
+        super(ServerPacketType.ObjectRotation.getValue());
         writeI(id);
         writeF(angle);
         buildPacket();

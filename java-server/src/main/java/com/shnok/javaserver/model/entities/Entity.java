@@ -10,8 +10,8 @@ import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.pathfinding.node.NodeLoc;
-import com.shnok.javaserver.dto.serverpackets.ObjectMoveTo;
-import com.shnok.javaserver.dto.serverpackets.ObjectPosition;
+import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
+import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -123,7 +123,7 @@ public abstract class Entity extends GameObject {
         moveData.path.remove(0);
 
         /* send destination to clients */
-        ObjectMoveTo packet = new ObjectMoveTo(getId(), new Point3D(x, y, z));
+        ObjectMoveToPacket packet = new ObjectMoveToPacket(getId(), new Point3D(x, y, z));
         serverService.broadcastAll(packet);
 
         Point3D newPos = new Point3D(moveData.xDestination, moveData.yDestination, moveData.zDestination);
@@ -156,7 +156,7 @@ public abstract class Entity extends GameObject {
             //setPosition(newPos);
 
             /* share new position with clients */
-            ObjectPosition packet = new ObjectPosition(getId(), getPos());
+            ObjectPositionPacket packet = new ObjectPositionPacket(getId(), getPos());
             serverService.broadcastAll(packet);
 
             if (moveData.path.size() > 0) {

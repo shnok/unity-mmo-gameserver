@@ -1,27 +1,28 @@
 package com.shnok.javaserver.model.status;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class PlayerStatus extends Status {
-    private final int stamina;
-    private final int maxStamina;
+    private int cp;
+    private int maxCp;
+    private int mp;
+    private int maxMp;
     private int exp;
     private final int maxExp;
 
     public PlayerStatus() {
         maxHp = 100;
         hp = maxHp;
-        maxStamina = 100;
-        stamina = maxStamina;
         level = 1;
         exp = 0;
         maxExp = 100;
-    }
-
-    public int getStamina() {
-        return stamina;
-    }
-
-    public int getMaxStamina() {
-        return maxStamina;
+        mp = 100;
+        maxMp = 100;
+        cp = 75;
+        maxCp = 75;
     }
 
     public void addExp(int value) {

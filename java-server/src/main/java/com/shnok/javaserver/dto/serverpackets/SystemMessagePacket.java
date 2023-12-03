@@ -1,19 +1,20 @@
 package com.shnok.javaserver.dto.serverpackets;
 
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.enums.ServerPacketType;
 
-public class SystemMessage extends ServerPacket {
+public class SystemMessagePacket extends ServerPacket {
 
-    public MessageType _type;
+    public MessageType type;
 
-    public SystemMessage(MessageType type) {
-        super((byte) 0x03);
-        _type = type;
+    public SystemMessagePacket(MessageType type) {
+        super(ServerPacketType.SystemMessage.getValue());
+        this.type = type;
     }
 
-    public SystemMessage(MessageType type, String value) {
-        super((byte) 0x03);
-        _type = type;
+    public SystemMessagePacket(MessageType type, String value) {
+        super(ServerPacketType.SystemMessage.getValue());
+        this.type = type;
 
         writeB((byte) type.ordinal());
         writeS(value);
