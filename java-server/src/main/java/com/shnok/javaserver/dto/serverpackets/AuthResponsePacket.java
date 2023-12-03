@@ -1,11 +1,12 @@
 package com.shnok.javaserver.dto.serverpackets;
 
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.enums.ServerPacketType;
 
-public class AuthResponse extends ServerPacket {
+public class AuthResponsePacket extends ServerPacket {
 
-    public AuthResponse(AuthResponseType reason) {
-        super((byte) 0x01);
+    public AuthResponsePacket(AuthResponseType reason) {
+        super(ServerPacketType.AuthResponse.getValue());
         writeB((byte) reason.ordinal());
         buildPacket();
     }

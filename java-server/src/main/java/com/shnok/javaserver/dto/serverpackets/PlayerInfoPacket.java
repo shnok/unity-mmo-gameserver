@@ -1,11 +1,12 @@
 package com.shnok.javaserver.dto.serverpackets;
 
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.enums.ServerPacketType;
 import com.shnok.javaserver.model.entities.PlayerInstance;
 
-public class PlayerInfo extends ServerPacket {
-    public PlayerInfo(PlayerInstance player) {
-        super((byte) 0x04);
+public class PlayerInfoPacket extends ServerPacket {
+    public PlayerInfoPacket(PlayerInstance player) {
+        super(ServerPacketType.PlayerInfo.getValue());
 
         writeI(player.getId());
         writeS(player.getName());
@@ -13,10 +14,12 @@ public class PlayerInfo extends ServerPacket {
         writeF(player.getPosY());
         writeF(player.getPosZ());
         writeI(player.getStatus().getLevel());
-        writeI(player.getStatus().getCurrentHp());
+        writeI(player.getStatus().getHp());
         writeI(player.getStatus().getMaxHp());
-        writeI(player.getStatus().getStamina());
-        writeI(player.getStatus().getMaxStamina());
+        writeI(player.getStatus().getMp());
+        writeI(player.getStatus().getMaxMp());
+        writeI(player.getStatus().getCp());
+        writeI(player.getStatus().getMaxCp());
         buildPacket();
     }
 }

@@ -1,20 +1,18 @@
 package com.shnok.javaserver.thread;
 
+import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
+import com.shnok.javaserver.enums.ServerPacketType;
 import com.shnok.javaserver.service.DatabaseMockupService;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.model.entities.PlayerInstance;
-import com.shnok.javaserver.model.status.PlayerStatus;
-import com.shnok.javaserver.dto.serverpackets.PlayerInfo;
-import com.shnok.javaserver.dto.serverpackets.RemoveObject;
-import com.shnok.javaserver.dto.serverpackets.SystemMessage;
+import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
+import com.shnok.javaserver.dto.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -95,7 +93,7 @@ public class GameClientThread extends Thread {
                 handlePacket(data);
             }
         } catch (Exception e) {
-            log.error("Exception while reading packets", e);
+            log.error("Exception while reading packets.");
         } finally {
             log.info("User {} disconnected", connectionIp);
             removeSelf();
@@ -112,7 +110,7 @@ public class GameClientThread extends Thread {
     }
 
     public void sendPacket(ServerPacket packet) {
-        log.debug("Sent packet: {}", packet.getType());
+        log.debug("Sent packet: {}", ServerPacketType.fromByte(packet.getType()));
         try {
             synchronized (out) {
                 for (byte b : packet.getData()) {
@@ -151,18 +149,18 @@ public class GameClientThread extends Thread {
 
     void authenticate() {
         log.debug("Authenticating new player.");
-        serverService.broadcast(new SystemMessage(SystemMessage.MessageType.USER_LOGGED_IN, username));
+        serverService.broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, username));
         player = databaseMockupService.getPlayerData(username);
         player.setId(worldManagerService.nextID());
         worldManagerService.addPlayer(player);
-        serverService.broadcast(new PlayerInfo(player), this);
+        serverService.broadcast(new UserInfoPacket(player), this);
     }
 
     void removeSelf() {
         if (authenticated) {
             authenticated = false;
-            serverService.broadcast(new SystemMessage(SystemMessage.MessageType.USER_LOGGED_OFF, username), this);
-            serverService.broadcast(new RemoveObject(player.getId()), this);
+            serverService.broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_OFF, username), this);
+            serverService.broadcast(new RemoveObjectPacket(player.getId()), this);
             worldManagerService.removePlayer(player);
         }
 

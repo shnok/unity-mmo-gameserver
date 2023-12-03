@@ -1,13 +1,14 @@
 package com.shnok.javaserver.dto.serverpackets;
 
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.enums.ServerPacketType;
 
 public class MessagePacket extends ServerPacket {
-    private String _text;
-    private String _sender;
+    private String text;
+    private String sender;
 
     public MessagePacket(String sender, String text) {
-        super((byte) 0x02);
+        super(ServerPacketType.MessagePacket.getValue());
 
         setText(text);
         setSender(sender);
@@ -15,16 +16,16 @@ public class MessagePacket extends ServerPacket {
     }
 
     public void setSender(String sender) {
-        _sender = sender;
+        this.sender = sender;
     }
 
     public void setText(String text) {
-        _text = text;
+        this.text = text;
     }
 
     public void buildMessageData() {
-        writeS(_sender);
-        writeS(_text);
+        writeS(sender);
+        writeS(text);
         buildPacket();
     }
 }

@@ -2,10 +2,10 @@ package com.shnok.javaserver.dto.clientpackets;
 
 import com.shnok.javaserver.dto.ClientPacket;
 
-public class RequestCharacterRotate extends ClientPacket {
+public class RequestCharacterRotatePacket extends ClientPacket {
     private final float _angle;
 
-    public RequestCharacterRotate(byte[] data) {
+    public RequestCharacterRotatePacket(byte[] data) {
         super(data);
         _angle = readF();
     }

@@ -7,7 +7,7 @@ import com.shnok.javaserver.service.SpawnManagerService;
 import com.shnok.javaserver.model.SpawnInfo;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.Status;
-import com.shnok.javaserver.dto.serverpackets.RemoveObject;
+import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class NpcInstance extends Entity {
@@ -55,9 +55,9 @@ public class NpcInstance extends Entity {
 
     @Override
     public void inflictDamage(int value) {
-        status.setCurrentHp(status.getCurrentHp() - value);
+        status.setHp(status.getHp() - value);
 
-        if (status.getCurrentHp() <= 0) {
+        if (status.getHp() <= 0) {
             onDeath();
         }
     }
@@ -83,7 +83,7 @@ public class NpcInstance extends Entity {
             ai.notifyEvent(Event.DEAD);
 
         worldManagerService.removeNPC(this);
-        serverService.broadcastAll(new RemoveObject(getId()));
+        serverService.broadcastAll(new RemoveObjectPacket(getId()));
         spawnManagerService.respawn(getSpawn().getId());
     }
 

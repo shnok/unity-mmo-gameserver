@@ -1,10 +1,11 @@
 package com.shnok.javaserver.dto.serverpackets;
 
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.enums.ServerPacketType;
 
-public class ApplyDamage extends ServerPacket {
-    public ApplyDamage(int sender, int target, byte attackType, int value) {
-        super((byte) 0x09);
+public class ApplyDamagePacket extends ServerPacket {
+    public ApplyDamagePacket(int sender, int target, byte attackType, int value) {
+        super(ServerPacketType.ApplyDamage.getValue());
         writeI(sender);
         writeI(target);
         writeB(attackType);

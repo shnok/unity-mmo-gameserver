@@ -1,10 +1,11 @@
 package com.shnok.javaserver.dto.serverpackets;
 
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.enums.ServerPacketType;
 
-public class RemoveObject extends ServerPacket {
-    public RemoveObject(int id) {
-        super((byte) 0x06);
+public class RemoveObjectPacket extends ServerPacket {
+    public RemoveObjectPacket(int id) {
+        super(ServerPacketType.RemoveObject.getValue());
 
         writeI(id);
         buildPacket();

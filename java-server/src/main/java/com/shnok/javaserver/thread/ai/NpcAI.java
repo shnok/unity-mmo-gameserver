@@ -9,7 +9,7 @@ import com.shnok.javaserver.model.entities.Entity;
 import com.shnok.javaserver.model.entities.NpcInstance;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.node.NodeType;
-import com.shnok.javaserver.dto.serverpackets.ObjectAnimation;
+import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
@@ -166,7 +166,7 @@ public class NpcAI extends BaseAI implements Runnable {
             moving = false;
 
             // Send a packet to notify npc stop moving
-            ObjectAnimation packet = new ObjectAnimation(owner.getId(), (byte) 0, 0f);
+            ObjectAnimationPacket packet = new ObjectAnimationPacket(owner.getId(), (byte) 0, 0f);
             serverService.broadcastAll(packet);
         }
 

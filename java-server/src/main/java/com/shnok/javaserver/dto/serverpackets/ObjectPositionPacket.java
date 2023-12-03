@@ -1,22 +1,17 @@
 package com.shnok.javaserver.dto.serverpackets;
 
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.enums.ServerPacketType;
 import com.shnok.javaserver.model.Point3D;
 
-public class ObjectPosition extends ServerPacket {
-    private final int _id;
-    private final Point3D _pos;
+public class ObjectPositionPacket extends ServerPacket {
+    public ObjectPositionPacket(int id, Point3D pos) {
+        super(ServerPacketType.ObjectPosition.getValue());
 
-    public ObjectPosition(int id, Point3D pos) {
-        super((byte) 0x05);
-
-        _id = id;
-        _pos = pos;
-
-        writeI(_id);
-        writeF(_pos.getX());
-        writeF(_pos.getY());
-        writeF(_pos.getZ());
+        writeI(id);
+        writeF(pos.getX());
+        writeF(pos.getY());
+        writeF(pos.getZ());
         buildPacket();
     }
 }

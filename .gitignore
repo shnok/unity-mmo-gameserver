@@ -1,21 +1,4 @@
 ###
-# Unity folders and files
-###
-unity-client/[Aa]ssets/AssetStoreTools*
-unity-client/[Bb]uild/
-unity-client/[Ll]ibrary/
-unity-client/[Ll]ocal[Cc]ache/
-unity-client/[Oo]bj/
-unity-client/[Tt]emp/
-unity-client/[Uu]nityGenerated/
-unity-client/[Ll]ogs/
-unity-client/[Uu]serSettings/
-# file on crash reports
-unity-client/sysinfo.txt
-# Unity3D generated meta files
-*.pidb.meta
-
-###
 # VS/MD solution and project files
 ###
 unity-client/[Ee]xportedObj/
@@ -48,3 +31,5 @@ tasks.xml
 java-server/out/
 *.bak
 *.log
+.gradle
+build

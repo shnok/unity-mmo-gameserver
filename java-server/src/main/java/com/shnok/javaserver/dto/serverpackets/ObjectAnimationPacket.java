@@ -1,11 +1,12 @@
 package com.shnok.javaserver.dto.serverpackets;
 
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.enums.ServerPacketType;
 
-public class ObjectAnimation extends ServerPacket {
+public class ObjectAnimationPacket extends ServerPacket {
 
-    public ObjectAnimation(int id, byte animId, float value) {
-        super((byte) 0x08);
+    public ObjectAnimationPacket(int id, byte animId, float value) {
+        super(ServerPacketType.ObjectAnimation.getValue());
         writeI(id);
         writeB(animId);
         writeF(value);

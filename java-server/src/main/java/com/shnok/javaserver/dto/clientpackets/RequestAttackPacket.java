@@ -2,10 +2,10 @@ package com.shnok.javaserver.dto.clientpackets;
 
 import com.shnok.javaserver.dto.ClientPacket;
 
-public class RequestAttack extends ClientPacket {
+public class RequestAttackPacket extends ClientPacket {
     private int targetId;
     private byte attackType;
-    public RequestAttack(byte[] data) {
+    public RequestAttackPacket(byte[] data) {
         super(data);
         targetId = readI();
         attackType = readB();
