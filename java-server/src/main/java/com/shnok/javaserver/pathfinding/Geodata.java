@@ -46,9 +46,8 @@ public class Geodata {
         try {
             ClassLoader classLoader = getClass().getClassLoader();
             File f = new File(Objects.requireNonNull(classLoader.getResource(fileName)).getFile());
-            DataInputStream in = new DataInputStream(Files.newInputStream(f.toPath()));
 
-            return in;
+            return new DataInputStream(Files.newInputStream(f.toPath()));
         } catch (IOException e) {
             e.printStackTrace();
             return null;

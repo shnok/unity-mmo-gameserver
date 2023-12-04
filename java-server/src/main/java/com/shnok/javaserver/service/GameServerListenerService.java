@@ -1,29 +1,29 @@
 package com.shnok.javaserver.service;
 
+import com.shnok.javaserver.Config;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-@Service
 @Log4j2
 public class GameServerListenerService extends Thread {
-    public static int TIMEOUT_MS;
-    private final int port;
-    private final ServerSocket serverSocket;
-    @Autowired
-    private ServerService serverService;
+    private int port;
+    private ServerSocket serverSocket;
 
-    public GameServerListenerService(@Value("${gameserver.port}") int port,
-                                     @Value("${server.connection.timeout.ms}") int connectionTimeoutMs) {
+    private static GameServerListenerService instance;
+    public static GameServerListenerService getInstance() {
+        if (instance == null) {
+            instance = new GameServerListenerService();
+        }
+        return instance;
+    }
+
+    public void Initialize() {
         try {
-            serverSocket = new ServerSocket(port);
-            this.port = port;
-            TIMEOUT_MS = connectionTimeoutMs;
+            port = Config.GAMESERVER_PORT;
+            serverSocket = new ServerSocket(Config.GAMESERVER_PORT);
         } catch (IOException e) {
             throw new RuntimeException("Could not create ServerSocket ", e);
         }
@@ -36,7 +36,7 @@ public class GameServerListenerService extends Thread {
             Socket connection = null;
             try {
                 connection = serverSocket.accept();
-                serverService.addClient(connection);
+                ServerService.getInstance().addClient(connection);
             } catch (Exception e) {
                 e.printStackTrace();
                 try {

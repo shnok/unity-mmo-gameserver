@@ -1,21 +1,16 @@
 package com.shnok.javaserver.model.entities;
 
-import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.Point3D;
+import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.SpawnManagerService;
 import com.shnok.javaserver.model.SpawnInfo;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.shnok.javaserver.service.WorldManagerService;
 
 public class NpcInstance extends Entity {
-    @Autowired
-    private WorldManagerService worldManagerService;
-    @Autowired
-    private SpawnManagerService spawnManagerService;
-
     private boolean isStatic = false;
     private boolean patrol = false;
     private boolean randomWalk = false;
@@ -82,9 +77,9 @@ public class NpcInstance extends Entity {
         if (ai != null)
             ai.notifyEvent(Event.DEAD);
 
-        worldManagerService.removeNPC(this);
-        serverService.broadcastAll(new RemoveObjectPacket(getId()));
-        spawnManagerService.respawn(getSpawn().getId());
+        WorldManagerService.getInstance().removeNPC(this);
+        ServerService.getInstance().broadcastAll(new RemoveObjectPacket(getId()));
+        SpawnManagerService.getInstance().respawn(getSpawn().getId());
     }
 
     public SpawnInfo getSpawn() {

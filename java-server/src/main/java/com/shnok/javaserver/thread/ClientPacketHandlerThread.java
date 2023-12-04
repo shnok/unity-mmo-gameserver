@@ -1,5 +1,6 @@
 package com.shnok.javaserver.thread;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.clientpackets.*;
 import com.shnok.javaserver.dto.serverpackets.*;
 import com.shnok.javaserver.enums.ClientPacketType;
@@ -7,7 +8,8 @@ import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entities.Entity;
 import com.shnok.javaserver.model.entities.NpcInstance;
 import com.shnok.javaserver.model.entities.PlayerInstance;
-import com.shnok.javaserver.service.GameServerListenerService;
+import com.shnok.javaserver.service.ServerService;
+import com.shnok.javaserver.service.WorldManagerService;
 import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
@@ -69,10 +71,10 @@ public class ClientPacketHandlerThread extends Thread {
         client.sendPacket(new PingPacket());
         client.setLastEcho(System.currentTimeMillis());
 
-        Timer timer = new Timer(GameServerListenerService.TIMEOUT_MS, new ActionListener() {
+        Timer timer = new Timer(Config.CONNECTION_TIMEOUT_SEC, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if (System.currentTimeMillis() - client.getLastEcho() >= GameServerListenerService.TIMEOUT_MS) {
+                if (System.currentTimeMillis() - client.getLastEcho() >= Config.CONNECTION_TIMEOUT_SEC) {
                     log.info("User connection timeout.");
                     client.removeSelf();
                     client.disconnect();
@@ -88,7 +90,7 @@ public class ClientPacketHandlerThread extends Thread {
         String username = packet.getUsername();
 
         AuthResponsePacket authResponsePacket;
-        if (client.getServerService().userExists(username)) {
+        if (ServerService.getInstance().userExists(username)) {
             authResponsePacket = new AuthResponsePacket(AuthResponsePacket.AuthResponseType.ALREADY_CONNECTED);
         } else if (username.length() <= 0 || username.length() > 16) {
             authResponsePacket = new AuthResponsePacket(AuthResponsePacket.AuthResponseType.INVALID_USERNAME);
@@ -110,7 +112,7 @@ public class ClientPacketHandlerThread extends Thread {
         String message = packet.getMessage();
 
         MessagePacket messagePacket = new MessagePacket(client.getUsername(), message);
-        client.getServerService().broadcast(messagePacket);
+        ServerService.getInstance().broadcast(messagePacket);
     }
 
     private void onRequestCharacterMove(byte[] data) {
@@ -121,19 +123,19 @@ public class ClientPacketHandlerThread extends Thread {
         currentPlayer.setPosition(newPos);
 
         ObjectPositionPacket objectPositionPacket = new ObjectPositionPacket(currentPlayer.getId(), newPos);
-        client.getServerService().broadcast(objectPositionPacket, client);
+        ServerService.getInstance().broadcast(objectPositionPacket, client);
     }
 
     private void onRequestLoadWorld() {
         client.sendPacket(new PlayerInfoPacket(client.getPlayer()));
 
-        for (Map.Entry<Integer, PlayerInstance> pair : client.getWorldManagerService().getAllPlayers().entrySet()) {
+        for (Map.Entry<Integer, PlayerInstance> pair : WorldManagerService.getInstance().getAllPlayers().entrySet()) {
             if(pair.getValue().getId() != client.getPlayer().getId()) {
                 client.sendPacket(new UserInfoPacket(pair.getValue()));
             }
         }
 
-        for (Map.Entry<Integer, NpcInstance> pair : client.getWorldManagerService().getAllNpcs().entrySet()) {
+        for (Map.Entry<Integer, NpcInstance> pair : WorldManagerService.getInstance().getAllNpcs().entrySet()) {
             client.sendPacket(new NpcInfoPacket(pair.getValue()));
         }
     }
@@ -142,25 +144,25 @@ public class ClientPacketHandlerThread extends Thread {
         RequestCharacterRotatePacket packet = new RequestCharacterRotatePacket(data);
         ObjectRotationPacket objectRotationPacket = new ObjectRotationPacket(
                 client.getCurrentPlayer().getId(), packet.getAngle());
-        client.getServerService().broadcast(objectRotationPacket, client);
+        ServerService.getInstance().broadcast(objectRotationPacket, client);
     }
 
     private void onRequestCharacterAnimation(byte[] data) {
         RequestCharacterAnimationPacket packet = new RequestCharacterAnimationPacket(data);
         ObjectAnimationPacket objectAnimationPacket = new ObjectAnimationPacket(
                 client.getCurrentPlayer().getId(), packet.getAnimId(), packet.getValue());
-        client.getServerService().broadcast(objectAnimationPacket, client);
+        ServerService.getInstance().broadcast(objectAnimationPacket, client);
     }
 
     private void onRequestAttack(byte[] data) {
         RequestAttackPacket packet = new RequestAttackPacket(data);
 
-        Entity entity = client.getWorldManagerService().getEntity(packet.getTargetId());
+        Entity entity = WorldManagerService.getInstance().getEntity(packet.getTargetId());
         entity.inflictDamage(1);
 
         ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
                 client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), 1);
-        client.getServerService().broadcastAll(applyDamagePacket);
+        ServerService.getInstance().broadcastAll(applyDamagePacket);
     }
 
     private void onRequestCharacterMoveDirection(byte[] data) {
@@ -168,6 +170,6 @@ public class ClientPacketHandlerThread extends Thread {
 
         ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
                 client.getCurrentPlayer().getId(), packet.getSpeed(), packet.getDirection());
-        client.getServerService().broadcast(objectDirectionPacket, client);
+        ServerService.getInstance().broadcast(objectDirectionPacket, client);
     }
 }

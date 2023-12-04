@@ -10,17 +10,9 @@ import com.shnok.javaserver.model.entities.NpcInstance;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.dto.serverpackets.NpcInfoPacket;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Log4j2
 public class SpawnThread implements Runnable {
-    @Autowired
-    private WorldManagerService worldManagerService;
-    @Autowired
-    private DatabaseMockupService databaseMockupService;
-    @Autowired
-    private ServerService serverService;
-    
     private final SpawnInfo spawnInfo;
 
     public SpawnThread(SpawnInfo spawnInfo) {
@@ -35,12 +27,12 @@ public class SpawnThread implements Runnable {
                 spawnInfo.setSpawnPos(new Point3D(randomPos.getX() + 0.5f, randomPos.getY(), randomPos.getZ() + 0.5f));
             }
 
-            NpcInstance npc = databaseMockupService.getNpc(spawnInfo.getNpcId());
+            NpcInstance npc = DatabaseMockupService.getInstance().getNpc(spawnInfo.getNpcId());
             if (npc == null) {
                 return;
             }
 
-            npc.setId(worldManagerService.nextID());
+            npc.setId(WorldManagerService.getInstance().nextID());
             npc.setPosition(spawnInfo.getSpawnPos());
             npc.setSpawn(spawnInfo);
 
@@ -50,8 +42,8 @@ public class SpawnThread implements Runnable {
                 npc.attachAI(ai);
             }
 
-            worldManagerService.addNPC(npc);
-            serverService.broadcastAll(new NpcInfoPacket(npc));
+            WorldManagerService.getInstance().addNPC(npc);
+            ServerService.getInstance().broadcastAll(new NpcInfoPacket(npc));
 
             log.debug("Spawned monster {} with id {} at {}.", npc.getNpcId(), npc.getId(), spawnInfo.getSpawnPos().toString());
         } catch (Exception e) {

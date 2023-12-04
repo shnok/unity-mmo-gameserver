@@ -3,8 +3,8 @@ package com.shnok.javaserver.dto.clientpackets;
 import com.shnok.javaserver.dto.ClientPacket;
 
 public class RequestCharacterAnimationPacket extends ClientPacket {
-    private byte animId;
-    private float value;
+    private final byte animId;
+    private final float value;
 
     public RequestCharacterAnimationPacket(byte[] data) {
         super(data);

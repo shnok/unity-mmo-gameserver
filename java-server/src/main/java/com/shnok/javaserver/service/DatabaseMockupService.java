@@ -1,5 +1,6 @@
 package com.shnok.javaserver.service;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.SpawnInfo;
 import com.shnok.javaserver.model.entities.Entity;
@@ -9,29 +10,27 @@ import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.PlayerStatus;
 import javolution.util.FastMap;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
 @Log4j2
 public class DatabaseMockupService {
     private final FastMap<Integer, Entity> npcList = new FastMap<>();
     private final List<SpawnInfo> spawnList = new ArrayList<>();
     private Point3D playerSpawnPoint;
 
-    @Autowired
-    public DatabaseMockupService(@Value("${server.spawn.location.x}") float spawnX,
-                                 @Value("${server.spawn.location.y}") float spawnY,
-                                 @Value("${server.spawn.location.z}") float spawnZ) {
-        this.playerSpawnPoint = new Point3D(spawnX, spawnY, spawnZ);
+    private static DatabaseMockupService instance;
+    public static DatabaseMockupService getInstance() {
+        if (instance == null) {
+            instance = new DatabaseMockupService();
+        }
+        return instance;
     }
 
     public void initialize() {
         log.info("Initializing mockup database.");
+        playerSpawnPoint = Config.PLAYER_SPAWN_POINT;
         generateNpcList();
         generateSpawnList();
         log.info("Generated {} npc(s)", npcList.size());

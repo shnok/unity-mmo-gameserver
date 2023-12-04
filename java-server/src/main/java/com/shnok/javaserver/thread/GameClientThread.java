@@ -24,10 +24,6 @@ import java.net.Socket;
 @Setter
 @Log4j2
 public class GameClientThread extends Thread {
-    private ServerService serverService;
-    private WorldManagerService worldManagerService;
-    private ThreadPoolManagerService threadPoolManagerService;
-    private DatabaseMockupService databaseMockupService;
     private final Socket connection;
     private final String connectionIp;
     public boolean authenticated;
@@ -37,18 +33,9 @@ public class GameClientThread extends Thread {
     private PlayerInstance player;
     private long lastEcho;
 
-    public GameClientThread(
-            ServerService serverService,
-            WorldManagerService worldManagerService,
-            ThreadPoolManagerService threadPoolManagerService,
-            DatabaseMockupService databaseMockupService,
-            Socket con) {
+    public GameClientThread(Socket con) {
         connection = con;
         connectionIp = con.getInetAddress().getHostAddress();
-        this.serverService = serverService;
-        this.worldManagerService = worldManagerService;
-        this.threadPoolManagerService = threadPoolManagerService;
-        this.databaseMockupService = databaseMockupService;
 
         try {
             in = connection.getInputStream();
@@ -144,27 +131,27 @@ public class GameClientThread extends Thread {
     }
 
     void handlePacket(byte[] data) {
-        threadPoolManagerService.handlePacket(new ClientPacketHandlerThread(this, data));
+        ThreadPoolManagerService.getInstance().handlePacket(new ClientPacketHandlerThread(this, data));
     }
 
     void authenticate() {
         log.debug("Authenticating new player.");
-        serverService.broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, username));
-        player = databaseMockupService.getPlayerData(username);
-        player.setId(worldManagerService.nextID());
-        worldManagerService.addPlayer(player);
-        serverService.broadcast(new UserInfoPacket(player), this);
+        ServerService.getInstance().broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, username), this);
+        player = DatabaseMockupService.getInstance().getPlayerData(username);
+        player.setId(WorldManagerService.getInstance().nextID());
+        WorldManagerService.getInstance().addPlayer(player);
+        ServerService.getInstance().broadcast(new UserInfoPacket(player), this);
     }
 
     void removeSelf() {
         if (authenticated) {
             authenticated = false;
-            serverService.broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_OFF, username), this);
-            serverService.broadcast(new RemoveObjectPacket(player.getId()), this);
-            worldManagerService.removePlayer(player);
+            ServerService.getInstance().broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_OFF, username), this);
+            ServerService.getInstance().broadcast(new RemoveObjectPacket(player.getId()), this);
+            WorldManagerService.getInstance().removePlayer(player);
         }
 
-        serverService.removeClient(this);
+        ServerService.getInstance().removeClient(this);
         this.interrupt();
     }
 }

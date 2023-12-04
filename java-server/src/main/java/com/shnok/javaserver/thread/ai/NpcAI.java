@@ -10,26 +10,17 @@ import com.shnok.javaserver.model.entities.NpcInstance;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.node.NodeType;
 import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 import java.util.concurrent.Future;
 
 public class NpcAI extends BaseAI implements Runnable {
-    @Autowired
-    private GameTimeControllerService gameTimeControllerService;
-    @Autowired
-    private ThreadPoolManagerService threadPoolManagerService;
-
     private final int randomWalkRate = 5;
     private int patrolIndex = 0;
     private int patrolDirection = 0;
     private NpcInstance npc;
     private Future<?> aiTask;
     private boolean thinking = false;
-
-    @Autowired
-    ServerService serverService;
 
     public NpcAI() {
         startAITask();
@@ -111,7 +102,7 @@ public class NpcAI extends BaseAI implements Runnable {
 
     private void startAITask() {
         if (aiTask == null) {
-            aiTask = threadPoolManagerService.scheduleAiAtFixedRate(this, 1000, 1000);
+            aiTask = ThreadPoolManagerService.getInstance().scheduleAiAtFixedRate(this, 1000, 1000);
         }
     }
 
@@ -125,7 +116,7 @@ public class NpcAI extends BaseAI implements Runnable {
     @Override
     protected void onEvtDead() {
         if (getIntention() == Intention.INTENTION_MOVE_TO) {
-            gameTimeControllerService.removeMovingObject(owner);
+            GameTimeControllerService.getInstance().removeMovingObject(owner);
         }
         stopAITask();
     }
@@ -143,7 +134,7 @@ public class NpcAI extends BaseAI implements Runnable {
 
     @Override
     public void setOwner(Entity owner) {
-        owner = owner;
+        this.owner = owner;
     }
 
     @Override
@@ -167,7 +158,7 @@ public class NpcAI extends BaseAI implements Runnable {
 
             // Send a packet to notify npc stop moving
             ObjectAnimationPacket packet = new ObjectAnimationPacket(owner.getId(), (byte) 0, 0f);
-            serverService.broadcastAll(packet);
+            ServerService.getInstance().broadcastAll(packet);
         }
 
         intention = Intention.INTENTION_IDLE;

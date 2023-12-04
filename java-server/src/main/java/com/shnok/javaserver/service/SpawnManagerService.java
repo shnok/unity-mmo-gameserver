@@ -3,23 +3,22 @@ package com.shnok.javaserver.service;
 import com.shnok.javaserver.model.SpawnInfo;
 import com.shnok.javaserver.thread.SpawnThread;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
 @Log4j2
 public class SpawnManagerService {
-    @Autowired
-    private DatabaseMockupService databaseMockupService;
-    @Autowired
-    private ThreadPoolManagerService threadPoolManagerService;
+    private static SpawnManagerService instance;
+    public static SpawnManagerService getInstance() {
+        if (instance == null) {
+            instance = new SpawnManagerService();
+        }
+        return instance;
+    }
 
     private List<SpawnInfo> registeredSpawns;
 
-    @Autowired
     private SpawnManagerService() {
         registeredSpawns = new ArrayList<>();
     }
@@ -35,17 +34,17 @@ public class SpawnManagerService {
 
     /* Later should load spawnlist from database */
     public void fillSpawnList() {
-        registeredSpawns = databaseMockupService.getSpawnList();
+        registeredSpawns = DatabaseMockupService.getInstance().getSpawnList();
     }
 
     public void spawnMonsters() {
         registeredSpawns.forEach((v) -> {
-            threadPoolManagerService.scheduleSpawn(new SpawnThread(v), 0);
+            ThreadPoolManagerService.getInstance().scheduleSpawn(new SpawnThread(v), 0);
         });
     }
 
     public void respawn(int id) {
         SpawnInfo info = registeredSpawns.get(id);
-        threadPoolManagerService.scheduleSpawn(new SpawnThread(info), info.getRespawnDelay());
+        ThreadPoolManagerService.getInstance().scheduleSpawn(new SpawnThread(info), info.getRespawnDelay());
     }
 }

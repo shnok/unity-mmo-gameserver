@@ -5,7 +5,7 @@ import com.shnok.javaserver.enums.ServerPacketType;
 
 public class SystemMessagePacket extends ServerPacket {
 
-    public MessageType type;
+    public final MessageType type;
 
     public SystemMessagePacket(MessageType type) {
         super(ServerPacketType.SystemMessage.getValue());

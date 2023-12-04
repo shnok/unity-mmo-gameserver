@@ -12,7 +12,6 @@ import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.pathfinding.node.NodeLoc;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -24,12 +23,6 @@ import java.util.List;
  */
 
 public abstract class Entity extends GameObject {
-
-    @Autowired
-    protected ServerService serverService;
-    @Autowired
-    protected GameTimeControllerService gameTimeControllerService;
-
     protected boolean canMove = true;
     protected MoveData moveData;
     protected BaseAI ai;
@@ -71,7 +64,7 @@ public abstract class Entity extends GameObject {
         }
 
         moveToNextRoutePoint();
-        gameTimeControllerService.addMovingObject(this);
+        GameTimeControllerService.getInstance().addMovingObject(this);
         return true;
     }
 
@@ -124,7 +117,7 @@ public abstract class Entity extends GameObject {
 
         /* send destination to clients */
         ObjectMoveToPacket packet = new ObjectMoveToPacket(getId(), new Point3D(x, y, z));
-        serverService.broadcastAll(packet);
+        ServerService.getInstance().broadcastAll(packet);
 
         Point3D newPos = new Point3D(moveData.xDestination, moveData.yDestination, moveData.zDestination);
         setPosition(newPos);
@@ -157,7 +150,7 @@ public abstract class Entity extends GameObject {
 
             /* share new position with clients */
             ObjectPositionPacket packet = new ObjectPositionPacket(getId(), getPos());
-            serverService.broadcastAll(packet);
+            ServerService.getInstance().broadcastAll(packet);
 
             if (moveData.path.size() > 0) {
                 moveToNextRoutePoint();
@@ -175,7 +168,7 @@ public abstract class Entity extends GameObject {
     }
 
     public void attachAI(BaseAI ai) {
-        ai = ai;
+        this.ai = ai;
     }
 
     public void detachAI() {

@@ -2,12 +2,9 @@ package com.shnok.javaserver.service;
 
 import com.shnok.javaserver.thread.ClientPacketHandlerThread;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.concurrent.*;
 
-@Service
 @Log4j2
 public class ThreadPoolManagerService {
     private ScheduledThreadPoolExecutor spawnThreadPool;
@@ -15,8 +12,12 @@ public class ThreadPoolManagerService {
     private ThreadPoolExecutor packetsThreadPool;
     private boolean shutdown = false;
 
-    @Autowired
-    public ThreadPoolManagerService() {
+    private static ThreadPoolManagerService instance;
+    public static ThreadPoolManagerService getInstance() {
+        if (instance == null) {
+            instance = new ThreadPoolManagerService();
+        }
+        return instance;
     }
 
     public void initialize() {

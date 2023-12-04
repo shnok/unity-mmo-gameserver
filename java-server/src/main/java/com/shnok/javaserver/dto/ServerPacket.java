@@ -35,7 +35,7 @@ public abstract class ServerPacket extends Packet {
         Byte[] array = new Byte[]{(byte) ((i >> 24) & 0xff),
                 (byte) ((i >> 16) & 0xff),
                 (byte) ((i >> 8) & 0xff),
-                (byte) ((i >> 0) & 0xff)};
+                (byte) ((i) & 0xff)};
 
         buffer.addAll(Arrays.asList(array));
     }

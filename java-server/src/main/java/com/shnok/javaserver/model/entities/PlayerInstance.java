@@ -4,7 +4,7 @@ import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.model.status.Status;
 
 public class PlayerInstance extends Entity {
-    public String name;
+    public final String name;
     private PlayerStatus status;
 
     public PlayerInstance(int id, String name) {

@@ -3,8 +3,8 @@ package com.shnok.javaserver.dto.clientpackets;
 import com.shnok.javaserver.dto.ClientPacket;
 
 public class RequestAttackPacket extends ClientPacket {
-    private int targetId;
-    private byte attackType;
+    private final int targetId;
+    private final byte attackType;
     public RequestAttackPacket(byte[] data) {
         super(data);
         targetId = readI();
