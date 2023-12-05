@@ -1,7 +1,9 @@
 package com.shnok.javaserver.model;
 
+import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.model.position.ObjectPosition;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * This class represents all spawnable objects in the world.<BR>
@@ -10,13 +12,19 @@ import lombok.Data;
  * <BR>
  */
 @Data
+@NoArgsConstructor
 public abstract class GameObject {
     protected int id;
     protected int model;
     protected boolean visible = true;
     protected ObjectPosition position;
+    protected ObjectKnownList knownList;
 
-    public GameObject() {
+    public ObjectKnownList getKnownList() {
+        if(knownList == null) {
+            knownList = new ObjectKnownList(this);
+        }
+        return knownList;
     }
 
     public GameObject(int id) {

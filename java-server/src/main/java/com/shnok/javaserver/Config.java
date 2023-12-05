@@ -13,7 +13,8 @@ public class Config {
     public static int GAMESERVER_PORT;
     public static int CONNECTION_TIMEOUT_SEC;
     public static int TIME_TICKS_PER_SECOND;
-
+    public static boolean PRINT_SERVER_PACKETS;
+    public static boolean PRINT_CLIENT_PACKETS;
     public static Point3D PLAYER_SPAWN_POINT;
 
     public static void LoadSettings() throws Exception {
@@ -34,5 +35,8 @@ public class Config {
         float spawnZ = Float.parseFloat(optionsSettings.getProperty("server.spawn.location.z", "0"));
 
         PLAYER_SPAWN_POINT = new Point3D(spawnX, spawnY, spawnZ);
+
+        PRINT_SERVER_PACKETS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.server-packets", "false"));
+        PRINT_CLIENT_PACKETS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.client-packets", "false"));
     }
 }

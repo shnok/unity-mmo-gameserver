@@ -78,7 +78,7 @@ public class NpcInstance extends Entity {
             ai.notifyEvent(Event.DEAD);
 
         WorldManagerService.getInstance().removeNPC(this);
-        ServerService.getInstance().broadcastAll(new RemoveObjectPacket(getId()));
+        ServerService.getInstance().broadcast(new RemoveObjectPacket(getId()));
         SpawnManagerService.getInstance().respawn(getSpawn().getId());
     }
 

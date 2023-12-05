@@ -36,16 +36,7 @@ public class ServerService {
         return clients;
     }
 
-    public void broadcast(ServerPacket packet) {
-        synchronized (clients) {
-            for (GameClientThread c : clients) {
-                if (c.authenticated) {
-                    c.sendPacket(packet);
-                }
-            }
-        }
-    }
-
+    // Broadcast to everyone ignoring caller
     public void broadcast(ServerPacket packet, GameClientThread current) {
         synchronized (clients) {
             for (GameClientThread c : clients) {
@@ -56,7 +47,8 @@ public class ServerService {
         }
     }
 
-    public void broadcastAll(ServerPacket packet) {
+    // Broadcast to everyone
+   public void broadcast(ServerPacket packet) {
         synchronized (clients) {
             for (GameClientThread c : clients) {
                 if (c.authenticated) {

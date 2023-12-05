@@ -12,6 +12,8 @@ import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.pathfinding.node.NodeLoc;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
+import com.shnok.javaserver.util.VectorUtils;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -22,13 +24,11 @@ import java.util.List;
  * <BR>
  */
 
+@NoArgsConstructor
 public abstract class Entity extends GameObject {
     protected boolean canMove = true;
     protected MoveData moveData;
     protected BaseAI ai;
-
-    public Entity() {
-    }
 
     public Entity(int id) {
         super(id);
@@ -68,13 +68,6 @@ public abstract class Entity extends GameObject {
         return true;
     }
 
-    private float calcDistance(Point3D from, Point3D to) {
-        double dx = (to.getX() - from.getX());
-        double dy = (to.getY() - from.getY());
-        double dz = (to.getZ() - from.getZ());
-        return (float) Math.sqrt((dx * dx) + (dz * dz) + (dy * dy));
-    }
-
     /* calculate how many ticks do we need to move to destination */
     public boolean moveToNextRoutePoint() {
         float speed = getStatus().getMoveSpeed();
@@ -95,7 +88,7 @@ public abstract class Entity extends GameObject {
         float x = moveData.path.get(0).getX() + 0.5f;
         float y = moveData.path.get(0).getY();
         float z = moveData.path.get(0).getZ() + 0.5f;
-        float distance = calcDistance(getPos(), new Point3D(x, y, z));
+        float distance = VectorUtils.calcDistance(getPos(), new Point3D(x, y, z));
         float dx = (x - getPosX());
         float dy = (y - getPosY());
         float dz = (z - getPosZ());
@@ -117,7 +110,7 @@ public abstract class Entity extends GameObject {
 
         /* send destination to clients */
         ObjectMoveToPacket packet = new ObjectMoveToPacket(getId(), new Point3D(x, y, z));
-        ServerService.getInstance().broadcastAll(packet);
+        ServerService.getInstance().broadcast(packet);
 
         Point3D newPos = new Point3D(moveData.xDestination, moveData.yDestination, moveData.zDestination);
         setPosition(newPos);
@@ -150,7 +143,7 @@ public abstract class Entity extends GameObject {
 
             /* share new position with clients */
             ObjectPositionPacket packet = new ObjectPositionPacket(getId(), getPos());
-            ServerService.getInstance().broadcastAll(packet);
+            ServerService.getInstance().broadcast(packet);
 
             if (moveData.path.size() > 0) {
                 moveToNextRoutePoint();

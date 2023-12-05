@@ -6,8 +6,10 @@ import com.shnok.javaserver.model.WorldRegion;
 import com.shnok.javaserver.model.entities.Entity;
 import com.shnok.javaserver.model.entities.NpcInstance;
 import com.shnok.javaserver.model.entities.PlayerInstance;
+import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -146,6 +148,80 @@ public class WorldManagerService {
 
     public GameObject getPlayer(String name) {
         return allPlayers.get(name);
+    }
+
+    public FastList<GameObject> getVisibleObjects(GameObject target) {
+        WorldRegion reg = target.getWorldRegion();
+        if (reg == null) {
+            return null;
+        }
+
+        // Create an FastList in order to contain all visible L2Object
+        FastList<GameObject> result = new FastList<>();
+
+        // Create a FastList containing all regions around the current region
+        FastList<WorldRegion> regions = reg.getSurroundingRegions();
+
+        // Go through the FastList of region
+        for (int i = 0; i < regions.size(); i++) {
+            // Go through visible objects of the selected region
+            for (GameObject gameObject : regions.get(i).getVisibleObjects()) {
+                if (gameObject == null) {
+                    continue;
+                }
+                if (gameObject.equals(target)) {
+                    continue; // skip our own character
+                }
+                if (!gameObject.isVisible()) {
+                    continue;
+                }
+
+                result.add(gameObject);
+            }
+        }
+
+        return result;
+    }
+
+    public FastList<PlayerInstance> getVisiblePlayers(GameObject target) {
+        WorldRegion reg = target.getWorldRegion();
+
+        if (reg == null) {
+            return null;
+        }
+
+        // Create an FastList in order to contain all visible L2Object
+        FastList<PlayerInstance> result = new FastList<>();
+
+        // Create a FastList containing all regions around the current region
+        FastList<WorldRegion> regions = reg.getSurroundingRegions();
+
+        // Go through the FastList of region
+        for (int i = 0; i < regions.size(); i++) {
+            // Create an Iterator to go through the visible L2Object of the L2WorldRegion
+            Iterator<PlayerInstance> players = regions.get(i).iterateAllPlayers();
+
+            // Go through visible object of the selected region
+            while (players.hasNext()) {
+                PlayerInstance object = players.next();
+
+                if (object == null) {
+                    continue;
+                }
+
+                if (object.equals(target)) {
+                    continue; // skip our own character
+                }
+
+                if (!object.isVisible()){
+                    continue;
+                }
+
+                result.add(object);
+            }
+        }
+
+        return result;
     }
 
     public int nextID() {

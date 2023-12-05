@@ -6,16 +6,16 @@ import com.shnok.javaserver.dto.serverpackets.*;
 import com.shnok.javaserver.enums.ClientPacketType;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entities.Entity;
-import com.shnok.javaserver.model.entities.NpcInstance;
 import com.shnok.javaserver.model.entities.PlayerInstance;
+import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.service.ServerService;
+import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
 
 @Log4j2
 public class ClientPacketHandlerThread extends Thread {
@@ -34,8 +34,9 @@ public class ClientPacketHandlerThread extends Thread {
 
     public void handle() {
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
-
-        log.debug("Received packet: {}", type);
+        if(Config.PRINT_CLIENT_PACKETS) {
+            log.debug("Received packet: {}", type);
+        }
         switch (type) {
             case Ping:
                 onReceiveEcho();
@@ -122,6 +123,9 @@ public class ClientPacketHandlerThread extends Thread {
         PlayerInstance currentPlayer = client.getCurrentPlayer();
         currentPlayer.setPosition(newPos);
 
+        ThreadPoolManagerService.getInstance().execute(
+                new ObjectKnownList.KnownListAsynchronousUpdateTask(client.getCurrentPlayer()));
+
         ObjectPositionPacket objectPositionPacket = new ObjectPositionPacket(currentPlayer.getId(), newPos);
         ServerService.getInstance().broadcast(objectPositionPacket, client);
     }
@@ -129,7 +133,11 @@ public class ClientPacketHandlerThread extends Thread {
     private void onRequestLoadWorld() {
         client.sendPacket(new PlayerInfoPacket(client.getPlayer()));
 
-        for (Map.Entry<Integer, PlayerInstance> pair : WorldManagerService.getInstance().getAllPlayers().entrySet()) {
+        // Loads surrounding area
+        ThreadPoolManagerService.getInstance().execute(
+                new ObjectKnownList.KnownListAsynchronousUpdateTask(client.getCurrentPlayer()));
+
+        /*for (Map.Entry<Integer, PlayerInstance> pair : WorldManagerService.getInstance().getAllPlayers().entrySet()) {
             if(pair.getValue().getId() != client.getPlayer().getId()) {
                 client.sendPacket(new UserInfoPacket(pair.getValue()));
             }
@@ -137,7 +145,7 @@ public class ClientPacketHandlerThread extends Thread {
 
         for (Map.Entry<Integer, NpcInstance> pair : WorldManagerService.getInstance().getAllNpcs().entrySet()) {
             client.sendPacket(new NpcInfoPacket(pair.getValue()));
-        }
+        }*/
     }
 
     private void onRequestCharacterRotate(byte[] data) {
@@ -162,7 +170,7 @@ public class ClientPacketHandlerThread extends Thread {
 
         ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
                 client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), 1);
-        ServerService.getInstance().broadcastAll(applyDamagePacket);
+        ServerService.getInstance().broadcast(applyDamagePacket);
     }
 
     private void onRequestCharacterMoveDirection(byte[] data) {

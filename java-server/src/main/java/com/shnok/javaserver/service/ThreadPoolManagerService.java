@@ -10,6 +10,7 @@ public class ThreadPoolManagerService {
     private ScheduledThreadPoolExecutor spawnThreadPool;
     private ScheduledThreadPoolExecutor aiThreadPool;
     private ThreadPoolExecutor packetsThreadPool;
+    private ThreadPoolExecutor generalThreadPool;
     private boolean shutdown = false;
 
     private static ThreadPoolManagerService instance;
@@ -25,6 +26,11 @@ public class ThreadPoolManagerService {
         spawnThreadPool = new ScheduledThreadPoolExecutor(5);
         aiThreadPool = new ScheduledThreadPoolExecutor(100);
         packetsThreadPool = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+        generalThreadPool = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+    }
+
+    public void execute(Runnable r) {
+        generalThreadPool.execute(r);
     }
 
     public ScheduledFuture<?> scheduleSpawn(Runnable r, long delay) {

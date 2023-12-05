@@ -1,5 +1,6 @@
 package com.shnok.javaserver.thread;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
 import com.shnok.javaserver.enums.ServerPacketType;
 import com.shnok.javaserver.service.DatabaseMockupService;
@@ -97,7 +98,9 @@ public class GameClientThread extends Thread {
     }
 
     public void sendPacket(ServerPacket packet) {
-        log.debug("Sent packet: {}", ServerPacketType.fromByte(packet.getType()));
+        if(Config.PRINT_SERVER_PACKETS) {
+            log.debug("Sent packet: {}", ServerPacketType.fromByte(packet.getType()));
+        }
         try {
             synchronized (out) {
                 for (byte b : packet.getData()) {
@@ -137,10 +140,13 @@ public class GameClientThread extends Thread {
     void authenticate() {
         log.debug("Authenticating new player.");
         ServerService.getInstance().broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, username), this);
+
         player = DatabaseMockupService.getInstance().getPlayerData(username);
+        player.setGameClient(this);
         player.setId(WorldManagerService.getInstance().nextID());
         WorldManagerService.getInstance().addPlayer(player);
-        ServerService.getInstance().broadcast(new UserInfoPacket(player), this);
+
+        //ServerService.getInstance().broadcast(new UserInfoPacket(player), this);
     }
 
     void removeSelf() {

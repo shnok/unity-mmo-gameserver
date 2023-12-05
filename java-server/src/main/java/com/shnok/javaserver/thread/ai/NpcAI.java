@@ -158,7 +158,7 @@ public class NpcAI extends BaseAI implements Runnable {
 
             // Send a packet to notify npc stop moving
             ObjectAnimationPacket packet = new ObjectAnimationPacket(owner.getId(), (byte) 0, 0f);
-            ServerService.getInstance().broadcastAll(packet);
+            ServerService.getInstance().broadcast(packet);
         }
 
         intention = Intention.INTENTION_IDLE;
