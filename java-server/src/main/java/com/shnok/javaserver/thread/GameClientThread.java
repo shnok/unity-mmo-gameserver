@@ -2,7 +2,7 @@ package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.enums.ServerPacketType;
-import com.shnok.javaserver.db.service.DatabaseMockupService;
+import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.model.entity.PlayerInstance;
@@ -140,9 +140,12 @@ public class GameClientThread extends Thread {
         log.debug("Authenticating new player.");
         ServerService.getInstance().broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, username), this);
 
-        player = DatabaseMockupService.getInstance().getPlayerData(username);
+        /* Dummy player */
+        player = new PlayerInstance(username);
+        player.setStatus(new PlayerStatus());
         player.setGameClient(this);
         player.setId(WorldManagerService.getInstance().nextID());
+        player.setPosition(Config.PLAYER_SPAWN_POINT);
         WorldManagerService.getInstance().addPlayer(player);
 
         //ServerService.getInstance().broadcast(new UserInfoPacket(player), this);

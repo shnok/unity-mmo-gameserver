@@ -1,10 +1,10 @@
 package com.shnok.javaserver.service;
 
+import com.shnok.javaserver.db.entity.Npc;
 import com.shnok.javaserver.db.entity.SpawnList;
-import com.shnok.javaserver.db.interfaces.SpawnListDao;
+import com.shnok.javaserver.db.repository.NpcRepository;
 import com.shnok.javaserver.db.repository.SpawnListRepository;
-import com.shnok.javaserver.db.service.DatabaseMockupService;
-import com.shnok.javaserver.model.OldSpawnInfo;
+import com.shnok.javaserver.model.template.NpcTemplate;
 import com.shnok.javaserver.thread.SpawnThread;
 import lombok.extern.log4j.Log4j2;
 
@@ -43,13 +43,19 @@ public class SpawnManagerService {
     }
 
     public void spawnMonsters() {
-        registeredSpawns.forEach((v) -> {
-            ThreadPoolManagerService.getInstance().scheduleSpawn(new SpawnThread(v), 0);
+        registeredSpawns.forEach((spawnInfo) -> {
+            NpcRepository npcRepository = new NpcRepository();
+            Npc npc = npcRepository.getNpcById(spawnInfo.getNpcId());
+            if(npc != null) {
+                NpcTemplate npcTemplate = new NpcTemplate(npc);
+                ThreadPoolManagerService.getInstance().scheduleSpawn(new SpawnThread(spawnInfo, npcTemplate), 0);
+            } else {
+                log.error("Could not find npc with id {} in the database.", spawnInfo.getNpcId());
+            }
         });
     }
 
-    public void respawn(int id) {
-        SpawnList info = registeredSpawns.get(id);
-        ThreadPoolManagerService.getInstance().scheduleSpawn(new SpawnThread(info), info.getRespawnDelay());
+    public void respawn(SpawnList spawnInfo, NpcTemplate template) {
+        ThreadPoolManagerService.getInstance().scheduleSpawn(new SpawnThread(spawnInfo, template), spawnInfo.getRespawnDelay());
     }
 }

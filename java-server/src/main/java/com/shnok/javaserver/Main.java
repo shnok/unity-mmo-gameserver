@@ -1,7 +1,5 @@
 package com.shnok.javaserver;
 
-import com.shnok.javaserver.db.repository.NpcRepository;
-import com.shnok.javaserver.db.service.DatabaseMockupService;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.*;
@@ -22,12 +20,6 @@ public class Main {
             return;
         }
 
-        //SpawnListRepository spawnListRepository = new SpawnListRepository();
-        //SpawnList spawnList = new SpawnList(25000,"partisan_agit_2121_01",1,35372,44368,107440,-2032,0,0,0,60,0,0);
-        //spawnListRepository.addSpawnList(spawnList);
-        NpcRepository npcRepository = new NpcRepository();
-        npcRepository.getNpcById(12077);
-
         ThreadPoolManagerService.getInstance().initialize();
         Runtime.getRuntime().addShutdownHook(ServerShutdownService.getInstance());
 
@@ -37,7 +29,6 @@ public class Main {
 
         WorldManagerService.getInstance().initialize();
         GameTimeControllerService.getInstance().initialize();
-        DatabaseMockupService.getInstance().initialize();
         SpawnManagerService.getInstance().initialize();
 
         GameServerListenerService.getInstance().Initialize();

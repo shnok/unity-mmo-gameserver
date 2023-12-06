@@ -2,10 +2,12 @@ package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
+import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.thread.GameClientThread;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
@@ -14,11 +16,14 @@ import lombok.extern.log4j.Log4j2;
 @Setter
 public class PlayerInstance extends Entity {
     public final String name;
-    private PlayerStatus status;
     private GameClientThread gameClient;
 
     public PlayerInstance(int id, String name) {
         super(id);
+        this.name = name;
+    }
+
+    public PlayerInstance(String name) {
         this.name = name;
     }
 
@@ -45,8 +50,8 @@ public class PlayerInstance extends Entity {
     }
 
     @Override
-    public PlayerStatus getStatus() {
-        return status;
+    public final PlayerStatus getStatus() {
+        return (PlayerStatus) super.getStatus();
     }
 
     @Override

@@ -44,17 +44,17 @@ public class SpawnList {
     @Column(name = "npc_templateid")
     private int npcId;
     @Column(name = "locx")
-    private int posX;
+    private float posX;
     @Column(name = "locy")
-    private int posY;
+    private float posY;
     @Column(name = "locz")
-    private int posZ;
+    private float posZ;
     @Column(name = "randomx")
-    private int randomX;
+    private float randomX;
     @Column(name = "randomy")
-    private int randomY;
+    private float randomY;
     @Column
-    private int heading;
+    private float heading;
     @Column(name = "respawn_delay")
     private int respawnDelay;
     @Column(name = "loc_id")

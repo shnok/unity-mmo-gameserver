@@ -1,11 +1,12 @@
 package com.shnok.javaserver.db.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
+@Data
 public class Npc {
-
     @Id
     private int id;
     private int idTemplate;

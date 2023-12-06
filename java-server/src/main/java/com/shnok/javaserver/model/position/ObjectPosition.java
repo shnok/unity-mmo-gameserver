@@ -13,14 +13,12 @@ import lombok.extern.log4j.Log4j2;
 public class ObjectPosition
 {
     private final GameObject activeObject;
-    private int heading = 0;
+    private float heading = 0;
     private Point3D worldPosition;
     private WorldRegion worldRegion; // Object localization : Used for items/chars that are seen in the world
 
     public ObjectPosition(GameObject activeObject) {
         this.activeObject = activeObject;
-
-        System.out.println(WorldManagerService.getInstance());
         setWorldRegion(WorldManagerService.getInstance().getRegion(getWorldPosition()));
     }
 

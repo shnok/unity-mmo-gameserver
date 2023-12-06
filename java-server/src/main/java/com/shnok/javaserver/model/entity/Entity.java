@@ -2,6 +2,7 @@ package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
+import com.shnok.javaserver.model.template.EntityTemplate;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
@@ -15,6 +16,7 @@ import com.shnok.javaserver.pathfinding.node.NodeLoc;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.util.VectorUtils;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -26,19 +28,20 @@ import java.util.List;
  * <BR>
  */
 
+@Data
 @NoArgsConstructor
 public abstract class Entity extends GameObject {
     protected boolean canMove = true;
     protected MoveData moveData;
     protected BaseAI ai;
+    protected EntityTemplate template;
+    protected Status status;
 
     public Entity(int id) {
         super(id);
     }
 
     public abstract void inflictDamage(int value);
-
-    public abstract Status getStatus();
 
     public abstract void setStatus(Status status);
 
@@ -195,5 +198,13 @@ public abstract class Entity extends GameObject {
         for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {
             player.sendPacket(packet);
         }
+    }
+
+    public EntityTemplate getTemplate() {
+        return template;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 }

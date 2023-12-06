@@ -1,14 +1,15 @@
 package com.shnok.javaserver.model.entity;
 
+import com.shnok.javaserver.db.entity.Npc;
 import com.shnok.javaserver.db.entity.SpawnList;
+import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.service.ServerService;
-import com.shnok.javaserver.service.SpawnManagerService;
-import com.shnok.javaserver.model.OldSpawnInfo;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.Status;
-import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
+import com.shnok.javaserver.model.template.NpcTemplate;
+import com.shnok.javaserver.service.ServerService;
+import com.shnok.javaserver.service.SpawnManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 
 public class NpcInstance extends Entity {
@@ -16,29 +17,39 @@ public class NpcInstance extends Entity {
     private boolean patrol = false;
     private boolean randomWalk = false;
     private Point3D[] patrolWaypoints;
-    private int npcId;
-    private NpcStatus status;
     private SpawnList spawnInfo;
 
-    public NpcInstance(int npcId, NpcStatus status, boolean isStatic, boolean randomWalk, boolean patrol, Point3D[] patrolWaypoints) {
-        this.npcId = npcId;
-        this.status = status;
-        this.isStatic = isStatic;
-        this.randomWalk = randomWalk;
+    public NpcInstance(int id, NpcTemplate npcTemplate, boolean patrol, Point3D[] patrolWaypoints) {
+        super(id);
+        this.template = npcTemplate;
+        this.status = new NpcStatus(npcTemplate.getLevel(), npcTemplate.baseHpMax);
+        this.isStatic = false;
+        this.randomWalk = false;
         this.patrol = patrol;
         this.patrolWaypoints = patrolWaypoints;
     }
 
+    public NpcInstance(int id, NpcTemplate npcTemplate, boolean randomWalk, boolean patrol, Point3D[] patrolWaypoints) {
+        super(id);
+        this.template = npcTemplate;
+        this.status = new NpcStatus(npcTemplate.getLevel(), npcTemplate.baseHpMax);
+        this.isStatic = false;
+        this.randomWalk = randomWalk;
+        this.patrol = false;
+        this.patrolWaypoints = patrolWaypoints;
+    }
+
+    public NpcInstance(int id, NpcTemplate npcTemplate) {
+        super(id);
+        this.template = npcTemplate;
+        this.status = new NpcStatus(npcTemplate.getLevel(), npcTemplate.baseHpMax);
+        this.isStatic = true;
+        this.randomWalk = false;
+        this.patrol = false;
+    }
+
     public NpcInstance(int id, int npcId) {
         super(id);
-    }
-
-    public int getNpcId() {
-        return npcId;
-    }
-
-    public void setNpcId(int npcId) {
-        this.npcId = npcId;
     }
 
     public boolean isStatic() {
@@ -59,11 +70,6 @@ public class NpcInstance extends Entity {
     }
 
     @Override
-    public NpcStatus getStatus() {
-        return status;
-    }
-
-    @Override
     public void setStatus(Status status) {
         this.status = (NpcStatus) status;
     }
@@ -80,7 +86,7 @@ public class NpcInstance extends Entity {
 
         WorldManagerService.getInstance().removeNPC(this);
         ServerService.getInstance().broadcast(new RemoveObjectPacket(getId()));
-        SpawnManagerService.getInstance().respawn(getSpawn().getId());
+        SpawnManagerService.getInstance().respawn(spawnInfo, (NpcTemplate) template);
     }
 
     public SpawnList getSpawn() {
@@ -113,5 +119,15 @@ public class NpcInstance extends Entity {
 
     public void setRandomWalk(boolean randomWalk) {
         this.randomWalk = randomWalk;
+    }
+
+    @Override
+    public final NpcTemplate getTemplate() {
+        return (NpcTemplate) super.getTemplate();
+    }
+
+    @Override
+    public final NpcStatus getStatus() {
+        return (NpcStatus) super.getStatus();
     }
 }

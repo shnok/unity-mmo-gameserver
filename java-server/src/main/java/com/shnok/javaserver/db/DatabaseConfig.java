@@ -14,7 +14,7 @@ public class DatabaseConfig {
         // Hibernate HikariCP configuration
         configuration.setProperty("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
         configuration.setProperty("hibernate.hbm2ddl.auto", "update");
-        configuration.setProperty("hibernate.show_sql", "true");
+        configuration.setProperty("hibernate.show_sql", "false");
         configuration.setProperty("hibernate.format_sql", "true");
 
         // HikariCP properties

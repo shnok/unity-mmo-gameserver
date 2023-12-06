@@ -101,6 +101,8 @@ public class ObjectKnownList {
 
                 if (object instanceof Entity) {
                     object.getKnownList().addKnownObject(getActiveObject());
+                }
+                if (object instanceof PlayerInstance) {
                     log.debug("[{}] New known object: {}", getActiveObject().getId(), object.getId());
                 }
             }

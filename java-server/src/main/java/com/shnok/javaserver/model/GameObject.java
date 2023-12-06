@@ -49,6 +49,10 @@ public abstract class GameObject {
         getPosition().setXYZ(position.getX(), position.getY(), position.getZ());
     }
 
+    public void setHeading(float heading) {
+        getPosition().setHeading(heading);
+    }
+
     public Point3D getPos() {
         return getPosition().getWorldPosition();
     }
