@@ -1,5 +1,9 @@
 package com.shnok.javaserver.model.entities;
 
+import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
+import com.shnok.javaserver.model.knownlist.EntityKnownList;
+import com.shnok.javaserver.model.knownlist.PlayerKnownList;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
@@ -43,6 +47,14 @@ public abstract class Entity extends GameObject {
     public abstract boolean canMove();
 
     public abstract void onDeath();
+
+    @Override
+    public EntityKnownList getKnownList() {
+        if ((super.getKnownList() == null) || !(super.getKnownList() instanceof EntityKnownList)) {
+            setKnownList(new EntityKnownList(this));
+        }
+        return ((EntityKnownList) super.getKnownList());
+    }
 
     public boolean moveTo(int x, int y, int z) {
         //System.out.println("AI find path: " + x + "," + y + "," + z);
@@ -179,5 +191,11 @@ public abstract class Entity extends GameObject {
         public float ySpeedTicks;
         public float zSpeedTicks;
         public List<NodeLoc> path;
+    }
+
+    public void broadcastPacket(ServerPacket packet) {
+        for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {
+            player.sendPacket(packet);
+        }
     }
 }

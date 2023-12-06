@@ -123,11 +123,13 @@ public class ClientPacketHandlerThread extends Thread {
         PlayerInstance currentPlayer = client.getCurrentPlayer();
         currentPlayer.setPosition(newPos);
 
+        // Update known list
         ThreadPoolManagerService.getInstance().execute(
                 new ObjectKnownList.KnownListAsynchronousUpdateTask(client.getCurrentPlayer()));
 
+        // Notify known list
         ObjectPositionPacket objectPositionPacket = new ObjectPositionPacket(currentPlayer.getId(), newPos);
-        ServerService.getInstance().broadcast(objectPositionPacket, client);
+        client.getCurrentPlayer().broadcastPacket(objectPositionPacket);
     }
 
     private void onRequestLoadWorld() {
@@ -136,30 +138,24 @@ public class ClientPacketHandlerThread extends Thread {
         // Loads surrounding area
         ThreadPoolManagerService.getInstance().execute(
                 new ObjectKnownList.KnownListAsynchronousUpdateTask(client.getCurrentPlayer()));
-
-        /*for (Map.Entry<Integer, PlayerInstance> pair : WorldManagerService.getInstance().getAllPlayers().entrySet()) {
-            if(pair.getValue().getId() != client.getPlayer().getId()) {
-                client.sendPacket(new UserInfoPacket(pair.getValue()));
-            }
-        }
-
-        for (Map.Entry<Integer, NpcInstance> pair : WorldManagerService.getInstance().getAllNpcs().entrySet()) {
-            client.sendPacket(new NpcInfoPacket(pair.getValue()));
-        }*/
     }
 
     private void onRequestCharacterRotate(byte[] data) {
         RequestCharacterRotatePacket packet = new RequestCharacterRotatePacket(data);
+
+        // Notify known list
         ObjectRotationPacket objectRotationPacket = new ObjectRotationPacket(
                 client.getCurrentPlayer().getId(), packet.getAngle());
-        ServerService.getInstance().broadcast(objectRotationPacket, client);
+        client.getCurrentPlayer().broadcastPacket(objectRotationPacket);
     }
 
     private void onRequestCharacterAnimation(byte[] data) {
         RequestCharacterAnimationPacket packet = new RequestCharacterAnimationPacket(data);
+
+        // Notify known list
         ObjectAnimationPacket objectAnimationPacket = new ObjectAnimationPacket(
                 client.getCurrentPlayer().getId(), packet.getAnimId(), packet.getValue());
-        ServerService.getInstance().broadcast(objectAnimationPacket, client);
+        client.getCurrentPlayer().broadcastPacket(objectAnimationPacket);
     }
 
     private void onRequestAttack(byte[] data) {
@@ -176,8 +172,9 @@ public class ClientPacketHandlerThread extends Thread {
     private void onRequestCharacterMoveDirection(byte[] data) {
         RequestCharacterMoveDirection packet = new RequestCharacterMoveDirection(data);
 
+        // Notify known list
         ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
                 client.getCurrentPlayer().getId(), packet.getSpeed(), packet.getDirection());
-        ServerService.getInstance().broadcast(objectDirectionPacket, client);
+        client.getCurrentPlayer().broadcastPacket(objectDirectionPacket);
     }
 }
