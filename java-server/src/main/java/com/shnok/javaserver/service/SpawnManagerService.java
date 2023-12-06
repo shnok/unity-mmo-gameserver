@@ -1,6 +1,10 @@
 package com.shnok.javaserver.service;
 
-import com.shnok.javaserver.model.SpawnInfo;
+import com.shnok.javaserver.db.entity.SpawnList;
+import com.shnok.javaserver.db.interfaces.SpawnListDao;
+import com.shnok.javaserver.db.repository.SpawnListRepository;
+import com.shnok.javaserver.db.service.DatabaseMockupService;
+import com.shnok.javaserver.model.OldSpawnInfo;
 import com.shnok.javaserver.thread.SpawnThread;
 import lombok.extern.log4j.Log4j2;
 
@@ -17,7 +21,7 @@ public class SpawnManagerService {
         return instance;
     }
 
-    private List<SpawnInfo> registeredSpawns;
+    private List<SpawnList> registeredSpawns;
 
     private SpawnManagerService() {
         registeredSpawns = new ArrayList<>();
@@ -25,7 +29,7 @@ public class SpawnManagerService {
 
     public void initialize() {
         log.info("Initializing spawner manager.");
-        fillSpawnList();
+        loadSpawnList();
         log.info("Loaded {} spawn point(s) from the database.", registeredSpawns.size());
         spawnMonsters();
         log.info("Spawning monsters.");
@@ -33,8 +37,9 @@ public class SpawnManagerService {
     
 
     /* Later should load spawnlist from database */
-    public void fillSpawnList() {
-        registeredSpawns = DatabaseMockupService.getInstance().getSpawnList();
+    public void loadSpawnList() {
+        SpawnListRepository spawnListRepository = new SpawnListRepository();
+        registeredSpawns = spawnListRepository.getAllSpawnList();
     }
 
     public void spawnMonsters() {
@@ -44,7 +49,7 @@ public class SpawnManagerService {
     }
 
     public void respawn(int id) {
-        SpawnInfo info = registeredSpawns.get(id);
+        SpawnList info = registeredSpawns.get(id);
         ThreadPoolManagerService.getInstance().scheduleSpawn(new SpawnThread(info), info.getRespawnDelay());
     }
 }

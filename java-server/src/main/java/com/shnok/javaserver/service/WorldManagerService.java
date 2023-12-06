@@ -3,9 +3,9 @@ package com.shnok.javaserver.service;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.WorldRegion;
-import com.shnok.javaserver.model.entities.Entity;
-import com.shnok.javaserver.model.entities.NpcInstance;
-import com.shnok.javaserver.model.entities.PlayerInstance;
+import com.shnok.javaserver.model.entity.Entity;
+import com.shnok.javaserver.model.entity.NpcInstance;
+import com.shnok.javaserver.model.entity.PlayerInstance;
 import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 
@@ -23,7 +23,7 @@ public class WorldManagerService {
     public static final int MAP_MAX_Y = 4354;
     public static final int MAP_MIN_X = -4993;
     public static final int MAP_MAX_X = 4993;
-    public static final int SHIFT_BY = 7;
+    public static final int SHIFT_BY = 6;
     public static final int OFFSET_X = Math.abs(MAP_MIN_X >> SHIFT_BY);
     public static final int OFFSET_Y = Math.abs(MAP_MIN_Y >> SHIFT_BY);
     private static final int REGIONS_X = (MAP_MAX_X >> SHIFT_BY) + OFFSET_X;

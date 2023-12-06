@@ -1,4 +1,4 @@
-package com.shnok.javaserver.model.entities;
+package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.model.GameObject;
 

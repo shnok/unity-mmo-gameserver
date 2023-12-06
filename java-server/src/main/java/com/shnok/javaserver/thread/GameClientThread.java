@@ -1,12 +1,11 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
 import com.shnok.javaserver.enums.ServerPacketType;
-import com.shnok.javaserver.service.DatabaseMockupService;
+import com.shnok.javaserver.db.service.DatabaseMockupService;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.dto.ServerPacket;
-import com.shnok.javaserver.model.entities.PlayerInstance;
+import com.shnok.javaserver.model.entity.PlayerInstance;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.service.ThreadPoolManagerService;

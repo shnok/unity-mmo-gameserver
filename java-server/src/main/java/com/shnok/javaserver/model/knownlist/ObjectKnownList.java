@@ -1,8 +1,8 @@
 package com.shnok.javaserver.model.knownlist;
 
 import com.shnok.javaserver.model.GameObject;
-import com.shnok.javaserver.model.entities.Entity;
-import com.shnok.javaserver.model.entities.PlayerInstance;
+import com.shnok.javaserver.model.entity.Entity;
+import com.shnok.javaserver.model.entity.PlayerInstance;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.util.VectorUtils;
 import javolution.util.FastMap;

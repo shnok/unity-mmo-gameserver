@@ -4,13 +4,13 @@ import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.clientpackets.*;
 import com.shnok.javaserver.dto.serverpackets.*;
 import com.shnok.javaserver.enums.ClientPacketType;
+import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.entities.Entity;
-import com.shnok.javaserver.model.entities.PlayerInstance;
+import com.shnok.javaserver.model.entity.Entity;
+import com.shnok.javaserver.model.entity.PlayerInstance;
 import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
-import com.shnok.javaserver.service.WorldManagerService;
 import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
@@ -161,12 +161,22 @@ public class ClientPacketHandlerThread extends Thread {
     private void onRequestAttack(byte[] data) {
         RequestAttackPacket packet = new RequestAttackPacket(data);
 
-        Entity entity = WorldManagerService.getInstance().getEntity(packet.getTargetId());
-        entity.inflictDamage(1);
+        GameObject object = client.getCurrentPlayer().getKnownList().getKnownObjects().get(packet.getTargetId());
+        if(object == null) {
+            log.warn("Trying to attack a null object.");
+        }
+        if(!(object instanceof Entity)) {
+            log.warn("Trying to attack a non-entity object.");
+            return;
 
+        }
+
+        ((Entity) object).inflictDamage(1);
+
+        // Notify known list
         ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
                 client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), 1);
-        ServerService.getInstance().broadcast(applyDamagePacket);
+        client.getCurrentPlayer().broadcastPacket(applyDamagePacket);
     }
 
     private void onRequestCharacterMoveDirection(byte[] data) {

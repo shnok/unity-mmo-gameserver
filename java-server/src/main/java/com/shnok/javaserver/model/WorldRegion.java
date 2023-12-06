@@ -1,6 +1,6 @@
 package com.shnok.javaserver.model;
 
-import com.shnok.javaserver.model.entities.PlayerInstance;
+import com.shnok.javaserver.model.entity.PlayerInstance;
 import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 
@@ -13,8 +13,7 @@ public class WorldRegion {
     private final FastList<PlayerInstance> allPlayers;
     private final int tileX, tileY;
 
-    public WorldRegion(int tileX, int tileY)
-    {
+    public WorldRegion(int tileX, int tileY) {
         allPlayers = new FastList<>();
         surroundingRegions = new FastList<>();
         visibleObjects = new FastList<>();

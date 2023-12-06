@@ -1,11 +1,11 @@
-package com.shnok.javaserver.service;
+package com.shnok.javaserver.db.service;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.SpawnInfo;
-import com.shnok.javaserver.model.entities.Entity;
-import com.shnok.javaserver.model.entities.NpcInstance;
-import com.shnok.javaserver.model.entities.PlayerInstance;
+import com.shnok.javaserver.model.OldSpawnInfo;
+import com.shnok.javaserver.model.entity.Entity;
+import com.shnok.javaserver.model.entity.NpcInstance;
+import com.shnok.javaserver.model.entity.PlayerInstance;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.PlayerStatus;
 import javolution.util.FastMap;
@@ -17,7 +17,7 @@ import java.util.List;
 @Log4j2
 public class DatabaseMockupService {
     private final FastMap<Integer, Entity> npcList = new FastMap<>();
-    private final List<SpawnInfo> spawnList = new ArrayList<>();
+    private final List<OldSpawnInfo> spawnList = new ArrayList<>();
     private Point3D playerSpawnPoint;
 
     private static DatabaseMockupService instance;
@@ -54,15 +54,10 @@ public class DatabaseMockupService {
     }
 
     private void generateSpawnList() {
-       /* for (int i = 0; i < 3; i++) {
-            spawnList.add(new SpawnInfo(spawnList.size(), 0, 1000));
-        }
-        for (int i = 0; i < 2; i++) {
-            spawnList.add(new SpawnInfo(spawnList.size(), 1, 1000));
-        }
-        spawnList.add(new SpawnInfo(spawnList.size(), 1, 5000, new Point3D(-5, 2, 6)));
-        spawnList.add(new SpawnInfo(spawnList.size(), 2, 5000, new Point3D(-5, 0, 5)));
-        spawnList.add(new SpawnInfo(spawnList.size(), 3, 5000, new Point3D(-13, 4, 12)));*/
+        spawnList.add(new OldSpawnInfo(spawnList.size(), 1, 1000, new Point3D(4627.25f, -71.414f, -1644.323f)));
+        spawnList.add(new OldSpawnInfo(spawnList.size(), 1, 1000, new Point3D(4627.25f, -71.414f, -1647.323f)));
+        spawnList.add(new OldSpawnInfo(spawnList.size(), 1, 1000, new Point3D(4628.25f, -71.414f, -1647.323f)));
+        spawnList.add(new OldSpawnInfo(spawnList.size(), 1, 1000, new Point3D(4630.25f, -71.414f, -1645.323f)));
     }
 
     public NpcInstance getNpc(int id) {
@@ -88,7 +83,7 @@ public class DatabaseMockupService {
         return player;
     }
 
-    public List<SpawnInfo> getSpawnList() {
+    public List<OldSpawnInfo> getSpawnList() {
         return spawnList;
     }
 

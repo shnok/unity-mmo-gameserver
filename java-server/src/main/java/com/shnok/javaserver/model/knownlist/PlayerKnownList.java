@@ -4,10 +4,10 @@ import com.shnok.javaserver.dto.serverpackets.NpcInfoPacket;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
 import com.shnok.javaserver.model.GameObject;
-import com.shnok.javaserver.model.entities.Entity;
-import com.shnok.javaserver.model.entities.ItemInstance;
-import com.shnok.javaserver.model.entities.NpcInstance;
-import com.shnok.javaserver.model.entities.PlayerInstance;
+import com.shnok.javaserver.model.entity.Entity;
+import com.shnok.javaserver.model.entity.ItemInstance;
+import com.shnok.javaserver.model.entity.NpcInstance;
+import com.shnok.javaserver.model.entity.PlayerInstance;
 
 public class PlayerKnownList extends EntityKnownList
 {

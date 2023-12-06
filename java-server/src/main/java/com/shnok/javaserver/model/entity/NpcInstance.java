@@ -1,10 +1,11 @@
-package com.shnok.javaserver.model.entities;
+package com.shnok.javaserver.model.entity;
 
+import com.shnok.javaserver.db.entity.SpawnList;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.SpawnManagerService;
-import com.shnok.javaserver.model.SpawnInfo;
+import com.shnok.javaserver.model.OldSpawnInfo;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
@@ -17,7 +18,7 @@ public class NpcInstance extends Entity {
     private Point3D[] patrolWaypoints;
     private int npcId;
     private NpcStatus status;
-    private SpawnInfo spawnInfo;
+    private SpawnList spawnInfo;
 
     public NpcInstance(int npcId, NpcStatus status, boolean isStatic, boolean randomWalk, boolean patrol, Point3D[] patrolWaypoints) {
         this.npcId = npcId;
@@ -82,11 +83,11 @@ public class NpcInstance extends Entity {
         SpawnManagerService.getInstance().respawn(getSpawn().getId());
     }
 
-    public SpawnInfo getSpawn() {
+    public SpawnList getSpawn() {
         return spawnInfo;
     }
 
-    public void setSpawn(SpawnInfo spawnInfo) {
+    public void setSpawn(SpawnList spawnInfo) {
         this.spawnInfo = spawnInfo;
     }
 

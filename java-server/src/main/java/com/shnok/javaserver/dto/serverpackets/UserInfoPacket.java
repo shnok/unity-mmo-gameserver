@@ -2,7 +2,7 @@ package com.shnok.javaserver.dto.serverpackets;
 
 import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.enums.ServerPacketType;
-import com.shnok.javaserver.model.entities.PlayerInstance;
+import com.shnok.javaserver.model.entity.PlayerInstance;
 
 public class UserInfoPacket extends ServerPacket {
     public UserInfoPacket(PlayerInstance player) {

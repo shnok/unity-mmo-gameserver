@@ -1,7 +1,7 @@
 package com.shnok.javaserver.service;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.model.entities.Entity;
+import com.shnok.javaserver.model.entity.Entity;
 import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 

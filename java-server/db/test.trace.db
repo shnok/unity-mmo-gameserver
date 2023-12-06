@@ -1,0 +1,1077 @@
+2023-12-06 16:20:49.577000+08:00 database: flush
+org.h2.message.DbException: General error: "org.h2.mvstore.MVStoreException: The file is locked: D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [2.2.224/7]" [50000-224]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.message.DbException.convert(DbException.java:407)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:122)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:1546)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:371)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:291)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2035)
+	at org.h2.mvstore.db.Store.<init>(Store.java:133)
+	at org.h2.engine.Database.<init>(Database.java:326)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:343)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:125)
+	at org.h2.util.JdbcUtils.getConnection(JdbcUtils.java:288)
+	at org.h2.server.web.WebServer.getConnection(WebServer.java:811)
+	at org.h2.server.web.WebApp.test(WebApp.java:978)
+	at org.h2.server.web.WebApp.process(WebApp.java:242)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:177)
+	at org.h2.server.web.WebThread.process(WebThread.java:154)
+	at org.h2.server.web.WebThread.run(WebThread.java:103)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "org.h2.mvstore.MVStoreException: The file is locked: D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [2.2.224/7]" [50000-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	... 22 more
+Caused by: org.h2.mvstore.MVStoreException: The file is locked: D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [2.2.224/7]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:996)
+	at org.h2.mvstore.SingleFileStore.lockFileChannel(SingleFileStore.java:143)
+	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:117)
+	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
+	... 16 more
+2023-12-06 16:24:22 database: wrong user or password; user: "H2"
+org.h2.message.DbException: Wrong user name or password [28000-199]
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.engine.Engine.openSession(Engine.java:126)
+	at org.h2.engine.Engine.openSession(Engine.java:201)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:178)
+	at org.h2.engine.Engine.createSession(Engine.java:161)
+	at org.h2.engine.Engine.createSession(Engine.java:31)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:336)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:169)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:148)
+	at org.h2.Driver.connect(Driver.java:69)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCConnectionOpener.run(JDBCConnectionOpener.java:109)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCConnectionOpener.run(JDBCConnectionOpener.java:83)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.openConnection(JDBCDataSource.java:221)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:158)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:103)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:123)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1288)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1125)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:950)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectionTestJob.run(ConnectionTestJob.java:103)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Wrong user name or password [28000-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:459)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	... 32 more
+2023-12-06 16:24:30 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:198)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:161)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:103)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:123)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1288)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1125)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:950)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectionTestJob.run(ConnectionTestJob.java:103)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2023-12-06 16:24:37 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:198)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:161)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:103)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:123)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1288)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1125)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:950)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.runSync(ConnectJob.java:104)
+	at org.jkiss.dbeaver.ui.actions.datasource.DataSourceHandler.connectToDataSource(DataSourceHandler.java:115)
+	at org.jkiss.dbeaver.ui.actions.datasource.UIServiceConnectionsImpl.initConnection(UIServiceConnectionsImpl.java:87)
+	at org.jkiss.dbeaver.model.DBUtils.initDataSource(DBUtils.java:2486)
+	at org.jkiss.dbeaver.model.navigator.DBNDataSource.initializeNode(DBNDataSource.java:151)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:225)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:1)
+	at org.jkiss.dbeaver.model.navigator.DBNUtils.getNodeChildrenFiltered(DBNUtils.java:91)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:49)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:88)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:72)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2023-12-06 16:25:19 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2877)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:481)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:402)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:3579)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:170)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:103)
+	at org.h2.engine.Database.getPageStore(Database.java:2659)
+	at org.h2.engine.Database.open(Database.java:675)
+	at org.h2.engine.Database.openDatabase(Database.java:307)
+	at org.h2.engine.Database.<init>(Database.java:301)
+	at org.h2.engine.Engine.openSession(Engine.java:74)
+	at org.h2.engine.Engine.openSession(Engine.java:192)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:171)
+	at org.h2.engine.Engine.createSession(Engine.java:166)
+	at org.h2.engine.Engine.createSession(Engine.java:29)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:340)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:173)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:152)
+	at org.h2.Driver.connect(Driver.java:69)
+	at org.h2.jdbcx.JdbcDataSource.getJdbcConnection(JdbcDataSource.java:189)
+	at org.h2.jdbcx.JdbcDataSource.getConnection(JdbcDataSource.java:160)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:358)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:477)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:560)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:81)
+	at org.hibernate.hikaricp.internal.HikariCPConnectionProvider.configure(HikariCPConnectionProvider.java:59)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.configureService(StandardServiceRegistryImpl.java:107)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:246)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.buildJdbcConnectionAccess(JdbcEnvironmentInitiator.java:145)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:66)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:176)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:86)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:479)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
+	at com.shnok.javaserver.db.DatabaseConfig.buildSessionFactory(DatabaseConfig.java:37)
+	at com.shnok.javaserver.db.DatabaseConfig.getSessionFactory(DatabaseConfig.java:42)
+	at com.shnok.javaserver.db.repository.SpawnListRepository.addSpawnList(SpawnListRepository.java:18)
+	at com.shnok.javaserver.Main.runServer(Main.java:30)
+	at com.shnok.javaserver.Main.main(Main.java:16)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	... 57 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
+	... 51 more
+2023-12-06 16:53:40 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:198)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:161)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:103)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:123)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1288)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1125)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:950)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.runSync(ConnectJob.java:104)
+	at org.jkiss.dbeaver.ui.actions.datasource.DataSourceHandler.connectToDataSource(DataSourceHandler.java:115)
+	at org.jkiss.dbeaver.ui.actions.datasource.UIServiceConnectionsImpl.initConnection(UIServiceConnectionsImpl.java:87)
+	at org.jkiss.dbeaver.model.DBUtils.initDataSource(DBUtils.java:2486)
+	at org.jkiss.dbeaver.model.navigator.DBNDataSource.initializeNode(DBNDataSource.java:151)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:225)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:1)
+	at org.jkiss.dbeaver.model.navigator.DBNUtils.getNodeChildrenFiltered(DBNUtils.java:91)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:49)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:88)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:72)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2023-12-06 16:59:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO SPAWNLIST VALUES
+(25260,'gludio32_1725_01',1,'20545',-75288,251836,-3451,0,0,0,25,0,0),
+	(25261,'gludio32_1725_01',1,'20545',-74282,251480,-3451,0,0,0,25,0,0),
+	(25262,'gludio32_1725_01',1,'20481',-75736,254398,-3283,0,0,38489,25,0,0),
+	(25263,'gludio32_1725_01',1,'20545',-74986,252014,-3451,0,0,0,25,0,0),
+	(25264,'gludio32_1725_01',1,'20545',-73679,251480,-3451,0,0,0,25,0,0),
+	(25265,'gludio32_1725_01',1,'20545',-75287,252548,-3451,0,0,0,25,0,0),
+	(25266,'gludio32_1725_01',1,'20545',-75187,253082,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, '20545', -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:00:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO PUBLIC.SPAWNLIST
+(ID, COUNT, HEADING, LOC_ID, LOCATION, LOCX, LOCY, LOCZ, NPC_TEMPLATEID, PERIODOFDAY, RANDOMX, RANDOMY, RESPAWN_DELAY)
+VALUES
+(25260,'gludio32_1725_01',1,'20545',-75288,251836,-3451,0,0,0,25,0,0),
+	(25261,'gludio32_1725_01',1,'20545',-74282,251480,-3451,0,0,0,25,0,0),
+	(25262,'gludio32_1725_01',1,'20481',-75736,254398,-3283,0,0,38489,25,0,0),
+	(25263,'gludio32_1725_01',1,'20545',-74986,252014,-3451,0,0,0,25,0,0),
+	(25264,'gludio32_1725_01',1,'20545',-73679,251480,-3451,0,0,0,25,0,0),
+	(25265,'gludio32_1725_01',1,'20545',-75287,252548,-3451,0,0,0,25,0,0),
+	(25266,'gludio32_1725_01',1,'20545',-75187,253082,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, '20545', -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:00:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO PUBLIC.SPAWNLIST
+(ID, COUNT, HEADING, LOC_ID, LOCATION, LOCX, LOCY, LOCZ, NPC_TEMPLATEID, PERIODOFDAY, RANDOMX, RANDOMY, RESPAWN_DELAY)
+VALUES
+(25260,'gludio32_1725_01',1,'20545',-75288,251836,-3451,0,0,0,25,0,0),
+	(25261,'gludio32_1725_01',1,'20545',-74282,251480,-3451,0,0,0,25,0,0),
+	(25262,'gludio32_1725_01',1,'20481',-75736,254398,-3283,0,0,38489,25,0,0),
+	(25263,'gludio32_1725_01',1,'20545',-74986,252014,-3451,0,0,0,25,0,0),
+	(25264,'gludio32_1725_01',1,'20545',-73679,251480,-3451,0,0,0,25,0,0),
+	(25265,'gludio32_1725_01',1,'20545',-75287,252548,-3451,0,0,0,25,0,0),
+	(25266,'gludio32_1725_01',1,'20545',-75187,253082,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, '20545', -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:00:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO PUBLIC.SPAWNLIST
+(ID, COUNT, HEADING, LOC_ID, LOCATION, LOCX, LOCY, LOCZ, NPC_TEMPLATEID, PERIODOFDAY, RANDOMX, RANDOMY, RESPAWN_DELAY)
+VALUES
+(25260,'gludio32_1725_01',1,'20545',-75288,251836,-3451,0,0,0,25,0,0),
+	(25261,'gludio32_1725_01',1,'20545',-74282,251480,-3451,0,0,0,25,0,0),
+	(25262,'gludio32_1725_01',1,'20481',-75736,254398,-3283,0,0,38489,25,0,0),
+	(25263,'gludio32_1725_01',1,'20545',-74986,252014,-3451,0,0,0,25,0,0),
+	(25264,'gludio32_1725_01',1,'20545',-73679,251480,-3451,0,0,0,25,0,0),
+	(25265,'gludio32_1725_01',1,'20545',-75287,252548,-3451,0,0,0,25,0,0),
+	(25266,'gludio32_1725_01',1,'20545',-75187,253082,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, '20545', -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:00:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO PUBLIC.SPAWNLIST
+(ID, COUNT, HEADING, LOC_ID, LOCATION, LOCX, LOCY, LOCZ, NPC_TEMPLATEID, PERIODOFDAY, RANDOMX, RANDOMY, RESPAWN_DELAY)
+VALUES
+(25260,'gludio32_1725_01',1,'20545',-75288,251836,-3451,0,0,0,25,0,0),
+	(25261,'gludio32_1725_01',1,'20545',-74282,251480,-3451,0,0,0,25,0,0),
+	(25262,'gludio32_1725_01',1,'20481',-75736,254398,-3283,0,0,38489,25,0,0),
+	(25263,'gludio32_1725_01',1,'20545',-74986,252014,-3451,0,0,0,25,0,0),
+	(25264,'gludio32_1725_01',1,'20545',-73679,251480,-3451,0,0,0,25,0,0),
+	(25265,'gludio32_1725_01',1,'20545',-75287,252548,-3451,0,0,0,25,0,0),
+	(25266,'gludio32_1725_01',1,'20545',-75187,253082,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, '20545', -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:00:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO PUBLIC.SPAWNLIST
+(ID, COUNT, HEADING, LOC_ID, LOCATION, LOCX, LOCY, LOCZ, NPC_TEMPLATEID, PERIODOFDAY, RANDOMX, RANDOMY, RESPAWN_DELAY)
+VALUES
+(25260,'gludio32_1725_01',1,'20545',-75288,251836,-3451,0,0,0,25,0,0),
+	(25261,'gludio32_1725_01',1,'20545',-74282,251480,-3451,0,0,0,25,0,0),
+	(25262,'gludio32_1725_01',1,'20481',-75736,254398,-3283,0,0,38489,25,0,0),
+	(25263,'gludio32_1725_01',1,'20545',-74986,252014,-3451,0,0,0,25,0,0),
+	(25264,'gludio32_1725_01',1,'20545',-73679,251480,-3451,0,0,0,25,0,0),
+	(25265,'gludio32_1725_01',1,'20545',-75287,252548,-3451,0,0,0,25,0,0),
+	(25266,'gludio32_1725_01',1,'20545',-75187,253082,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, '20545', -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:00:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO PUBLIC.SPAWNLIST
+(ID, COUNT, HEADING, LOC_ID, LOCATION, LOCX, LOCY, LOCZ, NPC_TEMPLATEID, PERIODOFDAY, RANDOMX, RANDOMY, RESPAWN_DELAY)
+VALUES
+(25260,'gludio32_1725_01',1,'20545',-75288,251836,-3451,0,0,0,25,0,0),
+	(25261,'gludio32_1725_01',1,'20545',-74282,251480,-3451,0,0,0,25,0,0),
+	(25262,'gludio32_1725_01',1,'20481',-75736,254398,-3283,0,0,38489,25,0,0),
+	(25263,'gludio32_1725_01',1,'20545',-74986,252014,-3451,0,0,0,25,0,0),
+	(25264,'gludio32_1725_01',1,'20545',-73679,251480,-3451,0,0,0,25,0,0),
+	(25265,'gludio32_1725_01',1,'20545',-75287,252548,-3451,0,0,0,25,0,0),
+	(25266,'gludio32_1725_01',1,'20545',-75187,253082,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, '20545', -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:01:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO PUBLIC.SPAWNLIST
+(ID, COUNT, HEADING, LOC_ID, LOCATION, LOCX, LOCY, LOCZ, NPC_TEMPLATEID, PERIODOFDAY, RANDOMX, RANDOMY, RESPAWN_DELAY)
+VALUES
+(25260,'gludio32_1725_01',1,20545,-75288,251836,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, 20545, -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:01:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO PUBLIC.SPAWNLIST
+(ID, COUNT, HEADING, LOC_ID, LOCATION, LOCX, LOCY, LOCZ, NPC_TEMPLATEID, PERIODOFDAY, RANDOMX, RANDOMY, RESPAWN_DELAY)
+VALUES
+(25260,'gludio32_1725_01',1,20545,-75288,251836,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, 20545, -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:01:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO PUBLIC.SPAWNLIST
+(ID, COUNT, HEADING, LOC_ID, LOCATION, LOCX, LOCY, LOCZ, NPC_TEMPLATEID, PERIODOFDAY, RANDOMX, RANDOMY, RESPAWN_DELAY)
+VALUES
+(25260,'gludio32_1725_01',1,20545,-75288,251836,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, 20545, -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:01:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO PUBLIC.SPAWNLIST
+(ID, COUNT, HEADING, LOC_ID, LOCATION, LOCX, LOCY, LOCZ, NPC_TEMPLATEID, PERIODOFDAY, RANDOMX, RANDOMY, RESPAWN_DELAY)
+VALUES
+(25260,'gludio32_1725_01',1,20545,-75288,251836,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, 20545, -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:01:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO PUBLIC.SPAWNLIST
+(ID, COUNT, HEADING, LOC_ID, LOCATION, LOCX, LOCY, LOCZ, NPC_TEMPLATEID, PERIODOFDAY, RANDOMX, RANDOMY, RESPAWN_DELAY)
+VALUES
+(25260,'gludio32_1725_01',1,20545,-75288,251836,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, 20545, -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:01:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'gludio32_1725_01' (SPAWNLIST: ""COUNT"" INTEGER)"; SQL statement:
+INSERT INTO PUBLIC.SPAWNLIST
+(ID, COUNT, HEADING, LOC_ID, LOCATION, LOCX, LOCY, LOCZ, NPC_TEMPLATEID, PERIODOFDAY, RANDOMX, RANDOMY, RESPAWN_DELAY)
+VALUES
+(25260,'gludio32_1725_01',1,20545,-75288,251836,-3451,0,0,0,25,0,0) -- (25260, 'gludio32_1725_01', 1, 20545, -75288, 251836, -3451, 0, 0, 0, 25, 0, 0) [22018-199]
+2023-12-06 17:03:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Unknown data type: "KEY_NPC_TEMPLATEID"; SQL statement:
+CREATE TABLE `spawnlist` (
+  `id` int(11) NOT NULL auto_increment,
+  `location` varchar(40) NOT NULL default '',
+  `count` int(9) NOT NULL default '0',
+  `npc_templateid` int(9) NOT NULL default '0',
+  `locx` int(9) NOT NULL default '0',
+  `locy` int(9) NOT NULL default '0',
+  `locz` int(9) NOT NULL default '0',
+  `randomx` int(9) NOT NULL default '0',
+  `randomy` int(9) NOT NULL default '0',
+  `heading` int(9) NOT NULL default '0',
+  `respawn_delay` int(9) NOT NULL default '0',
+  `loc_id` int(9) NOT NULL default '0',
+  `periodOfDay` decimal(2,0) default '0',
+  PRIMARY KEY  (id),
+  KEY `key_npc_templateid` (`npc_templateid`) [50004-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:5524)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:5254)
+	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:7932)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:7832)
+	at org.h2.command.Parser.parseCreate(Parser.java:5818)
+	at org.h2.command.Parser.parsePrepared(Parser.java:846)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:607)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:510)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:517)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:971)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4135)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5151)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2023-12-06 17:03:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE `SPAWNLIST` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `LOCATION` VARCHAR(40) NOT NULL DEFAULT '',
+  `COUNT` INT(9) NOT NULL DEFAULT '0',
+  `NPC_TEMPLATEID` INT(9) NOT NULL DEFAULT '0',
+  `LOCX` INT(9) NOT NULL DEFAULT '0',
+  `LOCY` INT(9) NOT NULL DEFAULT '0',
+  `LOCZ` INT(9) NOT NULL DEFAULT '0',
+  `RANDOMX` INT(9) NOT NULL DEFAULT '0',
+  `RANDOMY` INT(9) NOT NULL DEFAULT '0',
+  `HEADING` INT(9) NOT NULL DEFAULT '0',
+  `RESPAWN_DELAY` INT(9) NOT NULL DEFAULT '0',
+  `LOC_ID` INT(9) NOT NULL DEFAULT '0',
+  `PERIODOFDAY` DECIMAL(2,0) DEFAULT '0',
+  PRIMARY KEY  (ID) [*]"; expected "INDEX, ,, )"; SQL statement:
+CREATE TABLE `spawnlist` (
+  `id` int(11) NOT NULL auto_increment,
+  `location` varchar(40) NOT NULL default '',
+  `count` int(9) NOT NULL default '0',
+  `npc_templateid` int(9) NOT NULL default '0',
+  `locx` int(9) NOT NULL default '0',
+  `locy` int(9) NOT NULL default '0',
+  `locz` int(9) NOT NULL default '0',
+  `randomx` int(9) NOT NULL default '0',
+  `randomy` int(9) NOT NULL default '0',
+  `heading` int(9) NOT NULL default '0',
+  `respawn_delay` int(9) NOT NULL default '0',
+  `loc_id` int(9) NOT NULL default '0',
+  `periodOfDay` decimal(2,0) default '0',
+  PRIMARY KEY  (id) [42001-199]
+2023-12-06 17:03:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Unknown data type: "KEY_NPC_TEMPLATEID"; SQL statement:
+CREATE TABLE `spawnlist` (
+  `id` int(11) NOT NULL auto_increment,
+  `location` varchar(40) NOT NULL default '',
+  `count` int(9) NOT NULL default '0',
+  `npc_templateid` int(9) NOT NULL default '0',
+  `locx` int(9) NOT NULL default '0',
+  `locy` int(9) NOT NULL default '0',
+  `locz` int(9) NOT NULL default '0',
+  `randomx` int(9) NOT NULL default '0',
+  `randomy` int(9) NOT NULL default '0',
+  `heading` int(9) NOT NULL default '0',
+  `respawn_delay` int(9) NOT NULL default '0',
+  `loc_id` int(9) NOT NULL default '0',
+  `periodOfDay` decimal(2,0) default '0',
+  PRIMARY KEY  (id),
+  KEY `key_npc_templateid` (`npc_templateid`)) [50004-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:5524)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:5254)
+	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:7932)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:7832)
+	at org.h2.command.Parser.parseCreate(Parser.java:5818)
+	at org.h2.command.Parser.parsePrepared(Parser.java:846)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:607)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:510)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:517)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:971)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4135)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5151)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2023-12-06 17:10:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "'gludio32_1725_01'[*]"; SQL statement:
+'gludio32_1725_01' [42000-199]
+2023-12-06 17:23:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Duplicate column name "LOCX"; SQL statement:
+UPDATE PUBLIC.SPAWNLIST
+SET LOCX=(LOCY/52.5)::INT, LOCY=CEIL(LOCZ/52.5)::INT, LOCX=(LOCZ/52.5)::INT, RANDOMX=(RANDOMY/52.5)::INT, RANDOMY=(RANDOMX/52.5)::INT [42121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.dml.Update.setAssignment(Update.java:81)
+	at org.h2.command.Parser.parseUpdateSetClause(Parser.java:1254)
+	at org.h2.command.Parser.parseUpdate(Parser.java:1223)
+	at org.h2.command.Parser.parsePrepared(Parser.java:943)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:607)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:510)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:520)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:971)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4135)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5151)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2023-12-06 17:24:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Duplicate column name "LOCX"; SQL statement:
+UPDATE PUBLIC.SPAWNLIST
+SET LOCX=ROUND(LOCY/52.5)::INT, LOCY=CEIL(LOCZ/52.5)::INT, LOCX=ROUND(LOCZ/52.5)::INT, RANDOMX=ROUND(RANDOMY/52.5)::INT, RANDOMY=ROUND(RANDOMX/52.5)::INT [42121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.dml.Update.setAssignment(Update.java:81)
+	at org.h2.command.Parser.parseUpdateSetClause(Parser.java:1254)
+	at org.h2.command.Parser.parseUpdate(Parser.java:1223)
+	at org.h2.command.Parser.parsePrepared(Parser.java:943)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:607)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:510)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:520)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:971)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4135)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5151)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2023-12-06 17:25:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Duplicate column name "LOCX"; SQL statement:
+UPDATE PUBLIC.SPAWNLIST
+SET 
+LOCX=ROUND(LOCY/52.5)::INT, 
+LOCY=CEIL(LOCZ/52.5)::INT, 
+LOCX=ROUND(LOCZ/52.5)::INT, 
+RANDOMX=ROUND(RANDOMY/52.5)::INT, 
+RANDOMY=ROUND(RANDOMX/52.5)::INT [42121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.dml.Update.setAssignment(Update.java:81)
+	at org.h2.command.Parser.parseUpdateSetClause(Parser.java:1254)
+	at org.h2.command.Parser.parseUpdate(Parser.java:1223)
+	at org.h2.command.Parser.parsePrepared(Parser.java:943)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:607)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:510)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:520)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:971)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4135)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5151)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2023-12-06 20:01:06 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2877)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:481)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:402)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:3579)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:170)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:103)
+	at org.h2.engine.Database.getPageStore(Database.java:2659)
+	at org.h2.engine.Database.open(Database.java:675)
+	at org.h2.engine.Database.openDatabase(Database.java:307)
+	at org.h2.engine.Database.<init>(Database.java:301)
+	at org.h2.engine.Engine.openSession(Engine.java:74)
+	at org.h2.engine.Engine.openSession(Engine.java:192)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:171)
+	at org.h2.engine.Engine.createSession(Engine.java:166)
+	at org.h2.engine.Engine.createSession(Engine.java:29)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:340)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:173)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:152)
+	at org.h2.Driver.connect(Driver.java:69)
+	at org.h2.jdbcx.JdbcDataSource.getJdbcConnection(JdbcDataSource.java:189)
+	at org.h2.jdbcx.JdbcDataSource.getConnection(JdbcDataSource.java:160)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:358)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:477)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:560)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:81)
+	at org.hibernate.hikaricp.internal.HikariCPConnectionProvider.configure(HikariCPConnectionProvider.java:59)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.configureService(StandardServiceRegistryImpl.java:107)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:246)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.buildJdbcConnectionAccess(JdbcEnvironmentInitiator.java:145)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:66)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:176)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:86)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:479)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
+	at com.shnok.javaserver.db.DatabaseConfig.buildSessionFactory(DatabaseConfig.java:37)
+	at com.shnok.javaserver.db.DatabaseConfig.getSessionFactory(DatabaseConfig.java:42)
+	at com.shnok.javaserver.db.repository.SpawnListRepository.getAllSpawnList(SpawnListRepository.java:50)
+	at com.shnok.javaserver.service.SpawnManagerService.loadSpawnList(SpawnManagerService.java:42)
+	at com.shnok.javaserver.service.SpawnManagerService.initialize(SpawnManagerService.java:32)
+	at com.shnok.javaserver.Main.runServer(Main.java:42)
+	at com.shnok.javaserver.Main.main(Main.java:16)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	... 59 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
+	... 53 more
+2023-12-06 21:05:53 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:198)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:161)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:103)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:123)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1288)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1125)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:950)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2023-12-06 21:33:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Duplicate column name "ATTACKRANGE"; SQL statement:
+
+UPDATE PUBLIC.NPC
+SET 
+ATTACKRANGE=ATTACKRANGE/52.5,
+COLLISION_RADIUS=COLLISION_RADIUS/52.5,
+COLLISION_HEIGHT=COLLISION_HEIGHT/52.5,
+ATTACKRANGE=ATTACKRANGE/52.5,
+AGGRO_RANGE=AGGRO_RANGE/52.5,
+FACTION_RANGE=FACTION_RANGE/52.5 [42121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.dml.Update.setAssignment(Update.java:81)
+	at org.h2.command.Parser.parseUpdateSetClause(Parser.java:1254)
+	at org.h2.command.Parser.parseUpdate(Parser.java:1223)
+	at org.h2.command.Parser.parsePrepared(Parser.java:943)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:50)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:607)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:510)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:517)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:971)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4135)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5151)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2023-12-06 21:34:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "AGGRO_RANGE" not found; SQL statement:
+UPDATE PUBLIC.NPC
+SET 
+ATTACKRANGE=ATTACKRANGE/52.5,
+COLLISION_RADIUS=COLLISION_RADIUS/52.5,
+COLLISION_HEIGHT=COLLISION_HEIGHT/52.5,
+AGGRO_RANGE=AGGRO_RANGE/52.5,
+FACTION_RANGE=FACTION_RANGE/52.5 [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.readTableColumn(Parser.java:1214)
+	at org.h2.command.Parser.parseUpdateSetClause(Parser.java:1252)
+	at org.h2.command.Parser.parseUpdate(Parser.java:1223)
+	at org.h2.command.Parser.parsePrepared(Parser.java:943)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:607)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:510)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:520)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:971)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4135)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5151)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2023-12-06 21:42:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "FACTIONRANGE" not found; SQL statement:
+
+ALTER TABLE PUBLIC.NPC MODIFY COLUMN FACTIONRANGE DECIMAL(10,2);
+UPDATE PUBLIC.NPC
+SET 
+ATTACKRANGE=ATTACKRANGE/52.5,
+COLLISION_RADIUS=COLLISION_RADIUS/52.5,
+COLLISION_HEIGHT=COLLISION_HEIGHT/52.5,
+AGGRO=AGGRO/52.5,
+FACTION_RANGE=FACTION_RANGE/52.5 [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.columnIfTableExists(Parser.java:7505)
+	at org.h2.command.Parser.parseAlterTableAlterColumnType(Parser.java:7517)
+	at org.h2.command.Parser.parseAlterTable(Parser.java:7372)
+	at org.h2.command.Parser.parseAlter(Parser.java:6546)
+	at org.h2.command.Parser.parsePrepared(Parser.java:828)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:50)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:607)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:510)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:517)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:971)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4135)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5151)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2023-12-06 21:42:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.NullPointerException: Cannot invoke ""org.h2.expression.Expression.mapColumns(org.h2.table.ColumnResolver, int, int)"" because ""<local3>"" is null"; SQL statement:
+ALTER TABLE PUBLIC.NPC MODIFY COLUMN ATTACKRANGE DECIMAL(10,2); [50000-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.command.Command.executeUpdate(Command.java:280)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:607)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:510)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:517)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:971)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4135)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5151)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.NullPointerException: Cannot invoke "org.h2.expression.Expression.mapColumns(org.h2.table.ColumnResolver, int, int)" because "<local3>" is null
+	at org.h2.command.dml.Update.prepare(Update.java:248)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:55)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	... 16 more
+2023-12-06 21:42:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.NullPointerException: Cannot invoke ""org.h2.expression.Expression.mapColumns(org.h2.table.ColumnResolver, int, int)"" because ""<local3>"" is null"; SQL statement:
+ALTER TABLE PUBLIC.NPC MODIFY COLUMN ATTACKRANGE DECIMAL(10,2); [50000-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.command.Command.executeUpdate(Command.java:280)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:607)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:510)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:517)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:971)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4135)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5151)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.NullPointerException: Cannot invoke "org.h2.expression.Expression.mapColumns(org.h2.table.ColumnResolver, int, int)" because "<local3>" is null
+	at org.h2.command.dml.Update.prepare(Update.java:248)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:55)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	... 16 more
+2023-12-06 21:43:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.NullPointerException: Cannot invoke ""org.h2.expression.Expression.mapColumns(org.h2.table.ColumnResolver, int, int)"" because ""<local3>"" is null"; SQL statement:
+ALTER TABLE PUBLIC.NPC MODIFY COLUMN ATTACKRANGE DECIMAL(10,2); [50000-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.command.Command.executeUpdate(Command.java:280)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:607)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:510)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:517)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:971)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4135)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5151)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.NullPointerException: Cannot invoke "org.h2.expression.Expression.mapColumns(org.h2.table.ColumnResolver, int, int)" because "<local3>" is null
+	at org.h2.command.dml.Update.prepare(Update.java:248)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:55)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	... 16 more
+2023-12-06 21:49:46 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2877)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:481)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:402)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:3579)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:170)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:103)
+	at org.h2.engine.Database.getPageStore(Database.java:2659)
+	at org.h2.engine.Database.open(Database.java:675)
+	at org.h2.engine.Database.openDatabase(Database.java:307)
+	at org.h2.engine.Database.<init>(Database.java:301)
+	at org.h2.engine.Engine.openSession(Engine.java:74)
+	at org.h2.engine.Engine.openSession(Engine.java:192)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:171)
+	at org.h2.engine.Engine.createSession(Engine.java:166)
+	at org.h2.engine.Engine.createSession(Engine.java:29)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:340)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:173)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:152)
+	at org.h2.Driver.connect(Driver.java:69)
+	at org.h2.jdbcx.JdbcDataSource.getJdbcConnection(JdbcDataSource.java:189)
+	at org.h2.jdbcx.JdbcDataSource.getConnection(JdbcDataSource.java:160)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:358)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:477)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:560)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:81)
+	at org.hibernate.hikaricp.internal.HikariCPConnectionProvider.configure(HikariCPConnectionProvider.java:59)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.configureService(StandardServiceRegistryImpl.java:107)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:246)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.buildJdbcConnectionAccess(JdbcEnvironmentInitiator.java:145)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:66)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:176)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:86)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:479)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
+	at com.shnok.javaserver.db.DatabaseConfig.buildSessionFactory(DatabaseConfig.java:37)
+	at com.shnok.javaserver.db.DatabaseConfig.getSessionFactory(DatabaseConfig.java:42)
+	at com.shnok.javaserver.db.repository.NpcRepository.getNpcById(NpcRepository.java:13)
+	at com.shnok.javaserver.Main.runServer(Main.java:29)
+	at com.shnok.javaserver.Main.main(Main.java:13)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	... 57 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
+	... 51 more
+2023-12-06 21:49:47 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2877)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:481)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:402)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:3579)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:170)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:103)
+	at org.h2.engine.Database.getPageStore(Database.java:2659)
+	at org.h2.engine.Database.open(Database.java:675)
+	at org.h2.engine.Database.openDatabase(Database.java:307)
+	at org.h2.engine.Database.<init>(Database.java:301)
+	at org.h2.engine.Engine.openSession(Engine.java:74)
+	at org.h2.engine.Engine.openSession(Engine.java:192)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:171)
+	at org.h2.engine.Engine.createSession(Engine.java:166)
+	at org.h2.engine.Engine.createSession(Engine.java:29)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:340)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:173)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:152)
+	at org.h2.Driver.connect(Driver.java:69)
+	at org.h2.jdbcx.JdbcDataSource.getJdbcConnection(JdbcDataSource.java:189)
+	at org.h2.jdbcx.JdbcDataSource.getConnection(JdbcDataSource.java:160)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:358)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:477)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:560)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:81)
+	at org.hibernate.hikaricp.internal.HikariCPConnectionProvider.configure(HikariCPConnectionProvider.java:59)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.configureService(StandardServiceRegistryImpl.java:107)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:246)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.buildJdbcConnectionAccess(JdbcEnvironmentInitiator.java:145)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:66)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:176)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:86)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:479)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
+	at com.shnok.javaserver.db.DatabaseConfig.buildSessionFactory(DatabaseConfig.java:37)
+	at com.shnok.javaserver.db.DatabaseConfig.getSessionFactory(DatabaseConfig.java:42)
+	at com.shnok.javaserver.db.repository.SpawnListRepository.getAllSpawnList(SpawnListRepository.java:38)
+	at com.shnok.javaserver.service.SpawnManagerService.loadSpawnList(SpawnManagerService.java:42)
+	at com.shnok.javaserver.service.SpawnManagerService.initialize(SpawnManagerService.java:32)
+	at com.shnok.javaserver.Main.runServer(Main.java:41)
+	at com.shnok.javaserver.Main.main(Main.java:13)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	... 59 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
+	... 53 more
+2023-12-06 21:50:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NPC0_.ABSORBLEVEL" not found; SQL statement:
+select npc0_.id as id1_0_0_, npc0_.absorbLevel as absorble2_0_0_, npc0_.absorbType as absorbty3_0_0_, npc0_.aggro as aggro4_0_0_, npc0_.armor as armor5_0_0_, npc0_.atkspd as atkspd6_0_0_, npc0_.attackrange as attackra7_0_0_, npc0_.collision_height as collisio8_0_0_, npc0_.collision_radius as collisio9_0_0_, npc0_.con as con10_0_0_, npc0_.dex as dex11_0_0_, npc0_.exp as exp12_0_0_, npc0_.faction_id as faction13_0_0_, npc0_.faction_range as faction14_0_0_, npc0_.hp as hp15_0_0_, npc0_.hpreg as hpreg16_0_0_, npc0_.idTemplate as idtempl17_0_0_, npc0_.int as int18_0_0_, npc0_.isUndead as isundea19_0_0_, npc0_.level as level20_0_0_, npc0_.lhand as lhand21_0_0_, npc0_.matk as matk22_0_0_, npc0_.matkspd as matkspd23_0_0_, npc0_.mdef as mdef24_0_0_, npc0_.men as men25_0_0_, npc0_.mp as mp26_0_0_, npc0_.mpreg as mpreg27_0_0_, npc0_.name as name28_0_0_, npc0_.class as class29_0_0_, npc0_.patk as patk30_0_0_, npc0_.pdef as pdef31_0_0_, npc0_.rhand as rhand32_0_0_, npc0_.runspd as runspd33_0_0_, npc0_.serverSideName as servers34_0_0_, npc0_.serverSideTitle as servers35_0_0_, npc0_.sex as sex36_0_0_, npc0_.sp as sp37_0_0_, npc0_.str as str38_0_0_, npc0_.title as title39_0_0_, npc0_.type as type40_0_0_, npc0_.walkspd as walkspd41_0_0_, npc0_.wit as wit42_0_0_ from Npc npc0_ where npc0_.id=? [42122-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:163)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:145)
+	at org.h2.expression.Alias.optimize(Alias.java:52)
+	at org.h2.command.dml.Select.prepare(Select.java:1206)
+	at org.h2.command.Parser.prepareCommand(Parser.java:744)
+	at org.h2.engine.Session.prepareLocal(Session.java:657)
+	at org.h2.engine.Session.prepareCommand(Session.java:595)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:76)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:352)
+	at com.zaxxer.hikari.pool.ProxyConnection.prepareStatement(ProxyConnection.java:337)
+	at com.zaxxer.hikari.pool.HikariProxyConnection.prepareStatement(HikariProxyConnection.java)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$5.doPrepare(StatementPreparerImpl.java:149)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$StatementPreparationTemplate.prepareStatement(StatementPreparerImpl.java:176)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.prepareQueryStatement(StatementPreparerImpl.java:151)
+	at org.hibernate.loader.plan.exec.internal.AbstractLoadPlanBasedLoader.prepareQueryStatement(AbstractLoadPlanBasedLoader.java:198)
+	at org.hibernate.loader.plan.exec.internal.AbstractLoadPlanBasedLoader.executeQueryStatement(AbstractLoadPlanBasedLoader.java:162)
+	at org.hibernate.loader.plan.exec.internal.AbstractLoadPlanBasedLoader.executeLoad(AbstractLoadPlanBasedLoader.java:104)
+	at org.hibernate.loader.entity.plan.AbstractLoadPlanBasedEntityLoader.load(AbstractLoadPlanBasedEntityLoader.java:285)
+	at org.hibernate.persister.entity.AbstractEntityPersister.doLoad(AbstractEntityPersister.java:4437)
+	at org.hibernate.persister.entity.AbstractEntityPersister.load(AbstractEntityPersister.java:4427)
+	at org.hibernate.event.internal.DefaultLoadEventListener.loadFromDatasource(DefaultLoadEventListener.java:576)
+	at org.hibernate.event.internal.DefaultLoadEventListener.doLoad(DefaultLoadEventListener.java:544)
+	at org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:208)
+	at org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:332)
+	at org.hibernate.event.internal.DefaultLoadEventListener.doOnLoad(DefaultLoadEventListener.java:108)
+	at org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:74)
+	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:110)
+	at org.hibernate.internal.SessionImpl.fireLoadNoChecks(SessionImpl.java:1186)
+	at org.hibernate.internal.SessionImpl.fireLoad(SessionImpl.java:1175)
+	at org.hibernate.internal.SessionImpl.access$2100(SessionImpl.java:193)
+	at org.hibernate.internal.SessionImpl$IdentifierLoadAccessImpl.doLoad(SessionImpl.java:2786)
+	at org.hibernate.internal.SessionImpl$IdentifierLoadAccessImpl.lambda$load$1(SessionImpl.java:2767)
+	at org.hibernate.internal.SessionImpl$IdentifierLoadAccessImpl.perform(SessionImpl.java:2723)
+	at org.hibernate.internal.SessionImpl$IdentifierLoadAccessImpl.load(SessionImpl.java:2767)
+	at org.hibernate.internal.SessionImpl.get(SessionImpl.java:983)
+	at com.shnok.javaserver.db.repository.NpcRepository.getNpcById(NpcRepository.java:14)
+	at com.shnok.javaserver.Main.runServer(Main.java:29)
+	at com.shnok.javaserver.Main.main(Main.java:13)

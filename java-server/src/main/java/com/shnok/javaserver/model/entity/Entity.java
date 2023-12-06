@@ -1,9 +1,7 @@
-package com.shnok.javaserver.model.entities;
+package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.dto.ServerPacket;
-import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
-import com.shnok.javaserver.model.knownlist.PlayerKnownList;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.thread.ai.BaseAI;

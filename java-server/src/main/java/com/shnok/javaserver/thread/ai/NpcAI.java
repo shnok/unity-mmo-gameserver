@@ -5,8 +5,8 @@ import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.entities.Entity;
-import com.shnok.javaserver.model.entities.NpcInstance;
+import com.shnok.javaserver.model.entity.Entity;
+import com.shnok.javaserver.model.entity.NpcInstance;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.node.NodeType;
 import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
@@ -87,9 +87,9 @@ public class NpcAI extends BaseAI implements Runnable {
             int maxDriftRange = 5;
 
             for (int i = 0; i < 5; i++) {
-                x1 = ((int) npc.getSpawn().getSpawnPos().getX() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
-                y1 = (int) npc.getSpawn().getSpawnPos().getY();
-                z1 = ((int) npc.getSpawn().getSpawnPos().getZ() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
+                x1 = ((int) npc.getSpawn().getSpawnPosition().getX() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
+                y1 = (int) npc.getSpawn().getSpawnPosition().getY();
+                z1 = ((int) npc.getSpawn().getSpawnPosition().getZ() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
 
                 Point3D pos = Geodata.getInstance().clampToWorld(new Point3D(x1, y1, z1));
                 if (Geodata.getInstance().getNodeType((int) pos.getX(), (int) pos.getY(), (int) pos.getZ()) == NodeType.WALKABLE) {
