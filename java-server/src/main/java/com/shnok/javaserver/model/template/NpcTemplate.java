@@ -8,6 +8,7 @@ public class NpcTemplate extends EntityTemplate {
     public final int npcId;
     public final int idTemplate;
     public final String type;
+    public final String npcClass;
     public final String name;
     public final String title;
     public final byte level;
@@ -54,5 +55,6 @@ public class NpcTemplate extends EntityTemplate {
         this.armor = npc.getArmor();
         this.factionId = npc.getFactionId();
         this.factionRange = npc.getFactionRange();
+        this.npcClass = npc.getNpcClass();
     }
 }
