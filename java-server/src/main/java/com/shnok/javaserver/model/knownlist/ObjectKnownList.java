@@ -73,19 +73,18 @@ public class ObjectKnownList {
     }
 
     public final synchronized void updateKnownObjects() {
-        log.debug("UpdateKnownObjects");
         log.debug(getActiveObject());
         if (getActiveObject() instanceof Entity) {
             findCloseObjects();
             forgetObjects();
-            log.debug("Known objects: {}", knownObjects.size());
+            log.debug("[{}] Known objects count: {}", getActiveObject().getId(),knownObjects.size());
         }
     }
 
     private void findCloseObjects() {
-        boolean isActiveObjectPlayable = (getActiveObject() instanceof PlayerInstance);
+        boolean isPlayer = (getActiveObject() instanceof PlayerInstance);
 
-        if (isActiveObjectPlayable) {
+        if (isPlayer) {
             Collection<GameObject> objects = WorldManagerService.getInstance().getVisibleObjects(getActiveObject());
             if (objects == null) {
                 return;
@@ -101,9 +100,11 @@ public class ObjectKnownList {
 
                 if (object instanceof Entity) {
                     object.getKnownList().addKnownObject(getActiveObject());
+                    log.debug("[{}] Adding (player) to known object of entity: Target {}", getActiveObject().getId(), object.getId());
                 }
                 if (object instanceof PlayerInstance) {
-                    log.debug("[{}] New known object: {}", getActiveObject().getId(), object.getId());
+                    object.getKnownList().addKnownObject(getActiveObject());
+                    log.debug("[{}] Adding (player) to known object of player: Target {}", getActiveObject().getId(), object.getId());
                 }
             }
         } else {
@@ -119,7 +120,7 @@ public class ObjectKnownList {
                 }
 
                 addKnownObject(object);
-                log.debug("[{}] New known object: {}", getActiveObject().getId(), object.getId());
+                log.debug("[{}] Adding (entity) to known object of player: {}", getActiveObject().getId(), object.getId());
             }
         }
     }

@@ -169,7 +169,7 @@ public class WorldManagerService {
                 if (gameObject == null) {
                     continue;
                 }
-                if (gameObject.equals(target)) {
+                if (gameObject.getId() == target.getId()) {
                     continue; // skip our own character
                 }
                 if (!gameObject.isVisible()) {
@@ -179,7 +179,6 @@ public class WorldManagerService {
                 result.add(gameObject);
             }
         }
-
         return result;
     }
 

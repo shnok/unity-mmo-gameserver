@@ -133,6 +133,8 @@ public class ClientPacketHandlerThread extends Thread {
     }
 
     private void onRequestLoadWorld() {
+        client.setClientReady(true);
+        System.out.println("On load world");
         client.sendPacket(new PlayerInfoPacket(client.getPlayer()));
 
         // Loads surrounding area

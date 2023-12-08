@@ -25,6 +25,8 @@ public class WorldRegion {
         if (object == null) {
             return;
         }
+
+        log.debug("Adding visible object {} to region {}.", object.getId(), getName());
         visibleObjects.add(object);
 
         if (object instanceof PlayerInstance)

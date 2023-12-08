@@ -37,7 +37,9 @@ public class PlayerInstance extends Entity {
 
     // Send packet to player
     public void sendPacket(ServerPacket packet) {
-        gameClient.sendPacket(packet);
+        if(gameClient.isClientReady()) {
+            gameClient.sendPacket(packet);
+        }
     }
 
     public String getName() {

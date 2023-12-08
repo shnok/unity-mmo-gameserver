@@ -15,6 +15,7 @@ public class Config {
     public static int TIME_TICKS_PER_SECOND;
     public static boolean PRINT_SERVER_PACKETS;
     public static boolean PRINT_CLIENT_PACKETS;
+    public static boolean SPAWN_NPCS;
     public static Point3D PLAYER_SPAWN_POINT;
 
     public static void LoadSettings() throws Exception {
@@ -33,6 +34,7 @@ public class Config {
         float spawnX = Float.parseFloat(optionsSettings.getProperty("server.spawn.location.x", "0"));
         float spawnY = Float.parseFloat(optionsSettings.getProperty("server.spawn.location.y", "0"));
         float spawnZ = Float.parseFloat(optionsSettings.getProperty("server.spawn.location.z", "0"));
+        SPAWN_NPCS = Boolean.parseBoolean(optionsSettings.getProperty("server.world.spawn.npcs", "true"));
 
         PLAYER_SPAWN_POINT = new Point3D(spawnX, spawnY, spawnZ);
 

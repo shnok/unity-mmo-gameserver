@@ -31,6 +31,7 @@ public class GameClientThread extends Thread {
     private OutputStream out;
     private String username;
     private PlayerInstance player;
+    private boolean clientReady = false;
     private long lastEcho;
 
     public GameClientThread(Socket con) {
@@ -108,7 +109,7 @@ public class GameClientThread extends Thread {
                 out.flush();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warn("Trying to send packet to a closed game client.");
         }
     }
 
@@ -147,16 +148,17 @@ public class GameClientThread extends Thread {
         player.setId(WorldManagerService.getInstance().nextID());
         player.setPosition(Config.PLAYER_SPAWN_POINT);
         WorldManagerService.getInstance().addPlayer(player);
-
-        //ServerService.getInstance().broadcast(new UserInfoPacket(player), this);
     }
 
     void removeSelf() {
         if (authenticated) {
             authenticated = false;
+
+            WorldManagerService.getInstance().removePlayer(player);
+            player.getPosition().getWorldRegion().removeVisibleObject(player);
+
             ServerService.getInstance().broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_OFF, username), this);
             ServerService.getInstance().broadcast(new RemoveObjectPacket(player.getId()), this);
-            WorldManagerService.getInstance().removePlayer(player);
         }
 
         ServerService.getInstance().removeClient(this);

@@ -1,5 +1,6 @@
 package com.shnok.javaserver.service;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.db.entity.Npc;
 import com.shnok.javaserver.db.entity.SpawnList;
 import com.shnok.javaserver.db.repository.NpcRepository;
@@ -39,7 +40,9 @@ public class SpawnManagerService {
     /* Later should load spawnlist from database */
     public void loadSpawnList() {
         SpawnListRepository spawnListRepository = new SpawnListRepository();
-        registeredSpawns = spawnListRepository.getAllSpawnList();
+        if(Config.SPAWN_NPCS) {
+            registeredSpawns = spawnListRepository.getAllSpawnList();
+        }
     }
 
     public void spawnMonsters() {
