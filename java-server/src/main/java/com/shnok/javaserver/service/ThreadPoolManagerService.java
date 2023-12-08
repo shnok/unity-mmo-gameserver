@@ -2,21 +2,23 @@ package com.shnok.javaserver.service;
 
 import com.shnok.javaserver.thread.ClientPacketHandlerThread;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.concurrent.*;
 
-@Service
 @Log4j2
 public class ThreadPoolManagerService {
     private ScheduledThreadPoolExecutor spawnThreadPool;
     private ScheduledThreadPoolExecutor aiThreadPool;
     private ThreadPoolExecutor packetsThreadPool;
+    private ThreadPoolExecutor generalThreadPool;
     private boolean shutdown = false;
 
-    @Autowired
-    public ThreadPoolManagerService() {
+    private static ThreadPoolManagerService instance;
+    public static ThreadPoolManagerService getInstance() {
+        if (instance == null) {
+            instance = new ThreadPoolManagerService();
+        }
+        return instance;
     }
 
     public void initialize() {
@@ -24,6 +26,11 @@ public class ThreadPoolManagerService {
         spawnThreadPool = new ScheduledThreadPoolExecutor(5);
         aiThreadPool = new ScheduledThreadPoolExecutor(100);
         packetsThreadPool = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+        generalThreadPool = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+    }
+
+    public void execute(Runnable r) {
+        generalThreadPool.execute(r);
     }
 
     public ScheduledFuture<?> scheduleSpawn(Runnable r, long delay) {

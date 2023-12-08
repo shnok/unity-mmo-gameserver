@@ -3,7 +3,7 @@ package com.shnok.javaserver.model;
 import lombok.Data;
 
 @Data
-public class SpawnInfo {
+public class OldSpawnInfo {
     private final boolean randomSpawn;
     private int id;
     private int npcId;
@@ -11,7 +11,7 @@ public class SpawnInfo {
     private boolean spawned;
     private Point3D spawnPos;
 
-    public SpawnInfo(int id, int npcId, int respawnDelay, Point3D spawnPos) {
+    public OldSpawnInfo(int id, int npcId, int respawnDelay, Point3D spawnPos) {
         this.id = id;
         this.npcId = npcId;
         this.respawnDelay = respawnDelay;
@@ -20,7 +20,7 @@ public class SpawnInfo {
         randomSpawn = false;
     }
 
-    public SpawnInfo(int id, int npcId, int respawnDelay) {
+    public OldSpawnInfo(int id, int npcId, int respawnDelay) {
         this.id = id;
         this.npcId = npcId;
         this.respawnDelay = respawnDelay;

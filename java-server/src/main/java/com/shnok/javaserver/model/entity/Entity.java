@@ -1,5 +1,8 @@
-package com.shnok.javaserver.model.entities;
+package com.shnok.javaserver.model.entity;
 
+import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.model.knownlist.EntityKnownList;
+import com.shnok.javaserver.model.template.EntityTemplate;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
@@ -12,7 +15,10 @@ import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.pathfinding.node.NodeLoc;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.shnok.javaserver.util.VectorUtils;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -23,19 +29,15 @@ import java.util.List;
  * <BR>
  */
 
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
 public abstract class Entity extends GameObject {
-
-    @Autowired
-    protected ServerService serverService;
-    @Autowired
-    protected GameTimeControllerService gameTimeControllerService;
-
     protected boolean canMove = true;
     protected MoveData moveData;
     protected BaseAI ai;
-
-    public Entity() {
-    }
+    protected EntityTemplate template;
+    protected Status status;
 
     public Entity(int id) {
         super(id);
@@ -43,13 +45,19 @@ public abstract class Entity extends GameObject {
 
     public abstract void inflictDamage(int value);
 
-    public abstract Status getStatus();
-
     public abstract void setStatus(Status status);
 
     public abstract boolean canMove();
 
     public abstract void onDeath();
+
+    @Override
+    public EntityKnownList getKnownList() {
+        if ((super.getKnownList() == null) || !(super.getKnownList() instanceof EntityKnownList)) {
+            setKnownList(new EntityKnownList(this));
+        }
+        return ((EntityKnownList) super.getKnownList());
+    }
 
     public boolean moveTo(int x, int y, int z) {
         //System.out.println("AI find path: " + x + "," + y + "," + z);
@@ -71,15 +79,8 @@ public abstract class Entity extends GameObject {
         }
 
         moveToNextRoutePoint();
-        gameTimeControllerService.addMovingObject(this);
+        GameTimeControllerService.getInstance().addMovingObject(this);
         return true;
-    }
-
-    private float calcDistance(Point3D from, Point3D to) {
-        double dx = (to.getX() - from.getX());
-        double dy = (to.getY() - from.getY());
-        double dz = (to.getZ() - from.getZ());
-        return (float) Math.sqrt((dx * dx) + (dz * dz) + (dy * dy));
     }
 
     /* calculate how many ticks do we need to move to destination */
@@ -102,7 +103,7 @@ public abstract class Entity extends GameObject {
         float x = moveData.path.get(0).getX() + 0.5f;
         float y = moveData.path.get(0).getY();
         float z = moveData.path.get(0).getZ() + 0.5f;
-        float distance = calcDistance(getPos(), new Point3D(x, y, z));
+        float distance = VectorUtils.calcDistance(getPos(), new Point3D(x, y, z));
         float dx = (x - getPosX());
         float dy = (y - getPosY());
         float dz = (z - getPosZ());
@@ -124,7 +125,7 @@ public abstract class Entity extends GameObject {
 
         /* send destination to clients */
         ObjectMoveToPacket packet = new ObjectMoveToPacket(getId(), new Point3D(x, y, z));
-        serverService.broadcastAll(packet);
+        ServerService.getInstance().broadcast(packet);
 
         Point3D newPos = new Point3D(moveData.xDestination, moveData.yDestination, moveData.zDestination);
         setPosition(newPos);
@@ -157,7 +158,7 @@ public abstract class Entity extends GameObject {
 
             /* share new position with clients */
             ObjectPositionPacket packet = new ObjectPositionPacket(getId(), getPos());
-            serverService.broadcastAll(packet);
+            ServerService.getInstance().broadcast(packet);
 
             if (moveData.path.size() > 0) {
                 moveToNextRoutePoint();
@@ -175,7 +176,7 @@ public abstract class Entity extends GameObject {
     }
 
     public void attachAI(BaseAI ai) {
-        ai = ai;
+        this.ai = ai;
     }
 
     public void detachAI() {
@@ -193,5 +194,19 @@ public abstract class Entity extends GameObject {
         public float ySpeedTicks;
         public float zSpeedTicks;
         public List<NodeLoc> path;
+    }
+
+    public void broadcastPacket(ServerPacket packet) {
+        for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {
+            player.sendPacket(packet);
+        }
+    }
+
+    public EntityTemplate getTemplate() {
+        return template;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 }

@@ -1,15 +1,12 @@
 package com.shnok.javaserver.service;
 
-import com.shnok.javaserver.model.entities.Entity;
+import com.shnok.javaserver.Config;
+import com.shnok.javaserver.model.entity.Entity;
 import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 @Log4j2
 public class GameTimeControllerService {
 
@@ -20,14 +17,20 @@ public class GameTimeControllerService {
     protected static long gameStartTime;
     protected static TimerThread timer;
 
-    @Autowired
-    public GameTimeControllerService(@Value("${server.time.ticks-per-second}") int ticksPerSecond) {
-        TICKS_PER_SECOND = ticksPerSecond;
-        MILLIS_IN_TICK = 1000 / ticksPerSecond;
+    private static GameTimeControllerService instance;
+    public static GameTimeControllerService getInstance() {
+        if (instance == null) {
+            instance = new GameTimeControllerService();
+        }
+        return instance;
     }
 
     public void initialize() {
+        TICKS_PER_SECOND = Config.TIME_TICKS_PER_SECOND;
+        MILLIS_IN_TICK = 1000 / TICKS_PER_SECOND;
+
         log.info("Starting server clock with a tick rate of {} ticks/second.", TICKS_PER_SECOND);
+
         gameStartTime = System.currentTimeMillis() - 3600000; // offset so that the server starts a day begin
         gameTicks = 3600000 / MILLIS_IN_TICK; // offset so that the server starts a day begin
 
@@ -44,7 +47,7 @@ public class GameTimeControllerService {
     }
 
     protected synchronized void moveObjects() {
-        Entity[] entities = movingObjects.toArray(new Entity[movingObjects.size()]);
+        Entity[] entities = movingObjects.toArray(new Entity[0]);
         for (Entity e : entities) {
             if (e.updatePosition(gameTicks)) {
                 movingObjects.remove(e);

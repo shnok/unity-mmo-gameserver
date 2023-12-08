@@ -3,7 +3,7 @@ package com.shnok.javaserver.thread.ai;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.entities.Entity;
+import com.shnok.javaserver.model.entity.Entity;
 
 public abstract class BaseAI {
     protected Entity owner;

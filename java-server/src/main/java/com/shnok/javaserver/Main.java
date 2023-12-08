@@ -4,56 +4,37 @@ import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.*;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Log4j2
-@SpringBootApplication
-public class Main implements CommandLineRunner {
-    @Autowired
-    private ServerService serverService;
-    @Autowired
-    private DatabaseMockupService databaseMockupService;
-    @Autowired
-    private SpawnManagerService spawnManagerService;
-    @Autowired
-    private GameServerListenerService gameServerListenerService;
-    @Autowired
-    private ThreadPoolManagerService threadPoolManagerService;
-    @Autowired
-    private ServerShutdownService serverShutdownService;
-    @Autowired
-    private GameTimeControllerService gameTimeControllerService;
-    @Autowired
-    private WorldManagerService worldManagerService;
-
+public class Main {
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(Main.class);
-        app.setBannerMode(Banner.Mode.OFF);
-        app.run(args);
+       runServer(args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
+    public static void runServer(String... args)  {
         log.info("Starting application.");
-        Runtime.getRuntime().addShutdownHook(serverShutdownService);
+        try {
+            Config.LoadSettings();
+        } catch (Exception e) {
+            log.error("Error while loading config file.", e);
+            return;
+        }
+
+        ThreadPoolManagerService.getInstance().initialize();
+        Runtime.getRuntime().addShutdownHook(ServerShutdownService.getInstance());
 
         //TODO: Update for gradle and new geodata structure
         Geodata.getInstance();
         PathFinding.getInstance();
 
-        worldManagerService.initialize();
-        gameTimeControllerService.initialize();
-        threadPoolManagerService.initialize();
-        databaseMockupService.initialize();
-        spawnManagerService.initialize();
+        WorldManagerService.getInstance().initialize();
+        GameTimeControllerService.getInstance().initialize();
+        SpawnManagerService.getInstance().initialize();
 
-        gameServerListenerService.start();
+        GameServerListenerService.getInstance().Initialize();
+        GameServerListenerService.getInstance().start();
         try {
-            gameServerListenerService.join();
+            GameServerListenerService.getInstance().join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

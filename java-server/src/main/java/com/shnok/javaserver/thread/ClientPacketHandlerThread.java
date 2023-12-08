@@ -1,19 +1,21 @@
 package com.shnok.javaserver.thread;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.clientpackets.*;
 import com.shnok.javaserver.dto.serverpackets.*;
 import com.shnok.javaserver.enums.ClientPacketType;
+import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.entities.Entity;
-import com.shnok.javaserver.model.entities.NpcInstance;
-import com.shnok.javaserver.model.entities.PlayerInstance;
-import com.shnok.javaserver.service.GameServerListenerService;
+import com.shnok.javaserver.model.entity.Entity;
+import com.shnok.javaserver.model.entity.PlayerInstance;
+import com.shnok.javaserver.model.knownlist.ObjectKnownList;
+import com.shnok.javaserver.service.ServerService;
+import com.shnok.javaserver.service.ThreadPoolManagerService;
 import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
 
 @Log4j2
 public class ClientPacketHandlerThread extends Thread {
@@ -32,8 +34,9 @@ public class ClientPacketHandlerThread extends Thread {
 
     public void handle() {
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
-
-        log.debug("Received packet: {}", type);
+        if(Config.PRINT_CLIENT_PACKETS) {
+            log.debug("Received packet: {}", type);
+        }
         switch (type) {
             case Ping:
                 onReceiveEcho();
@@ -69,10 +72,10 @@ public class ClientPacketHandlerThread extends Thread {
         client.sendPacket(new PingPacket());
         client.setLastEcho(System.currentTimeMillis());
 
-        Timer timer = new Timer(GameServerListenerService.TIMEOUT_MS, new ActionListener() {
+        Timer timer = new Timer(Config.CONNECTION_TIMEOUT_SEC, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if (System.currentTimeMillis() - client.getLastEcho() >= GameServerListenerService.TIMEOUT_MS) {
+                if (System.currentTimeMillis() - client.getLastEcho() >= Config.CONNECTION_TIMEOUT_SEC) {
                     log.info("User connection timeout.");
                     client.removeSelf();
                     client.disconnect();
@@ -88,7 +91,7 @@ public class ClientPacketHandlerThread extends Thread {
         String username = packet.getUsername();
 
         AuthResponsePacket authResponsePacket;
-        if (client.getServerService().userExists(username)) {
+        if (ServerService.getInstance().userExists(username)) {
             authResponsePacket = new AuthResponsePacket(AuthResponsePacket.AuthResponseType.ALREADY_CONNECTED);
         } else if (username.length() <= 0 || username.length() > 16) {
             authResponsePacket = new AuthResponsePacket(AuthResponsePacket.AuthResponseType.INVALID_USERNAME);
@@ -110,7 +113,7 @@ public class ClientPacketHandlerThread extends Thread {
         String message = packet.getMessage();
 
         MessagePacket messagePacket = new MessagePacket(client.getUsername(), message);
-        client.getServerService().broadcast(messagePacket);
+        ServerService.getInstance().broadcast(messagePacket);
     }
 
     private void onRequestCharacterMove(byte[] data) {
@@ -120,54 +123,70 @@ public class ClientPacketHandlerThread extends Thread {
         PlayerInstance currentPlayer = client.getCurrentPlayer();
         currentPlayer.setPosition(newPos);
 
+        // Update known list
+        ThreadPoolManagerService.getInstance().execute(
+                new ObjectKnownList.KnownListAsynchronousUpdateTask(client.getCurrentPlayer()));
+
+        // Notify known list
         ObjectPositionPacket objectPositionPacket = new ObjectPositionPacket(currentPlayer.getId(), newPos);
-        client.getServerService().broadcast(objectPositionPacket, client);
+        client.getCurrentPlayer().broadcastPacket(objectPositionPacket);
     }
 
     private void onRequestLoadWorld() {
+        client.setClientReady(true);
+        System.out.println("On load world");
         client.sendPacket(new PlayerInfoPacket(client.getPlayer()));
 
-        for (Map.Entry<Integer, PlayerInstance> pair : client.getWorldManagerService().getAllPlayers().entrySet()) {
-            if(pair.getValue().getId() != client.getPlayer().getId()) {
-                client.sendPacket(new UserInfoPacket(pair.getValue()));
-            }
-        }
-
-        for (Map.Entry<Integer, NpcInstance> pair : client.getWorldManagerService().getAllNpcs().entrySet()) {
-            client.sendPacket(new NpcInfoPacket(pair.getValue()));
-        }
+        // Loads surrounding area
+        ThreadPoolManagerService.getInstance().execute(
+                new ObjectKnownList.KnownListAsynchronousUpdateTask(client.getCurrentPlayer()));
     }
 
     private void onRequestCharacterRotate(byte[] data) {
         RequestCharacterRotatePacket packet = new RequestCharacterRotatePacket(data);
+
+        // Notify known list
         ObjectRotationPacket objectRotationPacket = new ObjectRotationPacket(
                 client.getCurrentPlayer().getId(), packet.getAngle());
-        client.getServerService().broadcast(objectRotationPacket, client);
+        client.getCurrentPlayer().broadcastPacket(objectRotationPacket);
     }
 
     private void onRequestCharacterAnimation(byte[] data) {
         RequestCharacterAnimationPacket packet = new RequestCharacterAnimationPacket(data);
+
+        // Notify known list
         ObjectAnimationPacket objectAnimationPacket = new ObjectAnimationPacket(
                 client.getCurrentPlayer().getId(), packet.getAnimId(), packet.getValue());
-        client.getServerService().broadcast(objectAnimationPacket, client);
+        client.getCurrentPlayer().broadcastPacket(objectAnimationPacket);
     }
 
     private void onRequestAttack(byte[] data) {
         RequestAttackPacket packet = new RequestAttackPacket(data);
 
-        Entity entity = client.getWorldManagerService().getEntity(packet.getTargetId());
-        entity.inflictDamage(1);
+        GameObject object = client.getCurrentPlayer().getKnownList().getKnownObjects().get(packet.getTargetId());
+        if(object == null) {
+            log.warn("Trying to attack a null object.");
+        }
+        if(!(object instanceof Entity)) {
+            log.warn("Trying to attack a non-entity object.");
+            return;
 
+        }
+
+        ((Entity) object).inflictDamage(1);
+
+        // Notify known list
         ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
                 client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), 1);
-        client.getServerService().broadcastAll(applyDamagePacket);
+        client.getCurrentPlayer().broadcastPacket(applyDamagePacket);
     }
 
     private void onRequestCharacterMoveDirection(byte[] data) {
         RequestCharacterMoveDirection packet = new RequestCharacterMoveDirection(data);
 
+        // Notify known list
         ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
                 client.getCurrentPlayer().getId(), packet.getSpeed(), packet.getDirection());
-        client.getServerService().broadcast(objectDirectionPacket, client);
+        client.getCurrentPlayer().broadcastPacket(objectDirectionPacket);
     }
 }

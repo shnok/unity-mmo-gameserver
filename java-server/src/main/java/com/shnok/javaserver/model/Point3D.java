@@ -36,26 +36,6 @@ public class Point3D implements Serializable {
         }
     }
 
-    public static float distanceSquared(Point3D point1, Point3D point2) {
-        float dx, dy;
-        synchronized (point1) {
-            synchronized (point2) {
-                dx = point1.x - point2.x;
-                dy = point1.y - point2.y;
-            }
-        }
-        return (dx * dx) + (dy * dy);
-    }
-
-    public static boolean distanceLessThan(Point3D point1, Point3D point2, double distance) {
-        return distanceSquared(point1, point2) < (distance * distance);
-    }
-
-    /*@Override
-    public int hashCode() {
-        return x ^ y ^ z;
-    }*/
-
     public synchronized void setTo(Point3D point) {
         synchronized (point) {
             x = point.x;
@@ -84,15 +64,6 @@ public class Point3D implements Serializable {
 
     public synchronized boolean equals(float pX, float pY, float pZ) {
         return (x == pX) && (y == pY) && (z == pZ);
-    }
-
-    public synchronized float distanceSquaredTo(Point3D point) {
-        float dx, dy;
-        synchronized (point) {
-            dx = x - point.x;
-            dy = y - point.y;
-        }
-        return (dx * dx) + (dy * dy);
     }
 
     public float getX() {
