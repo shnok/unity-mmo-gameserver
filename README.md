@@ -16,6 +16,9 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 	- Defined patrol path
 	- Spawn/respawn
 - Pathfinding
+- Server Ghosting/Grid system
+- Npc list and spawn list persistence
+
 </p>
 
 ## Packets structure
@@ -76,7 +79,7 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 # 0x09 : ApplyDamage
 [Int: `sender id` | Int: `target id` | Byte: `attack type` | Int: `value`]
 # 0x0A : NpcInfo
-[Int: `object id` | Int: `npc id` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Int: `level`| Int: `hp`| Int: `maxhp`]
+[Int: `object id` | Int: `npc id` | String: `npc class` | String: `npc type` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Float: `collision height`| Int: `level`| Int: `hp`| Int: `maxhp`]
 # 0x0B : ObjectMoveTo
 [Int: `object id` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`]
 # 0x0C : UserInfo
