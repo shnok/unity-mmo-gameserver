@@ -1,6 +1,7 @@
 package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.PlayerStatus;
@@ -39,6 +40,9 @@ public class PlayerInstance extends Entity {
     public void sendPacket(ServerPacket packet) {
         if(gameClient.isClientReady()) {
             gameClient.sendPacket(packet);
+            if(packet instanceof UserInfoPacket) {
+                log.debug("[{}] Sending user packet", getGameClient().getCurrentPlayer().getId());
+            }
         }
     }
 

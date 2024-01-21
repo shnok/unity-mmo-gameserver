@@ -89,7 +89,7 @@ public class WorldManagerService {
     public WorldRegion getRegion(Point3D point) {
         int x = ((int) point.getX() >> SHIFT_BY) + OFFSET_X;
         int y = ((int) point.getZ() >> SHIFT_BY) + OFFSET_Y;
-        log.debug("Region at {} is [{}][{}]", point, x, y);
+        //log.debug("Region at {} is [{}][{}]", point, x, y);
         return worldRegions[x][y];
     }
 

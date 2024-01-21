@@ -9,8 +9,11 @@ import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.PlayerInstance;
 import com.shnok.javaserver.model.knownlist.ObjectKnownList;
+import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
+import com.shnok.javaserver.service.WorldManagerService;
+import com.shnok.javaserver.util.VectorUtils;
 import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
@@ -124,8 +127,13 @@ public class ClientPacketHandlerThread extends Thread {
         currentPlayer.setPosition(newPos);
 
         // Update known list
-        ThreadPoolManagerService.getInstance().execute(
-                new ObjectKnownList.KnownListAsynchronousUpdateTask(client.getCurrentPlayer()));
+        float distanceDelta = VectorUtils.calcDistance(
+                currentPlayer.getPosition().getWorldPosition(), currentPlayer.getPosition().getLastWorldPosition());
+        if(distanceDelta > 5.0f) {
+            ThreadPoolManagerService.getInstance().execute(
+                    new ObjectKnownList.KnownListAsynchronousUpdateTask(currentPlayer));
+            currentPlayer.getPosition().setLastWorldPosition(currentPlayer.getPosition().getWorldPosition());
+        }
 
         // Notify known list
         ObjectPositionPacket objectPositionPacket = new ObjectPositionPacket(currentPlayer.getId(), newPos);
@@ -135,8 +143,18 @@ public class ClientPacketHandlerThread extends Thread {
     private void onRequestLoadWorld() {
         client.setClientReady(true);
         System.out.println("On load world");
-        client.sendPacket(new PlayerInfoPacket(client.getPlayer()));
 
+        /* Dummy player */
+        PlayerInstance player = new PlayerInstance(client.getUsername());
+        player.setStatus(new PlayerStatus());
+        player.setGameClient(client);
+        player.setId(WorldManagerService.getInstance().nextID());
+        player.setPosition(VectorUtils.randomPos(Config.PLAYER_SPAWN_POINT, 1.5f));
+        client.setPlayer(player);
+
+        WorldManagerService.getInstance().addPlayer(player);
+
+        client.sendPacket(new PlayerInfoPacket(player));
         // Loads surrounding area
         ThreadPoolManagerService.getInstance().execute(
                 new ObjectKnownList.KnownListAsynchronousUpdateTask(client.getCurrentPlayer()));

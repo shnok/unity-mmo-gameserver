@@ -7,9 +7,12 @@ import com.shnok.javaserver.model.entity.PlayerInstance;
 import com.shnok.javaserver.util.VectorUtils;
 import javolution.util.FastList;
 import javolution.util.FastMap;
+import lombok.extern.log4j.Log4j2;
+
 import java.util.Collection;
 import java.util.Map;
 
+@Log4j2
 public class EntityKnownList extends ObjectKnownList  {
     private Map<Integer, PlayerInstance> knownPlayers;
     private Map<Integer, Integer> knownRelations;
@@ -30,6 +33,7 @@ public class EntityKnownList extends ObjectKnownList  {
         }
         if (object instanceof PlayerInstance) {
             getKnownPlayers().put(object.getId(), (PlayerInstance) object);
+            log.debug("[{}] KnownPlayers: {}", getActiveObject().getId(), getKnownPlayers().size());
         }
 
         return true;
@@ -69,6 +73,7 @@ public class EntityKnownList extends ObjectKnownList  {
         }
         if (object instanceof PlayerInstance) {
             getKnownPlayers().remove(object.getId());
+            log.debug("[{}] KnownPlayers: {}", getActiveObject().getId(), getKnownPlayers().size());
         }
         // If object is targeted by the Entity, cancel Attack or Cast
         /*if (object == getActiveChar().getTarget()) {
