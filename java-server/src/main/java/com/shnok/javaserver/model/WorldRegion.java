@@ -1,5 +1,6 @@
 package com.shnok.javaserver.model;
 
+import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.PlayerInstance;
 import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
@@ -40,6 +41,9 @@ public class WorldRegion {
             return;
         }
         visibleObjects.remove(object);
+        visibleObjects.forEach((visible) -> {
+            visible.getKnownList().removeKnownObject(object);
+        });
 
         if (object instanceof PlayerInstance) {
             allPlayers.remove((PlayerInstance) object);

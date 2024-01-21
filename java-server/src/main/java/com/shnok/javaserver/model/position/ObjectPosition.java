@@ -15,6 +15,7 @@ public class ObjectPosition
     private final GameObject activeObject;
     private float heading = 0;
     private Point3D worldPosition;
+    private Point3D lastWorldPosition;
     private WorldRegion worldRegion; // Object localization : Used for items/chars that are seen in the world
 
     public ObjectPosition(GameObject activeObject) {
@@ -84,6 +85,19 @@ public class ObjectPosition
             worldPosition = new Point3D(0, 0, 0);
         }
         return worldPosition;
+    }
+
+    public Point3D getLastWorldPosition() {
+        if (lastWorldPosition == null) {
+            lastWorldPosition = new Point3D(0, 0, 0);
+        }
+        return lastWorldPosition;
+    }
+
+    public void setLastWorldPosition(Point3D pos) {
+        lastWorldPosition.setX(pos.getX());
+        lastWorldPosition.setY(pos.getY());
+        lastWorldPosition.setZ(pos.getZ());
     }
 
     public void setWorldPosition(float x, float y, float z) {

@@ -73,7 +73,6 @@ public class ObjectKnownList {
     }
 
     public final synchronized void updateKnownObjects() {
-        log.debug(getActiveObject());
         if (getActiveObject() instanceof Entity) {
             findCloseObjects();
             forgetObjects();
@@ -100,11 +99,11 @@ public class ObjectKnownList {
 
                 if (object instanceof Entity) {
                     object.getKnownList().addKnownObject(getActiveObject());
-                    log.debug("[{}] Adding (player) to known object of entity: Target {}", getActiveObject().getId(), object.getId());
+                    //log.debug("[{}] Adding (player) to known object of entity: Target {}", getActiveObject().getId(), object.getId());
                 }
                 if (object instanceof PlayerInstance) {
                     object.getKnownList().addKnownObject(getActiveObject());
-                    log.debug("[{}] Adding (player) to known object of player: Target {}", getActiveObject().getId(), object.getId());
+                    //log.debug("[{}] Adding (player) to known object of player: Target {}", getActiveObject().getId(), object.getId());
                 }
             }
         } else {
@@ -163,6 +162,7 @@ public class ObjectKnownList {
         @Override
         public void run() {
             if (obj != null) {
+                log.debug("[{}] UpdateKnown objects", obj.getId());
                 obj.getKnownList().updateKnownObjects();
             }
         }

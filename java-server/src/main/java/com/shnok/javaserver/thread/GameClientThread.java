@@ -10,6 +10,7 @@ import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
+import com.shnok.javaserver.util.VectorUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -141,13 +142,6 @@ public class GameClientThread extends Thread {
         log.debug("Authenticating new player.");
         ServerService.getInstance().broadcast(new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, username), this);
 
-        /* Dummy player */
-        player = new PlayerInstance(username);
-        player.setStatus(new PlayerStatus());
-        player.setGameClient(this);
-        player.setId(WorldManagerService.getInstance().nextID());
-        player.setPosition(Config.PLAYER_SPAWN_POINT);
-        WorldManagerService.getInstance().addPlayer(player);
     }
 
     void removeSelf() {

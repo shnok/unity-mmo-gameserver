@@ -8,7 +8,9 @@ import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.ItemInstance;
 import com.shnok.javaserver.model.entity.NpcInstance;
 import com.shnok.javaserver.model.entity.PlayerInstance;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class PlayerKnownList extends EntityKnownList
 {
     public PlayerKnownList(PlayerInstance activeChar) {
@@ -46,6 +48,7 @@ public class PlayerKnownList extends EntityKnownList
         } else if (object instanceof NpcInstance) {
             getActiveChar().sendPacket(new NpcInfoPacket((NpcInstance) object));
         } else if (object instanceof PlayerInstance) {
+            log.debug("[{}] New user added: {} Count: {}", getActiveObject().getId(), object.getId(), getKnownPlayers().size());
             PlayerInstance otherPlayer = (PlayerInstance) object;
             getActiveChar().sendPacket(new UserInfoPacket(otherPlayer));
         }

@@ -3,6 +3,8 @@ package com.shnok.javaserver.util;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
 
+import java.util.Random;
+
 public class VectorUtils {
 
     public static boolean checkIfInRange(int range, GameObject obj1, GameObject obj2) {
@@ -21,5 +23,13 @@ public class VectorUtils {
         double dy = (to.getY() - from.getY());
         double dz = (to.getZ() - from.getZ());
         return (float) Math.sqrt((dx * dx) + (dz * dz) + (dy * dy));
+    }
+
+    public static Point3D randomPos(Point3D center, float range) {
+        Random random = new Random();
+        float randomX = random.nextFloat() * (range * 2) - range;
+        float randomZ = random.nextFloat() * (range * 2) - range;
+
+        return new Point3D(center.getX() + randomX, center.getY(), center.getZ() + randomZ);
     }
 }
