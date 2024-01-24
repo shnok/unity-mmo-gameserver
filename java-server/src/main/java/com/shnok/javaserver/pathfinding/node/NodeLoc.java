@@ -3,7 +3,7 @@ package com.shnok.javaserver.pathfinding.node;
 import com.shnok.javaserver.model.Point3D;
 
 public class NodeLoc {
-    private final int _x;
+ /*   private final int _x;
     private final int _y;
     private final int _z;
 
@@ -31,6 +31,6 @@ public class NodeLoc {
 
     public String toString() {
         return "(" + getX() + "," + getY() + "," + getZ() + ")";
-    }
+    }*/
 
 }

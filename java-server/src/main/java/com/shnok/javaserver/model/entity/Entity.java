@@ -193,7 +193,7 @@ public abstract class Entity extends GameObject {
         public float xSpeedTicks;
         public float ySpeedTicks;
         public float zSpeedTicks;
-        public List<NodeLoc> path;
+        public List<Point3D> path;
     }
 
     public void broadcastPacket(ServerPacket packet) {

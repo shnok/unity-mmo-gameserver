@@ -1,5 +1,6 @@
 package com.shnok.javaserver.pathfinding;
 
+import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.pathfinding.node.FastNodeList;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.pathfinding.node.NodeLoc;
@@ -18,8 +19,8 @@ public class PathFinding {
         return _instance;
     }
 
-    public List<NodeLoc> findPath(int x, int y, int z, int tx, int ty, int tz) {
-        Node start = readNode(x, y, z);
+    public List<Point3D> findPath(int x, int y, int z, int tx, int ty, int tz) {
+        /*Node start = readNode(x, y, z);
         Node end = readNode(tx, ty, tz);
 
         if ((start == null) || (end == null)) {
@@ -28,10 +29,11 @@ public class PathFinding {
         if (start == end) {
             return null;
         }
-        return searchByClosest(start, end);
+        return searchByClosest(start, end); */
+        return null;
     }
 
-    public List<NodeLoc> searchByClosest(Node start, Node end) {
+  /*  public List<NodeLoc> searchByClosest(Node start, Node end) {
         // List of Visited Nodes
         FastNodeList visited = new FastNodeList(550);
 
@@ -100,24 +102,14 @@ public class PathFinding {
             return null;
         }
 
-        return new Node(new NodeLoc(nodeX, nodeY, nodeZ));
+        return new Node(new Point3D(nodeX, nodeY, nodeZ));
     }
 
 
     public Node[] readNeighbors(int nodeX, int nodeY, int nodeZ) {
         Node[] returnList = new Node[8];
         short i = 0;
-        /*for (int y = -1; y <= 1; y++) {
-            for (int x = -1; x <= 1; x++) {
-                for (int z = -1; z <= 1; z++) {
-                    if (x == 0 && z == 0)
-                        continue;
 
-                    Node node = readNode(nodeX + x, nodeY + y, nodeZ + z);
-                    returnList[i++] = node;
-                }
-            }
-        }*/
         for (int x = -1; x <= 1; x++) {
             for (int z = -1; z <= 1; z++) {
                 if (x == 0 && z == 0)
@@ -131,8 +123,7 @@ public class PathFinding {
                     node = readNode(nodeX + x, nodeY - 1, nodeZ + z);
                 }
 
-                /*if (node != null)
-                    System.out.println(node.getLoc());*/
+
                 returnList[i++] = node;
             }
 
@@ -173,5 +164,5 @@ public class PathFinding {
             node = node.getParent();
         }
         return path;
-    }
+    }*/
 }

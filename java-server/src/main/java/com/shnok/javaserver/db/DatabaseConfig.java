@@ -2,6 +2,7 @@ package com.shnok.javaserver.db;
 
 import com.shnok.javaserver.db.entity.Npc;
 import com.shnok.javaserver.db.entity.SpawnList;
+import com.shnok.javaserver.db.entity.ZoneList;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -35,6 +36,7 @@ public class DatabaseConfig {
         // Add entity classes to configuration
         configuration.addAnnotatedClass(SpawnList.class);
         configuration.addAnnotatedClass(Npc.class);
+        configuration.addAnnotatedClass(ZoneList.class);
 
         return configuration.buildSessionFactory();
     }

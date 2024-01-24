@@ -1,18 +1,31 @@
 package com.shnok.javaserver.pathfinding.node;
 
+import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.pathfinding.PathFinding;
+import lombok.Data;
 
+@Data
 public class Node {
-    private final NodeLoc _loc;
-    private Node[] _neighbors;
+    public int x;
+    public int y;
+    public int z;
+    private Point3D worldPosition;
+    private Point3D center;
+    private float nodeSize;
+  /*  private Node[] _neighbors;
     private Node _parent;
-    private short _cost;
+    private short _cost;*/
 
-    public Node(NodeLoc Loc) {
-        _loc = Loc;
+    public Node(Point3D nodeIndex, Point3D worldPosition, float nodeSize) {
+        x = (int)nodeIndex.getX();
+        y = (int)nodeIndex.getY();
+        z = (int)nodeIndex.getZ();
+        this.worldPosition = worldPosition;
+        this.nodeSize = nodeSize;
+        this.center = new Point3D (worldPosition.getX() + nodeSize / 2f, worldPosition.getY(), worldPosition.getZ() + nodeSize / 2f);
     }
 
-    public void attacheNeighbors() {
+ /*   public void attacheNeighbors() {
         if (_loc == null) {
             _neighbors = null;
         } else {
@@ -62,5 +75,5 @@ public class Node {
         Node n = (Node) arg0;
         // Check if x,y,z are the same
         return (_loc.getX() == n.getLoc().getX()) && (_loc.getY() == n.getLoc().getY()) && (_loc.getZ() == n.getLoc().getZ());
-    }
+    }*/
 }

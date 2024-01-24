@@ -1,6 +1,7 @@
 package com.shnok.javaserver;
 
 import com.shnok.javaserver.pathfinding.Geodata;
+import com.shnok.javaserver.pathfinding.GeodataLoader;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.*;
 import lombok.extern.log4j.Log4j2;
@@ -24,8 +25,9 @@ public class Main {
         Runtime.getRuntime().addShutdownHook(ServerShutdownService.getInstance());
 
         //TODO: Update for gradle and new geodata structure
-        Geodata.getInstance();
-        PathFinding.getInstance();
+        //Geodata.getInstance();
+        //PathFinding.getInstance();
+        GeodataLoader.getInstance().loadGeodataForMap("17_25");
 
         WorldManagerService.getInstance().initialize();
         GameTimeControllerService.getInstance().initialize();
