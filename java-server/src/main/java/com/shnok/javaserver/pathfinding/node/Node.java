@@ -6,65 +6,31 @@ import lombok.Data;
 
 @Data
 public class Node {
-    public int x;
-    public int y;
-    public int z;
+    private Point3D nodeIndex;
     private Point3D worldPosition;
     private Point3D center;
     private float nodeSize;
-  /*  private Node[] _neighbors;
-    private Node _parent;
-    private short _cost;*/
+    private float cost;
+    private Node[] neighbors;
+    private Node parentNode;
 
     public Node(Point3D nodeIndex, Point3D worldPosition, float nodeSize) {
-        x = (int)nodeIndex.getX();
-        y = (int)nodeIndex.getY();
-        z = (int)nodeIndex.getZ();
+        this.nodeIndex = nodeIndex;
         this.worldPosition = worldPosition;
         this.nodeSize = nodeSize;
         this.center = new Point3D (worldPosition.getX() + nodeSize / 2f, worldPosition.getY(), worldPosition.getZ() + nodeSize / 2f);
     }
 
- /*   public void attacheNeighbors() {
-        if (_loc == null) {
-            _neighbors = null;
-        } else {
-            _neighbors = PathFinding.getInstance().readNeighbors(_loc.getX(), _loc.getY(), _loc.getZ());
-        }
-    }
-
-    public Node[] getNeighbors() {
-        return _neighbors;
-    }
-
-    public Node getParent() {
-        return _parent;
-    }
-
-    public void setParent(Node p) {
-        _parent = p;
-    }
-
-    public NodeLoc getLoc() {
-        return _loc;
-    }
-
-    public short getCost() {
-        return _cost;
-    }
-
-    public void setCost(int cost) {
-        _cost = (short) cost;
+    public Node(Node original) {
+        nodeIndex = original.nodeIndex;
+        worldPosition = original.worldPosition;
+        nodeSize = original.nodeSize;
+        center = original.center;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 1117;
-        int result = 1;
-        result = (prime * result) + _loc.getX();
-        result = (prime * result) + _loc.getY();
-        result = (prime * result) + _loc.getZ();
-        return result;
+        return worldPosition.hashCode();
     }
 
     @Override
@@ -74,6 +40,8 @@ public class Node {
         }
         Node n = (Node) arg0;
         // Check if x,y,z are the same
-        return (_loc.getX() == n.getLoc().getX()) && (_loc.getY() == n.getLoc().getY()) && (_loc.getZ() == n.getLoc().getZ());
-    }*/
+        return (worldPosition.getX() == n.getWorldPosition().getX()) &&
+                (worldPosition.getY() == n.getWorldPosition().getY()) &&
+                (worldPosition.getZ() == n.getWorldPosition().getZ());
+    }
 }

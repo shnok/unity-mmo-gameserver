@@ -5,6 +5,7 @@ import com.shnok.javaserver.model.Point3D;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Properties;
 
 public class Config {
@@ -17,6 +18,8 @@ public class Config {
     public static boolean PRINT_CLIENT_PACKETS;
     public static boolean SPAWN_NPCS;
     public static Point3D PLAYER_SPAWN_POINT;
+    public static String[] ZONES_TO_LOAD;
+    public static float NODE_SIZE;
 
     public static void LoadSettings() throws Exception {
         ClassLoader classLoader = Main.class.getClassLoader();
@@ -40,5 +43,10 @@ public class Config {
 
         PRINT_SERVER_PACKETS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.server-packets", "false"));
         PRINT_CLIENT_PACKETS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.client-packets", "false"));
+
+        String zoneList = optionsSettings.getProperty("server.world.geodata.zones.load", "");
+        ZONES_TO_LOAD = zoneList.toUpperCase().split(",");
+
+        NODE_SIZE = Float.parseFloat(optionsSettings.getProperty("server.world.geodata.node-size", "1"));
     }
 }

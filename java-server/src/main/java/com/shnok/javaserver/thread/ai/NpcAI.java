@@ -91,11 +91,11 @@ public class NpcAI extends BaseAI implements Runnable {
                 y1 = (int) npc.getSpawn().getSpawnPosition().getY();
                 z1 = ((int) npc.getSpawn().getSpawnPosition().getZ() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
 
-                Point3D pos = Geodata.getInstance().clampToWorld(new Point3D(x1, y1, z1));
+                /*Point3D pos = Geodata.getInstance().clampToWorld(new Point3D(x1, y1, z1));
                 if (Geodata.getInstance().getNodeType((int) pos.getX(), (int) pos.getY(), (int) pos.getZ()) == NodeType.WALKABLE) {
                     setIntention(Intention.INTENTION_MOVE_TO, new Point3D(x1, y1, z1));
                     break;
-                }
+                }*/
             }
         }
     }
@@ -138,11 +138,11 @@ public class NpcAI extends BaseAI implements Runnable {
     }
 
     @Override
-    protected void onIntentionMoveTo(Point3D pos) {
+    protected void onIntentionMoveTo(Point3D destination) {
         intention = Intention.INTENTION_MOVE_TO;
 
         if (owner.canMove()) {
-            if (owner.moveTo((int) pos.getX(), (int) pos.getY(), (int) pos.getZ())) {
+            if (owner.moveTo(destination)) {
                 moving = true;
                 return;
             }

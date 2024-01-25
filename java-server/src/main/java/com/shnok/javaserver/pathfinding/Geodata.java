@@ -1,13 +1,16 @@
 package com.shnok.javaserver.pathfinding;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.db.entity.ZoneList;
 import com.shnok.javaserver.db.interfaces.ZoneListDao;
 import com.shnok.javaserver.db.repository.ZoneListRepository;
+import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.pathfinding.node.NodeType;
 import com.shnok.javaserver.util.VectorUtils;
 import javolution.util.FastMap;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -17,18 +20,15 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
+@Log4j2
 public class Geodata {
     private static Geodata instance;
-    private Map<String, Map<Point3D, NodeType>> geoData;
+    private Map<String, Map<Point3D, Node>> geoData;
     private Map<String, ZoneList> zoneList;
-    private Object[] values;
-    private Object[] keys;
-    private float nodeSize = 0.5f;
 
     public Geodata() {
         initGeodata();
     }
-
     public static Geodata getInstance() {
         if (instance == null) {
             instance = new Geodata();
@@ -40,7 +40,14 @@ public class Geodata {
         ZoneListRepository zoneListRepository = new ZoneListRepository();
         zoneList = zoneListRepository.getAllZoneMap();
         geoData = new FastMap<>();
-     //   loadFromFile();
+    }
+
+    public void loadGeodata() {
+        for(int i = 0; i < Config.ZONES_TO_LOAD.length; i++) {
+            String zoneId = Config.ZONES_TO_LOAD[i];
+            log.debug("Loading geodata for map {}.", zoneId);
+            geoData.put(zoneId, GeodataLoader.getInstance().loadGeodataForMap(zoneId));
+        }
     }
 
     public Point3D getZoneOrigin(String mapId) throws Exception {
@@ -50,6 +57,15 @@ public class Geodata {
 
         Point3D zoneOrigin = zoneList.get(mapId).getOrigin();
         return zoneOrigin;
+    }
+
+    public String getCurrentZone(Point3D location) throws Exception {
+        for(ZoneList z : zoneList.values()) {
+            if(z.isInBounds(location)) {
+                return z.getId();
+            }
+        }
+        throw new Exception("Outside bounds.");
     }
 
    /* private void loadFromFile() {
@@ -116,18 +132,19 @@ public class Geodata {
                 x < WorldManagerService.WORLD_SIZE && y < WorldManagerService.WORLD_HEIGHT && z < WorldManagerService.WORLD_SIZE);
     }
 
-    public NodeType getNodeType(int x, int y, int z) {
-        /*int id = flatten(x, y, z);
-        if (!isInsideBounds(x, y, z) || !geoData.containsKey(id)) {
-            return NodeType.UNWALKABLE;
+    public Node getNodeAt(Point3D nodePos, String mapId) throws Exception {
+        Point3D nodeIndex = fromWorldToNodePos(nodePos, mapId);
+        if(geoData.containsKey(mapId)) {
+            if(geoData.get(mapId).containsKey(nodeIndex)) {
+                return new Node(geoData.get(mapId).get(nodeIndex));
+            }
         }
 
-        return geoData.get(id);*/
-        return null;
+        throw new Exception("Node not found");
     }
 
     /* Find a valid location based on geodata */
-    public Point3D randomLocation() {
+    /*public Point3D randomLocation() {
         Random generator = new Random();
         int randomIndex = generator.nextInt(values.length);
         NodeType type = (NodeType) values[randomIndex];
@@ -138,9 +155,9 @@ public class Geodata {
         }
 
         return parseIndex((int) keys[randomIndex]);
-    }
+    }*/
 
-    public Point3D parseIndex(int index) {
+    /*public Point3D parseIndex(int index) {
         float y = (float) index / (float) Math.pow(WorldManagerService.WORLD_HEIGHT * 2, 2);
         float vy = (y - Math.round(y)) * (float) Math.pow(WorldManagerService.WORLD_HEIGHT * 2, 2);
         float z = vy / (WorldManagerService.WORLD_SIZE * 2);
@@ -151,19 +168,20 @@ public class Geodata {
 
     public int flatten(int x, int y, int z) {
         return (y * (int) Math.pow(WorldManagerService.WORLD_HEIGHT * 2, 2)) + (z * WorldManagerService.WORLD_SIZE * 2) + x;
-    }
+    }*/
 
     public Point3D fromNodeToWorldPos(Point3D nodePos, String mapId) throws Exception {
         Point3D origin = getZoneOrigin(mapId);
 
-        Point3D worldPos = new Point3D(nodePos.getX() * nodeSize + origin.getX(),
-                nodePos.getY() * nodeSize + origin.getY(),
-                nodePos.getZ() * nodeSize + origin.getZ());
+        Point3D worldPos = new Point3D(nodePos.getX() * Config.NODE_SIZE + origin.getX(),
+                nodePos.getY() * Config.NODE_SIZE + origin.getY(),
+                nodePos.getZ() * Config.NODE_SIZE + origin.getZ());
 
         worldPos = new Point3D(
-                VectorUtils.floorToNearest(worldPos.getX(), nodeSize),
-                VectorUtils.floorToNearest(worldPos.getY(), nodeSize),
-                VectorUtils.floorToNearest(worldPos.getZ(), nodeSize));
+                VectorUtils.floorToNearest(worldPos.getX(), Config.NODE_SIZE),
+                VectorUtils.floorToNearest(worldPos.getY(), Config.NODE_SIZE),
+                VectorUtils.floorToNearest(worldPos.getZ(), Config.NODE_SIZE));
+
         return worldPos;
     }
 
@@ -174,12 +192,12 @@ public class Geodata {
                 worldPos.getY() - origin.getY(),
                 worldPos.getZ() - origin.getZ());
 
-        Point3D nodePos = new Point3D(
-                (float) Math.floor(offsetPos.getX() / nodeSize),
-                (float) Math.floor(offsetPos.getY() / nodeSize),
-                (float) Math.floor(offsetPos.getZ() / nodeSize));
+        Point3D nodeId = new Point3D(
+                (float) Math.floor(offsetPos.getX() / Config.NODE_SIZE),
+                (float) Math.floor(offsetPos.getY() / Config.NODE_SIZE),
+                (float) Math.floor(offsetPos.getZ() / Config.NODE_SIZE));
 
-        return nodePos;
+        return nodeId;
     }
 
     /*public Node GetNode(int x, int y, int z) {

@@ -10,6 +10,8 @@ import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.PlayerInstance;
 import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.model.status.PlayerStatus;
+import com.shnok.javaserver.pathfinding.Geodata;
+import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
@@ -134,6 +136,14 @@ public class ClientPacketHandlerThread extends Thread {
                     new ObjectKnownList.KnownListAsynchronousUpdateTask(currentPlayer));
             currentPlayer.getPosition().setLastWorldPosition(currentPlayer.getPosition().getWorldPosition());
         }
+
+        //Todo : to remove
+        //for debug purpose
+        PathFinding.getInstance().findPath(client.getCurrentPlayer().getPos(), new Point3D(
+                client.getCurrentPlayer().getPos().getX() + 5f,
+                client.getCurrentPlayer().getPos().getY(),
+                client.getCurrentPlayer().getPos().getZ()
+        ));
 
         // Notify known list
         ObjectPositionPacket objectPositionPacket = new ObjectPositionPacket(currentPlayer.getId(), newPos);

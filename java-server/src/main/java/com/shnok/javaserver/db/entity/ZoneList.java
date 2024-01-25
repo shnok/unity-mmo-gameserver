@@ -30,4 +30,21 @@ public class ZoneList {
     public Point3D getOrigin() {
         return new Point3D(origX, origY, origZ);
     }
+
+    public boolean isInBounds(Point3D location) {
+        if(location.getX() < origX) {
+            return false;
+        }
+        if(location.getX() > origX + zoneSize) {
+            return false;
+        }
+        if(location.getZ() < origZ) {
+            return false;
+        }
+        if(location.getZ() > origZ + zoneSize) {
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -2,6 +2,7 @@ package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
+import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.PlayerStatus;
@@ -71,7 +72,7 @@ public class PlayerInstance extends Entity {
     }
 
     @Override
-    public boolean moveTo(int x, int y, int z) {
+    public boolean moveTo(Point3D destination) {
         return false;
     }
 

@@ -59,7 +59,7 @@ public abstract class Entity extends GameObject {
         return ((EntityKnownList) super.getKnownList());
     }
 
-    public boolean moveTo(int x, int y, int z) {
+    public boolean moveTo(Point3D destination) {
         //System.out.println("AI find path: " + x + "," + y + "," + z);
         if (!isOnGeoData()) {
             return false;
@@ -69,8 +69,7 @@ public abstract class Entity extends GameObject {
 
         /* find path using pathfinder */
         if (moveData.path == null || moveData.path.size() == 0) {
-            moveData.path = PathFinding.getInstance().findPath(
-                    (int) Math.floor(getPosX()), (int) Math.floor(getPosY()), (int) Math.floor(getPosZ()), x, y, z);
+            moveData.path = PathFinding.getInstance().findPath(getPosition().getWorldPosition(), destination);
         }
 
         /* check if path was found */

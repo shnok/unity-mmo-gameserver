@@ -1,5 +1,6 @@
 package com.shnok.javaserver.pathfinding;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.util.ByteUtils;
@@ -71,12 +72,11 @@ public class GeodataLoader {
 
                 Point3D nodeIndex = new Point3D(posX, posY, posZ);
                 Point3D nodeWorldPos = Geodata.getInstance().fromNodeToWorldPos(nodeIndex, mapId);
-                Node n = new Node(nodeIndex, nodeWorldPos, 0.5f);
+                Node n = new Node(nodeIndex, nodeWorldPos, Config.NODE_SIZE);
 
                 geodata.put(nodeIndex, n);
             }
         } catch (Exception e) {
-            log.debug("Geodata file read interruption.");
         }
 
         log.info("Loaded {} node(s).", count);

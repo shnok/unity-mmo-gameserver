@@ -1,112 +1,135 @@
 package com.shnok.javaserver.pathfinding;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.pathfinding.node.FastNodeList;
 import com.shnok.javaserver.pathfinding.node.Node;
-import com.shnok.javaserver.pathfinding.node.NodeLoc;
-import com.shnok.javaserver.pathfinding.node.NodeType;
+import com.shnok.javaserver.util.VectorUtils;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@Log4j2
 public class PathFinding {
-    private static PathFinding _instance;
+    private static PathFinding instance;
 
     public static PathFinding getInstance() {
-        if (_instance == null) {
-            _instance = new PathFinding();
+        if (instance == null) {
+            instance = new PathFinding();
         }
-        return _instance;
+        return instance;
     }
 
-    public List<Point3D> findPath(int x, int y, int z, int tx, int ty, int tz) {
-        /*Node start = readNode(x, y, z);
-        Node end = readNode(tx, ty, tz);
+    public List<Point3D> findPath(Point3D from, Point3D to) {
+        try {
+            String startZone = Geodata.getInstance().getCurrentZone(from);
+            log.debug("Startzone: {}", startZone);
+            System.out.println(from);
+            System.out.println(Geodata.getInstance().fromWorldToNodePos(from, startZone));
+            Node start = Geodata.getInstance().getNodeAt(from, startZone);
+            log.debug("Startnode: {}", start.getWorldPosition());
+            String endZone = Geodata.getInstance().getCurrentZone(to);
+            log.debug("EndZone: {}", endZone);
+            Node end = Geodata.getInstance().getNodeAt(to, endZone);
+            log.debug("EndNode: {}", end.getWorldPosition());
+            return searchByClosest(start, end);
 
-        if ((start == null) || (end == null)) {
+        } catch (Exception e) {
+            log.debug("{}.", e.getMessage());
             return null;
         }
-        if (start == end) {
-            return null;
-        }
-        return searchByClosest(start, end); */
-        return null;
     }
 
-  /*  public List<NodeLoc> searchByClosest(Node start, Node end) {
+    public List<Point3D> searchByClosest(Node start, Node end) {
         // List of Visited Nodes
-        FastNodeList visited = new FastNodeList(550);
+        FastNodeList visitedNodes = new FastNodeList(550);
 
         // List of Nodes to Visit
-        LinkedList<Node> to_visit = new LinkedList<>();
-        to_visit.add(start);
-        int targetx = end.getLoc().getX();
-        int targetz = end.getLoc().getZ();
-        int targety = end.getLoc().getY();
-        int dx, dz, dy;
+        LinkedList<Node> nodesToVisit = new LinkedList<>();
+        nodesToVisit.add(start);
+
+        float dx, dz, dy;
         boolean added;
+
         int i = 0;
-        while (i++ < 1500) {
+        int maxIterations = 1500;
+
+        while (i++ < maxIterations) {
             Node node;
+
+            // Get and remove node from the nodesToVisit list
             try {
-                node = to_visit.removeFirst();
+                node = nodesToVisit.removeFirst();
             } catch (Exception e) {
                 // No Path found
-                System.out.println("No path found - " + start.getLoc() + " - " + end.getLoc());
+                log.debug("No path found - {} to {}.", start.getCenter(), end.getCenter());
                 return null;
             }
+
+            // Current node is the destination node
+            // Path was found
             if (node.equals(end)) {
-                System.out.println("Found path - " + start.getLoc() + " - " + end.getLoc() + " i: " + i);
+                log.debug("Found path - {} to {} after {} iteration(s).", start.getCenter(), end.getCenter(), i);
                 return constructPath(node);
             }
 
-            visited.add(node);
-            node.attacheNeighbors();
-            Node[] neighbors = node.getNeighbors();
+            //log.debug("Visiting node: {}", node.getNodeIndex());
+            //log.debug("Distance to destination: {}", VectorUtils.calcDistance(node.getCenter(), end.getCenter()));
+
+            // Add node to visited nodes
+            visitedNodes.add(node);
+
+            Node[] neighbors = findNodeNeighbors(node.getCenter());
             if (neighbors == null) {
                 continue;
             }
-            for (Node n : neighbors) {
-                if (n == null) {
+
+            node.setNeighbors(neighbors);
+
+            // Iterate through node's neighbors
+            for (Node neighbor : neighbors) {
+                if (neighbor == null) {
                     continue;
                 }
-                if (!visited.containsRev(n) && !to_visit.contains(n)) {
+
+                // check if neighbor was visited and needs to be visited
+                if (!visitedNodes.containsRev(neighbor) && !nodesToVisit.contains(neighbor)) {
+
+                    // Calculate neighbor node cost
+                    neighbor.setParentNode(node);
+
+                    neighbor.setCost(VectorUtils.calcDistance(neighbor.getCenter(), end.getCenter()));
+
+                    // insert neighbor into the nodes to visit based on its cost
                     added = false;
-                    n.setParent(node);
-                    dx = targetx - n.getLoc().getX();
-                    dz = targetz - n.getLoc().getZ();
-                    dy = targety - n.getLoc().getY();
-                    n.setCost((dx * dx) + (dz * dz) + (dy * dy));
-                    for (int index = 0; index < to_visit.size(); index++) {
-                        if (to_visit.get(index).getCost() > n.getCost()) {
-                            to_visit.add(index, n);
+                    for (int index = 0; index < nodesToVisit.size(); index++) {
+                        /*if (i < 10) {
+                            log.debug("Parent id: {} - Neighbor id: {}", neighbor.getParentNode().getNodeIndex(), neighbor.getNodeIndex());
+                            log.debug("Neighbor node cost: {} - Node to visit cost: {}",
+                                    neighbor.getCost(), nodesToVisit.get(index).getCost());
+                        }*/
+
+                        if (neighbor.getCost() < nodesToVisit.get(index).getCost()) {
+                            nodesToVisit.add(index, neighbor);
                             added = true;
                             break;
                         }
                     }
+
+                    // add neighbor at the end of the nodes to visit list
                     if (!added) {
-                        to_visit.addLast(n);
+                        nodesToVisit.addLast(neighbor);
                     }
                 }
             }
         }
         // No Path found
-        System.out.println("No path found (timeout)");
+        log.debug("No path found (max iterations reached)");
         return null;
     }
 
-    private Node readNode(int nodeX, int nodeY, int nodeZ) {
-        //System.out.println("Read node: " + nodeX + "," + nodeY + "," + nodeZ);
-        NodeType type = Geodata.getInstance().getNodeType(nodeX, nodeY, nodeZ);
-        if (type == NodeType.UNWALKABLE) {
-            return null;
-        }
-
-        return new Node(new Point3D(nodeX, nodeY, nodeZ));
-    }
-
-
-    public Node[] readNeighbors(int nodeX, int nodeY, int nodeZ) {
+    public Node[] findNodeNeighbors(Point3D nodePos) {
         Node[] returnList = new Node[8];
         short i = 0;
 
@@ -115,54 +138,74 @@ public class PathFinding {
                 if (x == 0 && z == 0)
                     continue;
 
-                Node node = readNode(nodeX + x, nodeY, nodeZ + z);
-                if (node == null) {
-                    node = readNode(nodeX + x, nodeY + 1, nodeZ + z);
-                }
-                if (node == null) {
-                    node = readNode(nodeX + x, nodeY - 1, nodeZ + z);
-                }
+                try {
+                    Point3D neighborPos = new Point3D(nodePos.getX() + x * Config.NODE_SIZE,
+                            nodePos.getY(),
+                            nodePos.getZ() + z * Config.NODE_SIZE);
+                    String mapId = Geodata.getInstance().getCurrentZone(neighborPos);
 
+                    Node node = null;
+                    try {
+                        node = Geodata.getInstance().getNodeAt(neighborPos, mapId);
+                    } catch(Exception e) {}
 
-                returnList[i++] = node;
+                    if (node == null) {
+                        neighborPos.setY(nodePos.getY() + Config.NODE_SIZE);
+                        try {
+                            node = Geodata.getInstance().getNodeAt(neighborPos, mapId);
+                        } catch(Exception e) {}
+                    }
+
+                    if (node == null) {
+                        neighborPos.setY(nodePos.getY() - Config.NODE_SIZE);
+                        try {
+                            node = Geodata.getInstance().getNodeAt(neighborPos, mapId);
+                        } catch(Exception e) {}
+                    }
+
+                    returnList[i++] = node;
+
+                } catch (Exception e) {
+                    log.debug("Node neighbor could not be found.", e);
+                }
             }
-
         }
 
+        log.debug("Node neighbors: {}", i);
         return returnList;
     }
 
-    public List<NodeLoc> constructPath(Node node) {
-        return constructPathSimplified(node);
-        //return constructPathFull(node);
+    public List<Point3D> constructPath(Node node) {
+        //return constructPathSimplified(node);
+        return constructPathFull(node);
     }
 
-    public List<NodeLoc> constructPathSimplified(Node node) {
-        LinkedList<NodeLoc> path = new LinkedList<>();
-        int prevX = -1000;
-        int prevY = -1000;
-        int dirX;
-        int dirY;
-        while (node.getParent() != null) {
+    public List<Point3D> constructPathSimplified(Node node) {
+        LinkedList<Point3D> path = new LinkedList<>();
+        float prevX = -1000;
+        float prevY = -1000;
+        float dirX;
+        float dirY;
+        while (node.getParentNode() != null) {
             // only add a new route point if moving direction changes
-            dirX = node.getLoc().getX() - node.getParent().getLoc().getX();
-            dirY = node.getLoc().getZ() - node.getParent().getLoc().getZ();
+            dirX = node.getCenter().getX() - node.getParentNode().getCenter().getX();
+            dirY = node.getCenter().getZ() - node.getParentNode().getCenter().getZ();
             if ((dirX != prevX) || (dirY != prevY)) {
                 prevX = dirX;
                 prevY = dirY;
-                path.addFirst(node.getLoc());
+                path.addFirst(node.getCenter());
             }
-            node = node.getParent();
+            node = node.getParentNode();
         }
         return path;
     }
 
-    public List<NodeLoc> constructPathFull(Node node) {
-        LinkedList<NodeLoc> path = new LinkedList<>();
-        while (node.getParent() != null) {
-            path.addFirst(node.getLoc());
-            node = node.getParent();
+    public List<Point3D> constructPathFull(Node node) {
+        LinkedList<Point3D> path = new LinkedList<>();
+        while (node.getParentNode() != null) {
+            path.addFirst(node.getCenter());
+            node = node.getParentNode();
         }
         return path;
-    }*/
+    }
 }

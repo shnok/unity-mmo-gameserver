@@ -25,9 +25,8 @@ public class Main {
         Runtime.getRuntime().addShutdownHook(ServerShutdownService.getInstance());
 
         //TODO: Update for gradle and new geodata structure
-        //Geodata.getInstance();
-        //PathFinding.getInstance();
-        GeodataLoader.getInstance().loadGeodataForMap("17_25");
+        Geodata.getInstance().loadGeodata();
+        PathFinding.getInstance();
 
         WorldManagerService.getInstance().initialize();
         GameTimeControllerService.getInstance().initialize();
