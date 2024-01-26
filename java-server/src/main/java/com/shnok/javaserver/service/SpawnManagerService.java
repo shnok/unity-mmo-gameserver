@@ -40,8 +40,29 @@ public class SpawnManagerService {
     /* Later should load spawnlist from database */
     public void loadSpawnList() {
         SpawnListRepository spawnListRepository = new SpawnListRepository();
+
         if(Config.SPAWN_NPCS) {
-            registeredSpawns = spawnListRepository.getAllSpawnList();
+            registeredSpawns.addAll(spawnListRepository.getAllNPCs());
+        }
+
+        if(Config.SPAWN_MONSTERS) {
+            registeredSpawns.addAll(spawnListRepository.getAllMonsters());
+        }
+
+        if(Config.SPAWN_DEBUG) {
+            // For debug purposes
+            registeredSpawns.add(new SpawnList(
+                    25405,
+                    "gludio32_1725_18",
+                    1,
+                    20442,
+                    4502.61f, 	-70.78f, -1717.26f,
+                    0f,
+                    0f,
+                    210.01f,
+                    25,
+                    0,
+                    0));
         }
     }
 

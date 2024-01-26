@@ -1,26 +1,28 @@
 package com.shnok.javaserver.model.entity;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.ServerPacket;
-import com.shnok.javaserver.model.knownlist.EntityKnownList;
-import com.shnok.javaserver.model.template.EntityTemplate;
-import com.shnok.javaserver.service.GameTimeControllerService;
-import com.shnok.javaserver.service.ServerService;
-import com.shnok.javaserver.thread.ai.BaseAI;
+import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
+import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
+import com.shnok.javaserver.model.knownlist.EntityKnownList;
 import com.shnok.javaserver.model.status.Status;
+import com.shnok.javaserver.model.template.EntityTemplate;
 import com.shnok.javaserver.pathfinding.Geodata;
+import com.shnok.javaserver.pathfinding.MoveData;
 import com.shnok.javaserver.pathfinding.PathFinding;
-import com.shnok.javaserver.pathfinding.node.NodeLoc;
-import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
-import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
+import com.shnok.javaserver.service.GameTimeControllerService;
+import com.shnok.javaserver.service.ServerService;
+import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * This class represents all entities in the world.<BR>
@@ -32,6 +34,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
+@Log4j2
 public abstract class Entity extends GameObject {
     protected boolean canMove = true;
     protected MoveData moveData;
@@ -65,11 +68,16 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
-        moveData = new NpcInstance.MoveData();
+        moveData = new MoveData();
 
         /* find path using pathfinder */
         if (moveData.path == null || moveData.path.size() == 0) {
-            moveData.path = PathFinding.getInstance().findPath(getPosition().getWorldPosition(), destination);
+            if(Config.PATHFINDER_ENABLED) {
+                moveData.path = PathFinding.getInstance().findPath(getPosition().getWorldPosition(), destination);
+            } else {
+                moveData.path =  new ArrayList<>();
+                moveData.path.add(new Point3D(destination));
+            }
         }
 
         /* check if path was found */
@@ -99,9 +107,9 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
-        float x = moveData.path.get(0).getX() + 0.5f;
+        float x = moveData.path.get(0).getX() + Config.NODE_SIZE / 2.0f;
         float y = moveData.path.get(0).getY();
-        float z = moveData.path.get(0).getZ() + 0.5f;
+        float z = moveData.path.get(0).getZ() + Config.NODE_SIZE / 2.0f;
         float distance = VectorUtils.calcDistance(getPos(), new Point3D(x, y, z));
         float dx = (x - getPosX());
         float dy = (y - getPosY());
@@ -127,14 +135,21 @@ public abstract class Entity extends GameObject {
         ServerService.getInstance().broadcast(packet);
 
         Point3D newPos = new Point3D(moveData.xDestination, moveData.yDestination, moveData.zDestination);
+
+        log.debug("Moving to new point: " + newPos);
         setPosition(newPos);
 
         return true;
     }
 
     public boolean isOnGeoData() {
-        return Geodata.getInstance().isInsideBounds(
-                (int) Math.floor(getPosX()), (int) Math.floor(getPosY()), (int) Math.floor(getPosZ()));
+        try {
+            Geodata.getInstance().getNodeAt(getPos());
+            return true;
+        } catch (Exception e) {
+            log.debug("Not at a valid position");
+            return false;
+        }
     }
 
     public boolean updatePosition(int gameTicks) {
@@ -182,18 +197,7 @@ public abstract class Entity extends GameObject {
         ai = null;
     }
 
-    public static class MoveData {
-        public int moveTimestamp;
-        public float xDestination;
-        public float yDestination;
-        public float zDestination;
-        public int moveStartTime;
-        public int ticksToMove;
-        public float xSpeedTicks;
-        public float ySpeedTicks;
-        public float zSpeedTicks;
-        public List<Point3D> path;
-    }
+
 
     public void broadcastPacket(ServerPacket packet) {
         for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {

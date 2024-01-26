@@ -1,5 +1,6 @@
 package com.shnok.javaserver.thread.ai;
 
+import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
@@ -10,10 +11,12 @@ import com.shnok.javaserver.model.entity.NpcInstance;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.node.NodeType;
 import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.Random;
 import java.util.concurrent.Future;
 
+@Log4j2
 public class NpcAI extends BaseAI implements Runnable {
     private final int randomWalkRate = 5;
     private int patrolIndex = 0;
@@ -44,7 +47,7 @@ public class NpcAI extends BaseAI implements Runnable {
 
         /* Is NPC waiting ? */
         if (getIntention() == Intention.INTENTION_IDLE) {
-            /* Check if npc needs to random walk */
+            /* Check if npc needs to change its intention */
             if (npc.doPatrol() && npc.getPatrolWaypoints() != null) {
                 if (npc.getPatrolWaypoints().length > 0) {
                     patrol();
@@ -54,7 +57,6 @@ public class NpcAI extends BaseAI implements Runnable {
             }
         }
 
-        //System.out.println(getIntention());
         thinking = false;
         startAITask();
     }
@@ -80,23 +82,18 @@ public class NpcAI extends BaseAI implements Runnable {
         setIntention(Intention.INTENTION_MOVE_TO, wayPoint);
     }
 
+    // default monster behaviour
     private void randomWalk() {
         Random r = new Random();
         if ((npc.getSpawn() != null) && (r.nextInt(randomWalkRate) == 0) && npc.isOnGeoData()) {
-            int x1, y1, z1;
-            int maxDriftRange = 5;
-
-            for (int i = 0; i < 5; i++) {
-                x1 = ((int) npc.getSpawn().getSpawnPosition().getX() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
-                y1 = (int) npc.getSpawn().getSpawnPosition().getY();
-                z1 = ((int) npc.getSpawn().getSpawnPosition().getZ() + r.nextInt(maxDriftRange * 2)) - maxDriftRange;
-
-                /*Point3D pos = Geodata.getInstance().clampToWorld(new Point3D(x1, y1, z1));
-                if (Geodata.getInstance().getNodeType((int) pos.getX(), (int) pos.getY(), (int) pos.getZ()) == NodeType.WALKABLE) {
-                    setIntention(Intention.INTENTION_MOVE_TO, new Point3D(x1, y1, z1));
-                    break;
-                }*/
+            try {
+                Node n = Geodata.getInstance().findRandomNodeInRange(npc.getPos(), 6);
+                log.debug("New random pos: " + n.getCenter());
+                setIntention(Intention.INTENTION_MOVE_TO, n.getCenter());
+            } catch (Exception e) {
+                log.debug(e);
             }
+
         }
     }
 

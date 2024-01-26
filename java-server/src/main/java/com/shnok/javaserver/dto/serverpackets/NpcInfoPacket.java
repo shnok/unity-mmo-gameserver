@@ -11,7 +11,7 @@ public class NpcInfoPacket extends ServerPacket {
         writeI(npc.getId());
         writeI(npc.getTemplate().getNpcId());
         writeS(npc.getTemplate().getNpcClass());
-        writeS(npc.getTemplate().getType());
+        writeS(npc.getTemplate().getType().name());
         writeS(npc.getTemplate().getName());
         writeS(npc.getTemplate().getTitle());
         writeF(npc.getPosition().getHeading());

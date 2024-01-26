@@ -1,5 +1,6 @@
 package com.shnok.javaserver.db.entity;
 
+import com.shnok.javaserver.enums.NpcType;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,7 +23,8 @@ public class Npc {
     private float collisionHeight;
     private int level;
     private String sex;
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private NpcType type;
     @Column(name = "attackrange")
     private float attackRange;
     private int hp;

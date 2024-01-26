@@ -139,11 +139,11 @@ public class ClientPacketHandlerThread extends Thread {
 
         //Todo : to remove
         //for debug purpose
-        PathFinding.getInstance().findPath(client.getCurrentPlayer().getPos(), new Point3D(
+        /*PathFinding.getInstance().findPath(client.getCurrentPlayer().getPos(), new Point3D(
                 client.getCurrentPlayer().getPos().getX() + 5f,
                 client.getCurrentPlayer().getPos().getY(),
                 client.getCurrentPlayer().getPos().getZ()
-        ));
+        ));*/
 
         // Notify known list
         ObjectPositionPacket objectPositionPacket = new ObjectPositionPacket(currentPlayer.getId(), newPos);
@@ -160,7 +160,7 @@ public class ClientPacketHandlerThread extends Thread {
         player.setGameClient(client);
         player.setId(WorldManagerService.getInstance().nextID());
         player.setPosition(VectorUtils.randomPos(Config.PLAYER_SPAWN_POINT, 1.5f));
-        client.setPlayer(player);
+        client.setCurrentPlayer(player);
 
         WorldManagerService.getInstance().addPlayer(player);
 
@@ -198,7 +198,6 @@ public class ClientPacketHandlerThread extends Thread {
         if(!(object instanceof Entity)) {
             log.warn("Trying to attack a non-entity object.");
             return;
-
         }
 
         ((Entity) object).inflictDamage(1);

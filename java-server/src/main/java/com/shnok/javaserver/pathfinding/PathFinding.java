@@ -171,13 +171,16 @@ public class PathFinding {
             }
         }
 
-        log.debug("Node neighbors: {}", i);
+        //log.debug("Node neighbors: {}", i);
         return returnList;
     }
 
     public List<Point3D> constructPath(Node node) {
-        //return constructPathSimplified(node);
-        return constructPathFull(node);
+        if(Config.PATHFINDER_SIMPLIFY_PATH) {
+            return constructPathSimplified(node);
+        } else {
+            return constructPathFull(node);
+        }
     }
 
     public List<Point3D> constructPathSimplified(Node node) {

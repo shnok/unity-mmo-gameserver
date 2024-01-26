@@ -10,16 +10,20 @@ import java.util.Properties;
 
 public class Config {
     public static final String CONFIG_FILE = "server.properties";
-
     public static int GAMESERVER_PORT;
     public static int CONNECTION_TIMEOUT_SEC;
     public static int TIME_TICKS_PER_SECOND;
     public static boolean PRINT_SERVER_PACKETS;
     public static boolean PRINT_CLIENT_PACKETS;
     public static boolean SPAWN_NPCS;
+    public static boolean SPAWN_MONSTERS;
+    public static boolean SPAWN_DEBUG;
+    public static boolean MONSTERS_PATROL;
     public static Point3D PLAYER_SPAWN_POINT;
     public static String[] ZONES_TO_LOAD;
     public static float NODE_SIZE;
+    public static boolean PATHFINDER_ENABLED;
+    public static boolean PATHFINDER_SIMPLIFY_PATH;
 
     public static void LoadSettings() throws Exception {
         ClassLoader classLoader = Main.class.getClassLoader();
@@ -37,7 +41,10 @@ public class Config {
         float spawnX = Float.parseFloat(optionsSettings.getProperty("server.spawn.location.x", "0"));
         float spawnY = Float.parseFloat(optionsSettings.getProperty("server.spawn.location.y", "0"));
         float spawnZ = Float.parseFloat(optionsSettings.getProperty("server.spawn.location.z", "0"));
-        SPAWN_NPCS = Boolean.parseBoolean(optionsSettings.getProperty("server.world.spawn.npcs", "true"));
+        SPAWN_NPCS = Boolean.parseBoolean(optionsSettings.getProperty("server.world.npc.spawn-npcs", "true"));
+        SPAWN_MONSTERS = Boolean.parseBoolean(optionsSettings.getProperty("server.world.npc.spawn-monsters", "true"));
+        SPAWN_DEBUG = Boolean.parseBoolean(optionsSettings.getProperty("server.world.npc.spawn-debug", "false"));
+        MONSTERS_PATROL = Boolean.parseBoolean(optionsSettings.getProperty("server.world.npc.monsters.patrol", "true"));
 
         PLAYER_SPAWN_POINT = new Point3D(spawnX, spawnY, spawnZ);
 
@@ -48,5 +55,8 @@ public class Config {
         ZONES_TO_LOAD = zoneList.toUpperCase().split(",");
 
         NODE_SIZE = Float.parseFloat(optionsSettings.getProperty("server.world.geodata.node-size", "1"));
+
+        PATHFINDER_ENABLED = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.pathfinder.enabled", "false"));
+        PATHFINDER_SIMPLIFY_PATH = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.pathfinder.simplify-path", "false"));
     }
 }

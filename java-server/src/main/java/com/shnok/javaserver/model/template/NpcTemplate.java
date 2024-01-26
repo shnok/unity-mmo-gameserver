@@ -1,13 +1,18 @@
 package com.shnok.javaserver.model.template;
 
 import com.shnok.javaserver.db.entity.Npc;
+import com.shnok.javaserver.enums.NpcType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.Transient;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class NpcTemplate extends EntityTemplate {
     public final int npcId;
     public final int idTemplate;
-    public final String type;
+    public final NpcType type;
     public final String npcClass;
     public final String name;
     public final String title;

@@ -1,11 +1,10 @@
 package com.shnok.javaserver.pathfinding.node;
 
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.pathfinding.PathFinding;
 import lombok.Data;
 
 @Data
-public class Node {
+public class Node implements Comparable<Node> {
     private Point3D nodeIndex;
     private Point3D worldPosition;
     private Point3D center;
@@ -43,5 +42,10 @@ public class Node {
         return (worldPosition.getX() == n.getWorldPosition().getX()) &&
                 (worldPosition.getY() == n.getWorldPosition().getY()) &&
                 (worldPosition.getZ() == n.getWorldPosition().getZ());
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        return Float.compare(o.nodeIndex.getY(), this.nodeIndex.getY());
     }
 }

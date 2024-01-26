@@ -24,7 +24,6 @@ public class Main {
         ThreadPoolManagerService.getInstance().initialize();
         Runtime.getRuntime().addShutdownHook(ServerShutdownService.getInstance());
 
-        //TODO: Update for gradle and new geodata structure
         Geodata.getInstance().loadGeodata();
         PathFinding.getInstance();
 

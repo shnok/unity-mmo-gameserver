@@ -43,4 +43,34 @@ public class SpawnListRepository implements SpawnListDao {
             return null;
         }
     }
+
+    @Override
+    public List<SpawnList> getAllMonsters() {
+        try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
+            return session.createQuery("SELECT s FROM SpawnList s \n" +
+                            "INNER JOIN\n" +
+                            "Npc n ON \n" +
+                            "s.npcId = n.idTemplate\n" +
+                            "AND n.type = 'L2Monster'", SpawnList.class)
+                    .getResultList();
+        } catch (Exception e) {
+            log.error("SQL ERROR: {}", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<SpawnList> getAllNPCs() {
+        try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
+            return session.createQuery("SELECT s FROM SpawnList s \n" +
+                            "INNER JOIN\n" +
+                            "Npc n ON \n" +
+                            "s.npcId = n.idTemplate\n" +
+                            "AND n.type <> 'L2Monster'", SpawnList.class)
+                    .getResultList();
+        } catch (Exception e) {
+            log.error("SQL ERROR: {}", e.getMessage(), e);
+            return null;
+        }
+    }
 }
