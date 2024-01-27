@@ -47,7 +47,6 @@ public class ObjectKnownList {
         }
 
         // Check if object is not inside distance to watch object
-        log.debug("[{}] Is {} in range?", getActiveObject().getId(), object.getId());
         if (!VectorUtils.checkIfInRange(getDistanceToWatchObject(object), getActiveObject(), object)) {
             return false;
         }
@@ -73,8 +72,6 @@ public class ObjectKnownList {
         }
 
         log.debug("[{}] Remove known object {}", activeObject.getId(), object.getId());
-
-        object.getKnownList().forceRecheckSurroundings();
 
         return (getKnownObjects().remove(object.getId()) != null);
     }
@@ -106,11 +103,11 @@ public class ObjectKnownList {
 
                 if (object instanceof Entity) {
                     object.getKnownList().addKnownObject(getActiveObject());
-                    log.debug("[{}] Request add entity to {} knownlist", getActiveObject().getId(), object.getId());
+//                    log.debug("[{}] Request add entity to {} knownlist", getActiveObject().getId(), object.getId());
                 }
                 if (object instanceof PlayerInstance) {
                     object.getKnownList().addKnownObject(getActiveObject());
-                    log.debug("[{}] Request add player to {} knownlist", getActiveObject().getId(), object.getId());
+//                    log.debug("[{}] Request add player to {} knownlist", getActiveObject().getId(), object.getId());
                 }
             }
         } else {
@@ -174,7 +171,7 @@ public class ObjectKnownList {
         @Override
         public void run() {
             if (obj != null) {
-                log.debug("[{}] Updating known objects...", obj.getId());
+//                log.debug("[{}] Updating known objects...", obj.getId());
                 obj.getKnownList().updateKnownObjects();
             }
         }

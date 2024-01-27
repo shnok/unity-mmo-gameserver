@@ -46,8 +46,8 @@ public class WorldRegion {
 
         // Should force visible objects to recheck surroundings
         visibleObjects.forEach((visible) -> {
-//            visible.getKnownList().removeKnownObject(object);
-            object.getKnownList().forceRecheckSurroundings();
+            //visible.getKnownList().removeKnownObject(object);
+            visible.getKnownList().forceRecheckSurroundings();
         });
 
         if (object instanceof PlayerInstance) {

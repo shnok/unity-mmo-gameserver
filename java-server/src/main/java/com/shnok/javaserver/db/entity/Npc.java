@@ -52,8 +52,8 @@ public class Npc {
     private int rhand;
     private int lhand;
     private int armor;
-    private int walkspd;
-    private int runspd;
+    private float walkspd;
+    private float runspd;
     @Column(name = "faction_id")
     private String factionId;
     @Column(name = "faction_range")

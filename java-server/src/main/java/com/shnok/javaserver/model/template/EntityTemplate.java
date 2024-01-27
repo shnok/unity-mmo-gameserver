@@ -24,8 +24,8 @@ public abstract class EntityTemplate {
     public float baseMReuseRate;
     public float baseAtkRange;
     public int baseCritRate;
-    public int baseWalkSpd;
-    public int baseRunSpd;
+    public float baseWalkSpd;
+    public float baseRunSpd;
     public float collisionRadius;
     public float collisionHeight;
 

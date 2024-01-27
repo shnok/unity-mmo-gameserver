@@ -134,13 +134,22 @@ public class GameClientThread extends Thread {
         if (authenticated) {
             authenticated = false;
 
+            /* remove player from world player list */
             WorldManagerService.getInstance().removePlayer(currentPlayer);
+
+            /* tell to knownplayers to remove object */
+            /* could be redundant... */
+            currentPlayer.broadcastPacket(new RemoveObjectPacket(currentPlayer.getId()));
+
+            /* tell knownlist to forget player */
+            currentPlayer.getKnownList().getKnownObjects().values().forEach(
+                    (object) ->  object.getKnownList().removeKnownObject(currentPlayer));
+            /* remove player from region */
             currentPlayer.getPosition().getWorldRegion().removeVisibleObject(currentPlayer);
 
+            /* broadcast log off message to server */
             ServerService.getInstance().broadcast(
                     new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_OFF, username), this);
-            ServerService.getInstance().broadcast(
-                    new RemoveObjectPacket(currentPlayer.getId()), this);
         }
 
         ServerService.getInstance().removeClient(this);

@@ -75,10 +75,11 @@ public class EntityKnownList extends ObjectKnownList  {
             getKnownPlayers().remove(object.getId());
             log.debug("[{}] Removing known player: {}", getActiveObject().getId(), object.getId());
         }
-        // If object is targeted by the Entity, cancel Attack or Cast
-        /*if (object == getActiveChar().getTarget()) {
-            getActiveChar().setTarget(null);
-        }*/
+
+        if(object.getKnownList().knowsObject(getActiveObject())) {
+            object.getKnownList().removeKnownObject(getActiveObject());
+        }
+
         return true;
     }
 

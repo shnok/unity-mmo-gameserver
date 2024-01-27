@@ -82,6 +82,7 @@ public abstract class Entity extends GameObject {
     public boolean moveTo(Point3D destination) {
         //System.out.println("AI find path: " + x + "," + y + "," + z);
         if (!isOnGeoData()) {
+            log.debug("[{}] Not on geodata", getId());
             return false;
         }
 
@@ -90,7 +91,11 @@ public abstract class Entity extends GameObject {
         /* find path using pathfinder */
         if (moveData.path == null || moveData.path.size() == 0) {
             if(Config.PATHFINDER_ENABLED) {
+
                 moveData.path = PathFinding.getInstance().findPath(getPosition().getWorldPosition(), destination);
+                if(Config.PRINT_PATHFINDER) {
+                    log.debug("[{}] Found path length: {}", getId(), moveData.path.size());
+                }
             } else {
                 moveData.path =  new ArrayList<>();
                 moveData.path.add(new Point3D(destination));
@@ -102,6 +107,10 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
+        if(Config.PRINT_PATHFINDER) {
+            log.debug("[{}] Move to {} reason {}", getId(),destination, getAi().getMovingReason());
+        }
+
         moveToNextRoutePoint();
         GameTimeControllerService.getInstance().addMovingObject(this);
         return true;
@@ -110,6 +119,7 @@ public abstract class Entity extends GameObject {
     /* calculate how many ticks do we need to move to destination */
     public boolean moveToNextRoutePoint() {
         float speed;
+
         if(getAi().getMovingReason() == EntityMovingReason.Walking) {
             speed = getTemplate().getBaseWalkSpd();
         } else {
@@ -175,7 +185,7 @@ public abstract class Entity extends GameObject {
             Geodata.getInstance().getNodeAt(getPos());
             return true;
         } catch (Exception e) {
-            //log.debug("Not at a valid position: {}", getPos());
+//            log.debug("[{}] Not at a valid position: {}", getId(), getPos());
             return false;
         }
     }

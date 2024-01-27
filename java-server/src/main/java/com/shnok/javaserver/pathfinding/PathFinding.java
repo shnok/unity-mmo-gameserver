@@ -174,7 +174,7 @@ public class PathFinding {
                     returnList[i++] = node;
 
                 } catch (Exception e) {
-                    log.debug("Node neighbor could not be found.", e);
+                    log.debug("Node neighbor could not be found.");
                 }
             }
         }

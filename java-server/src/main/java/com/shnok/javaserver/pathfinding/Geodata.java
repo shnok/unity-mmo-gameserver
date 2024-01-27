@@ -86,7 +86,7 @@ public class Geodata {
                 for (Node layer : layers) {
                     float layerOffset = Math.abs(layer.getNodeIndex().getY() - nodeIndex.getY());
                     //log.debug(layerOffset);
-                    if (layerOffset >= 0 && layerOffset <= 2) {
+                    if (layerOffset >= 0 && layerOffset <= 4) {
                         return new Node(layer);
                     }
                 }
