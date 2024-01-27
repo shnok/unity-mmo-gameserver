@@ -19,6 +19,7 @@ public class NpcInfoPacket extends ServerPacket {
         writeF(npc.getPosY());
         writeF(npc.getPosZ());
         writeF(npc.getTemplate().getCollisionHeight());
+        writeF(npc.getStatus().getMoveSpeed());
         writeI(npc.getStatus().getLevel());
         writeI(npc.getStatus().getHp());
         writeI(npc.getStatus().getMaxHp());

@@ -127,7 +127,7 @@ public class Geodata {
 
             try {
                 List<Node> layers = getAllNodesAt(driftPoint);
-                log.debug("Found {} node(s) at driftpoint {}", layers.size(), driftPoint);
+                //log.debug("Found {} node(s) at driftpoint {}", layers.size(), driftPoint);
 
                 for(Node n : layers) {
                     // verify if the node Y is lower of equals than 4 nodes

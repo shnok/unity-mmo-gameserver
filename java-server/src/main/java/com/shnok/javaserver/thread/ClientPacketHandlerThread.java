@@ -130,6 +130,11 @@ public class ClientPacketHandlerThread extends Thread {
 
         //Todo : to remove
         //for debug purpose
+//        try {
+//            System.out.println("Node found at " + Geodata.getInstance().getNodeAt(newPos).getNodeIndex());
+//        } catch (Exception e) {
+//            System.out.println("Node not found at " + newPos);
+//        }
         /*PathFinding.getInstance().findPath(client.getCurrentPlayer().getPos(), new Point3D(
                 client.getCurrentPlayer().getPos().getX() + 5f,
                 client.getCurrentPlayer().getPos().getY(),

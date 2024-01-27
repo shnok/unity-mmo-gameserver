@@ -1,5 +1,6 @@
 package com.shnok.javaserver.thread.ai;
 
+import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ServerService;
@@ -49,10 +50,14 @@ public class NpcAI extends BaseAI implements Runnable {
         if (getIntention() == Intention.INTENTION_IDLE) {
             /* Check if npc needs to change its intention */
             if (npc.doPatrol() && npc.getPatrolWaypoints() != null) {
-                if (npc.getPatrolWaypoints().length > 0) {
-                    patrol();
-                }
+//                if (npc.getPatrolWaypoints().length > 0) {
+//                    patrol();
+//                }
             } else if (npc.doRandomWalk()) {
+                movingReason = EntityMovingReason.Walking;
+
+                // Update npc move speed to its walking speed
+                npc.getStatus().setMoveSpeed(npc.getTemplate().getBaseWalkSpd());
                 randomWalk();
             }
         }
@@ -61,26 +66,26 @@ public class NpcAI extends BaseAI implements Runnable {
         startAITask();
     }
 
-    private void patrol() {
-        Point3D wayPoint = new Point3D();
-        if (patrolDirection == 0) {
-            if (patrolIndex < npc.getPatrolWaypoints().length - 1) {
-                wayPoint = npc.getPatrolWaypoints()[patrolIndex++];
-            } else {
-                patrolDirection = 1;
-                wayPoint = npc.getPatrolWaypoints()[patrolIndex--];
-            }
-        } else if (patrolDirection == 1) {
-            if (patrolIndex > 0) {
-                wayPoint = npc.getPatrolWaypoints()[patrolIndex--];
-            } else {
-                patrolDirection = 0;
-                wayPoint = npc.getPatrolWaypoints()[patrolIndex++];
-            }
-        }
-
-        setIntention(Intention.INTENTION_MOVE_TO, wayPoint);
-    }
+//    private void patrol() {
+//        Point3D wayPoint = new Point3D();
+//        if (patrolDirection == 0) {
+//            if (patrolIndex < npc.getPatrolWaypoints().length - 1) {
+//                wayPoint = npc.getPatrolWaypoints()[patrolIndex++];
+//            } else {
+//                patrolDirection = 1;
+//                wayPoint = npc.getPatrolWaypoints()[patrolIndex--];
+//            }
+//        } else if (patrolDirection == 1) {
+//            if (patrolIndex > 0) {
+//                wayPoint = npc.getPatrolWaypoints()[patrolIndex--];
+//            } else {
+//                patrolDirection = 0;
+//                wayPoint = npc.getPatrolWaypoints()[patrolIndex++];
+//            }
+//        }
+//
+//        setIntention(Intention.INTENTION_MOVE_TO, wayPoint);
+//    }
 
     // default monster behaviour
     private void randomWalk() {
@@ -151,7 +156,6 @@ public class NpcAI extends BaseAI implements Runnable {
     protected void onIntentionIdle() {
         if (getIntention() == Intention.INTENTION_MOVE_TO) {
             moving = false;
-
             owner.idle();
         }
 

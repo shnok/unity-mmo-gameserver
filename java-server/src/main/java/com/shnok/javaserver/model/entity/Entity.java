@@ -2,9 +2,11 @@ package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.dto.serverpackets.NpcInfoPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
+import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
@@ -108,7 +110,13 @@ public abstract class Entity extends GameObject {
 
     /* calculate how many ticks do we need to move to destination */
     public boolean moveToNextRoutePoint() {
-        float speed = getStatus().getMoveSpeed();
+        float speed;
+        if(getAi().getMovingReason() == EntityMovingReason.Walking) {
+            speed = getTemplate().getBaseWalkSpd();
+        } else {
+            speed = getTemplate().getBaseRunSpd();
+        }
+
         if ((speed <= 0) || !canMove()) {
             return false;
         }
@@ -129,10 +137,10 @@ public abstract class Entity extends GameObject {
         Point3D destination = new Point3D(moveData.destination);
 
         /* send destination to known players */
-        ObjectMoveToPacket packet = new ObjectMoveToPacket(getId(), destination);
+        ObjectMoveToPacket packet = new ObjectMoveToPacket(getId(), destination, getStatus().getMoveSpeed());
         broadcastPacket(packet);
 
-        log.debug("Moving to new point: " + destination);
+        //log.debug("Moving to new point: " + destination);
 
         /* Set server side position to destination for players loading npc during travel */
         setPosition(destination);
@@ -168,7 +176,7 @@ public abstract class Entity extends GameObject {
             Geodata.getInstance().getNodeAt(getPos());
             return true;
         } catch (Exception e) {
-            log.debug("Not at a valid position");
+            log.debug("Not at a valid position: {}", getPos());
             return false;
         }
     }
@@ -214,7 +222,11 @@ public abstract class Entity extends GameObject {
     }
 
     public void broadcastPacket(ServerPacket packet) {
-        System.out.println(getKnownList().getKnownPlayers().size() + " " + getKnownList().getKnownCharacters().size() + " " + getKnownList().getKnownObjects().size() );
+//        log.debug("[{}] Known players:{} entities:{} objects:{}",
+//                getId(),
+//                getKnownList().getKnownPlayers().size(),
+//                getKnownList().getKnownCharacters().size(),
+//                getKnownList().getKnownObjects().size());
         for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {
             player.sendPacket(packet);
         }

@@ -24,13 +24,9 @@ public class PathFinding {
     public List<Point3D> findPath(Point3D from, Point3D to) {
         try {
             String startZone = Geodata.getInstance().getCurrentZone(from);
-            log.debug("Startzone: {}", startZone);
-            System.out.println(from);
-            System.out.println(Geodata.getInstance().fromWorldToNodePos(from, startZone));
             Node start = Geodata.getInstance().getNodeAt(from, startZone);
             log.debug("Startnode: {}", start.getWorldPosition());
             String endZone = Geodata.getInstance().getCurrentZone(to);
-            log.debug("EndZone: {}", endZone);
             Node end = Geodata.getInstance().getNodeAt(to, endZone);
             log.debug("EndNode: {}", end.getWorldPosition());
             return searchByClosest(start, end);
