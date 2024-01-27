@@ -1,17 +1,24 @@
 package com.shnok.javaserver.model.entity;
 
-import com.shnok.javaserver.db.entity.Npc;
 import com.shnok.javaserver.db.entity.SpawnList;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.Point3D;
+import com.shnok.javaserver.model.knownlist.NpcKnownList;
+import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.NpcTemplate;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.SpawnManagerService;
+import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
+import com.shnok.javaserver.util.VectorUtils;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class NpcInstance extends Entity {
     private boolean isStatic = false;
     private boolean patrol = false;
@@ -52,14 +59,6 @@ public class NpcInstance extends Entity {
         super(id);
     }
 
-    public boolean isStatic() {
-        return isStatic;
-    }
-
-    public void setStatic(boolean isStatic) {
-        this.isStatic = isStatic;
-    }
-
     @Override
     public void inflictDamage(int value) {
         status.setHp(status.getHp() - value);
@@ -67,6 +66,14 @@ public class NpcInstance extends Entity {
         if (status.getHp() <= 0) {
             onDeath();
         }
+    }
+
+    @Override
+    public NpcKnownList getKnownList() {
+        if ((super.getKnownList() == null) || !(super.getKnownList() instanceof NpcKnownList)) {
+            setKnownList(new NpcKnownList(this));
+        }
+        return (NpcKnownList) super.getKnownList();
     }
 
     @Override
@@ -89,14 +96,6 @@ public class NpcInstance extends Entity {
         SpawnManagerService.getInstance().respawn(spawnInfo, (NpcTemplate) template);
     }
 
-    public SpawnList getSpawn() {
-        return spawnInfo;
-    }
-
-    public void setSpawn(SpawnList spawnInfo) {
-        this.spawnInfo = spawnInfo;
-    }
-
     public boolean doPatrol() {
         return patrol;
     }
@@ -105,13 +104,6 @@ public class NpcInstance extends Entity {
         this.patrol = patrol;
     }
 
-    public Point3D[] getPatrolWaypoints() {
-        return patrolWaypoints;
-    }
-
-    public void setPatrolWaypoints(Point3D[] patrolWaypoints) {
-        this.patrolWaypoints = patrolWaypoints;
-    }
 
     public boolean doRandomWalk() {
         return randomWalk;

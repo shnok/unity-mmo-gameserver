@@ -8,4 +8,8 @@ public interface SpawnListDao {
     public void addSpawnList(SpawnList spawnList);
     public SpawnList getSpawnListById(int id);
     public List<SpawnList> getAllSpawnList();
+
+    List<SpawnList> getAllMonsters();
+
+    List<SpawnList> getAllNPCs();
 }

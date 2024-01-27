@@ -32,4 +32,14 @@ public class VectorUtils {
 
         return new Point3D(center.getX() + randomX, center.getY(), center.getZ() + randomZ);
     }
+
+    public static float floorToNearest(float value, float step) {
+        return (float) (step * Math.floor(value / step));
+    }
+
+    public static Point3D floorToNearest(Point3D vector, float step) {
+        return new Point3D(floorToNearest(vector.getX(), step),
+                floorToNearest(vector.getY(), step),
+                floorToNearest(vector.getZ(), step));
+    }
 }

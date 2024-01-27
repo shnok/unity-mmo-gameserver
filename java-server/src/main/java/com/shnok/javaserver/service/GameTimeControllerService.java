@@ -5,6 +5,7 @@ import com.shnok.javaserver.model.entity.Entity;
 import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -12,7 +13,7 @@ public class GameTimeControllerService {
 
     public static int TICKS_PER_SECOND;
     public static int MILLIS_IN_TICK;
-    private static final List<Entity> movingObjects = new FastList<>();
+    private static List<Entity> movingObjects;
     protected static int gameTicks;
     protected static long gameStartTime;
     protected static TimerThread timer;
@@ -34,6 +35,7 @@ public class GameTimeControllerService {
         gameStartTime = System.currentTimeMillis() - 3600000; // offset so that the server starts a day begin
         gameTicks = 3600000 / MILLIS_IN_TICK; // offset so that the server starts a day begin
 
+        movingObjects = new ArrayList<>();
         timer = new TimerThread();
         timer.start();
     }
@@ -53,7 +55,6 @@ public class GameTimeControllerService {
                 movingObjects.remove(e);
             }
         }
-
     }
 
     public synchronized void addMovingObject(Entity e) {
@@ -77,8 +78,6 @@ public class GameTimeControllerService {
     }
 
     class TimerThread extends Thread {
-        protected Exception error;
-
         public TimerThread() {
             setDaemon(true);
             setPriority(MAX_PRIORITY);
@@ -104,7 +103,7 @@ public class GameTimeControllerService {
                     sleep(sleepTime);
                 }
             } catch (Exception e) {
-                error = e;
+                log.error("Game tick loop crashed. Reason: ", e);
             }
         }
     }

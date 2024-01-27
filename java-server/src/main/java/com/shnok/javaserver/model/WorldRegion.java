@@ -40,9 +40,14 @@ public class WorldRegion {
         if (object == null) {
             return;
         }
+        log.debug("Removing visible object {} to region {}.", object.getId(), getName());
+
         visibleObjects.remove(object);
+
+        // Should force visible objects to recheck surroundings
         visibleObjects.forEach((visible) -> {
-            visible.getKnownList().removeKnownObject(object);
+            //visible.getKnownList().removeKnownObject(object);
+            visible.getKnownList().forceRecheckSurroundings();
         });
 
         if (object instanceof PlayerInstance) {

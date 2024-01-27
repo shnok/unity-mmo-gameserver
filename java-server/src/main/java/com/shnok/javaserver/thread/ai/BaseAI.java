@@ -1,13 +1,17 @@
 package com.shnok.javaserver.thread.ai;
 
+import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
+import lombok.Data;
 
+@Data
 public abstract class BaseAI {
     protected Entity owner;
     protected boolean moving = false;
+    protected EntityMovingReason movingReason;
     protected Intention intention = Intention.INTENTION_IDLE;
 
     public void notifyEvent(Event evt) {

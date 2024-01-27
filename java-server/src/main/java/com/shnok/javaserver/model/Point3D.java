@@ -1,10 +1,9 @@
 package com.shnok.javaserver.model;
 
-import java.io.Serializable;
+import lombok.Data;
 
-public class Point3D implements Serializable {
-    private static final long serialVersionUID = 4638345252031872576L;
-
+@Data
+public class Point3D {
     private volatile float x, y, z;
 
     public Point3D() {
@@ -61,9 +60,18 @@ public class Point3D implements Serializable {
         }
         return false;
     }
-
+/*
     public synchronized boolean equals(float pX, float pY, float pZ) {
         return (x == pX) && (y == pY) && (z == pZ);
+    }*/
+
+    @Override
+    public synchronized int hashCode() {
+        int result = 1;
+        result = 31 * result + (int) ((Math.toRadians(x) * 1000000));
+        result = 31 * result + (int) ((Math.toRadians(y) * 1000000));
+        result = 31 * result + (int) ((Math.toRadians(z) * 1000000));
+        return result;
     }
 
     public float getX() {
