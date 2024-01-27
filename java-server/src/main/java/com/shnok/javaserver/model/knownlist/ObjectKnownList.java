@@ -47,6 +47,7 @@ public class ObjectKnownList {
 
         // Check if object is not inside distance to watch object
         if (!VectorUtils.checkIfInRange(getDistanceToWatchObject(object), getActiveObject(), object)) {
+            //Todo fix check range when adding player to npc known list
             return false;
         }
 
@@ -84,6 +85,7 @@ public class ObjectKnownList {
         boolean isPlayer = (getActiveObject() instanceof PlayerInstance);
 
         if (isPlayer) {
+            System.out.println("Im a player now finding close objects");
             Collection<GameObject> objects = WorldManagerService.getInstance().getVisibleObjects(getActiveObject());
             if (objects == null) {
                 return;
@@ -99,7 +101,7 @@ public class ObjectKnownList {
 
                 if (object instanceof Entity) {
                     object.getKnownList().addKnownObject(getActiveObject());
-                    //log.debug("[{}] Adding (player) to known object of entity: Target {}", getActiveObject().getId(), object.getId());
+                    log.debug("[{}] Adding (player) to known object of entity: Target {}", getActiveObject().getId(), object.getId());
                 }
                 if (object instanceof PlayerInstance) {
                     object.getKnownList().addKnownObject(getActiveObject());
@@ -107,6 +109,7 @@ public class ObjectKnownList {
                 }
             }
         } else {
+            System.out.println("Im not a player now finding close objects");
             Collection<PlayerInstance> players = WorldManagerService.getInstance().getVisiblePlayers(getActiveObject());
             if (players == null) {
                 return;

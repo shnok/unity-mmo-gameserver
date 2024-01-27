@@ -85,15 +85,14 @@ public class NpcAI extends BaseAI implements Runnable {
     // default monster behaviour
     private void randomWalk() {
         Random r = new Random();
-        if ((npc.getSpawn() != null) && (r.nextInt(randomWalkRate) == 0) && npc.isOnGeoData()) {
+        if ((npc.getSpawnInfo() != null) && (r.nextInt(randomWalkRate) == 0) && npc.isOnGeoData()) {
             try {
-                Node n = Geodata.getInstance().findRandomNodeInRange(npc.getPos(), 6);
+                Node n = Geodata.getInstance().findRandomNodeInRange(npc.getSpawnInfo().getSpawnPosition(), 6);
                 log.debug("New random pos: " + n.getCenter());
                 setIntention(Intention.INTENTION_MOVE_TO, n.getCenter());
             } catch (Exception e) {
                 log.debug(e);
             }
-
         }
     }
 
@@ -153,9 +152,7 @@ public class NpcAI extends BaseAI implements Runnable {
         if (getIntention() == Intention.INTENTION_MOVE_TO) {
             moving = false;
 
-            // Send a packet to notify npc stop moving
-            ObjectAnimationPacket packet = new ObjectAnimationPacket(owner.getId(), (byte) 0, 0f);
-            ServerService.getInstance().broadcast(packet);
+            owner.idle();
         }
 
         intention = Intention.INTENTION_IDLE;

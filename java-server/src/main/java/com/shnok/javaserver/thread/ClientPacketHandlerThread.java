@@ -128,15 +128,6 @@ public class ClientPacketHandlerThread extends Thread {
         PlayerInstance currentPlayer = client.getCurrentPlayer();
         currentPlayer.setPosition(newPos);
 
-        // Update known list
-        float distanceDelta = VectorUtils.calcDistance(
-                currentPlayer.getPosition().getWorldPosition(), currentPlayer.getPosition().getLastWorldPosition());
-        if(distanceDelta > 5.0f) {
-            ThreadPoolManagerService.getInstance().execute(
-                    new ObjectKnownList.KnownListAsynchronousUpdateTask(currentPlayer));
-            currentPlayer.getPosition().setLastWorldPosition(currentPlayer.getPosition().getWorldPosition());
-        }
-
         //Todo : to remove
         //for debug purpose
         /*PathFinding.getInstance().findPath(client.getCurrentPlayer().getPos(), new Point3D(

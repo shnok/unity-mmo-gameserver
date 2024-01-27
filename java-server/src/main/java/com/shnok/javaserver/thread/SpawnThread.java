@@ -38,12 +38,12 @@ public class SpawnThread implements Runnable {
                 npc.setRandomWalk(false);
             }
 
-            npc.setSpawn(spawnInfo);
+            npc.setSpawnInfo(spawnInfo);
 
             if (!npc.isStatic()) {
                 NpcAI ai = new NpcAI();
                 ai.setOwner(npc);
-                npc.attachAI(ai);
+                npc.setAi(ai);
             }
 
             WorldManagerService.getInstance().addNPC(npc);

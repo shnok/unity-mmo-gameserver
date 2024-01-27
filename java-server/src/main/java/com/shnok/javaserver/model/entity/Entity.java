@@ -2,19 +2,21 @@ package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
+import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.EntityTemplate;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.MoveData;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.GameTimeControllerService;
-import com.shnok.javaserver.service.ServerService;
+import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.Data;
@@ -62,6 +64,20 @@ public abstract class Entity extends GameObject {
         return ((EntityKnownList) super.getKnownList());
     }
 
+    @Override
+    public void setPosition(Point3D position) {
+        super.setPosition(position);
+
+        // Update known list
+        float distanceDelta = VectorUtils.calcDistance(
+                getPosition().getWorldPosition(), getPosition().getLastWorldPosition());
+        if(distanceDelta > 5.0f) {
+            ThreadPoolManagerService.getInstance().execute(
+                    new ObjectKnownList.KnownListAsynchronousUpdateTask(this));
+            getPosition().setLastWorldPosition(getPosition().getWorldPosition());
+        }
+    }
+
     public boolean moveTo(Point3D destination) {
         //System.out.println("AI find path: " + x + "," + y + "," + z);
         if (!isOnGeoData()) {
@@ -97,49 +113,54 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
+        /* safety */
         if (moveData == null || moveData.path == null || moveData.path.size() == 0) {
             return false;
         }
 
+        /* cancel the move action if not on geodata */
         if (!isOnGeoData()) {
-            // Cancel the move action
             moveData = null;
             return false;
         }
 
-        float x = moveData.path.get(0).getX() + Config.NODE_SIZE / 2.0f;
-        float y = moveData.path.get(0).getY();
-        float z = moveData.path.get(0).getZ() + Config.NODE_SIZE / 2.0f;
-        float distance = VectorUtils.calcDistance(getPos(), new Point3D(x, y, z));
-        float dx = (x - getPosX());
-        float dy = (y - getPosY());
-        float dz = (z - getPosZ());
-        float xt = dx / distance;
-        float yt = dy / distance;
-        float zt = dz / distance;
+        updateMoveData(speed);
 
-        // calculate the number of ticks between the current position and the destination
-        moveData.ticksToMove = 1 + (int) ((GameTimeControllerService.TICKS_PER_SECOND * distance) / speed);
-        // calculate the distance to travel for each tick
-        moveData.xSpeedTicks = (xt * speed) / GameTimeControllerService.TICKS_PER_SECOND;
-        moveData.ySpeedTicks = (yt * speed) / GameTimeControllerService.TICKS_PER_SECOND;
-        moveData.zSpeedTicks = (zt * speed) / GameTimeControllerService.TICKS_PER_SECOND;
-        moveData.xDestination = x;
-        moveData.yDestination = y;
-        moveData.zDestination = z;
-        moveData.moveStartTime = GameTimeControllerService.getGameTicks();
-        moveData.path.remove(0);
+        Point3D destination = new Point3D(moveData.destination);
 
-        /* send destination to clients */
-        ObjectMoveToPacket packet = new ObjectMoveToPacket(getId(), new Point3D(x, y, z));
-        ServerService.getInstance().broadcast(packet);
+        /* send destination to known players */
+        ObjectMoveToPacket packet = new ObjectMoveToPacket(getId(), destination);
+        broadcastPacket(packet);
 
-        Point3D newPos = new Point3D(moveData.xDestination, moveData.yDestination, moveData.zDestination);
+        log.debug("Moving to new point: " + destination);
 
-        log.debug("Moving to new point: " + newPos);
-        setPosition(newPos);
+        /* Set server side position to destination for players loading npc during travel */
+        setPosition(destination);
 
         return true;
+    }
+
+    private void updateMoveData(float moveSpeed) {
+        Point3D destination = new Point3D(moveData.path.get(0));
+        float distance = VectorUtils.calcDistance(getPos(), destination);
+        Point3D delta = new Point3D(destination.getX() - getPosX(),
+                destination.getY() - getPosY(),
+                destination.getZ() - getPosZ());
+        Point3D deltaT = new Point3D(delta.getX() / distance,
+                delta.getY() / distance,
+                delta.getZ() / distance);
+
+        // calculate the number of ticks between the current position and the destination
+        moveData.ticksToMove = 1 + (int) ((GameTimeControllerService.TICKS_PER_SECOND * distance) / moveSpeed);
+
+        // calculate the distance to travel for each tick
+        moveData.xSpeedTicks = (deltaT.getX() * moveSpeed) / GameTimeControllerService.TICKS_PER_SECOND;
+        moveData.ySpeedTicks = (deltaT.getY() * moveSpeed) / GameTimeControllerService.TICKS_PER_SECOND;
+        moveData.zSpeedTicks = (deltaT.getZ() * moveSpeed) / GameTimeControllerService.TICKS_PER_SECOND;
+
+        moveData.destination = destination;
+        moveData.moveStartTime = GameTimeControllerService.getGameTicks();
+        moveData.path.remove(0);
     }
 
     public boolean isOnGeoData() {
@@ -167,12 +188,9 @@ public abstract class Entity extends GameObject {
         if (elapsed >= moveData.ticksToMove) {
             moveData.moveTimestamp = gameTicks;
 
-            //Point3D newPos = new Point3D(moveData.xDestination, moveData.yDestination, moveData.zDestination);
-            //setPosition(newPos);
-
-            /* share new position with clients */
+            /* share new position with known players */
             ObjectPositionPacket packet = new ObjectPositionPacket(getId(), getPos());
-            ServerService.getInstance().broadcast(packet);
+            broadcastPacket(packet);
 
             if (moveData.path.size() > 0) {
                 moveToNextRoutePoint();
@@ -189,27 +207,16 @@ public abstract class Entity extends GameObject {
         return false;
     }
 
-    public void attachAI(BaseAI ai) {
-        this.ai = ai;
+    // Send a packet to notify npc stop moving
+    public void idle() {
+        ObjectAnimationPacket packet = new ObjectAnimationPacket(getId(), (byte) 0, 0f);
+        broadcastPacket(packet);
     }
-
-    public void detachAI() {
-        ai = null;
-    }
-
-
 
     public void broadcastPacket(ServerPacket packet) {
+        System.out.println(getKnownList().getKnownPlayers().size() + " " + getKnownList().getKnownCharacters().size() + " " + getKnownList().getKnownObjects().size() );
         for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {
             player.sendPacket(packet);
         }
-    }
-
-    public EntityTemplate getTemplate() {
-        return template;
-    }
-
-    public Status getStatus() {
-        return status;
     }
 }
