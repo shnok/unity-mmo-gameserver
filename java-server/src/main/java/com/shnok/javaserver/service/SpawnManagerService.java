@@ -63,6 +63,18 @@ public class SpawnManagerService {
                     25,
                     0,
                     0));
+            registeredSpawns.add(new SpawnList(
+                    25406,
+                    "gludio32_1725_18",
+                    1,
+                    20442,
+                    4533.592f,-71, -1625.774f,
+                    0f,
+                    0f,
+                    210.01f,
+                    25,
+                    0,
+                    0));
         }
     }
 

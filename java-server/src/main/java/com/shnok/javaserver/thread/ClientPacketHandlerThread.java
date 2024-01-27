@@ -161,9 +161,9 @@ public class ClientPacketHandlerThread extends Thread {
         WorldManagerService.getInstance().addPlayer(player);
 
         client.sendPacket(new PlayerInfoPacket(player));
+
         // Loads surrounding area
-        ThreadPoolManagerService.getInstance().execute(
-                new ObjectKnownList.KnownListAsynchronousUpdateTask(client.getCurrentPlayer()));
+        client.getCurrentPlayer().getKnownList().forceRecheckSurroundings();
     }
 
     private void onRequestCharacterRotate(byte[] data) {

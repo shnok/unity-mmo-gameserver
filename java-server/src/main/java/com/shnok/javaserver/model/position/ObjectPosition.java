@@ -35,7 +35,6 @@ public class ObjectPosition
      * checks if current object changed its region, if so, update referencies
      */
     public void updateWorldRegion() {
-        System.out.println("Update world region");
         if (!getActiveObject().isVisible()) {
             return;
         }

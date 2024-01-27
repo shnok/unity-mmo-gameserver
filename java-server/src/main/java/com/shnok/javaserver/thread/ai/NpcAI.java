@@ -93,7 +93,7 @@ public class NpcAI extends BaseAI implements Runnable {
         if ((npc.getSpawnInfo() != null) && (r.nextInt(randomWalkRate) == 0) && npc.isOnGeoData()) {
             try {
                 Node n = Geodata.getInstance().findRandomNodeInRange(npc.getSpawnInfo().getSpawnPosition(), 6);
-                log.debug("New random pos: " + n.getCenter());
+                //log.debug("New random pos: " + n.getCenter());
                 setIntention(Intention.INTENTION_MOVE_TO, n.getCenter());
             } catch (Exception e) {
                 log.debug(e);

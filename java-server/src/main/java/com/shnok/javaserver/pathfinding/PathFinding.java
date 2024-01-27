@@ -25,14 +25,20 @@ public class PathFinding {
         try {
             String startZone = Geodata.getInstance().getCurrentZone(from);
             Node start = Geodata.getInstance().getNodeAt(from, startZone);
-            log.debug("Startnode: {}", start.getWorldPosition());
+            if(Config.PRINT_PATHFINDER) {
+                log.debug("Startnode: {}", start.getWorldPosition());
+            }
             String endZone = Geodata.getInstance().getCurrentZone(to);
             Node end = Geodata.getInstance().getNodeAt(to, endZone);
-            log.debug("EndNode: {}", end.getWorldPosition());
+            if(Config.PRINT_PATHFINDER) {
+                log.debug("EndNode: {}", end.getWorldPosition());
+            }
             return searchByClosest(start, end);
 
         } catch (Exception e) {
-            log.debug("{}.", e.getMessage());
+            if(Config.PRINT_PATHFINDER) {
+                log.debug("{}.", e.getMessage());
+            }
             return null;
         }
     }
@@ -59,14 +65,18 @@ public class PathFinding {
                 node = nodesToVisit.removeFirst();
             } catch (Exception e) {
                 // No Path found
-                log.debug("No path found - {} to {}.", start.getCenter(), end.getCenter());
+                if(Config.PRINT_PATHFINDER) {
+                    log.debug("No path found - {} to {}.", start.getCenter(), end.getCenter());
+                }
                 return null;
             }
 
             // Current node is the destination node
             // Path was found
             if (node.equals(end)) {
-                log.debug("Found path - {} to {} after {} iteration(s).", start.getCenter(), end.getCenter(), i);
+                if(Config.PRINT_PATHFINDER) {
+                    log.debug("Found path - {} to {} after {} iteration(s).", start.getCenter(), end.getCenter(), i);
+                }
                 return constructPath(node);
             }
 
@@ -121,7 +131,9 @@ public class PathFinding {
             }
         }
         // No Path found
-        log.debug("No path found (max iterations reached)");
+        if(Config.PRINT_PATHFINDER) {
+            log.debug("No path found (max iterations reached)");
+        }
         return null;
     }
 

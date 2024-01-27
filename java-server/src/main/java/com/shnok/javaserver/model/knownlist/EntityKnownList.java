@@ -33,7 +33,7 @@ public class EntityKnownList extends ObjectKnownList  {
         }
         if (object instanceof PlayerInstance) {
             getKnownPlayers().put(object.getId(), (PlayerInstance) object);
-            log.debug("[{}] KnownPlayers: {}", getActiveObject().getId(), getKnownPlayers().size());
+            log.debug("[{}] Adding known player: {}", getActiveObject().getId(), object.getId());
         }
 
         return true;
@@ -73,7 +73,7 @@ public class EntityKnownList extends ObjectKnownList  {
         }
         if (object instanceof PlayerInstance) {
             getKnownPlayers().remove(object.getId());
-            log.debug("[{}] KnownPlayers: {}", getActiveObject().getId(), getKnownPlayers().size());
+            log.debug("[{}] Removing known player: {}", getActiveObject().getId(), object.getId());
         }
         // If object is targeted by the Entity, cancel Attack or Cast
         /*if (object == getActiveChar().getTarget()) {

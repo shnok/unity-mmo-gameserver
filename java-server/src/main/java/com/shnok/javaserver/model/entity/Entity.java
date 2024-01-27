@@ -73,9 +73,8 @@ public abstract class Entity extends GameObject {
         // Update known list
         float distanceDelta = VectorUtils.calcDistance(
                 getPosition().getWorldPosition(), getPosition().getLastWorldPosition());
-        if(distanceDelta > 5.0f) {
-            ThreadPoolManagerService.getInstance().execute(
-                    new ObjectKnownList.KnownListAsynchronousUpdateTask(this));
+        if(distanceDelta > 4.0f) {
+            getKnownList().forceRecheckSurroundings();
             getPosition().setLastWorldPosition(getPosition().getWorldPosition());
         }
     }
@@ -176,7 +175,7 @@ public abstract class Entity extends GameObject {
             Geodata.getInstance().getNodeAt(getPos());
             return true;
         } catch (Exception e) {
-            log.debug("Not at a valid position: {}", getPos());
+            //log.debug("Not at a valid position: {}", getPos());
             return false;
         }
     }

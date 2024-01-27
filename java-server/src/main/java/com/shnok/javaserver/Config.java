@@ -14,6 +14,7 @@ public class Config {
     public static int CONNECTION_TIMEOUT_SEC;
     public static int TIME_TICKS_PER_SECOND;
     public static boolean PRINT_SERVER_PACKETS;
+    public static boolean PRINT_PATHFINDER;
     public static boolean PRINT_CLIENT_PACKETS;
     public static boolean SPAWN_NPCS;
     public static boolean SPAWN_MONSTERS;
@@ -50,6 +51,7 @@ public class Config {
 
         PRINT_SERVER_PACKETS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.server-packets", "false"));
         PRINT_CLIENT_PACKETS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.client-packets", "false"));
+        PRINT_PATHFINDER = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.pathfinder", "false"));
 
         String zoneList = optionsSettings.getProperty("server.world.geodata.zones.load", "");
         ZONES_TO_LOAD = zoneList.toUpperCase().split(",");

@@ -3,6 +3,7 @@ package com.shnok.javaserver.model.knownlist;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.PlayerInstance;
+import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.util.VectorUtils;
 import javolution.util.FastMap;
@@ -46,6 +47,7 @@ public class ObjectKnownList {
         }
 
         // Check if object is not inside distance to watch object
+        log.debug("[{}] Is {} in range?", getActiveObject().getId(), object.getId());
         if (!VectorUtils.checkIfInRange(getDistanceToWatchObject(object), getActiveObject(), object)) {
             return false;
         }
@@ -66,9 +68,14 @@ public class ObjectKnownList {
     }
 
     public boolean removeKnownObject(GameObject object) {
-        if (object == null) {
+        if (object == null || !knownObjects.containsKey(object.getId())) {
             return false;
         }
+
+        log.debug("[{}] Remove known object {}", activeObject.getId(), object.getId());
+
+        object.getKnownList().forceRecheckSurroundings();
+
         return (getKnownObjects().remove(object.getId()) != null);
     }
 
@@ -99,11 +106,11 @@ public class ObjectKnownList {
 
                 if (object instanceof Entity) {
                     object.getKnownList().addKnownObject(getActiveObject());
-                    //log.debug("[{}] Adding (player) to known object of entity: Target {}", getActiveObject().getId(), object.getId());
+                    log.debug("[{}] Request add entity to {} knownlist", getActiveObject().getId(), object.getId());
                 }
                 if (object instanceof PlayerInstance) {
                     object.getKnownList().addKnownObject(getActiveObject());
-                    //log.debug("[{}] Adding (player) to known object of player: Target {}", getActiveObject().getId(), object.getId());
+                    log.debug("[{}] Request add player to {} knownlist", getActiveObject().getId(), object.getId());
                 }
             }
         } else {
@@ -119,7 +126,7 @@ public class ObjectKnownList {
                 }
 
                 addKnownObject(object);
-                //log.debug("[{}] Adding (entity) to known object of player: {}", getActiveObject().getId(), object.getId());
+                log.debug("[{}] Request add entity to {} knownlist", getActiveObject().getId(), object.getId());
             }
         }
     }
@@ -152,6 +159,11 @@ public class ObjectKnownList {
         return 0;
     }
 
+    public void forceRecheckSurroundings() {
+        ThreadPoolManagerService.getInstance().execute(
+                new ObjectKnownList.KnownListAsynchronousUpdateTask(activeObject));
+    }
+
     public static class KnownListAsynchronousUpdateTask implements Runnable {
         private final GameObject obj;
 
@@ -162,7 +174,7 @@ public class ObjectKnownList {
         @Override
         public void run() {
             if (obj != null) {
-                //log.debug("[{}] UpdateKnown objects", obj.getId());
+                log.debug("[{}] Updating known objects...", obj.getId());
                 obj.getKnownList().updateKnownObjects();
             }
         }
