@@ -20,6 +20,7 @@ import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
+import com.shnok.javaserver.thread.ai.NpcAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -120,13 +121,7 @@ public abstract class Entity extends GameObject {
     public boolean moveToNextRoutePoint() {
         float speed;
 
-        if(getAi().getMovingReason() == EntityMovingReason.Walking) {
-            speed = getTemplate().getBaseWalkSpd();
-        } else {
-            speed = getTemplate().getBaseRunSpd();
-        }
-
-        if ((speed <= 0) || !canMove()) {
+        if(!canMove() || getAi() == null) {
             return false;
         }
 
@@ -134,6 +129,18 @@ public abstract class Entity extends GameObject {
         if (moveData == null || moveData.path == null || moveData.path.size() == 0) {
             return false;
         }
+
+        if(getAi().getMovingReason() == EntityMovingReason.Walking) {
+            speed = getTemplate().getBaseWalkSpd();
+        } else {
+            speed = getTemplate().getBaseRunSpd();
+        }
+
+        if (speed <= 0) {
+            return false;
+        }
+
+
 
         /* cancel the move action if not on geodata */
         if (!isOnGeoData()) {
@@ -224,12 +231,6 @@ public abstract class Entity extends GameObject {
         return false;
     }
 
-    // Send a packet to notify npc stop moving
-    public void idle() {
-        ObjectAnimationPacket packet = new ObjectAnimationPacket(getId(), (byte) 0, 0f);
-        broadcastPacket(packet);
-    }
-
     public void broadcastPacket(ServerPacket packet) {
 //        log.debug("[{}] Known players:{} entities:{} objects:{}",
 //                getId(),
@@ -240,4 +241,5 @@ public abstract class Entity extends GameObject {
             player.sendPacket(packet);
         }
     }
+
 }

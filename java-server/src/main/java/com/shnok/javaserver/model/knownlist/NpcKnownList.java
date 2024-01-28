@@ -1,9 +1,12 @@
 package com.shnok.javaserver.model.knownlist;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.NpcInstance;
 import com.shnok.javaserver.model.entity.PlayerInstance;
+import com.shnok.javaserver.thread.ai.BaseAI;
+import com.shnok.javaserver.thread.ai.NpcAI;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -31,7 +34,17 @@ public class NpcKnownList extends EntityKnownList
 
     @Override
     public boolean addKnownObject(GameObject object, Entity dropper) {
-        return super.addKnownObject(object, dropper);
+        if(!super.addKnownObject(object, dropper)) {
+            return false;
+        }
+
+        if (object instanceof PlayerInstance) {
+            if(getKnownPlayers().size() == 1) {
+                getActiveChar().refreshAI();
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -41,7 +54,19 @@ public class NpcKnownList extends EntityKnownList
      */
     @Override
     public boolean removeKnownObject(GameObject object) {
-        return super.removeKnownObject(object);
+        if(!super.removeKnownObject(object)) {
+            return false;
+        }
+
+        if(!Config.KEEP_AI_ALIVE) {
+            if (object instanceof PlayerInstance) {
+                if(getKnownPlayers().size() == 0) {
+                    getActiveChar().stopAndRemoveAI();
+                }
+            }
+        }
+
+        return true;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.shnok.javaserver.thread.ai;
 
+import com.shnok.javaserver.enums.EntityAnimation;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.service.GameTimeControllerService;
@@ -94,6 +95,11 @@ public class NpcAI extends BaseAI implements Runnable {
             try {
                 Node n = Geodata.getInstance().findRandomNodeInRange(npc.getSpawnInfo().getSpawnPosition(), 6);
                 //log.debug("New random pos: " + n.getCenter());
+
+                ObjectAnimationPacket packet = new ObjectAnimationPacket(
+                        npc.getId(), EntityAnimation.Walk.getValue(), 1f);
+                npc.broadcastPacket(packet);
+
                 setIntention(Intention.INTENTION_MOVE_TO, n.getCenter());
             } catch (Exception e) {
                 log.debug(e);
@@ -107,7 +113,7 @@ public class NpcAI extends BaseAI implements Runnable {
         }
     }
 
-    private void stopAITask() {
+    public void stopAITask() {
         if (aiTask != null) {
             aiTask.cancel(true);
             aiTask = null;
@@ -156,7 +162,8 @@ public class NpcAI extends BaseAI implements Runnable {
     protected void onIntentionIdle() {
         if (getIntention() == Intention.INTENTION_MOVE_TO) {
             moving = false;
-            owner.idle();
+            ObjectAnimationPacket packet = new ObjectAnimationPacket(npc.getId(), EntityAnimation.Wait.getValue(), 1f);
+            npc.broadcastPacket(packet);
         }
 
         intention = Intention.INTENTION_IDLE;
