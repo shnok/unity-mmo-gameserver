@@ -40,7 +40,6 @@ public abstract class BaseAI {
         return intention;
     }
 
-
     public void setIntention(Intention intention) {
         setIntention(intention, null);
     }

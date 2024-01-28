@@ -84,5 +84,6 @@ public class ThreadPoolManagerService {
         spawnThreadPool.purge();
         aiThreadPool.purge();
         packetsThreadPool.purge();
+        generalThreadPool.purge();
     }
 }

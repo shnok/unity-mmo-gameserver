@@ -231,12 +231,6 @@ public abstract class Entity extends GameObject {
         return false;
     }
 
-    // Send a packet to notify npc stop moving
-    public void idle() {
-        ObjectAnimationPacket packet = new ObjectAnimationPacket(getId(), (byte) 0, 0f);
-        broadcastPacket(packet);
-    }
-
     public void broadcastPacket(ServerPacket packet) {
 //        log.debug("[{}] Known players:{} entities:{} objects:{}",
 //                getId(),
