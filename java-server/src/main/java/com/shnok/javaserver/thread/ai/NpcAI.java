@@ -107,7 +107,7 @@ public class NpcAI extends BaseAI implements Runnable {
         }
     }
 
-    private void stopAITask() {
+    public void stopAITask() {
         if (aiTask != null) {
             aiTask.cancel(true);
             aiTask = null;

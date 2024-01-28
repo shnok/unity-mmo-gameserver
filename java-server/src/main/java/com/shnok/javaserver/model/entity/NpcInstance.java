@@ -5,20 +5,21 @@ import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
-import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.NpcTemplate;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.SpawnManagerService;
-import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
-import com.shnok.javaserver.util.VectorUtils;
+import com.shnok.javaserver.thread.ai.BaseAI;
+import com.shnok.javaserver.thread.ai.NpcAI;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.log4j.Log4j2;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
+@Log4j2
 public class NpcInstance extends Entity {
     private boolean isStatic = false;
     private boolean patrol = false;
@@ -121,5 +122,29 @@ public class NpcInstance extends Entity {
     @Override
     public final NpcStatus getStatus() {
         return (NpcStatus) super.getStatus();
+    }
+
+    /* remove and stop AI */
+    public void stopAndRemoveAI() {
+        BaseAI ai = getAi();
+        log.debug("[{}] Stop and remove AI", getId());
+        if(ai instanceof NpcAI) {
+            ((NpcAI) ai).stopAITask();
+            setAi(null);
+        }
+    }
+
+    /* add AI to NPC */
+    public void refreshAI() {
+        if (!isStatic()) {
+            log.debug("[{}] Add AI", getId());
+            if(getAi() != null) {
+                stopAndRemoveAI();
+            }
+
+            NpcAI ai = new NpcAI();
+            ai.setOwner(this);
+            setAi(ai);
+        }
     }
 }

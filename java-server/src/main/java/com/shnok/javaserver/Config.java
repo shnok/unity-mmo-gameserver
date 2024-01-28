@@ -25,6 +25,7 @@ public class Config {
     public static float NODE_SIZE;
     public static boolean PATHFINDER_ENABLED;
     public static boolean PATHFINDER_SIMPLIFY_PATH;
+    public static boolean KEEP_AI_ALIVE;
 
     public static void LoadSettings() throws Exception {
         ClassLoader classLoader = Main.class.getClassLoader();
@@ -46,6 +47,7 @@ public class Config {
         SPAWN_MONSTERS = Boolean.parseBoolean(optionsSettings.getProperty("server.world.npc.spawn-monsters", "true"));
         SPAWN_DEBUG = Boolean.parseBoolean(optionsSettings.getProperty("server.world.npc.spawn-debug", "false"));
         MONSTERS_PATROL = Boolean.parseBoolean(optionsSettings.getProperty("server.world.npc.monsters.patrol", "true"));
+        KEEP_AI_ALIVE = Boolean.parseBoolean(optionsSettings.getProperty("server.world.ai.keep-alive", "true"));
 
         PLAYER_SPAWN_POINT = new Point3D(spawnX, spawnY, spawnZ);
 

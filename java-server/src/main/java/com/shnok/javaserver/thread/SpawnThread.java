@@ -1,5 +1,6 @@
 package com.shnok.javaserver.thread;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.db.entity.SpawnList;
 import com.shnok.javaserver.enums.NpcType;
 import com.shnok.javaserver.model.entity.NpcInstance;
@@ -40,10 +41,8 @@ public class SpawnThread implements Runnable {
 
             npc.setSpawnInfo(spawnInfo);
 
-            if (!npc.isStatic()) {
-                NpcAI ai = new NpcAI();
-                ai.setOwner(npc);
-                npc.setAi(ai);
+            if(Config.KEEP_AI_ALIVE) {
+                npc.refreshAI();
             }
 
             WorldManagerService.getInstance().addNPC(npc);
