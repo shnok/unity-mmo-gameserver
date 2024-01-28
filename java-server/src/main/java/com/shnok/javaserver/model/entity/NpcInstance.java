@@ -1,5 +1,6 @@
 package com.shnok.javaserver.model.entity;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.db.entity.SpawnList;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.enums.Event;

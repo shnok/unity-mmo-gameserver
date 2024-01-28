@@ -1,17 +1,16 @@
 package com.shnok.javaserver.thread.ai;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.enums.EntityAnimation;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.service.GameTimeControllerService;
-import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.NpcInstance;
 import com.shnok.javaserver.pathfinding.Geodata;
-import com.shnok.javaserver.pathfinding.node.NodeType;
 import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
 import lombok.extern.log4j.Log4j2;
 
@@ -20,9 +19,8 @@ import java.util.concurrent.Future;
 
 @Log4j2
 public class NpcAI extends BaseAI implements Runnable {
-    private final int randomWalkRate = 5;
-    private int patrolIndex = 0;
-    private int patrolDirection = 0;
+//    private int patrolIndex = 0;
+//    private int patrolDirection = 0;
     private NpcInstance npc;
     private Future<?> aiTask;
     private boolean thinking = false;
@@ -54,7 +52,7 @@ public class NpcAI extends BaseAI implements Runnable {
 //                if (npc.getPatrolWaypoints().length > 0) {
 //                    patrol();
 //                }
-            } else if (npc.doRandomWalk()) {
+            } else if (npc.doRandomWalk() && shouldWalk()) {
                 movingReason = EntityMovingReason.Walking;
 
                 // Update npc move speed to its walking speed
@@ -64,7 +62,17 @@ public class NpcAI extends BaseAI implements Runnable {
         }
 
         thinking = false;
+
         startAITask();
+    }
+
+    private boolean shouldWalk() {
+        Random r = new Random();
+        if(r.nextInt(100 - Math.min((int) Config.AI_PATROL_CHANCE, 100)) == 0) {
+            return true;
+        }
+
+        return false;
     }
 
 //    private void patrol() {
@@ -90,8 +98,7 @@ public class NpcAI extends BaseAI implements Runnable {
 
     // default monster behaviour
     private void randomWalk() {
-        Random r = new Random();
-        if ((npc.getSpawnInfo() != null) && (r.nextInt(randomWalkRate) == 0) && npc.isOnGeoData()) {
+        if ((npc.getSpawnInfo() != null) && npc.isOnGeoData()) {
             try {
                 Node n = Geodata.getInstance().findRandomNodeInRange(npc.getSpawnInfo().getSpawnPosition(), 6);
                 //log.debug("New random pos: " + n.getCenter());
@@ -109,7 +116,8 @@ public class NpcAI extends BaseAI implements Runnable {
 
     private void startAITask() {
         if (aiTask == null) {
-            aiTask = ThreadPoolManagerService.getInstance().scheduleAiAtFixedRate(this, 1000, 1000);
+            aiTask = ThreadPoolManagerService.getInstance().scheduleAiAtFixedRate(this, 1000,
+                    Config.AI_LOOP_RATE_MS);
         }
     }
 
