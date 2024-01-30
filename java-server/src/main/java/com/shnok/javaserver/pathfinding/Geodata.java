@@ -77,7 +77,7 @@ public class Geodata {
                 for (Node layer : layers) {
                     float layerOffset = Math.abs(layer.getNodeIndex().getY() - nodeIndex.getY());
                     //log.debug(layerOffset);
-                    if (layerOffset >= 0 && layerOffset <= 4) {
+                    if (layerOffset >= 0 && layerOffset <= Config.GEODATA_MAXIMUM_Y_ERROR) {
                         return new Node(layer);
                     }
                 }
