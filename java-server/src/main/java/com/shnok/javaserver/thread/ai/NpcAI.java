@@ -101,7 +101,6 @@ public class NpcAI extends BaseAI implements Runnable {
         if ((npc.getSpawnInfo() != null) && npc.isOnGeoData()) {
             try {
                 Node n = Geodata.getInstance().findRandomNodeInRange(npc.getSpawnInfo().getSpawnPosition(), 6);
-                //log.debug("New random pos: " + n.getCenter());
 
                 ObjectAnimationPacket packet = new ObjectAnimationPacket(
                         npc.getId(), EntityAnimation.Walk.getValue(), 1f);

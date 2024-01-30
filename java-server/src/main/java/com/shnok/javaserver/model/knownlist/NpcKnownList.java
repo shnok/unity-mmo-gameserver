@@ -42,6 +42,10 @@ public class NpcKnownList extends EntityKnownList
             if(getKnownPlayers().size() == 1) {
                 getActiveChar().refreshAI();
             }
+
+            // Share current action to player instance
+            log.debug("Sharing current action to user");
+            getActiveChar().shareCurrentAction((PlayerInstance) object);
         }
 
         return true;

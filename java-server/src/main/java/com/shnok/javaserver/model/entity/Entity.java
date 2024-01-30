@@ -6,6 +6,7 @@ import com.shnok.javaserver.dto.serverpackets.NpcInfoPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
+import com.shnok.javaserver.enums.EntityAnimation;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.GameObject;
@@ -52,11 +53,8 @@ public abstract class Entity extends GameObject {
     }
 
     public abstract void inflictDamage(int value);
-
     public abstract void setStatus(Status status);
-
     public abstract boolean canMove();
-
     public abstract void onDeath();
 
     @Override
@@ -140,8 +138,6 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
-
-
         /* cancel the move action if not on geodata */
         if (!isOnGeoData()) {
             moveData = null;
@@ -159,7 +155,7 @@ public abstract class Entity extends GameObject {
         //log.debug("Moving to new point: " + destination);
 
         /* Set server side position to destination for players loading npc during travel */
-        setPosition(destination);
+        //setPosition(destination);
 
         return true;
     }
@@ -182,6 +178,7 @@ public abstract class Entity extends GameObject {
         moveData.ySpeedTicks = (deltaT.getY() * moveSpeed) / GameTimeControllerService.TICKS_PER_SECOND;
         moveData.zSpeedTicks = (deltaT.getZ() * moveSpeed) / GameTimeControllerService.TICKS_PER_SECOND;
 
+        moveData.startPosition = new Point3D(getPos());
         moveData.destination = destination;
         moveData.moveStartTime = GameTimeControllerService.getGameTicks();
         moveData.path.remove(0);
@@ -208,6 +205,19 @@ public abstract class Entity extends GameObject {
 
         // calculate the time since started moving
         int elapsed = gameTicks - moveData.moveStartTime;
+
+        // lerp entity position between the start position and destination based on server ticks elapsed
+        Point3D lerpPosition = VectorUtils.lerpPosition(
+                moveData.startPosition,
+                moveData.destination,
+                (float) elapsed / moveData.ticksToMove);
+        setPosition(lerpPosition);
+
+//        log.debug("{} {} {} {}",
+//                moveData.startPosition,
+//                moveData.destination,
+//                (float) elapsed / moveData.ticksToMove,
+//                lerpPosition);
 
         if (elapsed >= moveData.ticksToMove) {
             moveData.moveTimestamp = gameTicks;
@@ -242,4 +252,25 @@ public abstract class Entity extends GameObject {
         }
     }
 
+    public void shareCurrentAction(PlayerInstance player) {
+        if(getAi() == null) {
+            return;
+        }
+
+        switch (getAi().getIntention()) {
+            case INTENTION_MOVE_TO:
+                player.sendPacket(new ObjectMoveToPacket(getId(), moveData.destination, getStatus().getMoveSpeed()));
+
+                if(getAi().getMovingReason() == EntityMovingReason.Walking) {
+                    player.sendPacket(new ObjectAnimationPacket(
+                            getId(), EntityAnimation.Walk.getValue(), 1f));
+                } else if(getAi().getMovingReason() == EntityMovingReason.Running) {
+                    player.sendPacket(new ObjectAnimationPacket(
+                            getId(), EntityAnimation.Walk.getValue(), 1f));
+                }
+                break;
+            case INTENTION_IDLE:
+            case INTENTION_WAITING:
+        }
+    }
 }

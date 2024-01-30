@@ -1,6 +1,5 @@
 package com.shnok.javaserver.model.entity;
 
-import com.shnok.javaserver.Config;
 import com.shnok.javaserver.db.entity.SpawnList;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.enums.Event;
@@ -28,26 +27,6 @@ public class NpcInstance extends Entity {
     private Point3D[] patrolWaypoints;
     private SpawnList spawnInfo;
 
-    public NpcInstance(int id, NpcTemplate npcTemplate, boolean patrol, Point3D[] patrolWaypoints) {
-        super(id);
-        this.template = npcTemplate;
-        this.status = new NpcStatus(npcTemplate.getLevel(), npcTemplate.baseHpMax);
-        this.isStatic = false;
-        this.randomWalk = false;
-        this.patrol = patrol;
-        this.patrolWaypoints = patrolWaypoints;
-    }
-
-    public NpcInstance(int id, NpcTemplate npcTemplate, boolean randomWalk, boolean patrol, Point3D[] patrolWaypoints) {
-        super(id);
-        this.template = npcTemplate;
-        this.status = new NpcStatus(npcTemplate.getLevel(), npcTemplate.baseHpMax);
-        this.isStatic = false;
-        this.randomWalk = randomWalk;
-        this.patrol = false;
-        this.patrolWaypoints = patrolWaypoints;
-    }
-
     public NpcInstance(int id, NpcTemplate npcTemplate) {
         super(id);
         this.template = npcTemplate;
@@ -55,10 +34,6 @@ public class NpcInstance extends Entity {
         this.isStatic = true;
         this.randomWalk = false;
         this.patrol = false;
-    }
-
-    public NpcInstance(int id, int npcId) {
-        super(id);
     }
 
     @Override

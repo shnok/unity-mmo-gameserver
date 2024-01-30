@@ -58,15 +58,15 @@ public abstract class GameObject {
     }
 
     public final float getPosX() {
-        return getPosition().getX();
+        return getPosition().getWorldPosition().getX();
     }
 
     public final float getPosY() {
-        return getPosition().getY();
+        return getPosition().getWorldPosition().getY();
     }
 
     public final float getPosZ() {
-        return getPosition().getZ();
+        return getPosition().getWorldPosition().getZ();
     }
 
     /**

@@ -87,6 +87,30 @@ public class Geodata {
         throw new Exception("Node not found");
     }
 
+    public Node getClosestNodeAt(Point3D nodePos) throws Exception {
+        return getClosestNodeAt(nodePos, getCurrentZone(nodePos));
+    }
+
+    // Get node at a given world position
+    public Node getClosestNodeAt(Point3D nodePos, String mapId) throws Exception {
+        List<Node> layers = getAllNodesAt(nodePos, mapId);
+
+        // find the closest node of given point
+        // layers should at the highest be 2-3
+        Node closest = null;
+        float lowestDiff = -1;
+        for(Node n : layers) {
+            // verify if the node Y is lower of equals than 4 nodes
+            float nodeHeightDiff = Math.abs(n.getCenter().getY() - nodePos.getY());
+            if(closest == null || nodeHeightDiff < lowestDiff || lowestDiff == -1) {
+                closest = n;
+                lowestDiff = nodeHeightDiff;
+            }
+        }
+
+        return closest;
+    }
+
     public List<Node> getAllNodesAt(Point3D nodePos) throws Exception {
         return getAllNodesAt(nodePos, getCurrentZone(nodePos));
     }
@@ -107,28 +131,23 @@ public class Geodata {
 
     public Node findRandomNodeInRange(Point3D center, int nodeRange) throws Exception {
         float range = nodeRange * Config.NODE_SIZE;
-
         Random r = new Random();
 
-        // Try to find a random point around the character 5 times
+        //closest node y offset
+        float lowestDiff = 0;
+
+        // Try to find a random point around the given center 5 times
         for (int i = 0; i < 5; i++) {
             float x = center.getX() + r.nextInt((int) range * 2) - range;
             float z = center.getZ() + r.nextInt((int) range * 2) - range;
             Point3D driftPoint = new Point3D(x, 0, z);
 
             try {
-                List<Node> layers = getAllNodesAt(driftPoint);
-                //log.debug("Found {} node(s) at driftpoint {}", layers.size(), driftPoint);
-
-                for(Node n : layers) {
-                    // verify if the node Y is lower of equals than 4 nodes
-                    if(Math.abs(n.getCenter().getY() - center.getY()) <= Config.NODE_SIZE * 4) {
-                        return n;
-                    }
-                }
+                return getClosestNodeAt(driftPoint);
             } catch (Exception e) {}
         }
 
+        log.error("Cant find drift: {}", lowestDiff);
         throw new Exception("Couldn't find random drift point");
     }
 

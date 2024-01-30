@@ -28,6 +28,7 @@ public class Config {
     public static boolean PATHFINDER_ENABLED;
     public static boolean PATHFINDER_SIMPLIFY_PATH;
     public static boolean KEEP_AI_ALIVE;
+    public static boolean GEODATA_ENABLED;
     public static int GEODATA_MAXIMUM_Y_ERROR;
 
     public static void LoadSettings() throws Exception {
@@ -66,6 +67,7 @@ public class Config {
 
         NODE_SIZE = Float.parseFloat(optionsSettings.getProperty("server.world.geodata.node-size", "1"));
 
+        GEODATA_ENABLED = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.enabled", "false"));
         GEODATA_MAXIMUM_Y_ERROR = Integer.parseInt(optionsSettings.getProperty("server.world.geodata.maximum-y-error", "5"));
         PATHFINDER_ENABLED = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.pathfinder.enabled", "false"));
         PATHFINDER_SIMPLIFY_PATH = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.pathfinder.simplify-path", "false"));
