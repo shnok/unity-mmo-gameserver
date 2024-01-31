@@ -2,21 +2,26 @@ package com.shnok.javaserver.service;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.model.entity.Entity;
-import javolution.util.FastList;
+import com.shnok.javaserver.util.TimeUtils;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
+@Getter
+@Setter
 public class GameTimeControllerService {
-
-    public static int TICKS_PER_SECOND;
-    public static int MILLIS_IN_TICK;
-    private static List<Entity> movingObjects;
-    protected static int gameTicks;
-    protected static long gameStartTime;
-    protected static TimerThread timer;
+    public int ticksPerSecond;
+    private int tickDurationMs;
+    private List<Entity> movingObjects;
+    public long gameTicks;
+    private long gameStartTime;
+    private float gameTime;
+    private static TimerThread timer;
 
     private static GameTimeControllerService instance;
     public static GameTimeControllerService getInstance() {
@@ -27,25 +32,17 @@ public class GameTimeControllerService {
     }
 
     public void initialize() {
-        TICKS_PER_SECOND = Config.TIME_TICKS_PER_SECOND;
-        MILLIS_IN_TICK = 1000 / TICKS_PER_SECOND;
+        ticksPerSecond = Config.TIME_TICKS_PER_SECOND;
+        tickDurationMs = 1000 / ticksPerSecond;
 
-        log.info("Starting server clock with a tick rate of {} ticks/second.", TICKS_PER_SECOND);
+        log.info("Starting server clock with a tick rate of {} ticks/second.", ticksPerSecond);
 
         gameStartTime = System.currentTimeMillis() - 3600000; // offset so that the server starts a day begin
-        gameTicks = 3600000 / MILLIS_IN_TICK; // offset so that the server starts a day begin
+        gameTicks = 3600000 / tickDurationMs; // offset so that the server starts a day begin
 
         movingObjects = new ArrayList<>();
         timer = new TimerThread();
         timer.start();
-    }
-
-    public static int getGameTicks() {
-        return gameTicks;
-    }
-
-    public int getGameTime() {
-        return (gameTicks / (TICKS_PER_SECOND * 10));
     }
 
     protected synchronized void moveObjects() {
@@ -91,19 +88,18 @@ public class GameTimeControllerService {
         public void run() {
             try {
                 for (; ; ) {
-                    int oldTicks = gameTicks;
+                    long oldTicks = gameTicks;
                     long runtime = System.currentTimeMillis() - gameStartTime;
 
-                    gameTicks = (int) (runtime / MILLIS_IN_TICK); // new ticks value (ticks now)
-
+                    gameTicks = (int) (runtime / tickDurationMs); // new ticks value (ticks now)
+                    gameTime = TimeUtils.ticksToHour(gameTicks, tickDurationMs, Config.TIME_DAY_DURATION_MINUTES);
                     if (oldTicks != gameTicks) {
                         moveObjects();
-                        //System.out.println("Apply movement");
                     }
 
                     runtime = (System.currentTimeMillis() - gameStartTime) - runtime;
 
-                    int sleepTime = (1 + MILLIS_IN_TICK) - (((int) runtime) % MILLIS_IN_TICK);
+                    int sleepTime = (1 + tickDurationMs) - (((int) runtime) % tickDurationMs);
                     sleep(sleepTime);
                 }
             } catch (Exception e) {

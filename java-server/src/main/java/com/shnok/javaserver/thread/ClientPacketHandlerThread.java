@@ -161,6 +161,7 @@ public class ClientPacketHandlerThread extends Thread {
         WorldManagerService.getInstance().addPlayer(player);
 
         client.sendPacket(new PlayerInfoPacket(player));
+        client.sendPacket(new GameTimePacket());
 
         // Loads surrounding area
         client.getCurrentPlayer().getKnownList().forceRecheckSurroundings();

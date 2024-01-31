@@ -5,7 +5,6 @@ import com.shnok.javaserver.model.Point3D;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
-import java.util.List;
 import java.util.Properties;
 
 public class Config {
@@ -13,6 +12,7 @@ public class Config {
     public static int GAMESERVER_PORT;
     public static int CONNECTION_TIMEOUT_SEC;
     public static int TIME_TICKS_PER_SECOND;
+    public static int TIME_DAY_DURATION_MINUTES;
     public static boolean PRINT_SERVER_PACKETS;
     public static boolean PRINT_PATHFINDER;
     public static boolean PRINT_CLIENT_PACKETS;
@@ -43,7 +43,9 @@ public class Config {
 
         GAMESERVER_PORT = Integer.parseInt(optionsSettings.getProperty("gameserver.port", "8000"));
         CONNECTION_TIMEOUT_SEC = Integer.parseInt(optionsSettings.getProperty("server.connection.timeout.ms", "10"));
+
         TIME_TICKS_PER_SECOND = Integer.parseInt(optionsSettings.getProperty("server.time.ticks-per-second", "10"));
+        TIME_DAY_DURATION_MINUTES = Integer.parseInt(optionsSettings.getProperty("server.time.day.duration.minutes", "10"));
 
         float spawnX = Float.parseFloat(optionsSettings.getProperty("server.spawn.location.x", "0"));
         float spawnY = Float.parseFloat(optionsSettings.getProperty("server.spawn.location.y", "0"));

@@ -86,5 +86,7 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 [Int: `object id` | String: `player name` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Int: `level`| Int: `hp`| Int: `maxhp`| Int: `mp`| Int: `maxMp`| Int: `cp`| Int: `maxCp`]
 # 0x0D : ObjectMoveDirection
 [Int: `object id` | Float: `move speed` | Float: `dir X` | Float: `dir Y` | Float: `dir Z`]
+# 0x0E : GameTime
+[Long: `current server ticks` | Int: `tick duration in Ms` | Int: `day duration in minutes`]
 
 ```
