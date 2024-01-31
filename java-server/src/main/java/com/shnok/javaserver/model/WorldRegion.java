@@ -1,5 +1,6 @@
 package com.shnok.javaserver.model;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.PlayerInstance;
 import javolution.util.FastList;
@@ -27,7 +28,9 @@ public class WorldRegion {
             return;
         }
 
-        log.debug("Adding visible object {} to region {}.", object.getId(), getName());
+        if(Config.PRINT_WORLDREGION) {
+            log.debug("Adding visible object {} to region {}.", object.getId(), getName());
+        }
         visibleObjects.add(object);
 
         if (object instanceof PlayerInstance)
@@ -40,7 +43,10 @@ public class WorldRegion {
         if (object == null) {
             return;
         }
-        log.debug("Removing visible object {} to region {}.", object.getId(), getName());
+
+        if(Config.PRINT_WORLDREGION) {
+            log.debug("Removing visible object {} to region {}.", object.getId(), getName());
+        }
 
         visibleObjects.remove(object);
 

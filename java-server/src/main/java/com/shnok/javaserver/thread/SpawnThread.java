@@ -20,18 +20,16 @@ public class SpawnThread implements Runnable {
         this.spawnInfo = spawnInfo;
         this.npcTemplate = npcTemplate;
 
-        if(Config.GEODATA_ENABLED) {
-            // adjust spawn info to node y position
-            try {
-                Node n = Geodata.getInstance().getNodeAt(new Point3D(
-                                spawnInfo.getSpawnPosition().getX(),
-                                0,
-                                spawnInfo.getSpawnPosition().getZ()));
+        // adjust spawn info to node y position
+        try {
+            Node n = Geodata.getInstance().getClosestNodeAt(new Point3D(
+                            spawnInfo.getSpawnPosition().getX(),
+                            0,
+                            spawnInfo.getSpawnPosition().getZ()));
 
-                spawnInfo.setSpawnPosition(n.getCenter());
-            } catch (Exception e) {
-                log.debug("Adjusted spawninfo to position: {}", spawnInfo.getSpawnPosition());
-            }
+            spawnInfo.setSpawnPosition(n.getCenter());
+            log.debug("Adjusted spawninfo to position: {}", spawnInfo.getSpawnPosition());
+        } catch (Exception ignored) {
         }
     }
 

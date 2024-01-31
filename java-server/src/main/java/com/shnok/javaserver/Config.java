@@ -16,6 +16,7 @@ public class Config {
     public static boolean PRINT_SERVER_PACKETS;
     public static boolean PRINT_PATHFINDER;
     public static boolean PRINT_CLIENT_PACKETS;
+    public static boolean PRINT_WORLDREGION;
     public static boolean SPAWN_NPCS;
     public static boolean SPAWN_MONSTERS;
     public static boolean SPAWN_DEBUG;
@@ -61,13 +62,14 @@ public class Config {
         PRINT_SERVER_PACKETS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.server-packets", "false"));
         PRINT_CLIENT_PACKETS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.client-packets", "false"));
         PRINT_PATHFINDER = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.pathfinder", "false"));
+        PRINT_WORLDREGION = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.world-region", "false"));
 
         String zoneList = optionsSettings.getProperty("server.world.geodata.zones.load", "");
         ZONES_TO_LOAD = zoneList.toUpperCase().split(",");
 
         NODE_SIZE = Float.parseFloat(optionsSettings.getProperty("server.world.geodata.node-size", "1"));
 
-        GEODATA_ENABLED = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.enabled", "false"));
+        GEODATA_ENABLED = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.enabled", "true"));
         GEODATA_MAXIMUM_Y_ERROR = Integer.parseInt(optionsSettings.getProperty("server.world.geodata.maximum-y-error", "5"));
         PATHFINDER_ENABLED = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.pathfinder.enabled", "false"));
         PATHFINDER_SIMPLIFY_PATH = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.pathfinder.simplify-path", "false"));

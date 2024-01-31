@@ -51,8 +51,12 @@ public class GameTimeControllerService {
     protected synchronized void moveObjects() {
         Entity[] entities = movingObjects.toArray(new Entity[0]);
         for (Entity e : entities) {
-            if (e.updatePosition(gameTicks)) {
-                movingObjects.remove(e);
+            try {
+                if (e.updatePosition(gameTicks)) {
+                    movingObjects.remove(e);
+                }
+            } catch (NullPointerException ex) {
+                log.error("One entity is null in moving objects");
             }
         }
     }
