@@ -47,7 +47,7 @@ public class ServerService {
         }
     }
 
-    // Broadcast to everyone
+   // Broadcast to everyone
    public void broadcast(ServerPacket packet) {
         synchronized (clients) {
             for (GameClientThread c : clients) {

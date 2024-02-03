@@ -33,6 +33,23 @@ public class SpawnList {
     ) ENGINE=MyISAM;
     */
 
+    public SpawnList(int id, String location, int count, int npcId, float posX, float posY, float posZ, float randomX,
+                     float randomY, float heading, int respawnDelay, int locId, float periodOfDay) {
+        this.id = id;
+        this.location = location;
+        this.count = count;
+        this.npcId = npcId;
+        this.posX = posX;
+        this.posY = posY;
+        this.posZ = posZ;
+        this.randomX = randomX;
+        this.randomY = randomY;
+        this.heading = heading;
+        this.respawnDelay = respawnDelay;
+        this.locId = locId;
+        this.periodOfDay = periodOfDay;
+    }
+
     @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,7 +79,13 @@ public class SpawnList {
     @Column
     private float periodOfDay;
 
+    @Transient
+    private Point3D spawnPosition;
+
     public Point3D getSpawnPosition() {
-        return new Point3D(posX, posY, posZ);
+        if(spawnPosition == null) {
+            spawnPosition = new Point3D(posX, posY, posZ);
+        }
+        return new Point3D(spawnPosition);
     }
 }

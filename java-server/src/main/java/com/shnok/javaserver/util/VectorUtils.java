@@ -42,4 +42,20 @@ public class VectorUtils {
                 floorToNearest(vector.getY(), step),
                 floorToNearest(vector.getZ(), step));
     }
+
+    public static Point3D lerpPosition(Point3D start, Point3D end, float percentage) {
+        float deltaX = end.getX() - start.getX();
+        float deltaY = end.getY() - start.getY();
+        float deltaZ = end.getZ() - start.getZ();
+
+        float scaledDeltaX = percentage * deltaX;
+        float scaledDeltaY = percentage * deltaY;
+        float scaledDeltaZ = percentage * deltaZ;
+
+        float intermediateX = start.getX() + scaledDeltaX;
+        float intermediateY = start.getY() + scaledDeltaY;
+        float intermediateZ = start.getZ() + scaledDeltaZ;
+
+        return new Point3D(intermediateX, intermediateY, intermediateZ);
+    }
 }

@@ -50,36 +50,6 @@ public class ObjectPosition
         }
     }
 
-    public float getX()
-    {
-        return getWorldPosition().getX();
-    }
-
-    public void setX(int value)
-    {
-        getWorldPosition().setX(value);
-    }
-
-    public float getY()
-    {
-        return getWorldPosition().getY();
-    }
-
-    public void setY(int value)
-    {
-        getWorldPosition().setY(value);
-    }
-
-    public float getZ()
-    {
-        return getWorldPosition().getZ();
-    }
-
-    public void setZ(int value)
-    {
-        getWorldPosition().setZ(value);
-    }
-
     public Point3D getWorldPosition() {
         if (worldPosition == null) {
             worldPosition = new Point3D(0, 0, 0);

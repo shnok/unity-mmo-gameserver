@@ -17,7 +17,10 @@ public class Node implements Comparable<Node> {
         this.nodeIndex = nodeIndex;
         this.worldPosition = worldPosition;
         this.nodeSize = nodeSize;
-        this.center = new Point3D (worldPosition.getX() + nodeSize / 2f, worldPosition.getY(), worldPosition.getZ() + nodeSize / 2f);
+        this.center = new Point3D (
+                worldPosition.getX() + nodeSize / 2f,
+                worldPosition.getY(),
+                worldPosition.getZ() + nodeSize / 2f);
     }
 
     public Node(Node original) {

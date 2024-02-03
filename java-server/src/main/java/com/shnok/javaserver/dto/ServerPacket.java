@@ -40,6 +40,19 @@ public abstract class ServerPacket extends Packet {
         buffer.addAll(Arrays.asList(array));
     }
 
+    protected void writeL(long l) {
+        Byte[] array = new Byte[]{(byte) ((l >> 56) & 0xff),
+                (byte) ((l >> 48) & 0xff),
+                (byte) ((l >> 40) & 0xff),
+                (byte) ((l >> 32) & 0xff),
+                (byte) ((l >> 24) & 0xff),
+                (byte) ((l >> 16) & 0xff),
+                (byte) ((l >> 8) & 0xff),
+                (byte) (l & 0xff)};
+
+        buffer.addAll(Arrays.asList(array));
+    }
+
     protected void writeF(float f) {
         int intBits = Float.floatToIntBits(f);
         Byte[] array = new Byte[]{

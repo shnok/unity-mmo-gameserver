@@ -5,7 +5,6 @@ import com.shnok.javaserver.model.Point3D;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
-import java.util.List;
 import java.util.Properties;
 
 public class Config {
@@ -13,9 +12,11 @@ public class Config {
     public static int GAMESERVER_PORT;
     public static int CONNECTION_TIMEOUT_SEC;
     public static int TIME_TICKS_PER_SECOND;
+    public static int TIME_DAY_DURATION_MINUTES;
     public static boolean PRINT_SERVER_PACKETS;
     public static boolean PRINT_PATHFINDER;
     public static boolean PRINT_CLIENT_PACKETS;
+    public static boolean PRINT_WORLDREGION;
     public static boolean SPAWN_NPCS;
     public static boolean SPAWN_MONSTERS;
     public static boolean SPAWN_DEBUG;
@@ -28,6 +29,8 @@ public class Config {
     public static boolean PATHFINDER_ENABLED;
     public static boolean PATHFINDER_SIMPLIFY_PATH;
     public static boolean KEEP_AI_ALIVE;
+    public static boolean GEODATA_ENABLED;
+    public static int GEODATA_MAXIMUM_Y_ERROR;
 
     public static void LoadSettings() throws Exception {
         ClassLoader classLoader = Main.class.getClassLoader();
@@ -40,7 +43,9 @@ public class Config {
 
         GAMESERVER_PORT = Integer.parseInt(optionsSettings.getProperty("gameserver.port", "8000"));
         CONNECTION_TIMEOUT_SEC = Integer.parseInt(optionsSettings.getProperty("server.connection.timeout.ms", "10"));
+
         TIME_TICKS_PER_SECOND = Integer.parseInt(optionsSettings.getProperty("server.time.ticks-per-second", "10"));
+        TIME_DAY_DURATION_MINUTES = Integer.parseInt(optionsSettings.getProperty("server.time.day.duration.minutes", "10"));
 
         float spawnX = Float.parseFloat(optionsSettings.getProperty("server.spawn.location.x", "0"));
         float spawnY = Float.parseFloat(optionsSettings.getProperty("server.spawn.location.y", "0"));
@@ -59,12 +64,15 @@ public class Config {
         PRINT_SERVER_PACKETS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.server-packets", "false"));
         PRINT_CLIENT_PACKETS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.client-packets", "false"));
         PRINT_PATHFINDER = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.pathfinder", "false"));
+        PRINT_WORLDREGION = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.world-region", "false"));
 
         String zoneList = optionsSettings.getProperty("server.world.geodata.zones.load", "");
         ZONES_TO_LOAD = zoneList.toUpperCase().split(",");
 
         NODE_SIZE = Float.parseFloat(optionsSettings.getProperty("server.world.geodata.node-size", "1"));
 
+        GEODATA_ENABLED = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.enabled", "true"));
+        GEODATA_MAXIMUM_Y_ERROR = Integer.parseInt(optionsSettings.getProperty("server.world.geodata.maximum-y-error", "5"));
         PATHFINDER_ENABLED = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.pathfinder.enabled", "false"));
         PATHFINDER_SIMPLIFY_PATH = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.pathfinder.simplify-path", "false"));
     }
