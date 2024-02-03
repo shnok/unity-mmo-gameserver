@@ -171,8 +171,9 @@ public class PathFinding {
                         } catch(Exception e) {}
                     }
 
-                    returnList[i++] = node;
-
+                    if(node != null) {
+                        returnList[i++] = node;
+                    }
                 } catch (Exception e) {
                     if(Config.PRINT_PATHFINDER) {
                         log.debug("Node neighbor could not be found.");

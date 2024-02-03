@@ -87,7 +87,7 @@ public class GameTimeControllerService {
         @Override
         public void run() {
             try {
-                for (; ; ) {
+                for (;;) {
                     long oldTicks = gameTicks;
                     long runtime = System.currentTimeMillis() - gameStartTime;
 

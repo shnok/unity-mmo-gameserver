@@ -108,7 +108,10 @@ public class NpcAI extends BaseAI implements Runnable {
 
                 setIntention(Intention.INTENTION_MOVE_TO, n.getCenter());
             } catch (Exception e) {
-                log.debug(e);
+                if(Config.PRINT_PATHFINDER) {
+                    log.debug(e);
+                }
+
                 moving = false;
                 setIntention(Intention.INTENTION_IDLE);
             }

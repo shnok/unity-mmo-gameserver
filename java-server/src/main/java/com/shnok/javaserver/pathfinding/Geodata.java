@@ -147,7 +147,9 @@ public class Geodata {
             } catch (Exception e) {}
         }
 
-        log.error("Cant find drift: {}", lowestDiff);
+        if(Config.PRINT_PATHFINDER) {
+            log.error("Cant find drift: {}", lowestDiff);
+        }
         throw new Exception("Couldn't find random drift point");
     }
 
