@@ -25,12 +25,15 @@ public class Config {
     public static float AI_PATROL_CHANCE;
     public static Point3D PLAYER_SPAWN_POINT;
     public static String[] ZONES_TO_LOAD;
-    public static float NODE_SIZE;
     public static boolean PATHFINDER_ENABLED;
     public static boolean PATHFINDER_SIMPLIFY_PATH;
     public static boolean KEEP_AI_ALIVE;
     public static boolean GEODATA_ENABLED;
     public static int GEODATA_MAXIMUM_Y_ERROR;
+    public static float GEODATA_NODE_SIZE;
+    public static int GEODATA_MAP_SIZE;
+    public static int GEODATA_MAXIMUM_LAYERS;
+
 
     public static void LoadSettings() throws Exception {
         ClassLoader classLoader = Main.class.getClassLoader();
@@ -69,10 +72,12 @@ public class Config {
         String zoneList = optionsSettings.getProperty("server.world.geodata.zones.load", "");
         ZONES_TO_LOAD = zoneList.toUpperCase().split(",");
 
-        NODE_SIZE = Float.parseFloat(optionsSettings.getProperty("server.world.geodata.node-size", "1"));
 
         GEODATA_ENABLED = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.enabled", "true"));
         GEODATA_MAXIMUM_Y_ERROR = Integer.parseInt(optionsSettings.getProperty("server.world.geodata.maximum-y-error", "5"));
+        GEODATA_NODE_SIZE = Float.parseFloat(optionsSettings.getProperty("server.world.geodata.node-size", "1"));
+        GEODATA_MAP_SIZE = Integer.parseInt(optionsSettings.getProperty("server.world.geodata.map-size", "625"));
+        GEODATA_MAXIMUM_LAYERS = Integer.parseInt(optionsSettings.getProperty("server.world.geodata.maximum-layers", "5"));
         PATHFINDER_ENABLED = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.pathfinder.enabled", "false"));
         PATHFINDER_SIMPLIFY_PATH = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.pathfinder.simplify-path", "false"));
     }

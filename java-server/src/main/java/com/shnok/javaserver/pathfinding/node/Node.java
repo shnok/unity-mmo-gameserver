@@ -10,7 +10,6 @@ public class Node implements Comparable<Node> {
     private Point3D center;
     private float nodeSize;
     private float cost;
-    private Node[] neighbors;
     private Node parentNode;
 
     public Node(Point3D nodeIndex, Point3D worldPosition, float nodeSize) {

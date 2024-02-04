@@ -51,7 +51,6 @@ public class PathFinding {
         LinkedList<Node> nodesToVisit = new LinkedList<>();
         nodesToVisit.add(start);
 
-        float dx, dz, dy;
         boolean added;
 
         int i = 0;
@@ -90,8 +89,6 @@ public class PathFinding {
             if (neighbors == null) {
                 continue;
             }
-
-            node.setNeighbors(neighbors);
 
             // Iterate through node's neighbors
             for (Node neighbor : neighbors) {
@@ -147,9 +144,9 @@ public class PathFinding {
                     continue;
 
                 try {
-                    Point3D neighborPos = new Point3D(nodePos.getX() + x * Config.NODE_SIZE,
+                    Point3D neighborPos = new Point3D(nodePos.getX() + x * Config.GEODATA_NODE_SIZE,
                             nodePos.getY(),
-                            nodePos.getZ() + z * Config.NODE_SIZE);
+                            nodePos.getZ() + z * Config.GEODATA_NODE_SIZE);
                     String mapId = Geodata.getInstance().getCurrentZone(neighborPos);
 
                     Node node = null;
@@ -158,14 +155,14 @@ public class PathFinding {
                     } catch(Exception e) {}
 
                     if (node == null) {
-                        neighborPos.setY(nodePos.getY() + Config.NODE_SIZE);
+                        neighborPos.setY(nodePos.getY() + Config.GEODATA_NODE_SIZE);
                         try {
                             node = Geodata.getInstance().getNodeAt(neighborPos, mapId);
                         } catch(Exception e) {}
                     }
 
                     if (node == null) {
-                        neighborPos.setY(nodePos.getY() - Config.NODE_SIZE);
+                        neighborPos.setY(nodePos.getY() - Config.GEODATA_NODE_SIZE);
                         try {
                             node = Geodata.getInstance().getNodeAt(neighborPos, mapId);
                         } catch(Exception e) {}

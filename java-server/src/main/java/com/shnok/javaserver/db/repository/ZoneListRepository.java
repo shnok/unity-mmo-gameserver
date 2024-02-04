@@ -31,7 +31,7 @@ public class ZoneListRepository implements ZoneListDao {
         log.debug("Loaded {} zone info(s).", zoneLists.size());
         Map<String, ZoneList> zoneMap = new FastMap<>();
         for(ZoneList zone : zoneLists) {
-            Point3D origin = VectorUtils.floorToNearest(zone.getOrigin(), Config.NODE_SIZE);
+            Point3D origin = VectorUtils.floorToNearest(zone.getOrigin(), Config.GEODATA_NODE_SIZE);
             zone.setOrigX(origin.getX());
             zone.setOrigY(origin.getY());
             zone.setOrigZ(origin.getZ());

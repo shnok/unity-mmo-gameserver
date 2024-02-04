@@ -4,8 +4,6 @@ import com.shnok.javaserver.Config;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.util.ByteUtils;
-import javolution.util.FastList;
-import javolution.util.FastMap;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.DataInputStream;
@@ -26,7 +24,7 @@ public class GeodataLoader {
         return instance;
     }
 
-    public Map<Point3D, List<Node>> loadGeodataForMap(String mapId) {
+    public Node[][][] loadGeodataForMap(String mapId) {
         return loadFromFile(getGeodataFilePath(mapId), mapId);
     }
 
@@ -34,7 +32,7 @@ public class GeodataLoader {
         return "geodata/" + mapId + ".geodata";
     }
 
-    private Map<Point3D, List<Node>> loadFromFile(String path, String mapId) {
+    private Node[][][] loadFromFile(String path, String mapId) {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(Objects.requireNonNull(classLoader.getResource(path)).getFile());
 
@@ -58,10 +56,14 @@ public class GeodataLoader {
         return null;
     }
 
-    private Map<Point3D, List<Node>> readGeodataFile(DataInputStream dis, String mapId) throws IOException {
-        Map<Point3D, List<Node>> geodata = new FastMap<>();
+    private Node[][][] readGeodataFile(DataInputStream dis, String mapId) throws IOException {
+        int rowCount = (int)Math.ceil(Config.GEODATA_MAP_SIZE / Config.GEODATA_NODE_SIZE);
+        Node[][][] geodata = new Node[rowCount][Config.GEODATA_MAXIMUM_LAYERS][rowCount];
 
         int count = 0;
+        int layer = 0;
+        Point3D lastGeodataKey = new Point3D(-1, -1, -1);
+
         try {
             while (true) {
                 short posX = ByteUtils.swapShort(dis.readShort());
@@ -72,19 +74,18 @@ public class GeodataLoader {
                 Point3D nodeIndex = new Point3D(posX, posY, posZ);
                 Point3D nodeWorldPos = Geodata.getInstance().fromNodeToWorldPos(nodeIndex, mapId);
 
-                Node n = new Node(nodeIndex, nodeWorldPos, Config.NODE_SIZE);
+                Node n = new Node(nodeIndex, nodeWorldPos, Config.GEODATA_NODE_SIZE);
 
                 Point3D geodataKey = new Point3D(posX, 0, posZ);
-                if(geodata.containsKey(geodataKey)) {
-                    geodata.get(geodataKey).add(n);
 
-                    // layer sorted on descending order
-                    Collections.sort(geodata.get(geodataKey));
+                if (lastGeodataKey.equals(geodataKey)) {
+                    layer++;
                 } else {
-                    List<Node> nodes = new FastList<>();
-                    nodes.add(n);
-                    geodata.put(geodataKey, nodes);
+                    layer = 0;
                 }
+
+                geodata[posX][layer][posZ] = n;
+                lastGeodataKey = geodataKey;
             }
         } catch (Exception e) {
         }
