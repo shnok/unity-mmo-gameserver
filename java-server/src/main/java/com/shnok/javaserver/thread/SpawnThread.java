@@ -37,7 +37,7 @@ public class SpawnThread implements Runnable {
     public void run() {
         try {
             if (npcTemplate == null) {
-                log.info("Npc template is null, skipping respawn.");
+                log.warn("Npc template is null, skipping respawn.");
                 return;
             }
 
@@ -62,7 +62,8 @@ public class SpawnThread implements Runnable {
             WorldManagerService.getInstance().addNPC(npc);
             //ServerService.getInstance().broadcast(new NpcInfoPacket(npc));
 
-            log.debug("Spawned entity {} with id {} at {}.", npc.getTemplate().getNpcId(), npc.getId(),
+            log.debug("Spawned [{}][{}] with id {} at {}.",
+                    npc.getTemplate().getNpcId(), npc.getTemplate().getName(), npc.getId(),
                     spawnInfo.getSpawnPosition().toString());
         } catch (Exception e) {
             e.printStackTrace();
