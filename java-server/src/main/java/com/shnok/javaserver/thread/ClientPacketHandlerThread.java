@@ -75,7 +75,6 @@ public class ClientPacketHandlerThread extends Thread {
 
     private void onReceiveEcho() {
         client.sendPacket(new PingPacket());
-        client.setLastEcho(System.currentTimeMillis());
 
         Timer timer = new Timer(Config.CONNECTION_TIMEOUT_SEC, new ActionListener() {
             @Override
@@ -89,6 +88,8 @@ public class ClientPacketHandlerThread extends Thread {
         });
         timer.setRepeats(false);
         timer.start();
+
+        client.setLastEcho(System.currentTimeMillis(), timer);
     }
 
     private void onReceiveAuth(byte[] data) {

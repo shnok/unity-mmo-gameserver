@@ -245,7 +245,7 @@ public abstract class Entity extends GameObject {
 //                getKnownList().getKnownCharacters().size(),
 //                getKnownList().getKnownObjects().size());
         for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {
-            player.sendPacket(packet);
+            sendPacketToPlayer(player, packet);
         }
     }
 
@@ -256,18 +256,25 @@ public abstract class Entity extends GameObject {
 
         switch (getAi().getIntention()) {
             case INTENTION_MOVE_TO:
-                player.sendPacket(new ObjectMoveToPacket(getId(), moveData.destination, getStatus().getMoveSpeed()));
+                sendPacketToPlayer(player, new ObjectMoveToPacket(getId(), moveData.destination, getStatus().getMoveSpeed()));
 
                 if(getAi().getMovingReason() == EntityMovingReason.Walking) {
-                    player.sendPacket(new ObjectAnimationPacket(
+                    sendPacketToPlayer(player, new ObjectAnimationPacket(
                             getId(), EntityAnimation.Walk.getValue(), 1f));
                 } else if(getAi().getMovingReason() == EntityMovingReason.Running) {
-                    player.sendPacket(new ObjectAnimationPacket(
+                    sendPacketToPlayer(player, new ObjectAnimationPacket(
                             getId(), EntityAnimation.Walk.getValue(), 1f));
                 }
                 break;
             case INTENTION_IDLE:
             case INTENTION_WAITING:
+        }
+    }
+
+    public void sendPacketToPlayer(PlayerInstance player, ServerPacket packet) {
+        if(!player.sendPacket(packet)) {
+            log.warn("Packet could not be sent to player");
+            getKnownList().removeKnownObject(player);
         }
     }
 }

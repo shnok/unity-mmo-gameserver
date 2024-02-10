@@ -41,13 +41,17 @@ public class PlayerInstance extends Entity {
     }
 
     // Send packet to player
-    public void sendPacket(ServerPacket packet) {
-        if(gameClient.isClientReady()) {
-            gameClient.sendPacket(packet);
-            if(packet instanceof UserInfoPacket) {
-                log.debug("[{}] Sending user packet", getGameClient().getCurrentPlayer().getId());
+    public boolean sendPacket(ServerPacket packet) {
+        if(gameClient.isClientReady() && gameClient.isAuthenticated()) {
+            if(gameClient.sendPacket(packet)) {
+                if(packet instanceof UserInfoPacket) {
+                    log.debug("[{}] Sending user packet", getGameClient().getCurrentPlayer().getId());
+                }
+                return true;
             }
         }
+
+        return false;
     }
 
     public String getName() {

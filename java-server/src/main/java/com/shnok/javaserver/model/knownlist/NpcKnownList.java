@@ -5,8 +5,6 @@ import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.NpcInstance;
 import com.shnok.javaserver.model.entity.PlayerInstance;
-import com.shnok.javaserver.thread.ai.BaseAI;
-import com.shnok.javaserver.thread.ai.NpcAI;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -46,6 +44,8 @@ public class NpcKnownList extends EntityKnownList
             // Share current action to player instance
             log.debug("Sharing current action to user");
             getActiveChar().shareCurrentAction((PlayerInstance) object);
+
+            log.debug("[{}] Adding player [{}] to known list", getActiveChar().getId(), object.getId());
         }
 
         return true;
@@ -62,12 +62,14 @@ public class NpcKnownList extends EntityKnownList
             return false;
         }
 
-        if(!Config.KEEP_AI_ALIVE) {
-            if (object instanceof PlayerInstance) {
-                if(getKnownPlayers().size() == 0) {
+        if (object instanceof PlayerInstance) {
+            if (!Config.KEEP_AI_ALIVE) {
+                if (getKnownPlayers().size() == 0) {
                     getActiveChar().stopAndRemoveAI();
                 }
             }
+
+            log.debug("[{}] Removing player [{}] from known list", getActiveChar().getId(), object.getId());
         }
 
         return true;

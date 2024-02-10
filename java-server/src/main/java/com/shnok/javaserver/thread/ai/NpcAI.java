@@ -127,6 +127,10 @@ public class NpcAI extends BaseAI implements Runnable {
 
     public void stopAITask() {
         if (aiTask != null) {
+            if (getIntention() == Intention.INTENTION_MOVE_TO) {
+                GameTimeControllerService.getInstance().removeMovingObject(owner);
+            }
+
             aiTask.cancel(true);
             aiTask = null;
         }
@@ -134,9 +138,6 @@ public class NpcAI extends BaseAI implements Runnable {
 
     @Override
     protected void onEvtDead() {
-        if (getIntention() == Intention.INTENTION_MOVE_TO) {
-            GameTimeControllerService.getInstance().removeMovingObject(owner);
-        }
         stopAITask();
     }
 

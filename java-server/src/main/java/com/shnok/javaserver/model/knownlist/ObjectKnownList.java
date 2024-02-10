@@ -61,8 +61,7 @@ public class ObjectKnownList {
         return knownObjects;
     }
 
-    public void removeAllKnownObjects()
-    {
+    public void removeAllKnownObjects() {
         getKnownObjects().clear();
     }
 
@@ -71,7 +70,7 @@ public class ObjectKnownList {
             return false;
         }
 
-        log.debug("[{}] Remove known object {}", activeObject.getId(), object.getId());
+//        log.debug("[{}] Remove known object {}", activeObject.getId(), object.getId());
 
         return (getKnownObjects().remove(object.getId()) != null);
     }
@@ -123,7 +122,7 @@ public class ObjectKnownList {
                 }
 
                 addKnownObject(object);
-                log.debug("[{}] Request add entity to {} knownlist", getActiveObject().getId(), object.getId());
+//                log.debug("[{}] Request add entity to {} knownlist", getActiveObject().getId(), object.getId());
             }
         }
     }
@@ -140,10 +139,14 @@ public class ObjectKnownList {
                 continue;
             }
 
+            if(!object.isVisible()) {
+                System.out.println("Not visible bitch");
+            }
+
             int distanceToForgetObject = getDistanceToForgetObject(object);
             if (!object.isVisible() || !VectorUtils.checkIfInRange(distanceToForgetObject, getActiveObject(), object)) {
                 removeKnownObject(object);
-                log.debug("[{}] Remove known object: {}", getActiveObject().getId(), object.getId());
+//                log.debug("[{}] Remove known object: {}", getActiveObject().getId(), object.getId());
             }
         }
     }
@@ -171,7 +174,7 @@ public class ObjectKnownList {
         @Override
         public void run() {
             if (obj != null) {
-//                log.debug("[{}] Updating known objects...", obj.getId());
+                //log.debug("[{}] Updating known objects...", obj.getId());
                 obj.getKnownList().updateKnownObjects();
             }
         }
