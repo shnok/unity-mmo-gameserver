@@ -3,16 +3,25 @@ package com.shnok.javaserver.thread.ai;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
+import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
+import com.shnok.javaserver.model.entity.PlayerInstance;
 import lombok.Data;
+import lombok.extern.log4j.Log4j2;
 
 @Data
+@Log4j2
 public abstract class BaseAI {
     protected Entity owner;
     protected boolean moving = false;
     protected EntityMovingReason movingReason;
     protected Intention intention = Intention.INTENTION_IDLE;
+    protected boolean autoAttacking;
+    private GameObject target;
+    private Entity castTarget;
+    protected Entity attackTarget;
+    protected Entity followTarget;
 
     public void notifyEvent(Event evt) {
         switch (evt) {
@@ -59,4 +68,8 @@ public abstract class BaseAI {
 
     protected abstract void onIntentionIdle();
 
+    public void setTarget(Entity target) {
+        log.debug("[{}] New target [{}]", owner.getId(), target != null ? target.getId() : "null");
+        this.target = target;
+    }
 }

@@ -5,6 +5,8 @@ import com.shnok.javaserver.model.position.ObjectPosition;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 /**
  * This class represents all spawnable objects in the world.<BR>
  * <BR>
@@ -78,4 +80,16 @@ public abstract class GameObject {
         return getPosition().getWorldRegion();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameObject that = (GameObject) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

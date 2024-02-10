@@ -15,6 +15,7 @@ import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
+import com.shnok.javaserver.thread.ai.PlayerAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.extern.log4j.Log4j2;
 
@@ -69,6 +70,9 @@ public class ClientPacketHandlerThread extends Thread {
                 break;
             case RequestMoveDirection:
                 onRequestCharacterMoveDirection(data);
+                break;
+            case RequestSetTarget:
+                onRequestSetTarget(data);
                 break;
         }
     }
@@ -151,16 +155,24 @@ public class ClientPacketHandlerThread extends Thread {
         client.setClientReady(true);
         System.out.println("On load world");
 
-        /* Dummy player */
+        // Dummy player
+        // TODO: FETCH FROM DB
         PlayerInstance player = new PlayerInstance(client.getUsername());
         player.setStatus(new PlayerStatus());
         player.setGameClient(client);
         player.setId(WorldManagerService.getInstance().nextID());
         player.setPosition(VectorUtils.randomPos(Config.PLAYER_SPAWN_POINT, 1.5f));
+
+        // AI initialization
+        PlayerAI ai = new PlayerAI();
+        ai.setOwner(player);
+        player.setAi(ai);
+
         client.setCurrentPlayer(player);
 
         WorldManagerService.getInstance().addPlayer(player);
 
+        // Share character with client
         client.sendPacket(new PlayerInfoPacket(player));
         client.sendPacket(new GameTimePacket());
 
@@ -213,5 +225,37 @@ public class ClientPacketHandlerThread extends Thread {
         ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
                 client.getCurrentPlayer().getId(), packet.getSpeed(), packet.getDirection());
         client.getCurrentPlayer().broadcastPacket(objectDirectionPacket);
+    }
+
+    private void onRequestSetTarget(byte[] data) {
+        RequestSetTargetPacket packet = new RequestSetTargetPacket(data);
+
+        if(packet.getTargetId() == -1) {
+            // Clear target
+            client.getCurrentPlayer().getAi().setTarget(null);
+        } else {
+            // Find entity in entity list
+            Entity target = WorldManagerService.getInstance().getEntity(packet.getTargetId());
+            if(target == null) {
+                log.warn("[{}] Player tried to target a wrong entity with ID [{}]",
+                        client.getCurrentPlayer().getId(), packet.getTargetId());
+                return;
+            }
+
+            // Check if user is allowed to target entity
+            if(!client.getCurrentPlayer().getKnownList().knowsObject(target)) {
+                log.warn("[{}] Player tried to target an entity outside of this known list with ID [{}]",
+                        client.getCurrentPlayer().getId(), packet.getTargetId());
+                return;
+            }
+
+            // Set entity target
+            client.getCurrentPlayer().getAi().setTarget(target);
+        }
+
+        // Notify known list
+        EntitySetTargetPacket entitySetTargetPacket = new EntitySetTargetPacket(
+                client.getCurrentPlayer().getId(), packet.getTargetId());
+        client.getCurrentPlayer().broadcastPacket(entitySetTargetPacket);
     }
 }

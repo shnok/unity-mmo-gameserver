@@ -77,6 +77,10 @@ public class EntityKnownList extends ObjectKnownList  {
         }
 
         if(object.getKnownList().knowsObject(getActiveObject())) {
+            if(getActiveChar().getAi().getTarget() == object) {
+                log.debug("[{}] Removed entity was target", getActiveChar().getId());
+                getActiveChar().getAi().setTarget(null);
+            }
             object.getKnownList().removeKnownObject(getActiveObject());
         }
 

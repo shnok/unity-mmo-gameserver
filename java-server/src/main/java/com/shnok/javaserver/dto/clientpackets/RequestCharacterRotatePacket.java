@@ -1,16 +1,14 @@
 package com.shnok.javaserver.dto.clientpackets;
 
 import com.shnok.javaserver.dto.ClientPacket;
+import lombok.Getter;
 
+@Getter
 public class RequestCharacterRotatePacket extends ClientPacket {
-    private final float _angle;
+    private final float angle;
 
     public RequestCharacterRotatePacket(byte[] data) {
         super(data);
-        _angle = readF();
-    }
-
-    public float getAngle() {
-        return _angle;
+        angle = readF();
     }
 }

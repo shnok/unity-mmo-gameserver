@@ -21,7 +21,7 @@ public class NpcKnownList extends EntityKnownList
      *  object is a NpcInstance  :
      * Send Server-Client Packet NpcInfo to the PlayerInstance Send Server->Client packet MoveToPawn/CharMoveToLocation and AutoAttackStart to the PlayerInstance
      *  object is a PlayerInstance  :
-     * Send Server-Client Packet CharInfo to the PlayerInstance If the object has a private store, Send Server-Client Packet PrivateStoreMsgSell to the PlayerInstance Send Server->Client packet MoveToPawn/CharMoveToLocation and AutoAttackStart to the PlayerInstance
+     * Send Server-Client Packet CharInfo to the PlayerInstance  Send Server->Client packet MoveToPawn/CharMoveToLocation and AutoAttackStart to the PlayerInstance
      *
      * @param object The GameObject to add to knownObjects and knownPlayer
      */
@@ -42,7 +42,7 @@ public class NpcKnownList extends EntityKnownList
             }
 
             // Share current action to player instance
-            log.debug("Sharing current action to user");
+            log.debug("[{}] Sharing current action to user", getActiveChar().getId());
             getActiveChar().shareCurrentAction((PlayerInstance) object);
 
             log.debug("[{}] Adding player [{}] to known list", getActiveChar().getId(), object.getId());

@@ -1,7 +1,11 @@
 package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.db.entity.SpawnList;
+import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
+import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
+import com.shnok.javaserver.enums.EntityAnimation;
+import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
@@ -98,6 +102,31 @@ public class NpcInstance extends Entity {
     @Override
     public final NpcStatus getStatus() {
         return (NpcStatus) super.getStatus();
+    }
+
+    @Override
+    public boolean shareCurrentAction(PlayerInstance player) {
+        if(!super.shareCurrentAction(player)) {
+            return false;
+        }
+
+        switch (getAi().getIntention()) {
+            case INTENTION_MOVE_TO:
+                sendPacketToPlayer(player, new ObjectMoveToPacket(getId(), moveData.destination, getStatus().getMoveSpeed()));
+
+                if(getAi().getMovingReason() == EntityMovingReason.Walking) {
+                    sendPacketToPlayer(player, new ObjectAnimationPacket(
+                            getId(), EntityAnimation.Walk.getValue(), 1f));
+                } else if(getAi().getMovingReason() == EntityMovingReason.Running) {
+                    sendPacketToPlayer(player, new ObjectAnimationPacket(
+                            getId(), EntityAnimation.Walk.getValue(), 1f));
+                }
+                break;
+            case INTENTION_IDLE:
+            case INTENTION_WAITING:
+        }
+
+        return true;
     }
 
     /* remove and stop AI */

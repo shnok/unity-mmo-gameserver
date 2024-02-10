@@ -18,12 +18,9 @@ import java.util.Random;
 import java.util.concurrent.Future;
 
 @Log4j2
-public class NpcAI extends BaseAI implements Runnable {
-//    private int patrolIndex = 0;
-//    private int patrolDirection = 0;
+public class NpcAI extends EntityAI implements Runnable {
     private NpcInstance npc;
     private Future<?> aiTask;
-    private boolean thinking = false;
 
     public NpcAI() {
         startAITask();
@@ -39,7 +36,8 @@ public class NpcAI extends BaseAI implements Runnable {
         if (thinking || owner == null) {
             return;
         }
-        if (npc == null) {
+
+        if(npc == null) {
             npc = (NpcInstance) owner;
         }
 
@@ -62,7 +60,6 @@ public class NpcAI extends BaseAI implements Runnable {
         }
 
         thinking = false;
-
         startAITask();
     }
 
@@ -75,6 +72,8 @@ public class NpcAI extends BaseAI implements Runnable {
         return false;
     }
 
+    //    private int patrolIndex = 0;
+//    private int patrolDirection = 0;
 //    private void patrol() {
 //        Point3D wayPoint = new Point3D();
 //        if (patrolDirection == 0) {
@@ -118,6 +117,13 @@ public class NpcAI extends BaseAI implements Runnable {
         }
     }
 
+    @Override
+    protected void onEvtDead() {
+        super.onEvtDead();
+
+        stopAITask();
+    }
+
     private void startAITask() {
         if (aiTask == null) {
             aiTask = ThreadPoolManagerService.getInstance().scheduleAiAtFixedRate(this, 1000,
@@ -137,11 +143,6 @@ public class NpcAI extends BaseAI implements Runnable {
     }
 
     @Override
-    protected void onEvtDead() {
-        stopAITask();
-    }
-
-    @Override
     protected void onEvtArrived() {
         if (owner.moveToNextRoutePoint()) {
             return;
@@ -153,13 +154,8 @@ public class NpcAI extends BaseAI implements Runnable {
     }
 
     @Override
-    public void setOwner(Entity owner) {
-        this.owner = owner;
-    }
-
-    @Override
     protected void onIntentionMoveTo(Point3D destination) {
-        intention = Intention.INTENTION_MOVE_TO;
+        super.onIntentionMoveTo(destination);
 
         if (owner.canMove()) {
             if (owner.moveTo(destination)) {
@@ -173,6 +169,8 @@ public class NpcAI extends BaseAI implements Runnable {
 
     @Override
     protected void onIntentionIdle() {
+        super.onIntentionIdle();
+
         if (getIntention() == Intention.INTENTION_MOVE_TO) {
             moving = false;
             ObjectAnimationPacket packet = new ObjectAnimationPacket(npc.getId(), EntityAnimation.Wait.getValue(), 1f);

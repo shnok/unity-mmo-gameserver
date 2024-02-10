@@ -12,7 +12,8 @@ public enum ClientPacketType {
     RequestRotate((byte)5),
     RequestAnim((byte)6),
     RequestAttack((byte)7),
-    RequestMoveDirection((byte)8);
+    RequestMoveDirection((byte)8),
+    RequestSetTarget((byte)9);
 
     private final byte value;
 

@@ -4,12 +4,12 @@ import com.shnok.javaserver.dto.ClientPacket;
 import lombok.Getter;
 
 @Getter
-public class RequestAttackPacket extends ClientPacket {
+public class RequestSetTargetPacket extends ClientPacket {
     private final int targetId;
-    private final byte attackType;
-    public RequestAttackPacket(byte[] data) {
+
+    public RequestSetTargetPacket(byte[] data) {
         super(data);
+
         targetId = readI();
-        attackType = readB();
     }
 }

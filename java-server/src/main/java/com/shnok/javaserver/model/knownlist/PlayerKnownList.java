@@ -46,11 +46,15 @@ public class PlayerKnownList extends EntityKnownList
              //   getActiveChar().sendPacket(new SpawnItem((L2ItemInstance) object));
             }
         } else if (object instanceof NpcInstance) {
+            log.debug("[{}] New npc [{}] added to known list", getActiveObject().getId(), object.getId());
             getActiveChar().sendPacket(new NpcInfoPacket((NpcInstance) object));
         } else if (object instanceof PlayerInstance) {
             log.debug("[{}] New user added: {} Count: {}", getActiveObject().getId(), object.getId(), getKnownPlayers().size());
             PlayerInstance otherPlayer = (PlayerInstance) object;
             getActiveChar().sendPacket(new UserInfoPacket(otherPlayer));
+
+            log.debug("[{}] Sharing current action to [{}]", getActiveObject().getId(), object.getId());
+            getActiveChar().shareCurrentAction((PlayerInstance) object);
         }
 
         /*if (object instanceof Entity)

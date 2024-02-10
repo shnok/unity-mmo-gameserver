@@ -18,7 +18,8 @@ public enum ServerPacketType {
     ObjectMoveTo((byte)0x0B),
     UserInfo((byte)0x0C),
     ObjectMoveDirection((byte)0x0D),
-    GameTimePacket((byte)0x0E);
+    GameTimePacket((byte)0x0E),
+    EntitySetTarget((byte)0x0F);
 
     private final byte value;
 
