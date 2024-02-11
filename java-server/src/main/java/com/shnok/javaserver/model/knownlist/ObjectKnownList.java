@@ -51,6 +51,9 @@ public class ObjectKnownList {
             return false;
         }
 
+        // Tell other object to refresh its knownlist
+        object.getKnownList().forceRecheckSurroundings();
+
         return (getKnownObjects().put(object.getId(), object) == null);
     }
 

@@ -46,11 +46,7 @@ public class NpcAI extends EntityAI implements Runnable {
         /* Is NPC waiting ? */
         if (getIntention() == Intention.INTENTION_IDLE) {
             /* Check if npc needs to change its intention */
-            if (npc.doPatrol() && npc.getPatrolWaypoints() != null) {
-//                if (npc.getPatrolWaypoints().length > 0) {
-//                    patrol();
-//                }
-            } else if (npc.doRandomWalk() && shouldWalk()) {
+            if (npc.isRandomWalk() && shouldWalk()) {
                 movingReason = EntityMovingReason.Walking;
 
                 // Update npc move speed to its walking speed
@@ -71,29 +67,6 @@ public class NpcAI extends EntityAI implements Runnable {
 
         return false;
     }
-
-    //    private int patrolIndex = 0;
-//    private int patrolDirection = 0;
-//    private void patrol() {
-//        Point3D wayPoint = new Point3D();
-//        if (patrolDirection == 0) {
-//            if (patrolIndex < npc.getPatrolWaypoints().length - 1) {
-//                wayPoint = npc.getPatrolWaypoints()[patrolIndex++];
-//            } else {
-//                patrolDirection = 1;
-//                wayPoint = npc.getPatrolWaypoints()[patrolIndex--];
-//            }
-//        } else if (patrolDirection == 1) {
-//            if (patrolIndex > 0) {
-//                wayPoint = npc.getPatrolWaypoints()[patrolIndex--];
-//            } else {
-//                patrolDirection = 0;
-//                wayPoint = npc.getPatrolWaypoints()[patrolIndex++];
-//            }
-//        }
-//
-//        setIntention(Intention.INTENTION_MOVE_TO, wayPoint);
-//    }
 
     // default monster behaviour
     private void randomWalk() {

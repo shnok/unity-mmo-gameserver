@@ -100,8 +100,12 @@ public class GameClientThread extends Thread {
 
     public boolean sendPacket(ServerPacket packet) {
         if(Config.PRINT_SERVER_PACKETS) {
-            log.debug("Sent packet: {}", ServerPacketType.fromByte(packet.getType()));
+            ServerPacketType packetType = ServerPacketType.fromByte(packet.getType());
+            if(packetType != ServerPacketType.Ping) {
+                log.debug("Sent packet: {}", packetType);
+            }
         }
+
         try {
             synchronized (out) {
                 for (byte b : packet.getData()) {

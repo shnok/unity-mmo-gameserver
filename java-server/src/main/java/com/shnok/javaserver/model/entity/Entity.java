@@ -18,6 +18,7 @@ import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.MoveData;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.GameTimeControllerService;
+import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.*;
@@ -50,7 +51,23 @@ public abstract class Entity extends GameObject {
     public abstract void inflictDamage(int value);
     public abstract void setStatus(Status status);
     public abstract boolean canMove();
-    public abstract void onDeath();
+
+    public void onDeath() {
+        log.debug("[{}] Entity died", getId());
+        if (ai != null) {
+            ai.notifyEvent(Event.DEAD);
+        }
+
+        setCanMove(false);
+        //TODO: stop hp mp regen
+        //TODO: give exp?
+        //TODO: Share HP
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+    }
 
     @Override
     public EntityKnownList getKnownList() {
@@ -238,11 +255,6 @@ public abstract class Entity extends GameObject {
     }
 
     public void broadcastPacket(ServerPacket packet) {
-//        log.debug("[{}] Known players:{} entities:{} objects:{}",
-//                getId(),
-//                getKnownList().getKnownPlayers().size(),
-//                getKnownList().getKnownCharacters().size(),
-//                getKnownList().getKnownObjects().size());
         for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {
             sendPacketToPlayer(player, packet);
         }
@@ -264,6 +276,22 @@ public abstract class Entity extends GameObject {
         if(!player.sendPacket(packet)) {
             log.warn("Packet could not be sent to player");
             getKnownList().removeKnownObject(player);
+        }
+    }
+
+    public static class ScheduleDestroyTask implements Runnable {
+        private final Entity entity;
+
+        public ScheduleDestroyTask(Entity entity){
+            this.entity = entity;
+        }
+
+        @Override
+        public void run() {
+            log.debug("Execute schedule destroy object");
+            if (entity != null) {
+                entity.destroy();
+            }
         }
     }
 }

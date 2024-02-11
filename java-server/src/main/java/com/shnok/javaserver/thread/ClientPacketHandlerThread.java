@@ -4,6 +4,7 @@ import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.clientpackets.*;
 import com.shnok.javaserver.dto.serverpackets.*;
 import com.shnok.javaserver.enums.ClientPacketType;
+import com.shnok.javaserver.enums.ServerPacketType;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
@@ -41,7 +42,9 @@ public class ClientPacketHandlerThread extends Thread {
     public void handle() {
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
         if(Config.PRINT_CLIENT_PACKETS) {
-            log.debug("Received packet: {}", type);
+            if(type != ClientPacketType.Ping) {
+                log.debug("Received packet: {}", type);
+            }
         }
         switch (type) {
             case Ping:
@@ -209,13 +212,22 @@ public class ClientPacketHandlerThread extends Thread {
             log.warn("Trying to attack a non-entity object.");
             return;
         }
+        if(((Entity)object).getStatus().getHp() <= 0) {
+            log.warn("Trying to attack a dead entity.");
+            return;
+        }
 
-        ((Entity) object).inflictDamage(1);
+        //TODO add damage calcs?
+        int damage = 25;
+        ((Entity) object).inflictDamage(damage);
 
         // Notify known list
         ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), 1);
+                client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), damage);
+        // Send packet to player's known list
         client.getCurrentPlayer().broadcastPacket(applyDamagePacket);
+        // Send packet to player
+        client.sendPacket(applyDamagePacket);
     }
 
     private void onRequestCharacterMoveDirection(byte[] data) {

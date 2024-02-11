@@ -60,7 +60,7 @@ public class SpawnManagerService {
                     0f,
                     0f,
                     210.01f,
-                    25,
+                    3000,
                     0,
                     0));
             registeredSpawns.add(new SpawnList(
@@ -72,7 +72,7 @@ public class SpawnManagerService {
                     0f,
                     0f,
                     210.01f,
-                    25,
+                    3000,
                     0,
                     0));
         }
@@ -92,6 +92,9 @@ public class SpawnManagerService {
     }
 
     public void respawn(SpawnList spawnInfo, NpcTemplate template) {
-        ThreadPoolManagerService.getInstance().scheduleSpawn(new SpawnThread(spawnInfo, template), spawnInfo.getRespawnDelay());
+        log.debug("Scheduling respawn for [{}]{} in {}ms",
+                spawnInfo.getNpcId(),template.getName(), spawnInfo.getRespawnDelay());
+        ThreadPoolManagerService.getInstance().scheduleSpawn(
+                new SpawnThread(spawnInfo, template), spawnInfo.getRespawnDelay());
     }
 }

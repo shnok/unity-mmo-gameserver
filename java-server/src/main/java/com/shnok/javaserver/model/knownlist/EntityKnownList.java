@@ -39,12 +39,6 @@ public class EntityKnownList extends ObjectKnownList  {
         return true;
     }
 
-    /**
-     * Return True if the PlayerInstance is in knownPlayer of the Entity.<BR>
-     * <BR>
-     * @param player The PlayerInstance to search in knownPlayer
-     * @return
-     */
     public final boolean knowsThePlayer(PlayerInstance player) {
         return (getActiveChar() == player) || getKnownPlayers().containsKey(player.getId());
     }

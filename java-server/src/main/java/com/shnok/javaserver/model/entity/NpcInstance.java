@@ -6,7 +6,6 @@ import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.enums.EntityAnimation;
 import com.shnok.javaserver.enums.EntityMovingReason;
-import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
@@ -14,6 +13,7 @@ import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.NpcTemplate;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.SpawnManagerService;
+import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.thread.ai.NpcAI;
@@ -25,10 +25,8 @@ import lombok.extern.log4j.Log4j2;
 @EqualsAndHashCode(callSuper=false)
 @Log4j2
 public class NpcInstance extends Entity {
-    private boolean isStatic = false;
-    private boolean patrol = false;
-    private boolean randomWalk = false;
-    private Point3D[] patrolWaypoints;
+    private boolean isStatic;
+    private boolean randomWalk;
     private SpawnList spawnInfo;
 
     public NpcInstance(int id, NpcTemplate npcTemplate) {
@@ -37,14 +35,13 @@ public class NpcInstance extends Entity {
         this.status = new NpcStatus(npcTemplate.getLevel(), npcTemplate.baseHpMax);
         this.isStatic = true;
         this.randomWalk = false;
-        this.patrol = false;
     }
 
     @Override
     public void inflictDamage(int value) {
-        status.setHp(status.getHp() - value);
+        status.setHp(Math.max(status.getHp() - value, 0));
 
-        if (status.getHp() <= 0) {
+        if (status.getHp() == 0) {
             onDeath();
         }
     }
@@ -69,29 +66,22 @@ public class NpcInstance extends Entity {
 
     @Override
     public void onDeath() {
-        if (ai != null)
-            ai.notifyEvent(Event.DEAD);
+        super.onDeath();
 
+        // Tell client that entity died
+        //TODO Tell client that entity died
+
+        // Destroy the gameobject after 5 seconds
+        ThreadPoolManagerService.getInstance().scheduleDestroyObject(new ScheduleDestroyTask(this), 5000);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+
+        // Remove npc from npc list and schedule respawn
         WorldManagerService.getInstance().removeNPC(this);
-        ServerService.getInstance().broadcast(new RemoveObjectPacket(getId()));
         SpawnManagerService.getInstance().respawn(spawnInfo, (NpcTemplate) template);
-    }
-
-    public boolean doPatrol() {
-        return patrol;
-    }
-
-    public void setPatrol(boolean patrol) {
-        this.patrol = patrol;
-    }
-
-
-    public boolean doRandomWalk() {
-        return randomWalk;
-    }
-
-    public void setRandomWalk(boolean randomWalk) {
-        this.randomWalk = randomWalk;
     }
 
     @Override
