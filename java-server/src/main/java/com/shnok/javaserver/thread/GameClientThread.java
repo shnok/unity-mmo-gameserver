@@ -99,7 +99,7 @@ public class GameClientThread extends Thread {
     }
 
     public boolean sendPacket(ServerPacket packet) {
-        if(Config.PRINT_SERVER_PACKETS) {
+        if(Config.PRINT_SERVER_PACKETS_LOGS) {
             ServerPacketType packetType = ServerPacketType.fromByte(packet.getType());
             if(packetType != ServerPacketType.Ping) {
                 log.debug("Sent packet: {}", packetType);

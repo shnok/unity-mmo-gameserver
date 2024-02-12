@@ -25,18 +25,18 @@ public class PathFinding {
         try {
             String startZone = Geodata.getInstance().getCurrentZone(from);
             Node start = Geodata.getInstance().getNodeAt(from, startZone);
-            if(Config.PRINT_PATHFINDER) {
+            if(Config.PRINT_PATHFINDER_LOGS) {
                 log.debug("Startnode: {}", start.getWorldPosition());
             }
             String endZone = Geodata.getInstance().getCurrentZone(to);
             Node end = Geodata.getInstance().getNodeAt(to, endZone);
-            if(Config.PRINT_PATHFINDER) {
+            if(Config.PRINT_PATHFINDER_LOGS) {
                 log.debug("EndNode: {}", end.getWorldPosition());
             }
             return searchByClosest(start, end);
 
         } catch (Exception e) {
-            if(Config.PRINT_PATHFINDER) {
+            if(Config.PRINT_PATHFINDER_LOGS) {
                 log.debug("{}.", e.getMessage());
             }
             return null;
@@ -64,7 +64,7 @@ public class PathFinding {
                 node = nodesToVisit.removeFirst();
             } catch (Exception e) {
                 // No Path found
-                if(Config.PRINT_PATHFINDER) {
+                if(Config.PRINT_PATHFINDER_LOGS) {
                     log.debug("No path found - {} to {}.", start.getCenter(), end.getCenter());
                 }
                 return null;
@@ -73,7 +73,7 @@ public class PathFinding {
             // Current node is the destination node
             // Path was found
             if (node.equals(end)) {
-                if(Config.PRINT_PATHFINDER) {
+                if(Config.PRINT_PATHFINDER_LOGS) {
                     log.debug("Found path - {} to {} after {} iteration(s).", start.getCenter(), end.getCenter(), i);
                 }
                 return constructPath(node);
@@ -128,7 +128,7 @@ public class PathFinding {
             }
         }
         // No Path found
-        if(Config.PRINT_PATHFINDER) {
+        if(Config.PRINT_PATHFINDER_LOGS) {
             log.debug("No path found (max iterations reached)");
         }
         return null;
@@ -172,7 +172,7 @@ public class PathFinding {
                         returnList[i++] = node;
                     }
                 } catch (Exception e) {
-                    if(Config.PRINT_PATHFINDER) {
+                    if(Config.PRINT_PATHFINDER_LOGS) {
                         log.debug("Node neighbor could not be found.");
                     }
                 }

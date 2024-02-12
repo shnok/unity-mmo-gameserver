@@ -1,7 +1,6 @@
 package com.shnok.javaserver.model;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.PlayerInstance;
 import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
@@ -28,7 +27,7 @@ public class WorldRegion {
             return;
         }
 
-        if(Config.PRINT_WORLDREGION) {
+        if(Config.PRINT_WORLDREGION_LOGS) {
             log.debug("Adding visible object {} to region {}.", object.getId(), getName());
         }
         visibleObjects.add(object);
@@ -44,7 +43,7 @@ public class WorldRegion {
             return;
         }
 
-        if(Config.PRINT_WORLDREGION) {
+        if(Config.PRINT_WORLDREGION_LOGS) {
             log.debug("Removing visible object {} to region {}.", object.getId(), getName());
         }
 

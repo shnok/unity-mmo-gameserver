@@ -1,17 +1,14 @@
 package com.shnok.javaserver.thread.ai;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.enums.EntityAnimation;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.NpcInstance;
 import com.shnok.javaserver.pathfinding.Geodata;
-import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Random;
@@ -75,7 +72,7 @@ public class NpcAI extends EntityAI implements Runnable {
                 Node n = Geodata.getInstance().findRandomNodeInRange(npc.getSpawnInfo().getSpawnPosition(), 6);
                 setIntention(Intention.INTENTION_MOVE_TO, n.getCenter());
             } catch (Exception e) {
-                if(Config.PRINT_PATHFINDER) {
+                if(Config.PRINT_PATHFINDER_LOGS) {
                     log.debug(e);
                 }
 

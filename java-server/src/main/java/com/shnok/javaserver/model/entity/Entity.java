@@ -103,7 +103,7 @@ public abstract class Entity extends GameObject {
             if(Config.PATHFINDER_ENABLED) {
 
                 moveData.path = PathFinding.getInstance().findPath(getPosition().getWorldPosition(), destination);
-                if(Config.PRINT_PATHFINDER) {
+                if(Config.PRINT_PATHFINDER_LOGS) {
                     log.debug("[{}] Found path length: {}", getId(), moveData.path.size());
                 }
             } else {
@@ -117,7 +117,7 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
-        if(Config.PRINT_PATHFINDER) {
+        if(Config.PRINT_PATHFINDER_LOGS) {
             log.debug("[{}] Move to {} reason {}", getId(),destination, getAi().getMovingReason());
         }
 

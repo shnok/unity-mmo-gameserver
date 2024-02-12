@@ -23,8 +23,6 @@ public class NpcKnownList extends EntityKnownList
      * Send Server-Client Packet NpcInfo to the PlayerInstance Send Server->Client packet MoveToPawn/CharMoveToLocation and AutoAttackStart to the PlayerInstance
      *  object is a PlayerInstance  :
      * Send Server-Client Packet CharInfo to the PlayerInstance  Send Server->Client packet MoveToPawn/CharMoveToLocation and AutoAttackStart to the PlayerInstance
-     *
-     * @param object The GameObject to add to knownObjects and knownPlayer
      */
     @Override
     public boolean addKnownObject(GameObject object) {
@@ -43,20 +41,16 @@ public class NpcKnownList extends EntityKnownList
             }
 
             // Share current action to player instance
-            log.debug("[{}] Sharing current action to user", getActiveChar().getId());
+            if(Config.PRINT_KNOWN_LIST_LOGS) {
+                log.debug("[{}] Sharing current action to user", getActiveChar().getId());
+            }
             getActiveChar().shareCurrentAction((PlayerInstance) object);
-
-            log.debug("[{}] Adding player [{}] to known list", getActiveChar().getId(), object.getId());
         }
 
         return true;
     }
 
-    /**
-     * Remove a GameObject from NpcInstance knownObjects and knownPlayer (if necessary).
-     *
-     * @param object The GameObject to remove from knownObjects and knownPlayer
-     */
+    // Remove a GameObject from NpcInstance knownObjects and knownPlayer (if necessary).
     @Override
     public boolean removeKnownObject(GameObject object) {
         if(!super.removeKnownObject(object)) {
@@ -70,7 +64,9 @@ public class NpcKnownList extends EntityKnownList
                 }
             }
 
-            log.debug("[{}] Removing player [{}] from known list", getActiveChar().getId(), object.getId());
+            if(Config.PRINT_KNOWN_LIST_LOGS) {
+                log.debug("[{}] Removing player [{}] from known list", getActiveChar().getId(), object.getId());
+            }
         }
 
         return true;

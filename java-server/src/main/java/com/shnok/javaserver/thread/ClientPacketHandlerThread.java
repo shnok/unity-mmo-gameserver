@@ -4,17 +4,12 @@ import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.clientpackets.*;
 import com.shnok.javaserver.dto.serverpackets.*;
 import com.shnok.javaserver.enums.ClientPacketType;
-import com.shnok.javaserver.enums.ServerPacketType;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.PlayerInstance;
-import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.model.status.PlayerStatus;
-import com.shnok.javaserver.pathfinding.Geodata;
-import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.ServerService;
-import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.ai.PlayerAI;
 import com.shnok.javaserver.util.VectorUtils;
@@ -42,7 +37,7 @@ public class ClientPacketHandlerThread extends Thread {
 
     public void handle() {
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
-        if(Config.PRINT_CLIENT_PACKETS) {
+        if(Config.PRINT_CLIENT_PACKETS_LOGS) {
             if(type != ClientPacketType.Ping) {
                 log.debug("Received packet: {}", type);
             }

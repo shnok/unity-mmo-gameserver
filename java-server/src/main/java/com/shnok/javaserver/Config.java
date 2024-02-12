@@ -13,10 +13,11 @@ public class Config {
     public static int CONNECTION_TIMEOUT_SEC;
     public static int TIME_TICKS_PER_SECOND;
     public static int TIME_DAY_DURATION_MINUTES;
-    public static boolean PRINT_SERVER_PACKETS;
-    public static boolean PRINT_PATHFINDER;
-    public static boolean PRINT_CLIENT_PACKETS;
-    public static boolean PRINT_WORLDREGION;
+    public static boolean PRINT_SERVER_PACKETS_LOGS;
+    public static boolean PRINT_PATHFINDER_LOGS;
+    public static boolean PRINT_CLIENT_PACKETS_LOGS;
+    public static boolean PRINT_WORLDREGION_LOGS;
+    public static boolean PRINT_KNOWN_LIST_LOGS;
     public static boolean SPAWN_NPCS;
     public static boolean SPAWN_MONSTERS;
     public static boolean SPAWN_DEBUG;
@@ -33,7 +34,6 @@ public class Config {
     public static float GEODATA_NODE_SIZE;
     public static int GEODATA_MAP_SIZE;
     public static int GEODATA_MAXIMUM_LAYERS;
-
 
     public static void LoadSettings() throws Exception {
         ClassLoader classLoader = Main.class.getClassLoader();
@@ -64,14 +64,14 @@ public class Config {
 
         PLAYER_SPAWN_POINT = new Point3D(spawnX, spawnY, spawnZ);
 
-        PRINT_SERVER_PACKETS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.server-packets", "false"));
-        PRINT_CLIENT_PACKETS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.client-packets", "false"));
-        PRINT_PATHFINDER = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.pathfinder", "false"));
-        PRINT_WORLDREGION = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.world-region", "false"));
+        PRINT_SERVER_PACKETS_LOGS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.server-packets", "false"));
+        PRINT_CLIENT_PACKETS_LOGS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.client-packets", "false"));
+        PRINT_PATHFINDER_LOGS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.pathfinder", "false"));
+        PRINT_WORLDREGION_LOGS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.world-region", "false"));
+        PRINT_KNOWN_LIST_LOGS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.known-list", "false"));
 
         String zoneList = optionsSettings.getProperty("server.world.geodata.zones.load", "");
         ZONES_TO_LOAD = zoneList.toUpperCase().split(",");
-
 
         GEODATA_ENABLED = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.enabled", "true"));
         GEODATA_MAXIMUM_Y_ERROR = Integer.parseInt(optionsSettings.getProperty("server.world.geodata.maximum-y-error", "5"));
