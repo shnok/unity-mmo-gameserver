@@ -2,6 +2,7 @@ package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.dto.serverpackets.EntitySetTargetPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
@@ -17,11 +18,10 @@ import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.MoveData;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.GameTimeControllerService;
+import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.util.VectorUtils;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
@@ -33,10 +33,10 @@ import java.util.ArrayList;
  * <BR>
  */
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 @NoArgsConstructor
 @Log4j2
+@Getter
+@Setter
 public abstract class Entity extends GameObject {
     protected boolean canMove = true;
     protected MoveData moveData;
@@ -51,7 +51,23 @@ public abstract class Entity extends GameObject {
     public abstract void inflictDamage(int value);
     public abstract void setStatus(Status status);
     public abstract boolean canMove();
-    public abstract void onDeath();
+
+    public void onDeath() {
+        log.debug("[{}] Entity died", getId());
+        if (ai != null) {
+            ai.notifyEvent(Event.DEAD);
+        }
+
+        setCanMove(false);
+        //TODO: stop hp mp regen
+        //TODO: give exp?
+        //TODO: Share HP
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+    }
 
     @Override
     public EntityKnownList getKnownList() {
@@ -148,11 +164,6 @@ public abstract class Entity extends GameObject {
         ObjectMoveToPacket packet = new ObjectMoveToPacket(getId(), destination, getStatus().getMoveSpeed());
         broadcastPacket(packet);
 
-        //log.debug("Moving to new point: " + destination);
-
-        /* Set server side position to destination for players loading npc during travel */
-        //setPosition(destination);
-
         return true;
     }
 
@@ -239,35 +250,45 @@ public abstract class Entity extends GameObject {
     }
 
     public void broadcastPacket(ServerPacket packet) {
-//        log.debug("[{}] Known players:{} entities:{} objects:{}",
-//                getId(),
-//                getKnownList().getKnownPlayers().size(),
-//                getKnownList().getKnownCharacters().size(),
-//                getKnownList().getKnownObjects().size());
         for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {
-            player.sendPacket(packet);
+            sendPacketToPlayer(player, packet);
         }
     }
 
-    public void shareCurrentAction(PlayerInstance player) {
+    public boolean shareCurrentAction(PlayerInstance player) {
         if(getAi() == null) {
-            return;
+            return false;
         }
 
-        switch (getAi().getIntention()) {
-            case INTENTION_MOVE_TO:
-                player.sendPacket(new ObjectMoveToPacket(getId(), moveData.destination, getStatus().getMoveSpeed()));
+        sendPacketToPlayer(player, new ObjectPositionPacket(getId(), getPosition().getWorldPosition()));
 
-                if(getAi().getMovingReason() == EntityMovingReason.Walking) {
-                    player.sendPacket(new ObjectAnimationPacket(
-                            getId(), EntityAnimation.Walk.getValue(), 1f));
-                } else if(getAi().getMovingReason() == EntityMovingReason.Running) {
-                    player.sendPacket(new ObjectAnimationPacket(
-                            getId(), EntityAnimation.Walk.getValue(), 1f));
-                }
-                break;
-            case INTENTION_IDLE:
-            case INTENTION_WAITING:
+        // Share current target with player
+        if(getAi().getTarget() != null) {
+            sendPacketToPlayer(player, new EntitySetTargetPacket(getId(), getAi().getTarget().getId()));
+        }
+        return true;
+    }
+
+    public void sendPacketToPlayer(PlayerInstance player, ServerPacket packet) {
+        if(!player.sendPacket(packet)) {
+            log.warn("Packet could not be sent to player");
+            getKnownList().removeKnownObject(player);
+        }
+    }
+
+    public static class ScheduleDestroyTask implements Runnable {
+        private final Entity entity;
+
+        public ScheduleDestroyTask(Entity entity){
+            this.entity = entity;
+        }
+
+        @Override
+        public void run() {
+            log.debug("Execute schedule destroy object");
+            if (entity != null) {
+                entity.destroy();
+            }
         }
     }
 }

@@ -1,12 +1,11 @@
 package com.shnok.javaserver.model.knownlist;
 
 import com.shnok.javaserver.Config;
+import com.shnok.javaserver.dto.serverpackets.NpcInfoPacket;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.NpcInstance;
 import com.shnok.javaserver.model.entity.PlayerInstance;
-import com.shnok.javaserver.thread.ai.BaseAI;
-import com.shnok.javaserver.thread.ai.NpcAI;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -23,18 +22,18 @@ public class NpcKnownList extends EntityKnownList
      *  object is a NpcInstance  :
      * Send Server-Client Packet NpcInfo to the PlayerInstance Send Server->Client packet MoveToPawn/CharMoveToLocation and AutoAttackStart to the PlayerInstance
      *  object is a PlayerInstance  :
-     * Send Server-Client Packet CharInfo to the PlayerInstance If the object has a private store, Send Server-Client Packet PrivateStoreMsgSell to the PlayerInstance Send Server->Client packet MoveToPawn/CharMoveToLocation and AutoAttackStart to the PlayerInstance
+     * Send Server-Client Packet CharInfo to the PlayerInstance  Send Server->Client packet MoveToPawn/CharMoveToLocation and AutoAttackStart to the PlayerInstance
      *
      * @param object The GameObject to add to knownObjects and knownPlayer
      */
     @Override
     public boolean addKnownObject(GameObject object) {
-        return addKnownObject(object, null);
+        return addKnownObject(object, false);
     }
 
     @Override
-    public boolean addKnownObject(GameObject object, Entity dropper) {
-        if(!super.addKnownObject(object, dropper)) {
+    public boolean addKnownObject(GameObject object, boolean silent) {
+        if(!super.addKnownObject(object, silent)) {
             return false;
         }
 
@@ -44,8 +43,10 @@ public class NpcKnownList extends EntityKnownList
             }
 
             // Share current action to player instance
-            log.debug("Sharing current action to user");
+            log.debug("[{}] Sharing current action to user", getActiveChar().getId());
             getActiveChar().shareCurrentAction((PlayerInstance) object);
+
+            log.debug("[{}] Adding player [{}] to known list", getActiveChar().getId(), object.getId());
         }
 
         return true;
@@ -62,12 +63,14 @@ public class NpcKnownList extends EntityKnownList
             return false;
         }
 
-        if(!Config.KEEP_AI_ALIVE) {
-            if (object instanceof PlayerInstance) {
-                if(getKnownPlayers().size() == 0) {
+        if (object instanceof PlayerInstance) {
+            if (!Config.KEEP_AI_ALIVE) {
+                if (getKnownPlayers().size() == 0) {
                     getActiveChar().stopAndRemoveAI();
                 }
             }
+
+            log.debug("[{}] Removing player [{}] from known list", getActiveChar().getId(), object.getId());
         }
 
         return true;

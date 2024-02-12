@@ -1,9 +1,15 @@
 package com.shnok.javaserver.model;
 
+import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.model.position.ObjectPosition;
+import com.shnok.javaserver.service.ServerService;
+import com.shnok.javaserver.service.WorldManagerService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
+import java.util.Objects;
 
 /**
  * This class represents all spawnable objects in the world.<BR>
@@ -13,6 +19,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
+@Log4j2
 public abstract class GameObject {
     protected int id;
     protected int model;
@@ -31,11 +38,19 @@ public abstract class GameObject {
         this.id = id;
     }
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
+    public void destroy() {
+        log.debug("[{}] Destroying gameObject", getId());
+
+        // Removing self from region
+        getPosition().getWorldRegion().removeVisibleObject(this);
+
+        // Tell known list to remove self
+        getKnownList().getKnownObjects().forEach(((integer, gameObject) -> {
+            gameObject.getKnownList().removeKnownObject(this);
+        }));
+
+        // Remove object from all server objects
+        WorldManagerService.getInstance().removeObject(this);
     }
 
     public final ObjectPosition getPosition() {
@@ -69,13 +84,21 @@ public abstract class GameObject {
         return getPosition().getWorldPosition().getZ();
     }
 
-    /**
-     * returns reference to region this object is in
-     * @return
-     */
     public WorldRegion getWorldRegion()
     {
         return getPosition().getWorldRegion();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameObject that = (GameObject) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

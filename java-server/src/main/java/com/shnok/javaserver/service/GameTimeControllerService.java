@@ -49,10 +49,12 @@ public class GameTimeControllerService {
         Entity[] entities = movingObjects.toArray(new Entity[0]);
         for (Entity e : entities) {
             try {
-                if (e.updatePosition(gameTicks)) {
+                // check if entities doesnt increase in size with empty values
+                if (e.updatePosition(gameTicks) || e.getStatus().getHp() <= 0) {
                     movingObjects.remove(e);
                 }
             } catch (NullPointerException ex) {
+                movingObjects.remove(e);
                 log.error("One entity is null in moving objects");
             }
         }

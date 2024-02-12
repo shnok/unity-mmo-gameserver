@@ -4,6 +4,7 @@ import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.clientpackets.*;
 import com.shnok.javaserver.dto.serverpackets.*;
 import com.shnok.javaserver.enums.ClientPacketType;
+import com.shnok.javaserver.enums.ServerPacketType;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
@@ -15,12 +16,14 @@ import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
+import com.shnok.javaserver.thread.ai.PlayerAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 @Log4j2
 public class ClientPacketHandlerThread extends Thread {
@@ -40,7 +43,9 @@ public class ClientPacketHandlerThread extends Thread {
     public void handle() {
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
         if(Config.PRINT_CLIENT_PACKETS) {
-            log.debug("Received packet: {}", type);
+            if(type != ClientPacketType.Ping) {
+                log.debug("Received packet: {}", type);
+            }
         }
         switch (type) {
             case Ping:
@@ -70,12 +75,14 @@ public class ClientPacketHandlerThread extends Thread {
             case RequestMoveDirection:
                 onRequestCharacterMoveDirection(data);
                 break;
+            case RequestSetTarget:
+                onRequestSetTarget(data);
+                break;
         }
     }
 
     private void onReceiveEcho() {
         client.sendPacket(new PingPacket());
-        client.setLastEcho(System.currentTimeMillis());
 
         Timer timer = new Timer(Config.CONNECTION_TIMEOUT_SEC, new ActionListener() {
             @Override
@@ -89,6 +96,8 @@ public class ClientPacketHandlerThread extends Thread {
         });
         timer.setRepeats(false);
         timer.start();
+
+        client.setLastEcho(System.currentTimeMillis(), timer);
     }
 
     private void onReceiveAuth(byte[] data) {
@@ -150,16 +159,24 @@ public class ClientPacketHandlerThread extends Thread {
         client.setClientReady(true);
         System.out.println("On load world");
 
-        /* Dummy player */
+        // Dummy player
+        // TODO: FETCH FROM DB
         PlayerInstance player = new PlayerInstance(client.getUsername());
         player.setStatus(new PlayerStatus());
         player.setGameClient(client);
         player.setId(WorldManagerService.getInstance().nextID());
         player.setPosition(VectorUtils.randomPos(Config.PLAYER_SPAWN_POINT, 1.5f));
+
+        // AI initialization
+        PlayerAI ai = new PlayerAI();
+        ai.setOwner(player);
+        player.setAi(ai);
+
         client.setCurrentPlayer(player);
 
         WorldManagerService.getInstance().addPlayer(player);
 
+        // Share character with client
         client.sendPacket(new PlayerInfoPacket(player));
         client.sendPacket(new GameTimePacket());
 
@@ -196,13 +213,28 @@ public class ClientPacketHandlerThread extends Thread {
             log.warn("Trying to attack a non-entity object.");
             return;
         }
+        if(((Entity)object).getStatus().getHp() <= 0) {
+            log.warn("Trying to attack a dead entity.");
+            return;
+        }
 
-        ((Entity) object).inflictDamage(1);
+        //TODO add damage calcs
+        int damage = 25;
+        ((Entity) object).inflictDamage(damage);
+        boolean critical = false;
+        Random r = new Random();
+        if(r.nextInt(2) == 0) {
+            critical = true;
+        }
+        // TODO add damage calcs
 
         // Notify known list
         ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), 1);
+                client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), damage, critical);
+        // Send packet to player's known list
         client.getCurrentPlayer().broadcastPacket(applyDamagePacket);
+        // Send packet to player
+        client.sendPacket(applyDamagePacket);
     }
 
     private void onRequestCharacterMoveDirection(byte[] data) {
@@ -212,5 +244,37 @@ public class ClientPacketHandlerThread extends Thread {
         ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
                 client.getCurrentPlayer().getId(), packet.getSpeed(), packet.getDirection());
         client.getCurrentPlayer().broadcastPacket(objectDirectionPacket);
+    }
+
+    private void onRequestSetTarget(byte[] data) {
+        RequestSetTargetPacket packet = new RequestSetTargetPacket(data);
+
+        if(packet.getTargetId() == -1) {
+            // Clear target
+            client.getCurrentPlayer().getAi().setTarget(null);
+        } else {
+            // Find entity in entity list
+            Entity target = WorldManagerService.getInstance().getEntity(packet.getTargetId());
+            if(target == null) {
+                log.warn("[{}] Player tried to target a wrong entity with ID [{}]",
+                        client.getCurrentPlayer().getId(), packet.getTargetId());
+                return;
+            }
+
+            // Check if user is allowed to target entity
+            if(!client.getCurrentPlayer().getKnownList().knowsObject(target)) {
+                log.warn("[{}] Player tried to target an entity outside of this known list with ID [{}]",
+                        client.getCurrentPlayer().getId(), packet.getTargetId());
+                return;
+            }
+
+            // Set entity target
+            client.getCurrentPlayer().getAi().setTarget(target);
+        }
+
+        // Notify known list
+        EntitySetTargetPacket entitySetTargetPacket = new EntitySetTargetPacket(
+                client.getCurrentPlayer().getId(), packet.getTargetId());
+        client.getCurrentPlayer().broadcastPacket(entitySetTargetPacket);
     }
 }

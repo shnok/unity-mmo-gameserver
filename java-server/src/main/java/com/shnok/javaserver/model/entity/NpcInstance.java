@@ -1,8 +1,12 @@
 package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.db.entity.SpawnList;
+import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
+import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
+import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
-import com.shnok.javaserver.enums.Event;
+import com.shnok.javaserver.enums.EntityAnimation;
+import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
@@ -10,6 +14,7 @@ import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.NpcTemplate;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.SpawnManagerService;
+import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.thread.ai.NpcAI;
@@ -21,10 +26,8 @@ import lombok.extern.log4j.Log4j2;
 @EqualsAndHashCode(callSuper=false)
 @Log4j2
 public class NpcInstance extends Entity {
-    private boolean isStatic = false;
-    private boolean patrol = false;
-    private boolean randomWalk = false;
-    private Point3D[] patrolWaypoints;
+    private boolean isStatic;
+    private boolean randomWalk;
     private SpawnList spawnInfo;
 
     public NpcInstance(int id, NpcTemplate npcTemplate) {
@@ -33,14 +36,13 @@ public class NpcInstance extends Entity {
         this.status = new NpcStatus(npcTemplate.getLevel(), npcTemplate.baseHpMax);
         this.isStatic = true;
         this.randomWalk = false;
-        this.patrol = false;
     }
 
     @Override
     public void inflictDamage(int value) {
-        status.setHp(status.getHp() - value);
+        status.setHp(Math.max(status.getHp() - value, 0));
 
-        if (status.getHp() <= 0) {
+        if (status.getHp() == 0) {
             onDeath();
         }
     }
@@ -65,29 +67,22 @@ public class NpcInstance extends Entity {
 
     @Override
     public void onDeath() {
-        if (ai != null)
-            ai.notifyEvent(Event.DEAD);
+        super.onDeath();
 
+        // Tell client that entity died
+        //TODO Tell client that entity died
+
+        // Destroy the gameobject after 5 seconds
+        ThreadPoolManagerService.getInstance().scheduleDestroyObject(new ScheduleDestroyTask(this), 5000);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+
+        // Remove npc from npc list and schedule respawn
         WorldManagerService.getInstance().removeNPC(this);
-        ServerService.getInstance().broadcast(new RemoveObjectPacket(getId()));
         SpawnManagerService.getInstance().respawn(spawnInfo, (NpcTemplate) template);
-    }
-
-    public boolean doPatrol() {
-        return patrol;
-    }
-
-    public void setPatrol(boolean patrol) {
-        this.patrol = patrol;
-    }
-
-
-    public boolean doRandomWalk() {
-        return randomWalk;
-    }
-
-    public void setRandomWalk(boolean randomWalk) {
-        this.randomWalk = randomWalk;
     }
 
     @Override
@@ -100,10 +95,35 @@ public class NpcInstance extends Entity {
         return (NpcStatus) super.getStatus();
     }
 
+    @Override
+    public boolean shareCurrentAction(PlayerInstance player) {
+        if(!super.shareCurrentAction(player)) {
+            return false;
+        }
+
+        switch (getAi().getIntention()) {
+            case INTENTION_MOVE_TO:
+                sendPacketToPlayer(player, new ObjectMoveToPacket(getId(), moveData.destination, getStatus().getMoveSpeed()));
+
+                if(getAi().getMovingReason() == EntityMovingReason.Walking) {
+                    sendPacketToPlayer(player, new ObjectAnimationPacket(
+                            getId(), EntityAnimation.Walk.getValue(), 1f));
+                } else if(getAi().getMovingReason() == EntityMovingReason.Running) {
+                    sendPacketToPlayer(player, new ObjectAnimationPacket(
+                            getId(), EntityAnimation.Walk.getValue(), 1f));
+                }
+                break;
+            case INTENTION_IDLE:
+            case INTENTION_WAITING:
+        }
+
+        return true;
+    }
+
     /* remove and stop AI */
     public void stopAndRemoveAI() {
         BaseAI ai = getAi();
-        log.debug("[{}] Stop and remove AI", getId());
+//        log.debug("[{}] Stop and remove AI", getId());
         if(ai instanceof NpcAI) {
             ((NpcAI) ai).stopAITask();
             setAi(null);
@@ -113,7 +133,7 @@ public class NpcInstance extends Entity {
     /* add AI to NPC */
     public void refreshAI() {
         if (!isStatic()) {
-            log.debug("[{}] Add AI", getId());
+//            log.debug("[{}] Add AI", getId());
             if(getAi() != null) {
                 stopAndRemoveAI();
             }

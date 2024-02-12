@@ -23,12 +23,12 @@ public class EntityKnownList extends ObjectKnownList  {
 
     @Override
     public boolean addKnownObject(GameObject object) {
-        return addKnownObject(object, null);
+        return addKnownObject(object, false);
     }
 
     @Override
-    public boolean addKnownObject(GameObject object, Entity dropper) {
-        if (!super.addKnownObject(object, dropper)) {
+    public boolean addKnownObject(GameObject object, boolean silent) {
+        if (!super.addKnownObject(object, silent)) {
             return false;
         }
         if (object instanceof PlayerInstance) {
@@ -39,12 +39,6 @@ public class EntityKnownList extends ObjectKnownList  {
         return true;
     }
 
-    /**
-     * Return True if the PlayerInstance is in knownPlayer of the Entity.<BR>
-     * <BR>
-     * @param player The PlayerInstance to search in knownPlayer
-     * @return
-     */
     public final boolean knowsThePlayer(PlayerInstance player) {
         return (getActiveChar() == player) || getKnownPlayers().containsKey(player.getId());
     }
@@ -55,15 +49,6 @@ public class EntityKnownList extends ObjectKnownList  {
     {
         super.removeAllKnownObjects();
         getKnownPlayers().clear();
-
-        /*// Set target of the Entity to null
-        // Cancel Attack or Cast
-        getActiveChar().setTarget(null);
-
-        // Cancel AI Task
-        if (getActiveChar().hasAI()) {
-            getActiveChar().setAI(null);
-        }*/
     }
 
     @Override
@@ -77,6 +62,10 @@ public class EntityKnownList extends ObjectKnownList  {
         }
 
         if(object.getKnownList().knowsObject(getActiveObject())) {
+            if(getActiveChar().getAi().getTarget() == object) {
+                log.debug("[{}] Removed entity was target", getActiveChar().getId());
+                getActiveChar().getAi().setTarget(null);
+            }
             object.getKnownList().removeKnownObject(getActiveObject());
         }
 

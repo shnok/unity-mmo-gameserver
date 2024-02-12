@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
+import javax.swing.*;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +33,7 @@ public class GameClientThread extends Thread {
     private PlayerInstance currentPlayer;
     private boolean clientReady = false;
     private long lastEcho;
+    private Timer watchDog;
 
     public GameClientThread(Socket con) {
         connection = con;
@@ -96,10 +98,14 @@ public class GameClientThread extends Thread {
         }
     }
 
-    public void sendPacket(ServerPacket packet) {
+    public boolean sendPacket(ServerPacket packet) {
         if(Config.PRINT_SERVER_PACKETS) {
-            log.debug("Sent packet: {}", ServerPacketType.fromByte(packet.getType()));
+            ServerPacketType packetType = ServerPacketType.fromByte(packet.getType());
+            if(packetType != ServerPacketType.Ping) {
+                log.debug("Sent packet: {}", packetType);
+            }
         }
+
         try {
             synchronized (out) {
                 for (byte b : packet.getData()) {
@@ -107,21 +113,26 @@ public class GameClientThread extends Thread {
                 }
                 out.flush();
             }
+
+            return true;
         } catch (IOException e) {
             log.warn("Trying to send packet to a closed game client.");
         }
-    }
 
-    public long getLastEcho() {
-        return lastEcho;
-    }
-
-    public void setLastEcho(long lastEcho) {
-        this.lastEcho = lastEcho;
+        return false;
     }
 
     void handlePacket(byte[] data) {
         ThreadPoolManagerService.getInstance().handlePacket(new ClientPacketHandlerThread(this, data));
+    }
+
+    public void setLastEcho(long lastEcho, Timer watchDog) {
+        if(this.watchDog != null) {
+            watchDog.stop();
+        }
+
+        this.lastEcho = lastEcho;
+        this.watchDog = watchDog;
     }
 
     void authenticate() {
@@ -137,15 +148,33 @@ public class GameClientThread extends Thread {
             /* remove player from world player list */
             WorldManagerService.getInstance().removePlayer(currentPlayer);
 
+            /* remove player from world object list */
+//            WorldManagerService.getInstance().removeObject(currentPlayer);
+
             /* tell to knownplayers to remove object */
             /* could be redundant... */
             currentPlayer.broadcastPacket(new RemoveObjectPacket(currentPlayer.getId()));
 
             /* tell knownlist to forget player */
-            currentPlayer.getKnownList().getKnownObjects().values().forEach(
-                    (object) ->  object.getKnownList().removeKnownObject(currentPlayer));
+//            currentPlayer.getKnownList().getKnownObjects().values().forEach(
+//                    (object) ->  object.getKnownList().removeKnownObject(currentPlayer));
+
+            /* tell player to forget every object */
+            currentPlayer.getKnownList().getKnownObjects().forEach((integer, gameObject) -> {
+                currentPlayer.getKnownList().removeKnownObject(gameObject);
+            });
+
+//            WorldManagerService.getInstance().getVisibleObjects(getActiveObject())
+
+            currentPlayer.setVisible(false);
+
             /* remove player from region */
             currentPlayer.getPosition().getWorldRegion().removeVisibleObject(currentPlayer);
+
+            /* stop watch dog */
+            if(watchDog != null) {
+                watchDog.stop();
+            }
 
             /* broadcast log off message to server */
             ServerService.getInstance().broadcast(

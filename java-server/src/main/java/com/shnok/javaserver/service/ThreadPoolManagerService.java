@@ -44,6 +44,17 @@ public class ThreadPoolManagerService {
         }
     }
 
+    public ScheduledFuture<?> scheduleDestroyObject(Runnable r, long delay) {
+        try {
+            if (delay < 0) {
+                delay = 0;
+            }
+            return spawnThreadPool.schedule(r, delay, TimeUnit.MILLISECONDS);
+        } catch (RejectedExecutionException e) {
+            return null; /* shutdown, ignore */
+        }
+    }
+
     public ScheduledFuture<?> scheduleAiAtFixedRate(Runnable r, long initial, long delay) {
         try {
             if (delay < 0)

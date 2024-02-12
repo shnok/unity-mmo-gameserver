@@ -60,7 +60,7 @@ public class SpawnManagerService {
                     0f,
                     0f,
                     210.01f,
-                    25,
+                    3000,
                     0,
                     0));
             registeredSpawns.add(new SpawnList(
@@ -72,7 +72,19 @@ public class SpawnManagerService {
                     0f,
                     0f,
                     210.01f,
-                    25,
+                    3000,
+                    0,
+                    0));
+            registeredSpawns.add(new SpawnList(
+                    54496,
+                    "gludio32_qm1725_00",
+                    1,
+                    18342,
+                    4727.39f,-67.94f, -1729.50f,
+                    0f,
+                    0f,
+                    178.19f,
+                    3000,
                     0,
                     0));
         }
@@ -92,6 +104,9 @@ public class SpawnManagerService {
     }
 
     public void respawn(SpawnList spawnInfo, NpcTemplate template) {
-        ThreadPoolManagerService.getInstance().scheduleSpawn(new SpawnThread(spawnInfo, template), spawnInfo.getRespawnDelay());
+        log.debug("Scheduling respawn for [{}]{} in {}ms",
+                spawnInfo.getNpcId(),template.getName(), spawnInfo.getRespawnDelay());
+        ThreadPoolManagerService.getInstance().scheduleSpawn(
+                new SpawnThread(spawnInfo, template), spawnInfo.getRespawnDelay());
     }
 }

@@ -46,9 +46,10 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 [Byte: `animation id` | Float: `value`]
 # 0x07 : RequestAttack
 [Int: `object id` | Byte: `attack type`]
-# 0x08 : ReauestMoveDirection
+# 0x08 : RequestMoveDirection
 [Float: `move speed` | Float: `dir X` | Float: `dir Y` | Float: `dir Z`]
-
+# 0x09 : `RequestSetTarget`
+[Int: `target id`]
 ```
 
 ### Server Packets
@@ -77,7 +78,7 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 # 0x08 : ObjectAnimation
 [Int: `object id` | Byte: `animation id` | Float: `value`]
 # 0x09 : ApplyDamage
-[Int: `sender id` | Int: `target id` | Byte: `attack type` | Int: `value`]
+[Int: `sender id` | Int: `target id` | Byte: `attack type` | Int: `value` | Byte: `critical hit`]
 # 0x0A : NpcInfo
 [Int: `object id` | Int: `npc id` | String: `npc class` | String: `npc type` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Float: `collision height`| Float: `movespeed`| Int: `level`| Int: `hp`| Int: `maxhp`]
 # 0x0B : ObjectMoveTo
@@ -88,5 +89,6 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 [Int: `object id` | Float: `move speed` | Float: `dir X` | Float: `dir Y` | Float: `dir Z`]
 # 0x0E : GameTime
 [Long: `current server ticks` | Int: `tick duration in Ms` | Int: `day duration in minutes`]
-
+# 0x0F : EntitySetTarget
+[Int: `object id` | Int: `target id`]
 ```
