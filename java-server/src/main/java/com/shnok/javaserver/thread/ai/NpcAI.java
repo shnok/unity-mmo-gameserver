@@ -141,9 +141,6 @@ public class NpcAI extends EntityAI implements Runnable {
 
         if (getIntention() == Intention.INTENTION_MOVE_TO) {
             moving = false;
-            System.out.println("Arrived at destination");
-            ObjectAnimationPacket packet = new ObjectAnimationPacket(npc.getId(), EntityAnimation.Wait.getValue(), 1f);
-            npc.broadcastPacket(packet);
         }
 
         intention = Intention.INTENTION_IDLE;
