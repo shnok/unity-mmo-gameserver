@@ -22,6 +22,10 @@ public class PathFinding {
     }
 
     public List<Point3D> findPath(Point3D from, Point3D to) {
+        return findPath(from, to, 0);
+    }
+
+    public List<Point3D> findPath(Point3D from, Point3D to, float stopAtRange) {
         try {
             String startZone = Geodata.getInstance().getCurrentZone(from);
             Node start = Geodata.getInstance().getNodeAt(from, startZone);
@@ -33,7 +37,7 @@ public class PathFinding {
             if(Config.PRINT_PATHFINDER_LOGS) {
                 log.debug("EndNode: {}", end.getWorldPosition());
             }
-            return searchByClosest(start, end);
+            return searchByClosest(start, end, stopAtRange);
 
         } catch (Exception e) {
             if(Config.PRINT_PATHFINDER_LOGS) {
@@ -43,7 +47,7 @@ public class PathFinding {
         }
     }
 
-    public List<Point3D> searchByClosest(Node start, Node end) {
+    public List<Point3D> searchByClosest(Node start, Node end, float stopAtRange) {
         // List of Visited Nodes
         FastNodeList visitedNodes = new FastNodeList(550);
 
@@ -72,7 +76,7 @@ public class PathFinding {
 
             // Current node is the destination node
             // Path was found
-            if (node.equals(end)) {
+            if (node.equals(end) || VectorUtils.calcDistance(node.getCenter(), end.getCenter()) <= stopAtRange) {
                 if(Config.PRINT_PATHFINDER_LOGS) {
                     log.debug("Found path - {} to {} after {} iteration(s).", start.getCenter(), end.getCenter(), i);
                 }

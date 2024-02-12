@@ -59,8 +59,8 @@ public class PlayerInstance extends Entity {
     }
 
     @Override
-    public void inflictDamage(int value) {
-        status.setHp(status.getHp() - value);
+    public void inflictDamage(Entity attacker, int value) {
+        super.inflictDamage(attacker, value);
     }
 
     @Override

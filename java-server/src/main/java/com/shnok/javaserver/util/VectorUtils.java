@@ -25,6 +25,12 @@ public class VectorUtils {
         return (float) Math.sqrt((dx * dx) + (dz * dz) + (dy * dy));
     }
 
+    public static float calcDistance2D(Point3D from, Point3D to) {
+        double dx = (to.getX() - from.getX());
+        double dz = (to.getZ() - from.getZ());
+        return (float) Math.sqrt((dx * dx) + (dz * dz));
+    }
+
     public static Point3D randomPos(Point3D center, float range) {
         Random random = new Random();
         float randomX = random.nextFloat() * (range * 2) - range;

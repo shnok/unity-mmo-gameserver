@@ -42,13 +42,27 @@ public abstract class Entity extends GameObject {
     protected BaseAI ai;
     protected EntityTemplate template;
     protected Status status;
+    protected boolean moving;
+    protected long attackEndTime;
 
     public Entity(int id) {
         super(id);
     }
 
-    public abstract void inflictDamage(int value);
+    public void inflictDamage(Entity attacker, int value) {
+        if(getAi() != null) {
+            getAi().notifyEvent(Event.ATTACKED, attacker);
+        }
+
+        status.setHp(Math.max(status.getHp() - value, 0));
+
+        if (status.getHp() == 0) {
+            onDeath();
+        }
+    }
+
     public abstract void setStatus(Status status);
+
     public abstract boolean canMove();
 
     public void onDeath() {
@@ -61,6 +75,41 @@ public abstract class Entity extends GameObject {
         //TODO: stop hp mp regen
         //TODO: give exp?
         //TODO: Share HP
+    }
+
+    public void doAttack(Entity target) {
+
+        if (!canAttack()) {
+            return;
+        }
+
+        // Get the Attack Speed of the npc (delay (in milliseconds) before next attack)
+        int timeAtk = calculateTimeBetweenAttacks();
+        // the hit is calculated to happen halfway to the animation
+
+        int timeToHit = timeAtk / 2;
+        attackEndTime = GameTimeControllerService.getInstance().getGameTicks();
+        attackEndTime += (timeAtk / GameTimeControllerService.getInstance().getTickDurationMs());
+        attackEndTime -= 1;
+
+        // Apply damage
+        //TODO do damage calculations
+        log.debug("ouchie");
+    }
+
+    public boolean isAttacking() {
+        return attackEndTime < GameTimeControllerService.getInstance().getGameTicks();
+    }
+
+    public boolean canAttack() {
+        return !isAttacking();
+    }
+
+    // Return the Attack Speed of the L2Character (delay (in milliseconds) before next attack)
+    public int calculateTimeBetweenAttacks()
+    {
+        //Todo calculate attack speed
+        return 1000;
     }
 
     @Override
@@ -90,9 +139,17 @@ public abstract class Entity extends GameObject {
     }
 
     public boolean moveTo(Point3D destination) {
+        return moveTo(destination, 0);
+    }
+
+    public boolean moveTo(Point3D destination, float stopAtRange) {
         //System.out.println("AI find path: " + x + "," + y + "," + z);
         if (!isOnGeoData()) {
             log.debug("[{}] Not on geodata", getId());
+            return false;
+        }
+
+        if(!canMove) {
             return false;
         }
 
@@ -102,7 +159,7 @@ public abstract class Entity extends GameObject {
         if (moveData.path == null || moveData.path.size() == 0) {
             if(Config.PATHFINDER_ENABLED) {
 
-                moveData.path = PathFinding.getInstance().findPath(getPosition().getWorldPosition(), destination);
+                moveData.path = PathFinding.getInstance().findPath(getPosition().getWorldPosition(), destination, stopAtRange);
                 if(Config.PRINT_PATHFINDER_LOGS) {
                     log.debug("[{}] Found path length: {}", getId(), moveData.path.size());
                 }
@@ -123,6 +180,8 @@ public abstract class Entity extends GameObject {
 
         moveToNextRoutePoint();
         GameTimeControllerService.getInstance().addMovingObject(this);
+
+        moving = true;
         return true;
     }
 
@@ -144,6 +203,8 @@ public abstract class Entity extends GameObject {
         } else {
             speed = getTemplate().getBaseRunSpd();
         }
+
+        getStatus().setMoveSpeed(speed);
 
         if (speed <= 0) {
             return false;

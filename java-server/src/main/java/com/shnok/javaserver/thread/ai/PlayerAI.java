@@ -1,31 +1,20 @@
 package com.shnok.javaserver.thread.ai;
 
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.entity.Entity;
 
 public class PlayerAI extends EntityAI {
     @Override
-    protected void onEvtThink() {
-
-    }
+    protected void onEvtThink() {}
 
     @Override
-    protected void onEvtDead() {
-
-    }
+    protected void onEvtDead() {}
 
     @Override
-    protected void onEvtArrived() {
-
-    }
+    protected void onEvtArrived() {}
 
     @Override
-    protected void onIntentionMoveTo(Point3D arg0) {
-
-    }
+    protected void onIntentionMoveTo(Point3D arg0) {}
 
     @Override
-    protected void onIntentionIdle() {
-
-    }
+    protected void onIntentionIdle() {}
 }

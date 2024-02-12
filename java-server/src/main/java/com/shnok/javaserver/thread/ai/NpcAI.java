@@ -2,6 +2,7 @@ package com.shnok.javaserver.thread.ai;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.enums.EntityMovingReason;
+import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
@@ -9,6 +10,7 @@ import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.NpcInstance;
 import com.shnok.javaserver.pathfinding.Geodata;
+import com.shnok.javaserver.util.VectorUtils;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Random;
@@ -40,20 +42,34 @@ public class NpcAI extends EntityAI implements Runnable {
 
         thinking = true;
 
+        System.out.println(getIntention());
+
         /* Is NPC waiting ? */
         if (getIntention() == Intention.INTENTION_IDLE) {
-            /* Check if npc needs to change its intention */
-            if (npc.isRandomWalk() && shouldWalk()) {
-                movingReason = EntityMovingReason.Walking;
+            thinkIdle();
+        }
 
-                // Update npc move speed to its walking speed
-                npc.getStatus().setMoveSpeed(npc.getTemplate().getBaseWalkSpd());
-                randomWalk();
-            }
+        if(getIntention() == Intention.INTENTION_ATTACK) {
+            thinkAttack();
         }
 
         thinking = false;
         startAITask();
+    }
+
+    void thinkIdle() {
+        /* Check if npc needs to change its intention */
+        if (npc.isRandomWalk() && shouldWalk()) {
+            movingReason = EntityMovingReason.Walking;
+
+            // Update npc move speed to its walking speed
+            npc.getStatus().setMoveSpeed(npc.getTemplate().getBaseWalkSpd());
+            randomWalk();
+        }
+    }
+
+    void thinkAttack() {
+        onIntentionAttack();
     }
 
     private boolean shouldWalk() {
@@ -76,7 +92,7 @@ public class NpcAI extends EntityAI implements Runnable {
                     log.debug(e);
                 }
 
-                moving = false;
+                owner.setMoving(false);
                 setIntention(Intention.INTENTION_IDLE);
             }
         }
@@ -113,20 +129,24 @@ public class NpcAI extends EntityAI implements Runnable {
             return;
         }
 
+        log.debug("Before " + getIntention());
         if (getIntention() == Intention.INTENTION_MOVE_TO) {
             setIntention(Intention.INTENTION_IDLE);
         }
+
+        if(getIntention() == Intention.INTENTION_ATTACK) {
+            setIntention(Intention.INTENTION_ATTACK);
+        }
+        log.debug(getIntention());
     }
 
     @Override
     protected void onIntentionMoveTo(Point3D destination) {
         super.onIntentionMoveTo(destination);
 
-        if (owner.canMove()) {
-            if (owner.moveTo(destination)) {
-                moving = true;
-                return;
-            }
+        // Check if still running
+        if (owner.moveTo(destination)) {
+            return;
         }
 
         setIntention(Intention.INTENTION_IDLE);
@@ -137,9 +157,22 @@ public class NpcAI extends EntityAI implements Runnable {
         super.onIntentionIdle();
 
         if (getIntention() == Intention.INTENTION_MOVE_TO) {
-            moving = false;
+            getOwner().setMoving(false);
         }
 
         intention = Intention.INTENTION_IDLE;
+    }
+
+    @Override
+    protected void onEvtAttacked(Entity attacker) {
+        super.onEvtAttacked(attacker);
+
+        //TODO check range and set intention according
+        // Stop moving if was patroling
+        if(getIntention() == Intention.INTENTION_MOVE_TO && movingReason == EntityMovingReason.Walking) {
+            GameTimeControllerService.getInstance().removeMovingObject(owner);
+        }
+
+        setIntention(Intention.INTENTION_ATTACK);
     }
 }

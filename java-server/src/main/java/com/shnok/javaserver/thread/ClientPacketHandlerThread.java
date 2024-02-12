@@ -215,7 +215,7 @@ public class ClientPacketHandlerThread extends Thread {
 
         //TODO add damage calcs
         int damage = 25;
-        ((Entity) object).inflictDamage(damage);
+        ((Entity) object).inflictDamage(client.getCurrentPlayer(), damage);
         boolean critical = false;
         Random r = new Random();
         if(r.nextInt(2) == 0) {

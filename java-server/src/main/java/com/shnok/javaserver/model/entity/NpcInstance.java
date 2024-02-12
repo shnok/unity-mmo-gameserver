@@ -35,12 +35,8 @@ public class NpcInstance extends Entity {
     }
 
     @Override
-    public void inflictDamage(int value) {
-        status.setHp(Math.max(status.getHp() - value, 0));
-
-        if (status.getHp() == 0) {
-            onDeath();
-        }
+    public void inflictDamage(Entity attacker, int value) {
+        super.inflictDamage(attacker, value);
     }
 
     @Override

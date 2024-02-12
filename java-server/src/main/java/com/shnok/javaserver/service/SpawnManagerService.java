@@ -51,30 +51,30 @@ public class SpawnManagerService {
 
         if(Config.SPAWN_DEBUG) {
             // For debug purposes
-            registeredSpawns.add(new SpawnList(
-                    25405,
-                    "gludio32_1725_18",
-                    1,
-                    20442,
-                    4502.61f, 	-70.78f, -1717.26f,
-                    0f,
-                    0f,
-                    210.01f,
-                    3000,
-                    0,
-                    0));
-            registeredSpawns.add(new SpawnList(
-                    25406,
-                    "gludio32_1725_18",
-                    1,
-                    20442,
-                    4533.592f,-71, -1625.774f,
-                    0f,
-                    0f,
-                    210.01f,
-                    3000,
-                    0,
-                    0));
+//            registeredSpawns.add(new SpawnList(
+//                    25405,
+//                    "gludio32_1725_18",
+//                    1,
+//                    20442,
+//                    4502.61f, 	-70.78f, -1717.26f,
+//                    0f,
+//                    0f,
+//                    210.01f,
+//                    3000,
+//                    0,
+//                    0));
+//            registeredSpawns.add(new SpawnList(
+//                    25406,
+//                    "gludio32_1725_18",
+//                    1,
+//                    20442,
+//                    4533.592f,-71, -1625.774f,
+//                    0f,
+//                    0f,
+//                    210.01f,
+//                    3000,
+//                    0,
+//                    0));
             registeredSpawns.add(new SpawnList(
                     54496,
                     "gludio32_qm1725_00",
