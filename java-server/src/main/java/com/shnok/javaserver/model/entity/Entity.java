@@ -3,10 +3,8 @@ package com.shnok.javaserver.model.entity;
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.dto.serverpackets.EntitySetTargetPacket;
-import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
-import com.shnok.javaserver.enums.EntityAnimation;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.GameObject;
@@ -18,10 +16,11 @@ import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.MoveData;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.GameTimeControllerService;
-import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.util.VectorUtils;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
@@ -161,7 +160,11 @@ public abstract class Entity extends GameObject {
         Point3D destination = new Point3D(moveData.destination);
 
         /* send destination to known players */
-        ObjectMoveToPacket packet = new ObjectMoveToPacket(getId(), destination, getStatus().getMoveSpeed());
+        ObjectMoveToPacket packet = new ObjectMoveToPacket(
+                getId(),
+                destination,
+                getStatus().getMoveSpeed(),
+                getAi().getMovingReason() == EntityMovingReason.Walking);
         broadcastPacket(packet);
 
         return true;

@@ -82,7 +82,7 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 # 0x0A : NpcInfo
 [Int: `object id` | Int: `npc id` | String: `npc class` | String: `npc type` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Float: `collision height`| Float: `movespeed`| Int: `level`| Int: `hp`| Int: `maxhp`]
 # 0x0B : ObjectMoveTo
-[Int: `object id` | Float: `pos X` | Float: `pos Y` | Float: `pos Z` | Float: `speed`]
+[Int: `object id` | Float: `pos X` | Float: `pos Y` | Float: `pos Z` | Float: `speed` | Byte: `walking`]
 # 0x0C : UserInfo
 [Int: `object id` | String: `player name` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Int: `level`| Int: `hp`| Int: `maxhp`| Int: `mp`| Int: `maxMp`| Int: `cp`| Int: `maxCp`]
 # 0x0D : ObjectMoveDirection

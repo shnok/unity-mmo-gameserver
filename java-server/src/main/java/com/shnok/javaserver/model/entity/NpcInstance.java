@@ -3,16 +3,12 @@ package com.shnok.javaserver.model.entity;
 import com.shnok.javaserver.db.entity.SpawnList;
 import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
-import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
-import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.enums.EntityAnimation;
 import com.shnok.javaserver.enums.EntityMovingReason;
-import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.NpcTemplate;
-import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.SpawnManagerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
@@ -103,15 +99,10 @@ public class NpcInstance extends Entity {
 
         switch (getAi().getIntention()) {
             case INTENTION_MOVE_TO:
-                sendPacketToPlayer(player, new ObjectMoveToPacket(getId(), moveData.destination, getStatus().getMoveSpeed()));
-
-                if(getAi().getMovingReason() == EntityMovingReason.Walking) {
-                    sendPacketToPlayer(player, new ObjectAnimationPacket(
-                            getId(), EntityAnimation.Walk.getValue(), 1f));
-                } else if(getAi().getMovingReason() == EntityMovingReason.Running) {
-                    sendPacketToPlayer(player, new ObjectAnimationPacket(
-                            getId(), EntityAnimation.Walk.getValue(), 1f));
-                }
+                sendPacketToPlayer(player, new ObjectMoveToPacket(
+                        getId(), moveData.destination,
+                        getStatus().getMoveSpeed(),
+                        getAi().getMovingReason() == EntityMovingReason.Walking));
                 break;
             case INTENTION_IDLE:
             case INTENTION_WAITING:

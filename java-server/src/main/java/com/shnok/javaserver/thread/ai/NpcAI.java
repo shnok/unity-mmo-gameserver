@@ -61,7 +61,7 @@ public class NpcAI extends EntityAI implements Runnable {
 
     private boolean shouldWalk() {
         Random r = new Random();
-        if(r.nextInt(100 - Math.min((int) Config.AI_PATROL_CHANCE, 100)) == 0) {
+        if(r.nextInt(101) <=  Math.min((int) Config.AI_PATROL_CHANCE, 100)) {
             return true;
         }
 
@@ -73,11 +73,6 @@ public class NpcAI extends EntityAI implements Runnable {
         if ((npc.getSpawnInfo() != null) && npc.isOnGeoData()) {
             try {
                 Node n = Geodata.getInstance().findRandomNodeInRange(npc.getSpawnInfo().getSpawnPosition(), 6);
-
-                ObjectAnimationPacket packet = new ObjectAnimationPacket(
-                        npc.getId(), EntityAnimation.Walk.getValue(), 1f);
-                npc.broadcastPacket(packet);
-
                 setIntention(Intention.INTENTION_MOVE_TO, n.getCenter());
             } catch (Exception e) {
                 if(Config.PRINT_PATHFINDER) {
@@ -146,6 +141,7 @@ public class NpcAI extends EntityAI implements Runnable {
 
         if (getIntention() == Intention.INTENTION_MOVE_TO) {
             moving = false;
+            System.out.println("Arrived at destination");
             ObjectAnimationPacket packet = new ObjectAnimationPacket(npc.getId(), EntityAnimation.Wait.getValue(), 1f);
             npc.broadcastPacket(packet);
         }
