@@ -164,11 +164,6 @@ public abstract class Entity extends GameObject {
         ObjectMoveToPacket packet = new ObjectMoveToPacket(getId(), destination, getStatus().getMoveSpeed());
         broadcastPacket(packet);
 
-        //log.debug("Moving to new point: " + destination);
-
-        /* Set server side position to destination for players loading npc during travel */
-        //setPosition(destination);
-
         return true;
     }
 
@@ -264,6 +259,8 @@ public abstract class Entity extends GameObject {
         if(getAi() == null) {
             return false;
         }
+
+        sendPacketToPlayer(player, new ObjectPositionPacket(getId(), getPosition().getWorldPosition()));
 
         // Share current target with player
         if(getAi().getTarget() != null) {

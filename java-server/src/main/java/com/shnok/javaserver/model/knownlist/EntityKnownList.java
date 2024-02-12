@@ -23,12 +23,12 @@ public class EntityKnownList extends ObjectKnownList  {
 
     @Override
     public boolean addKnownObject(GameObject object) {
-        return addKnownObject(object, null);
+        return addKnownObject(object, false);
     }
 
     @Override
-    public boolean addKnownObject(GameObject object, Entity dropper) {
-        if (!super.addKnownObject(object, dropper)) {
+    public boolean addKnownObject(GameObject object, boolean silent) {
+        if (!super.addKnownObject(object, silent)) {
             return false;
         }
         if (object instanceof PlayerInstance) {
@@ -49,15 +49,6 @@ public class EntityKnownList extends ObjectKnownList  {
     {
         super.removeAllKnownObjects();
         getKnownPlayers().clear();
-
-        /*// Set target of the Entity to null
-        // Cancel Attack or Cast
-        getActiveChar().setTarget(null);
-
-        // Cancel AI Task
-        if (getActiveChar().hasAI()) {
-            getActiveChar().setAI(null);
-        }*/
     }
 
     @Override

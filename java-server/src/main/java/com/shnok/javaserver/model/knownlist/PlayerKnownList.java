@@ -30,21 +30,17 @@ public class PlayerKnownList extends EntityKnownList
      */
     @Override
     public boolean addKnownObject(GameObject object) {
-        return addKnownObject(object, null);
+        return addKnownObject(object, false);
     }
 
     @Override
-    public boolean addKnownObject(GameObject object, Entity dropper) {
-        if (!super.addKnownObject(object, dropper)) {
+    public boolean addKnownObject(GameObject object, boolean silent) {
+        if (!super.addKnownObject(object, silent)) {
             return false;
         }
 
         if (object instanceof ItemInstance){
-            if (dropper != null) {
-              //  getActiveChar().sendPacket(new DropItem((L2ItemInstance) object, dropper.getObjectId()));
-            } else {
-             //   getActiveChar().sendPacket(new SpawnItem((L2ItemInstance) object));
-            }
+
         } else if (object instanceof NpcInstance) {
             log.debug("[{}] New npc [{}] added to known list", getActiveObject().getId(), object.getId());
             getActiveChar().sendPacket(new NpcInfoPacket((NpcInstance) object));
@@ -56,13 +52,6 @@ public class PlayerKnownList extends EntityKnownList
             log.debug("[{}] Sharing current action to [{}]", getActiveObject().getId(), object.getId());
             getActiveChar().shareCurrentAction((PlayerInstance) object);
         }
-
-        /*if (object instanceof Entity)
-        {
-            // Update the state of the Entity object client side by sending Server->Client packet MoveToPawn/CharMoveToLocation and AutoAttackStart to the PlayerInstance
-            Entity obj = (Entity) object;
-            obj.getAI().describeStateToPlayer(getActiveChar());
-        }*/
 
         return true;
     }

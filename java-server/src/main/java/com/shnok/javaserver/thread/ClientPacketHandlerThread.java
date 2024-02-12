@@ -23,6 +23,7 @@ import lombok.extern.log4j.Log4j2;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 @Log4j2
 public class ClientPacketHandlerThread extends Thread {
@@ -217,13 +218,19 @@ public class ClientPacketHandlerThread extends Thread {
             return;
         }
 
-        //TODO add damage calcs?
+        //TODO add damage calcs
         int damage = 25;
         ((Entity) object).inflictDamage(damage);
+        boolean critical = false;
+        Random r = new Random();
+        if(r.nextInt(2) == 0) {
+            critical = true;
+        }
+        // TODO add damage calcs
 
         // Notify known list
         ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), damage);
+                client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), damage, critical);
         // Send packet to player's known list
         client.getCurrentPlayer().broadcastPacket(applyDamagePacket);
         // Send packet to player

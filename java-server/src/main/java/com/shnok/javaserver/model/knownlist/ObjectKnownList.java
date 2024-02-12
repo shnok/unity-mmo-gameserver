@@ -30,10 +30,10 @@ public class ObjectKnownList {
     }
 
     public boolean addKnownObject(GameObject object) {
-        return addKnownObject(object, null);
+        return addKnownObject(object, false);
     }
 
-    public boolean addKnownObject(GameObject object, Entity dropper) {
+    public boolean addKnownObject(GameObject object, boolean silent) {
         if ((object == null) || (object == getActiveObject())) {
             return false;
         }
@@ -51,8 +51,10 @@ public class ObjectKnownList {
             return false;
         }
 
-        // Tell other object to refresh its knownlist
-        object.getKnownList().forceRecheckSurroundings();
+        // Tell other object to add current to its known list
+        if(!silent) {
+            object.getKnownList().addKnownObject(getActiveObject(), true);
+        }
 
         return (getKnownObjects().put(object.getId(), object) == null);
     }
@@ -72,9 +74,7 @@ public class ObjectKnownList {
         if (object == null || !knownObjects.containsKey(object.getId())) {
             return false;
         }
-
 //        log.debug("[{}] Remove known object {}", activeObject.getId(), object.getId());
-
         return (getKnownObjects().remove(object.getId()) != null);
     }
 

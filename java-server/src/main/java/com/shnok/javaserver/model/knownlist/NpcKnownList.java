@@ -1,6 +1,7 @@
 package com.shnok.javaserver.model.knownlist;
 
 import com.shnok.javaserver.Config;
+import com.shnok.javaserver.dto.serverpackets.NpcInfoPacket;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.NpcInstance;
@@ -27,12 +28,12 @@ public class NpcKnownList extends EntityKnownList
      */
     @Override
     public boolean addKnownObject(GameObject object) {
-        return addKnownObject(object, null);
+        return addKnownObject(object, false);
     }
 
     @Override
-    public boolean addKnownObject(GameObject object, Entity dropper) {
-        if(!super.addKnownObject(object, dropper)) {
+    public boolean addKnownObject(GameObject object, boolean silent) {
+        if(!super.addKnownObject(object, silent)) {
             return false;
         }
 
