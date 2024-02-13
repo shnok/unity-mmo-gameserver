@@ -2,6 +2,7 @@ package com.shnok.javaserver.thread.ai;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.enums.EntityMovingReason;
+import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.service.GameTimeControllerService;
@@ -30,6 +31,29 @@ public class NpcAI extends EntityAI implements Runnable {
         onEvtThink();
     }
 
+    private void startAITask() {
+        if (aiTask == null) {
+            aiTask = ThreadPoolManagerService.getInstance().scheduleAiAtFixedRate(this, 1000,
+                    Config.AI_LOOP_RATE_MS);
+        }
+    }
+
+    public void stopAITask() {
+        if (aiTask != null) {
+            if (getIntention() == Intention.INTENTION_MOVE_TO) {
+                GameTimeControllerService.getInstance().removeMovingObject(owner);
+            }
+
+            aiTask.cancel(true);
+            aiTask = null;
+        }
+    }
+
+    /*
+    =========================
+    ========= EVENT =========
+    =========================
+     */
     @Override
     protected void onEvtThink() {
         if (thinking || owner == null) {
@@ -63,6 +87,66 @@ public class NpcAI extends EntityAI implements Runnable {
         startAITask();
     }
 
+    @Override
+    protected void onEvtDead() {
+        super.onEvtDead();
+
+        stopAITask();
+    }
+
+    @Override
+    protected void onEvtArrived() {
+        if (owner.moveToNextRoutePoint()) {
+            return;
+        }
+
+        log.debug("Before " + getIntention());
+        if (getIntention() == Intention.INTENTION_MOVE_TO) {
+            setIntention(Intention.INTENTION_IDLE);
+        }
+
+        if(getIntention() == Intention.INTENTION_ATTACK) {
+            setIntention(Intention.INTENTION_ATTACK);
+        }
+        log.debug(getIntention());
+    }
+
+    @Override
+    protected void onEvtAttacked(Entity attacker) {
+        super.onEvtAttacked(attacker);
+
+        if(getAttackTarget() != attacker) {
+            setAttackTarget(attacker);
+        }
+        if(getTarget() != attacker) {
+            setTarget(attacker);
+        }
+        if(getFollowTarget() != attacker) {
+            setFollowTarget(attacker);
+        }
+
+        //TODO check range and set intention according
+        // Stop moving if was patroling
+        if(getIntention() == Intention.INTENTION_MOVE_TO && movingReason == EntityMovingReason.Walking) {
+            GameTimeControllerService.getInstance().removeMovingObject(owner);
+        }
+
+        setIntention(Intention.INTENTION_ATTACK);
+    }
+
+    @Override
+    protected void onEvtForgetObject(Entity object) {
+        super.onEvtForgetObject(object);
+
+        //TODO forget player if not attacked for a while
+        //TODO forget player if player is too far
+    }
+
+    /*
+    =========================
+    ========= THINK =========
+    =========================
+     */
     void thinkIdle() {
         /* Check if npc needs to change its intention */
         if (npc.isRandomWalk() && shouldWalk()) {
@@ -78,12 +162,16 @@ public class NpcAI extends EntityAI implements Runnable {
         if(attackTarget == null) {
             log.warn("Attack target is null");
             //TODO: teleport to spawn if too far on next patrol
+            notifyEvent(Event.CANCEL);
             return;
         }
 
         // If target too far follow target
         float attackRange = getOwner().getTemplate().baseAtkRange;
         if(VectorUtils.calcDistance2D(getOwner().getPos(), attackTarget.getPos()) > attackRange) {
+            // Stop auto attacking
+            notifyEvent(Event.CANCEL);
+
             log.debug("Start moving to attacker");
             followTarget = attackTarget;
             startFollow(attackTarget, attackRange);
@@ -101,6 +189,39 @@ public class NpcAI extends EntityAI implements Runnable {
         owner.doAttack(attackTarget);
     }
 
+    /*
+    =========================
+    ======= INTENTION =======
+    =========================
+     */
+    @Override
+    protected void onIntentionMoveTo(Point3D destination) {
+        super.onIntentionMoveTo(destination);
+
+        // Check if still running
+        if (owner.moveTo(destination)) {
+            return;
+        }
+
+        setIntention(Intention.INTENTION_IDLE);
+    }
+
+    @Override
+    protected void onIntentionIdle() {
+        super.onIntentionIdle();
+
+        if (getIntention() == Intention.INTENTION_MOVE_TO) {
+            getOwner().setMoving(false);
+        }
+
+        intention = Intention.INTENTION_IDLE;
+    }
+
+    /*
+    =========================
+    ========= OTHER =========
+    =========================
+     */
     private boolean shouldWalk() {
         Random r = new Random();
         if(r.nextInt(101) <=  Math.min((int) Config.AI_PATROL_CHANCE, 100)) {
@@ -125,83 +246,5 @@ public class NpcAI extends EntityAI implements Runnable {
                 setIntention(Intention.INTENTION_IDLE);
             }
         }
-    }
-
-    @Override
-    protected void onEvtDead() {
-        super.onEvtDead();
-
-        stopAITask();
-    }
-
-    private void startAITask() {
-        if (aiTask == null) {
-            aiTask = ThreadPoolManagerService.getInstance().scheduleAiAtFixedRate(this, 1000,
-                    Config.AI_LOOP_RATE_MS);
-        }
-    }
-
-    public void stopAITask() {
-        if (aiTask != null) {
-            if (getIntention() == Intention.INTENTION_MOVE_TO) {
-                GameTimeControllerService.getInstance().removeMovingObject(owner);
-            }
-
-            aiTask.cancel(true);
-            aiTask = null;
-        }
-    }
-
-    @Override
-    protected void onEvtArrived() {
-        if (owner.moveToNextRoutePoint()) {
-            return;
-        }
-
-        log.debug("Before " + getIntention());
-        if (getIntention() == Intention.INTENTION_MOVE_TO) {
-            setIntention(Intention.INTENTION_IDLE);
-        }
-
-        if(getIntention() == Intention.INTENTION_ATTACK) {
-            setIntention(Intention.INTENTION_ATTACK);
-        }
-        log.debug(getIntention());
-    }
-
-    @Override
-    protected void onIntentionMoveTo(Point3D destination) {
-        super.onIntentionMoveTo(destination);
-
-        // Check if still running
-        if (owner.moveTo(destination)) {
-            return;
-        }
-
-        setIntention(Intention.INTENTION_IDLE);
-    }
-
-    @Override
-    protected void onIntentionIdle() {
-        super.onIntentionIdle();
-
-        if (getIntention() == Intention.INTENTION_MOVE_TO) {
-            getOwner().setMoving(false);
-        }
-
-        intention = Intention.INTENTION_IDLE;
-    }
-
-    @Override
-    protected void onEvtAttacked(Entity attacker) {
-        super.onEvtAttacked(attacker);
-
-        //TODO check range and set intention according
-        // Stop moving if was patroling
-        if(getIntention() == Intention.INTENTION_MOVE_TO && movingReason == EntityMovingReason.Walking) {
-            GameTimeControllerService.getInstance().removeMovingObject(owner);
-        }
-
-        setIntention(Intention.INTENTION_ATTACK);
     }
 }

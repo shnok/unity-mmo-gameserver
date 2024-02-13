@@ -1,5 +1,7 @@
 package com.shnok.javaserver.thread.ai;
 
+import com.shnok.javaserver.dto.serverpackets.AutoAttackStartPacket;
+import com.shnok.javaserver.dto.serverpackets.AutoAttackStopPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
@@ -31,11 +33,18 @@ public abstract class BaseAI {
     private static final int FOLLOW_INTERVAL = 1000;
     private static final int ATTACK_FOLLOW_INTERVAL = 500;
 
+    /*
+    =========================
+    ========= EVENT =========
+    =========================
+     */
     public void notifyEvent(Event evt) {
         notifyEvent(evt, null);
     }
 
     public void notifyEvent(Event evt, GameObject go) {
+        log.debug("[AI] New event: {}", evt);
+
         switch (evt) {
             case THINK:
                 onEvtThink();
@@ -52,28 +61,40 @@ public abstract class BaseAI {
             case FORGET_OBJECT:
                 onEvtForgetObject((Entity) go);
                 break;
+            case READY_TO_ACT:
+                onEvtReadyToAct();
+                break;
+            case CANCEL:
+                onEvtCancel();
+                break;
         }
     }
 
     protected abstract void onEvtThink();
 
-    protected void onEvtDead() {
-        stopFollow();
-    }
+    protected abstract void onEvtDead();
 
     protected abstract void onEvtArrived();
-
-    protected abstract void setOwner(Entity owner);
 
     protected abstract void onEvtAttacked(Entity attacker);
 
     protected abstract void onEvtForgetObject(Entity object);
 
+    protected abstract void onEvtReadyToAct();
+
+    protected abstract void onEvtCancel();
+
+    /*
+    =========================
+    ======= INTENTION =======
+    =========================
+    */
     public void setIntention(Intention intention) {
         setIntention(intention, null);
     }
 
     public void setIntention(Intention intention, Object arg0) {
+        log.debug("[AI] New intention: {}", intention);
         if ((intention != Intention.INTENTION_FOLLOW) && (intention != Intention.INTENTION_ATTACK)) {
             stopFollow();
         }
@@ -102,6 +123,11 @@ public abstract class BaseAI {
 
     protected abstract void onIntentionIdle();
 
+    /*
+    =========================
+    ========= OTHER =========
+    =========================
+    */
     public void setTarget(Entity target) {
         if(getTarget() != target) {
             log.debug("[{}] New target [{}]", owner.getId(), target != null ? target.getId() : "null");
@@ -186,6 +212,36 @@ public abstract class BaseAI {
 
         // TODO: share state with client
 
+    }
+
+    // Start the auto attack client side
+    public void clientStartAutoAttack() {
+        if (!isAutoAttacking()) {
+            log.debug("[AI] Client start auto attack");
+
+            // Send a Server->Client packet AutoAttackStart to the actor and all PlayerInstances in its knownPlayers
+            AutoAttackStartPacket packet = new AutoAttackStartPacket(owner.getId());
+            owner.broadcastPacket(packet);
+            if(owner instanceof PlayerInstance) {
+                ((PlayerInstance) owner).sendPacket(packet);
+            }
+            setAutoAttacking(true);
+        }
+    }
+
+    // Stop the auto attack client side
+    public void clientStopAutoAttack() {
+        if (isAutoAttacking()) {
+            log.debug("[AI] Client stop auto attack");
+
+            // Send a Server->Client packet AutoAttackStop to the actor and all PlayerInstances in its knownPlayers
+            AutoAttackStopPacket packet = new AutoAttackStopPacket(owner.getId());
+            owner.broadcastPacket(packet);
+            if(owner instanceof PlayerInstance) {
+                ((PlayerInstance) owner).sendPacket(packet);
+            }
+            setAutoAttacking(false);
+        }
     }
 
     @AllArgsConstructor

@@ -5,6 +5,8 @@ public enum Event {
     DEAD,
     ARRIVED,
     ATTACKED,
-    FORGET_OBJECT
+    FORGET_OBJECT,
+    READY_TO_ACT,
+    CANCEL
 }
 

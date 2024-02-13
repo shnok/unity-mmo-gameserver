@@ -18,6 +18,7 @@ import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
+import com.shnok.javaserver.thread.ai.NpcAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -66,6 +67,10 @@ public abstract class Entity extends GameObject {
 
     public abstract boolean canMove();
 
+    public boolean isDead() {
+        return getStatus().getHp() <= 0;
+    }
+
     public void onDeath() {
         log.debug("[{}] Entity died", getId());
         if (ai != null) {
@@ -89,13 +94,16 @@ public abstract class Entity extends GameObject {
         // the hit is calculated to happen halfway to the animation
         int timeToHit = timeAtk / 2;
 
+        int cooldown = calculateCooldown();
+
         attackEndTime = GameTimeControllerService.getInstance().getGameTicks();
         attackEndTime += (timeAtk / GameTimeControllerService.getInstance().getTickDurationMs());
         attackEndTime -= 1;
 
-
         // Start hit task
         doSimpleAttack(target, timeToHit);
+
+        ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleNotifyAITask(Event.READY_TO_ACT), timeAtk + cooldown);
     }
 
     public void doSimpleAttack(Entity target, int timeToHit) {
@@ -112,6 +120,18 @@ public abstract class Entity extends GameObject {
         //TODO do apply damage
         //TODO share hit
         //TODO share hp
+
+        if (target == null) {
+            getAi().notifyEvent(Event.CANCEL);
+            return;
+        }
+
+        if ((target.isDead() || (!getKnownList().knowsObject(target)))) {
+            getAi().notifyEvent(Event.CANCEL);
+            return;
+        }
+
+        getAi().clientStartAutoAttack();
     }
 
     public boolean isAttacking() {
@@ -126,6 +146,12 @@ public abstract class Entity extends GameObject {
     public int calculateTimeBetweenAttacks() {
         //Todo calculate attack speed
         return 1000;
+    }
+
+    // Returns the Attack cooldown
+    public int calculateCooldown() {
+        //TODO calculate cooldown
+        return 0;
     }
 
     @Override
@@ -350,6 +376,7 @@ public abstract class Entity extends GameObject {
         }
     }
 
+    // Task to destroy object based on delay
     protected static class ScheduleDestroyTask implements Runnable {
         private final Entity entity;
 
@@ -366,6 +393,7 @@ public abstract class Entity extends GameObject {
         }
     }
 
+    // Task to apply damage based on delay
     private class ScheduleHitTask implements Runnable {
         private final Entity hitTarget;
         private final int damage;
@@ -383,6 +411,25 @@ public abstract class Entity extends GameObject {
                 onHitTimer(hitTarget, damage, criticalHit);
             } catch (Throwable e) {
                 log.error(e);
+            }
+        }
+    }
+
+    // Task to notify AI based on delay
+    public class ScheduleNotifyAITask implements Runnable {
+
+        private final Event event;
+
+        public ScheduleNotifyAITask(Event event) {
+            this.event = event;
+        }
+
+        @Override
+        public void run() {
+            try {
+                getAi().notifyEvent(event, null);
+            } catch (Throwable t) {
+                log.warn(t);
             }
         }
     }
