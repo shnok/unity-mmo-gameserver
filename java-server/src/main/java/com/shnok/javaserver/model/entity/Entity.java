@@ -11,6 +11,7 @@ import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
+import com.shnok.javaserver.model.skills.Formulas;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.EntityTemplate;
 import com.shnok.javaserver.pathfinding.Geodata;
@@ -86,6 +87,11 @@ public abstract class Entity extends GameObject {
 
     public void doAttack(Entity target) {
         System.out.println("doAttack");
+        if (target == null || target.isDead() || !getKnownList().knowsObject(target)) {
+            getAi().notifyEvent(Event.CANCEL);
+            return;
+        }
+
         if (!canAttack()) {
             return;
         }
@@ -124,12 +130,7 @@ public abstract class Entity extends GameObject {
         //TODO share hit
         //TODO share hp
 
-        if (target == null) {
-            getAi().notifyEvent(Event.CANCEL);
-            return;
-        }
-
-        if ((target.isDead() || (!getKnownList().knowsObject(target)))) {
+        if (target == null || target.isDead() || !getKnownList().knowsObject(target)) {
             getAi().notifyEvent(Event.CANCEL);
             return;
         }
@@ -138,7 +139,6 @@ public abstract class Entity extends GameObject {
         ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
                 getId(), target.getId(), damage, target.getStatus().getHp(), criticalHit);
         broadcastPacket(applyDamagePacket);
-
     }
 
     public boolean isAttacking() {
@@ -151,8 +151,8 @@ public abstract class Entity extends GameObject {
 
     // Return the Attack Speed of the L2Character (delay (in milliseconds) before next attack)
     public int calculateTimeBetweenAttacks() {
-        //Todo calculate attack speed
-        return 1000;
+        float atkSpd = getTemplate().getBasePAtkSpd();
+        return Formulas.getInstance().calcPAtkSpd(atkSpd);
     }
 
     // Returns the Attack cooldown

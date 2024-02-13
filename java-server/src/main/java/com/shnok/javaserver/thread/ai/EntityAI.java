@@ -57,7 +57,6 @@ public class EntityAI extends BaseAI {
     @Override
     protected void onEvtCancel() {
         stopFollow();
-
         clientStopAutoAttack();
     }
 
@@ -68,7 +67,7 @@ public class EntityAI extends BaseAI {
      */
     @Override
     protected void onIntentionAttack() {
-        if(attackTarget == null) {
+        if(attackTarget == null || attackTarget.isDead()) {
             log.warn("Attack target is null");
             // TODO return to spawn...
             setIntention(Intention.INTENTION_IDLE);

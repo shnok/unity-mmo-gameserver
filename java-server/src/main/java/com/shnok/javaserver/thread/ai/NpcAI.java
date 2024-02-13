@@ -159,10 +159,12 @@ public class NpcAI extends EntityAI implements Runnable {
     }
 
     void thinkAttack() {
-        if(attackTarget == null) {
-            log.warn("Attack target is null");
+        if(attackTarget == null || !owner.getKnownList().knowsObject(attackTarget) || attackTarget.isDead()) {
+            log.warn("Attack target is null or dead");
             //TODO: teleport to spawn if too far on next patrol
             notifyEvent(Event.CANCEL);
+            clearTarget();
+            setIntention(Intention.INTENTION_IDLE);
             return;
         }
 
