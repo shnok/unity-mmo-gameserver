@@ -78,7 +78,7 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 # 0x08 : ObjectAnimation
 [Int: `object id` | Byte: `animation id` | Float: `value`]
 # 0x09 : ApplyDamage
-[Int: `sender id` | Int: `target id` | Byte: `attack type` | Int: `value` | Byte: `critical hit`]
+[Int: `sender id` | Int: `target id` | Int: `damage` | Int: `new hp` | Byte: `critical hit`]
 # 0x0A : NpcInfo
 [Int: `object id` | Int: `npc id` | String: `npc class` | String: `npc type` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Float: `collision height`| Float: `movespeed`| Int: `level`| Int: `hp`| Int: `maxhp`]
 # 0x0B : ObjectMoveTo
@@ -91,4 +91,8 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 [Long: `current server ticks` | Int: `tick duration in Ms` | Int: `day duration in minutes`]
 # 0x0F : EntitySetTarget
 [Int: `object id` | Int: `target id`]
+# 0x010 : AutoAttackStart
+[Int: `object id`]
+# 0x11 : AutoAttackStop
+[Int: `object id`]
 ```

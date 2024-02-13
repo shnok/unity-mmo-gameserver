@@ -2,6 +2,7 @@ package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.serverpackets.EntitySetTargetPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
@@ -111,6 +112,8 @@ public abstract class Entity extends GameObject {
         int damage = 15;
         boolean criticalHit = true;
 
+        getAi().clientStartAutoAttack();
+
         log.debug("ouchie?");
         ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleHitTask(target, damage, criticalHit), timeToHit);
     }
@@ -131,7 +134,11 @@ public abstract class Entity extends GameObject {
             return;
         }
 
-        getAi().clientStartAutoAttack();
+        target.inflictDamage(this, damage);
+        ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
+                getId(), target.getId(), damage, target.getStatus().getHp(), criticalHit);
+        broadcastPacket(applyDamagePacket);
+
     }
 
     public boolean isAttacking() {

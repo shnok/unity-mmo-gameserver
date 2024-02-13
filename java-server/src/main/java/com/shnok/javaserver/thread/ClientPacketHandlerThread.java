@@ -213,7 +213,8 @@ public class ClientPacketHandlerThread extends Thread {
             return;
         }
 
-        //TODO add damage calcs
+        // ! FOR DEBUG PURPOSE
+        //TODO: MOVE ALL OF THIS IN AI
         int damage = 25;
         ((Entity) object).inflictDamage(client.getCurrentPlayer(), damage);
         boolean critical = false;
@@ -221,8 +222,8 @@ public class ClientPacketHandlerThread extends Thread {
         if(r.nextInt(2) == 0) {
             critical = true;
         }
-        // TODO add damage calcs
 
+        // ! FOR DEBUG PURPOSE
         // Notify known list
         ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
                 client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), damage, critical);
@@ -230,6 +231,7 @@ public class ClientPacketHandlerThread extends Thread {
         client.getCurrentPlayer().broadcastPacket(applyDamagePacket);
         // Send packet to player
         client.sendPacket(applyDamagePacket);
+        //TODO: MOVE ALL OF THIS IN AI
     }
 
     private void onRequestCharacterMoveDirection(byte[] data) {
@@ -266,10 +268,5 @@ public class ClientPacketHandlerThread extends Thread {
             // Set entity target
             client.getCurrentPlayer().getAi().setTarget(target);
         }
-
-        // Notify known list
-        EntitySetTargetPacket entitySetTargetPacket = new EntitySetTargetPacket(
-                client.getCurrentPlayer().getId(), packet.getTargetId());
-        client.getCurrentPlayer().broadcastPacket(entitySetTargetPacket);
     }
 }

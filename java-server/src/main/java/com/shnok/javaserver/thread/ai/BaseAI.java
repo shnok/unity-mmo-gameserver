@@ -137,6 +137,8 @@ public abstract class BaseAI {
             // Sharing target with known list
             if(target != null) {
                 getOwner().broadcastPacket(new EntitySetTargetPacket(getOwner().getId(), target.getId()));
+            } else {
+                getOwner().broadcastPacket(new EntitySetTargetPacket(getOwner().getId(), -1));
             }
         }
     }
