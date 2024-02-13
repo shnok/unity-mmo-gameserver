@@ -2,6 +2,7 @@ package com.shnok.javaserver.thread.ai;
 
 import com.shnok.javaserver.dto.serverpackets.AutoAttackStartPacket;
 import com.shnok.javaserver.dto.serverpackets.AutoAttackStopPacket;
+import com.shnok.javaserver.dto.serverpackets.EntitySetTargetPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
@@ -132,6 +133,11 @@ public abstract class BaseAI {
         if(getTarget() != target) {
             log.debug("[{}] New target [{}]", owner.getId(), target != null ? target.getId() : "null");
             this.target = target;
+
+            // Sharing target with known list
+            if(target != null) {
+                getOwner().broadcastPacket(new EntitySetTargetPacket(getOwner().getId(), target.getId()));
+            }
         }
     }
 
