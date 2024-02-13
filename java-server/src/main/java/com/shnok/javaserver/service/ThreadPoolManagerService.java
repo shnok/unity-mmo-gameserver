@@ -68,6 +68,14 @@ public class ThreadPoolManagerService {
         }
     }
 
+    public ScheduledFuture<?> scheduleAi(Runnable r, long delay) {
+        try {
+            return aiThreadPool.schedule(r, delay, TimeUnit.MILLISECONDS);
+        } catch (RejectedExecutionException e) {
+            return null;
+        }
+    }
+
     public void handlePacket(ClientPacketHandlerThread cph) {
         packetsThreadPool.execute(cph);
     }

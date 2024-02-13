@@ -110,7 +110,7 @@ public class NpcInstance extends Entity {
     /* remove and stop AI */
     public void stopAndRemoveAI() {
         BaseAI ai = getAi();
-//        log.debug("[{}] Stop and remove AI", getId());
+        log.debug("[{}] Stop and remove AI", getId());
         if(ai instanceof NpcAI) {
             ((NpcAI) ai).stopAITask();
             setAi(null);
@@ -120,7 +120,7 @@ public class NpcInstance extends Entity {
     /* add AI to NPC */
     public void refreshAI() {
         if (!isStatic()) {
-//            log.debug("[{}] Add AI", getId());
+            log.debug("[{}] Add AI", getId());
             if(getAi() != null) {
                 stopAndRemoveAI();
             }

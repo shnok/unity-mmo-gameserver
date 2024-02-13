@@ -49,8 +49,14 @@ public class NpcAI extends EntityAI implements Runnable {
             thinkIdle();
         }
 
-        if(getIntention() == Intention.INTENTION_ATTACK) {
-            thinkAttack();
+        try {
+            if(getIntention() == Intention.INTENTION_ATTACK) {
+                thinkAttack();
+            }
+        } catch (NullPointerException e) {
+            log.warn("Lost target during attack loop");
+            //TODO: teleport to spawn if too far on next patrol
+            return;
         }
 
         thinking = false;
@@ -69,7 +75,30 @@ public class NpcAI extends EntityAI implements Runnable {
     }
 
     void thinkAttack() {
-        onIntentionAttack();
+        if(attackTarget == null) {
+            log.warn("Attack target is null");
+            //TODO: teleport to spawn if too far on next patrol
+            return;
+        }
+
+        // If target too far follow target
+        float attackRange = getOwner().getTemplate().baseAtkRange;
+        if(VectorUtils.calcDistance2D(getOwner().getPos(), attackTarget.getPos()) > attackRange) {
+            log.debug("Start moving to attacker");
+            followTarget = attackTarget;
+            startFollow(attackTarget, attackRange);
+            return;
+        }
+
+        // Stop running if running
+        if(owner.isMoving()) {
+            owner.setMoving(false);
+            stopFollow();
+        }
+
+        // Attack
+        log.debug("Start attack");
+        owner.doAttack(attackTarget);
     }
 
     private boolean shouldWalk() {

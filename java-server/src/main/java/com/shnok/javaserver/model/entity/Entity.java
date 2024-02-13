@@ -16,6 +16,7 @@ import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.MoveData;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.GameTimeControllerService;
+import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.Getter;
@@ -78,7 +79,7 @@ public abstract class Entity extends GameObject {
     }
 
     public void doAttack(Entity target) {
-
+        System.out.println("doAttack");
         if (!canAttack()) {
             return;
         }
@@ -86,19 +87,35 @@ public abstract class Entity extends GameObject {
         // Get the Attack Speed of the npc (delay (in milliseconds) before next attack)
         int timeAtk = calculateTimeBetweenAttacks();
         // the hit is calculated to happen halfway to the animation
-
         int timeToHit = timeAtk / 2;
+
         attackEndTime = GameTimeControllerService.getInstance().getGameTicks();
         attackEndTime += (timeAtk / GameTimeControllerService.getInstance().getTickDurationMs());
         attackEndTime -= 1;
 
-        // Apply damage
+
+        // Start hit task
+        doSimpleAttack(target, timeToHit);
+    }
+
+    public void doSimpleAttack(Entity target, int timeToHit) {
         //TODO do damage calculations
-        log.debug("ouchie");
+        int damage = 15;
+        boolean criticalHit = true;
+
+        log.debug("ouchie?");
+        ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleHitTask(target, damage, criticalHit), timeToHit);
+    }
+
+    public void onHitTimer(Entity target, int damage, boolean criticalHit) {
+        log.debug("ouchie!");
+        //TODO do apply damage
+        //TODO share hit
+        //TODO share hp
     }
 
     public boolean isAttacking() {
-        return attackEndTime < GameTimeControllerService.getInstance().getGameTicks();
+        return attackEndTime > GameTimeControllerService.getInstance().getGameTicks();
     }
 
     public boolean canAttack() {
@@ -106,8 +123,7 @@ public abstract class Entity extends GameObject {
     }
 
     // Return the Attack Speed of the L2Character (delay (in milliseconds) before next attack)
-    public int calculateTimeBetweenAttacks()
-    {
+    public int calculateTimeBetweenAttacks() {
         //Todo calculate attack speed
         return 1000;
     }
@@ -185,7 +201,7 @@ public abstract class Entity extends GameObject {
         return true;
     }
 
-    /* calculate how many ticks do we need to move to destination */
+    // calculate how many ticks do we need to move to destination
     public boolean moveToNextRoutePoint() {
         float speed;
 
@@ -285,12 +301,6 @@ public abstract class Entity extends GameObject {
                 (float) elapsed / moveData.ticksToMove);
         setPosition(lerpPosition);
 
-//        log.debug("{} {} {} {}",
-//                moveData.startPosition,
-//                moveData.destination,
-//                (float) elapsed / moveData.ticksToMove,
-//                lerpPosition);
-
         if (elapsed >= moveData.ticksToMove) {
             moveData.moveTimestamp = gameTicks;
 
@@ -340,7 +350,7 @@ public abstract class Entity extends GameObject {
         }
     }
 
-    public static class ScheduleDestroyTask implements Runnable {
+    protected static class ScheduleDestroyTask implements Runnable {
         private final Entity entity;
 
         public ScheduleDestroyTask(Entity entity){
@@ -352,6 +362,27 @@ public abstract class Entity extends GameObject {
             log.debug("Execute schedule destroy object");
             if (entity != null) {
                 entity.destroy();
+            }
+        }
+    }
+
+    private class ScheduleHitTask implements Runnable {
+        private final Entity hitTarget;
+        private final int damage;
+        private final boolean criticalHit;
+
+        public ScheduleHitTask(Entity hitTarget, int damage, boolean criticalHit) {
+            this.hitTarget = hitTarget;
+            this.damage = damage;
+            this.criticalHit = criticalHit;
+        }
+
+        @Override
+        public void run() {
+            try {
+                onHitTimer(hitTarget, damage, criticalHit);
+            } catch (Throwable e) {
+                log.error(e);
             }
         }
     }

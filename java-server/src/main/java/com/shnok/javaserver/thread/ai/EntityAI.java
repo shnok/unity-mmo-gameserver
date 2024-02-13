@@ -3,7 +3,6 @@ package com.shnok.javaserver.thread.ai;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
-import com.shnok.javaserver.util.VectorUtils;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -19,8 +18,7 @@ public class EntityAI extends BaseAI {
 
         owner.setMoving(false);
         autoAttacking = false;
-        attackTarget = null;
-        followTarget = null;
+        clearTarget();
     }
 
     @Override
@@ -28,45 +26,28 @@ public class EntityAI extends BaseAI {
 
     @Override
     protected void onEvtAttacked(Entity attacker) {
-        if(getAttackTarget() == null) {
+        if(getAttackTarget() != attacker) {
             setAttackTarget(attacker);
         }
 
-        if(getTarget() == null) {
+        if(getTarget() != attacker) {
             setTarget(attacker);
         }
 
-        if(getFollowTarget() == null) {
+        if(getFollowTarget() != attacker) {
             setFollowTarget(attacker);
         }
     }
 
     @Override
     protected void onIntentionAttack() {
-        if(attackTarget ==  null) {
+        if(attackTarget == null) {
             log.warn("Attack target is null");
+            // TODO return to spawn...
+            setIntention(Intention.INTENTION_IDLE);
         }
 
         intention = Intention.INTENTION_ATTACK;
-
-        // If target too far follow target
-        float attackRange = getOwner().getTemplate().baseAtkRange;
-        if(VectorUtils.calcDistance(getOwner().getPos(), attackTarget.getPos()) > attackRange) {
-            log.debug("Start moving to attacker");
-            followTarget = attackTarget;
-            startFollow(attackTarget, attackRange);
-            return;
-        }
-
-        // Stop running if running
-        if(owner.isMoving()) {
-            owner.setMoving(false);
-            stopFollow();
-        }
-
-        // Attack
-        log.debug("Start attack");
-        owner.doAttack(attackTarget);
     }
 
     @Override
@@ -88,6 +69,18 @@ public class EntityAI extends BaseAI {
     @Override
     protected void onIntentionIdle() {
         log.debug("intention idle");
-        intention = Intention.INTENTION_IDLE;
+    }
+
+    @Override
+    protected void onEvtForgetObject(Entity object) {
+        clearTarget();
+
+        if(getIntention() == Intention.INTENTION_ATTACK) {
+            setIntention(Intention.INTENTION_IDLE);
+        }
+
+        if(getIntention() == Intention.INTENTION_FOLLOW) {
+            setIntention(Intention.INTENTION_IDLE);
+        }
     }
 }

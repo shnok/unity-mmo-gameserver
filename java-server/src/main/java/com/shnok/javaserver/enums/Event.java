@@ -4,6 +4,7 @@ public enum Event {
     THINK,
     DEAD,
     ARRIVED,
-    ATTACKED
+    ATTACKED,
+    FORGET_OBJECT
 }
 

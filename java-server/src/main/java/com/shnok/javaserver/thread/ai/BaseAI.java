@@ -49,6 +49,9 @@ public abstract class BaseAI {
             case ATTACKED:
                 onEvtAttacked((Entity) go);
                 break;
+            case FORGET_OBJECT:
+                onEvtForgetObject((Entity) go);
+                break;
         }
     }
 
@@ -63,6 +66,8 @@ public abstract class BaseAI {
     protected abstract void setOwner(Entity owner);
 
     protected abstract void onEvtAttacked(Entity attacker);
+
+    protected abstract void onEvtForgetObject(Entity object);
 
     public void setIntention(Intention intention) {
         setIntention(intention, null);
@@ -98,8 +103,27 @@ public abstract class BaseAI {
     protected abstract void onIntentionIdle();
 
     public void setTarget(Entity target) {
-        log.debug("[{}] New target [{}]", owner.getId(), target != null ? target.getId() : "null");
-        this.target = target;
+        if(getTarget() != target) {
+            log.debug("[{}] New target [{}]", owner.getId(), target != null ? target.getId() : "null");
+            this.target = target;
+        }
+    }
+
+    public synchronized void clearTarget() {
+        System.out.println("Clear target");
+        attackTarget = null;
+        followTarget = null;
+        target = null;
+    }
+
+    public synchronized void setAttackTarget(Entity target) {
+        setTarget(target);
+        attackTarget = target;
+    }
+
+    public synchronized void setFollowTarget(Entity target) {
+        setTarget(target);
+        followTarget = target;
     }
 
     // Create and Launch an AI Follow Task to execute every 1s
@@ -115,6 +139,7 @@ public abstract class BaseAI {
 
     // Create and Launch an AI Follow Task to execute every 0.5s, following at specified range.
     public synchronized void startFollow(Entity target, float range) {
+        System.out.println("Start follow");
         if (followTask != null) {
             followTask.cancel(false);
             followTask = null;
@@ -179,6 +204,8 @@ public abstract class BaseAI {
                     stopFollow();
                     return;
                 }
+
+                System.out.println("Followtask distance: " + VectorUtils.calcDistance2D(target.getPos(), getOwner().getPos()) + " range: " + range);
 
                 if (VectorUtils.calcDistance2D(target.getPos(), getOwner().getPos()) > range) {
                     moveToTarget(followTarget, range);

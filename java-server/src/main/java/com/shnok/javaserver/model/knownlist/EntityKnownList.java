@@ -1,6 +1,7 @@
 package com.shnok.javaserver.model.knownlist;
 
 import com.shnok.javaserver.Config;
+import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.NpcInstance;
@@ -57,6 +58,7 @@ public class EntityKnownList extends ObjectKnownList  {
         if (!super.removeKnownObject(object)) {
             return false;
         }
+
         if (object instanceof PlayerInstance) {
             getKnownPlayers().remove(object.getId());
             if(Config.PRINT_KNOWN_LIST_LOGS) {
@@ -64,15 +66,18 @@ public class EntityKnownList extends ObjectKnownList  {
             }
         }
 
-        if(object.getKnownList().knowsObject(getActiveObject())) {
+        if(getActiveChar().getAi() != null) {
             if(getActiveChar().getAi().getTarget() == object) {
                 if(Config.PRINT_KNOWN_LIST_LOGS) {
                     log.debug("[{}] Removed entity was target", getActiveChar().getId());
                 }
-                getActiveChar().getAi().setTarget(null);
+
+                getActiveChar().getAi().notifyEvent(Event.FORGET_OBJECT, object);
+                log.debug("[{}] Removed entity was target", getActiveChar().getId());
             }
-            object.getKnownList().removeKnownObject(getActiveObject());
         }
+
+        object.getKnownList().removeKnownObject(getActiveObject());
 
         return true;
     }
