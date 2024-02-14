@@ -27,72 +27,72 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 
 ```python
 ' Packet structure '
-[ Byte: `opcode` | Byte: `packet size` | ... payload ]
+[ B:`opcode`|B:`packet size`|... payload ]
 
 ' Payloads '
 # 0x00 : Ping
 []
 # 0x01 : AuthRequest
-[String: `username`]
+[S:`username`]
 # 0x02 : SendMessagePacket
-[String: `text message`]
+[S:`text message`]
 # 0x03 : RequestMovePacket
-[Float: `move position x` | Float: `move position y` | Float: `move position z`]
+[F:`move position x`|F:`move position y`|F:`move position z`]
 # 0x04 : LoadWorldPacket
 []
 # 0x05 : RequestRotatePacket
-[Float: `new angle`]
+[F:`new angle`]
 # 0x06 : RequestAnimPacket
-[Byte: `animation id` | Float: `value`]
+[B:`animation id`|F:`value`]
 # 0x07 : RequestAttack
-[Int: `object id` | Byte: `attack type`]
+[I:`object id`|B:`attack type`]
 # 0x08 : RequestMoveDirection
-[Float: `dir X` | Float: `dir Y` | Float: `dir Z`]
-# 0x09 : `RequestSetTarget`
-[Int: `target id`]
+[F:`dir X`|F:`dir Y`|F:`dir Z`]
+# 0x09 :`RequestSetTarget`
+[I:`target id`]
 ```
 
 ### Server Packets
 
 ```python
 ' Packet structure '
-[ Byte: `opcode` | Byte: `packet size` | ... payload ]
+[ B:`opcode`|B:`packet size`|... payload ]
 
 ' Payloads '
 # 0x00 : Ping
 []
 # 0x01 : AuthResponse
-[Byte: `AuthResponseType`]
+[B:`AuthResponseType`]
 # 0x02 : MessagePacket
-[String: `sender` | String: `message`]
+[S:`sender`|S:`message`]
 # 0x03 : SystemMessage
-[Byte: `Message type` | String: `message`]
+[B:`Message type`|S:`message`]
 # 0x04 : PlayerInfo
-[Int: `object id` | String: `player name` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Int: `level`| Int: `hp`| Int: `maxhp`| Int: `mp`| Int: `maxMp`| Int: `cp`| Int: `maxCp`]
+[I:`object id`|S:`player name`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`level`|I:`movespeed`|I:`patkspd`|I:`matkspd`|I:`hp`|I:`maxhp`|I:`mp`|I:`maxMp`|I:`cp`|I:`maxCp`]
 # 0x05 : ObjectPosition
-[Int: `object id` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`]
+[I:`object id`|F:`pos X`|F:`pos Y`|F:`pos Z`]
 # 0x06 : RemoveObject
-[Int: `object id`]
+[I:`object id`]
 # 0x07 : ObjectRotation
-[Int: `object id` | Float: `angle`]
+[I:`object id`|F:`angle`]
 # 0x08 : ObjectAnimation
-[Int: `object id` | Byte: `animation id` | Float: `value`]
+[I:`object id`|B:`animation id`|F:`value`]
 # 0x09 : ApplyDamage
-[Int: `sender id` | Int: `target id` | Int: `damage` | Int: `new hp` | Byte: `critical hit`]
+[I:`sender id`|I:`target id`|I:`damage`|I:`new hp`|B:`critical hit`]
 # 0x0A : NpcInfo
-[Int: `object id` | Int: `npc id` | String: `npc class` | String: `npc type` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Float: `collision height`| Float: `movespeed`| Int: `patkspd`| Int: `matkspd` | Int: `level` | Int: `hp`| Int: `maxhp`]
+[I:`object id`|I:`npc id`|S:`npc class`|S:`npc type`|F:`pos X`|F:`pos Y`|F:`pos Z`|F:`collision height`|I:`movespeed`|I:`patkspd`|I:`matkspd`|I:`level`|I:`hp`|I:`maxhp`]
 # 0x0B : ObjectMoveTo
-[Int: `object id` | Float: `pos X` | Float: `pos Y` | Float: `pos Z` | Int: `speed` | Byte: `walking`]
+[I:`object id`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`move speed`|B:`walking`]
 # 0x0C : UserInfo
-[Int: `object id` | String: `player name` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Int: `level`| Int: `hp`| Int: `maxhp`| Int: `mp`| Int: `maxMp`| Int: `cp`| Int: `maxCp`]
+[I:`object id`|S:`player name`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`move speed`|I:`patkspd`|I:`matkspd`|I:`level`|I:`hp`|I:`maxhp`|I:`mp`|I:`maxMp`|I:`cp`|I:`maxCp`]
 # 0x0D : ObjectMoveDirection
-[Int: `object id` | Int: `move speed` | Float: `dir X` | Float: `dir Y` | Float: `dir Z`]
+[I:`object id`|I:`move speed`|F:`dir X`|F:`dir Y`|F:`dir Z`]
 # 0x0E : GameTime
-[Long: `current server ticks` | Int: `tick duration in Ms` | Int: `day duration in minutes`]
+[Long:`current server ticks`|I:`tick duration in Ms`|I:`day duration in minutes`]
 # 0x0F : EntitySetTarget
-[Int: `object id` | Int: `target id`]
+[I:`object id`|I:`target id`]
 # 0x010 : AutoAttackStart
-[Int: `object id`]
+[I:`object id`]
 # 0x11 : AutoAttackStop
-[Int: `object id`]
+[I:`object id`]
 ```
