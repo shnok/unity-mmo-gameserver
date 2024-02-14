@@ -8,6 +8,7 @@ import com.shnok.javaserver.model.knownlist.PlayerKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.model.status.Status;
+import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.thread.GameClientThread;
 import com.shnok.javaserver.util.VectorUtils;
@@ -28,8 +29,10 @@ public class PlayerInstance extends Entity {
         this.name = name;
     }
 
-    public PlayerInstance(String name) {
+    public PlayerInstance(String name, PlayerTemplate playerTemplate) {
         this.name = name;
+        this.template = playerTemplate;
+        this.status = new PlayerStatus(playerTemplate);
     }
 
     @Override

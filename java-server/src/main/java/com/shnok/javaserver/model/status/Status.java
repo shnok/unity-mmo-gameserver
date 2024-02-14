@@ -11,7 +11,7 @@ public abstract class Status {
     protected int hp;
     protected int maxHp;
     protected int level;
-    protected float moveSpeed = 5f;
+    protected int moveSpeed = 5;
 
     protected Status(int level, int maxHp) {
         this.maxHp = maxHp;

@@ -66,8 +66,6 @@ public class NpcAI extends EntityAI implements Runnable {
 
         thinking = true;
 
-        System.out.println(getIntention());
-
         /* Is NPC waiting ? */
         if (getIntention() == Intention.INTENTION_IDLE) {
             thinkIdle();

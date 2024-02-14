@@ -1,6 +1,8 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.Config;
+import com.shnok.javaserver.db.entity.CharTemplate;
+import com.shnok.javaserver.db.repository.CharTemplateRepository;
 import com.shnok.javaserver.dto.clientpackets.*;
 import com.shnok.javaserver.dto.serverpackets.*;
 import com.shnok.javaserver.enums.ClientPacketType;
@@ -9,6 +11,8 @@ import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.PlayerInstance;
 import com.shnok.javaserver.model.status.PlayerStatus;
+import com.shnok.javaserver.model.template.EntityTemplate;
+import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.ai.PlayerAI;
@@ -156,8 +160,12 @@ public class ClientPacketHandlerThread extends Thread {
 
         // Dummy player
         // TODO: FETCH FROM DB
-        PlayerInstance player = new PlayerInstance(client.getUsername());
-        player.setStatus(new PlayerStatus());
+
+        CharTemplateRepository charTemplateRepository = new CharTemplateRepository();
+        CharTemplate classTemplate = charTemplateRepository.getTemplateByClassId(31);
+        PlayerTemplate playerTemplate = new PlayerTemplate(classTemplate);
+
+        PlayerInstance player = new PlayerInstance(client.getUsername(), playerTemplate);
         player.setGameClient(client);
         player.setId(WorldManagerService.getInstance().nextID());
         player.setPosition(VectorUtils.randomPos(Config.PLAYER_SPAWN_POINT, 1.5f));
@@ -226,7 +234,7 @@ public class ClientPacketHandlerThread extends Thread {
         // ! FOR DEBUG PURPOSE
         // Notify known list
         ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), damage, critical);
+                client.getCurrentPlayer().getId(), packet.getTargetId(), damage, ((Entity) object).getStatus().getHp(), critical);
         // Send packet to player's known list
         client.getCurrentPlayer().broadcastPacket(applyDamagePacket);
         // Send packet to player
@@ -239,7 +247,7 @@ public class ClientPacketHandlerThread extends Thread {
 
         // Notify known list
         ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
-                client.getCurrentPlayer().getId(), packet.getSpeed(), packet.getDirection());
+                client.getCurrentPlayer().getId(), client.getCurrentPlayer().getStatus().getMoveSpeed(), packet.getDirection());
         client.getCurrentPlayer().broadcastPacket(objectDirectionPacket);
     }
 

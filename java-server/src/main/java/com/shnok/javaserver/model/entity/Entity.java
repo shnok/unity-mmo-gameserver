@@ -98,6 +98,7 @@ public abstract class Entity extends GameObject {
 
         // Get the Attack Speed of the npc (delay (in milliseconds) before next attack)
         int timeAtk = calculateTimeBetweenAttacks();
+        log.debug("AtkSpd: {} Attack duration: {}ms", getTemplate().getBasePAtkSpd(), timeAtk);
         // the hit is calculated to happen halfway to the animation
         int timeToHit = timeAtk / 2;
 
@@ -115,7 +116,7 @@ public abstract class Entity extends GameObject {
 
     public void doSimpleAttack(Entity target, int timeToHit) {
         //TODO do damage calculations
-        int damage = 15;
+        int damage = 1;
         boolean criticalHit = true;
 
         getAi().clientStartAutoAttack();
@@ -236,7 +237,7 @@ public abstract class Entity extends GameObject {
 
     // calculate how many ticks do we need to move to destination
     public boolean moveToNextRoutePoint() {
-        float speed;
+        int speed;
 
         if(!canMove() || getAi() == null) {
             return false;
@@ -247,6 +248,7 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
+        //TODO add speed calculations, move switch between speeds into AI
         if(getAi().getMovingReason() == EntityMovingReason.Walking) {
             speed = getTemplate().getBaseWalkSpd();
         } else {
@@ -254,7 +256,6 @@ public abstract class Entity extends GameObject {
         }
 
         getStatus().setMoveSpeed(speed);
-
         if (speed <= 0) {
             return false;
         }
@@ -265,7 +266,7 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
-        updateMoveData(speed);
+        updateMoveData(speed / 52.5f);
 
         Point3D destination = new Point3D(moveData.destination);
 

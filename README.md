@@ -47,7 +47,7 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 # 0x07 : RequestAttack
 [Int: `object id` | Byte: `attack type`]
 # 0x08 : RequestMoveDirection
-[Float: `move speed` | Float: `dir X` | Float: `dir Y` | Float: `dir Z`]
+[Float: `dir X` | Float: `dir Y` | Float: `dir Z`]
 # 0x09 : `RequestSetTarget`
 [Int: `target id`]
 ```
@@ -80,13 +80,13 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 # 0x09 : ApplyDamage
 [Int: `sender id` | Int: `target id` | Int: `damage` | Int: `new hp` | Byte: `critical hit`]
 # 0x0A : NpcInfo
-[Int: `object id` | Int: `npc id` | String: `npc class` | String: `npc type` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Float: `collision height`| Float: `movespeed`| Int: `level`| Int: `hp`| Int: `maxhp`]
+[Int: `object id` | Int: `npc id` | String: `npc class` | String: `npc type` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Float: `collision height`| Float: `movespeed`| Int: `patkspd`| Int: `matkspd` | Int: `level` | Int: `hp`| Int: `maxhp`]
 # 0x0B : ObjectMoveTo
-[Int: `object id` | Float: `pos X` | Float: `pos Y` | Float: `pos Z` | Float: `speed` | Byte: `walking`]
+[Int: `object id` | Float: `pos X` | Float: `pos Y` | Float: `pos Z` | Int: `speed` | Byte: `walking`]
 # 0x0C : UserInfo
 [Int: `object id` | String: `player name` | Float: `pos X` | Float: `pos Y` | Float: `pos Z`| Int: `level`| Int: `hp`| Int: `maxhp`| Int: `mp`| Int: `maxMp`| Int: `cp`| Int: `maxCp`]
 # 0x0D : ObjectMoveDirection
-[Int: `object id` | Float: `move speed` | Float: `dir X` | Float: `dir Y` | Float: `dir Z`]
+[Int: `object id` | Int: `move speed` | Float: `dir X` | Float: `dir Y` | Float: `dir Z`]
 # 0x0E : GameTime
 [Long: `current server ticks` | Int: `tick duration in Ms` | Int: `day duration in minutes`]
 # 0x0F : EntitySetTarget

@@ -1,5 +1,6 @@
 package com.shnok.javaserver.db;
 
+import com.shnok.javaserver.db.entity.CharTemplate;
 import com.shnok.javaserver.db.entity.Npc;
 import com.shnok.javaserver.db.entity.SpawnList;
 import com.shnok.javaserver.db.entity.ZoneList;
@@ -14,7 +15,7 @@ public class DatabaseConfig {
 
         // Hibernate HikariCP configuration
         configuration.setProperty("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "update");
+        configuration.setProperty("hibernate.hbm2ddl.auto", "none");
         configuration.setProperty("hibernate.show_sql", "false");
         configuration.setProperty("hibernate.format_sql", "true");
 
@@ -37,6 +38,7 @@ public class DatabaseConfig {
         configuration.addAnnotatedClass(SpawnList.class);
         configuration.addAnnotatedClass(Npc.class);
         configuration.addAnnotatedClass(ZoneList.class);
+        configuration.addAnnotatedClass(CharTemplate.class);
 
         return configuration.buildSessionFactory();
     }
