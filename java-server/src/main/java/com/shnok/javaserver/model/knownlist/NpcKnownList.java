@@ -36,7 +36,7 @@ public class NpcKnownList extends EntityKnownList
         }
 
         if (object instanceof PlayerInstance) {
-            if(getKnownPlayers().size() == 1) {
+            if(getKnownPlayers().size() == 1 && !getActiveChar().isStatic()) {
                 getActiveChar().refreshAI();
             }
 

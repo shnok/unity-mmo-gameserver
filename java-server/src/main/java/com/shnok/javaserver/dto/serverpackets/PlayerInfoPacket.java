@@ -16,6 +16,7 @@ public class PlayerInfoPacket extends ServerPacket {
         writeI(player.getStatus().getMoveSpeed());
         writeI(player.getTemplate().getBasePAtkSpd());
         writeI(player.getTemplate().getBaseMAtkSpd());
+        writeF(player.getTemplate().getBaseAtkRange());
         writeI(player.getStatus().getLevel());
         writeI(player.getStatus().getHp());
         writeI(player.getStatus().getMaxHp());

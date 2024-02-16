@@ -13,7 +13,8 @@ public enum ClientPacketType {
     RequestAnim((byte)6),
     RequestAttack((byte)7),
     RequestMoveDirection((byte)8),
-    RequestSetTarget((byte)9);
+    RequestSetTarget((byte)9),
+    RequestAutoAttack((byte)0x0A);
 
     private final byte value;
 

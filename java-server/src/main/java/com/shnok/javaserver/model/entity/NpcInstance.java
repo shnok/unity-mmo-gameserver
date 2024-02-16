@@ -1,6 +1,7 @@
 package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.db.entity.SpawnList;
+import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.enums.EntityAnimation;
@@ -30,13 +31,35 @@ public class NpcInstance extends Entity {
         super(id);
         this.template = npcTemplate;
         this.status = new NpcStatus(npcTemplate.getLevel(), npcTemplate.baseHpMax);
-        this.isStatic = true;
+        this.isStatic = npcTemplate.getNpcClass().contains("NPC");
         this.randomWalk = false;
     }
 
     @Override
     public void inflictDamage(Entity attacker, int value) {
         super.inflictDamage(attacker, value);
+
+        if(isStatic()) {
+            status.setHp(Math.max(status.getHp() - value, 1));
+        } else {
+            status.setHp(Math.max(status.getHp() - value, 0));
+        }
+
+        if (status.getHp() == 0) {
+            onDeath();
+        }
+    }
+
+    @Override
+    public boolean onHitTimer(Entity target, int damage, boolean criticalHit) {
+        if(super.onHitTimer(target, damage, criticalHit)) {
+            ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
+                    getId(), target.getId(), damage, target.getStatus().getHp(), criticalHit);
+            broadcastPacket(applyDamagePacket);
+            return true;
+        }
+
+        return false;
     }
 
     @Override

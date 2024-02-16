@@ -8,6 +8,7 @@ import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
+import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
@@ -57,12 +58,6 @@ public abstract class Entity extends GameObject {
         if(getAi() != null) {
             getAi().notifyEvent(Event.ATTACKED, attacker);
         }
-
-        status.setHp(Math.max(status.getHp() - value, 0));
-
-        if (status.getHp() == 0) {
-            onDeath();
-        }
     }
 
     public abstract void setStatus(Status status);
@@ -87,7 +82,8 @@ public abstract class Entity extends GameObject {
 
     public void doAttack(Entity target) {
         System.out.println("doAttack");
-        if (target == null || target.isDead() || !getKnownList().knowsObject(target)) {
+        if (target == null || target.isDead() || !getKnownList().knowsObject(target)
+                || getAi().getIntention() != Intention.INTENTION_ATTACK) {
             getAi().notifyEvent(Event.CANCEL);
             return;
         }
@@ -125,7 +121,7 @@ public abstract class Entity extends GameObject {
         ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleHitTask(target, damage, criticalHit), timeToHit);
     }
 
-    public void onHitTimer(Entity target, int damage, boolean criticalHit) {
+    public boolean onHitTimer(Entity target, int damage, boolean criticalHit) {
         log.debug("ouchie!");
         //TODO do apply damage
         //TODO share hit
@@ -133,13 +129,12 @@ public abstract class Entity extends GameObject {
 
         if (target == null || target.isDead() || !getKnownList().knowsObject(target)) {
             getAi().notifyEvent(Event.CANCEL);
-            return;
+            return false;
         }
 
         target.inflictDamage(this, damage);
-        ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                getId(), target.getId(), damage, target.getStatus().getHp(), criticalHit);
-        broadcastPacket(applyDamagePacket);
+
+        return true;
     }
 
     public boolean isAttacking() {

@@ -6,6 +6,8 @@ import com.shnok.javaserver.db.repository.CharTemplateRepository;
 import com.shnok.javaserver.dto.clientpackets.*;
 import com.shnok.javaserver.dto.serverpackets.*;
 import com.shnok.javaserver.enums.ClientPacketType;
+import com.shnok.javaserver.enums.Event;
+import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
@@ -77,6 +79,9 @@ public class ClientPacketHandlerThread extends Thread {
             case RequestSetTarget:
                 onRequestSetTarget(data);
                 break;
+            case RequestAutoAttack:
+                onRequestAutoAttack();
+                break;
         }
     }
 
@@ -135,19 +140,6 @@ public class ClientPacketHandlerThread extends Thread {
 
         PlayerInstance currentPlayer = client.getCurrentPlayer();
         currentPlayer.setPosition(newPos);
-
-        //Todo : to remove
-        //for debug purpose
-//        try {
-//            System.out.println("Node found at " + Geodata.getInstance().getNodeAt(newPos).getNodeIndex());
-//        } catch (Exception e) {
-//            System.out.println("Node not found at " + newPos);
-//        }
-        /*PathFinding.getInstance().findPath(client.getCurrentPlayer().getPos(), new Point3D(
-                client.getCurrentPlayer().getPos().getX() + 5f,
-                client.getCurrentPlayer().getPos().getY(),
-                client.getCurrentPlayer().getPos().getZ()
-        ));*/
 
         // Notify known list
         ObjectPositionPacket objectPositionPacket = new ObjectPositionPacket(currentPlayer.getId(), newPos);
@@ -245,6 +237,11 @@ public class ClientPacketHandlerThread extends Thread {
     private void onRequestCharacterMoveDirection(byte[] data) {
         RequestCharacterMoveDirection packet = new RequestCharacterMoveDirection(data);
 
+        if(client.getCurrentPlayer().isAttacking()) {
+            //TODO stop attacking
+            client.getCurrentPlayer().getAi().notifyEvent(Event.CANCEL);
+        }
+
         // Notify known list
         ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
                 client.getCurrentPlayer().getId(), client.getCurrentPlayer().getStatus().getMoveSpeed(), packet.getDirection());
@@ -263,6 +260,7 @@ public class ClientPacketHandlerThread extends Thread {
             if(target == null) {
                 log.warn("[{}] Player tried to target a wrong entity with ID [{}]",
                         client.getCurrentPlayer().getId(), packet.getTargetId());
+                //TODO send error message
                 return;
             }
 
@@ -270,11 +268,44 @@ public class ClientPacketHandlerThread extends Thread {
             if(!client.getCurrentPlayer().getKnownList().knowsObject(target)) {
                 log.warn("[{}] Player tried to target an entity outside of this known list with ID [{}]",
                         client.getCurrentPlayer().getId(), packet.getTargetId());
+                //TODO send error message
                 return;
             }
 
             // Set entity target
             client.getCurrentPlayer().getAi().setTarget(target);
         }
+    }
+
+    private void onRequestAutoAttack() {
+        Entity target = (Entity) client.getCurrentPlayer().getAi().getTarget();
+        if(client.getCurrentPlayer().getAi().getTarget() == null) {
+            log.warn("[{}] Player doesn't have a target", client.getCurrentPlayer().getId());
+            //TODO send error message
+            return;
+        }
+
+        if(target.isDead() || client.getCurrentPlayer().isDead()) {
+            log.warn("[{}] Either user or target is already dead", client.getCurrentPlayer().getId());
+            //TODO send error message
+            return;
+        }
+
+        float distance = VectorUtils.calcDistance2D(client.getCurrentPlayer().getPos(), target.getPos());
+        if(distance > client.getCurrentPlayer().getTemplate().getBaseAtkRange()) {
+            log.warn("[{}] Player is too far from target", client.getCurrentPlayer().getId());
+            //TODO send error message
+            return;
+        }
+
+        PlayerAI ai = (PlayerAI) client.getCurrentPlayer().getAi();
+        if(ai == null) {
+            log.error("[{}] No AI is attached to player", client.getCurrentPlayer().getId());
+            return;
+        }
+
+        ai.setAttackTarget(target);
+        ai.setIntention(Intention.INTENTION_ATTACK);
+        ai.notifyEvent(Event.READY_TO_ACT);
     }
 }

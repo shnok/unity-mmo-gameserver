@@ -50,6 +50,8 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 [F:`dir X`|F:`dir Y`|F:`dir Z`]
 # 0x09 :`RequestSetTarget`
 [I:`target id`]
+# 0x0A :`RequestAutoAttack`
+[]
 ```
 
 ### Server Packets
@@ -68,7 +70,7 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 # 0x03 : SystemMessage
 [B:`Message type`|S:`message`]
 # 0x04 : PlayerInfo
-[I:`object id`|S:`player name`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`level`|I:`movespeed`|I:`patkspd`|I:`matkspd`|I:`hp`|I:`maxhp`|I:`mp`|I:`maxMp`|I:`cp`|I:`maxCp`]
+[I:`object id`|S:`player name`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`level`|I:`movespeed`|I:`patkspd`|I:`matkspd`|F:`attack range`|I:`hp`|I:`maxhp`|I:`mp`|I:`maxMp`|I:`cp`|I:`maxCp`]
 # 0x05 : ObjectPosition
 [I:`object id`|F:`pos X`|F:`pos Y`|F:`pos Z`]
 # 0x06 : RemoveObject
