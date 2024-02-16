@@ -1,5 +1,6 @@
 package com.shnok.javaserver.thread.ai;
 
+import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
@@ -26,7 +27,11 @@ public class EntityAI extends BaseAI {
     }
 
     @Override
-    protected void onEvtArrived() {}
+    protected void onEvtArrived() {
+        /* share new position with known players */
+        ObjectPositionPacket packet = new ObjectPositionPacket(owner.getId(), owner.getPos());
+        getOwner().broadcastPacket(packet);
+    }
 
     @Override
     protected void onEvtAttacked(Entity attacker) {

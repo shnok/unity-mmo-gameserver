@@ -94,6 +94,8 @@ public class NpcAI extends EntityAI implements Runnable {
 
     @Override
     protected void onEvtArrived() {
+        super.onEvtArrived();
+
         if (owner.moveToNextRoutePoint()) {
             return;
         }
@@ -169,6 +171,8 @@ public class NpcAI extends EntityAI implements Runnable {
         // If target too far follow target
         float attackRange = getOwner().getTemplate().baseAtkRange;
         if(VectorUtils.calcDistance2D(getOwner().getPos(), attackTarget.getPos()) > attackRange) {
+            //TODO: Wait for attack to finish
+
             // Stop auto attacking
             notifyEvent(Event.CANCEL);
 

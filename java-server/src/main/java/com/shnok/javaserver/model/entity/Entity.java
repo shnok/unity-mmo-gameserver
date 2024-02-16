@@ -228,11 +228,12 @@ public abstract class Entity extends GameObject {
             log.debug("[{}] Move to {} reason {}", getId(),destination, getAi().getMovingReason());
         }
 
-        moveToNextRoutePoint();
-        GameTimeControllerService.getInstance().addMovingObject(this);
+        if(moveToNextRoutePoint()) {
+            moving = true;
+            return true;
+        }
 
-        moving = true;
-        return true;
+        return false;
     }
 
     // calculate how many ticks do we need to move to destination
@@ -243,7 +244,7 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
-        /* safety */
+        // safety
         if (moveData == null || moveData.path == null || moveData.path.size() == 0) {
             return false;
         }
@@ -262,18 +263,20 @@ public abstract class Entity extends GameObject {
 
         /* cancel the move action if not on geodata */
         if (!isOnGeoData()) {
+            //TODO run straight to target
             moveData = null;
             return false;
         }
 
-        updateMoveData(speed / 52.5f);
+        // calculate how many ticks do we need to move to destination
+        updateMoveData(getStatus().getMoveSpeed() / 52.5f);
 
-        Point3D destination = new Point3D(moveData.destination);
+        GameTimeControllerService.getInstance().addMovingObject(this);
 
-        /* send destination to known players */
+        // send destination to known players
         ObjectMoveToPacket packet = new ObjectMoveToPacket(
                 getId(),
-                destination,
+                new Point3D(moveData.destination),
                 getStatus().getMoveSpeed(),
                 getAi().getMovingReason() == EntityMovingReason.Walking);
         broadcastPacket(packet);
@@ -281,9 +284,10 @@ public abstract class Entity extends GameObject {
         return true;
     }
 
+    // calculate how many ticks do we need to move to destination
     private void updateMoveData(float moveSpeed) {
         Point3D destination = new Point3D(moveData.path.get(0));
-        float distance = VectorUtils.calcDistance(getPos(), destination);
+        float distance = VectorUtils.calcDistance2D(getPos(), destination);
         Point3D delta = new Point3D(destination.getX() - getPosX(),
                 destination.getY() - getPosY(),
                 destination.getZ() - getPosZ());
@@ -306,16 +310,7 @@ public abstract class Entity extends GameObject {
         moveData.path.remove(0);
     }
 
-    public boolean isOnGeoData() {
-        try {
-            Geodata.getInstance().getNodeAt(getPos());
-            return true;
-        } catch (Exception e) {
-//            log.debug("[{}] Not at a valid position: {}", getId(), getPos());
-            return false;
-        }
-    }
-
+    // Update entity position based on server ticks and move data
     public boolean updatePosition(long gameTicks) {
         if (moveData == null) {
             return true;
@@ -335,12 +330,24 @@ public abstract class Entity extends GameObject {
                 (float) elapsed / moveData.ticksToMove);
         setPosition(lerpPosition);
 
+        // Check if entity has target and is in range of attack
+        if(getAi().getAttackTarget() != null) {
+            // Check on a 2D plane to avoid offsets caused by geodata nodes Y
+            float distanceToTarget = VectorUtils.calcDistance2D(getAi().getAttackTarget().getPos(), getPos());
+            log.debug("Updating position... Distance to target: {}", distanceToTarget);
+
+            if(distanceToTarget <= getTemplate().getBaseAtkRange()) {
+                if (ai != null) {
+                    ai.notifyEvent(Event.ARRIVED);
+                }
+
+                return true;
+            }
+        }
+
+        // Move to next path node
         if (elapsed >= moveData.ticksToMove) {
             moveData.moveTimestamp = gameTicks;
-
-            /* share new position with known players */
-            ObjectPositionPacket packet = new ObjectPositionPacket(getId(), getPos());
-            broadcastPacket(packet);
 
             if (moveData.path.size() > 0) {
                 moveToNextRoutePoint();
@@ -355,6 +362,16 @@ public abstract class Entity extends GameObject {
         }
 
         return false;
+    }
+
+    public boolean isOnGeoData() {
+        try {
+            Geodata.getInstance().getNodeAt(getPos());
+            return true;
+        } catch (Exception e) {
+//            log.debug("[{}] Not at a valid position: {}", getId(), getPos());
+            return false;
+        }
     }
 
     public void broadcastPacket(ServerPacket packet) {

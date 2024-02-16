@@ -76,7 +76,7 @@ public class PathFinding {
 
             // Current node is the destination node
             // Path was found
-            if (node.equals(end) || VectorUtils.calcDistance(node.getCenter(), end.getCenter()) <= stopAtRange) {
+            if (node.equals(end)) {
                 if(Config.PRINT_PATHFINDER_LOGS) {
                     log.debug("Found path - {} to {} after {} iteration(s).", start.getCenter(), end.getCenter(), i);
                 }
@@ -131,6 +131,7 @@ public class PathFinding {
                 }
             }
         }
+
         // No Path found
         if(Config.PRINT_PATHFINDER_LOGS) {
             log.debug("No path found (max iterations reached)");
