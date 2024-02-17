@@ -237,7 +237,7 @@ public class ClientPacketHandlerThread extends Thread {
     private void onRequestCharacterMoveDirection(byte[] data) {
         RequestCharacterMoveDirection packet = new RequestCharacterMoveDirection(data);
 
-        if(client.getCurrentPlayer().isAttacking()) {
+        if(client.getCurrentPlayer().isAttacking() && packet.getDirection().getX() != 0 && packet.getDirection().getZ() != 0) {
             //TODO stop attacking
             client.getCurrentPlayer().getAi().notifyEvent(Event.CANCEL);
         }
