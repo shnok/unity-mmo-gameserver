@@ -106,7 +106,7 @@ public class NpcAI extends EntityAI implements Runnable {
         }
 
         if(getIntention() == Intention.INTENTION_ATTACK) {
-            setIntention(Intention.INTENTION_ATTACK);
+            setIntention(Intention.INTENTION_ATTACK, attackTarget);
         }
         log.debug(getIntention());
     }
@@ -131,7 +131,7 @@ public class NpcAI extends EntityAI implements Runnable {
             GameTimeControllerService.getInstance().removeMovingObject(owner);
         }
 
-        setIntention(Intention.INTENTION_ATTACK);
+        setIntention(Intention.INTENTION_ATTACK, attackTarget);
     }
 
     @Override

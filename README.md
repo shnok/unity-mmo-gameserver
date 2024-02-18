@@ -97,4 +97,6 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 [I:`object id`]
 # 0x11 : AutoAttackStop
 [I:`object id`]
+# 0x12 : ActionFailed
+[B:`action`]
 ```

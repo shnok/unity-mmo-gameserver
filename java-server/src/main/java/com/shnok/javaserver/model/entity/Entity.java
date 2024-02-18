@@ -81,13 +81,14 @@ public abstract class Entity extends GameObject {
     }
 
     public void doAttack(Entity target) {
-        System.out.println("doAttack");
+        // Extra target verification at each loop
         if (target == null || target.isDead() || !getKnownList().knowsObject(target)
                 || getAi().getIntention() != Intention.INTENTION_ATTACK) {
             getAi().notifyEvent(Event.CANCEL);
             return;
         }
 
+        // Check if attack animation is finished
         if (!canAttack()) {
             return;
         }
@@ -115,7 +116,7 @@ public abstract class Entity extends GameObject {
         int damage = 1;
         boolean criticalHit = true;
 
-        getAi().clientStartAutoAttack();
+        getAi().clientStartAutoAttack(target);
 
         log.debug("ouchie?");
         ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleHitTask(target, damage, criticalHit), timeToHit);

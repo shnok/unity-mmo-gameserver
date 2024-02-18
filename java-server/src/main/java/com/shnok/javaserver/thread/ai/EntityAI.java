@@ -1,6 +1,7 @@
 package com.shnok.javaserver.thread.ai;
 
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
+import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
@@ -71,14 +72,17 @@ public class EntityAI extends BaseAI {
     =========================
      */
     @Override
-    protected void onIntentionAttack() {
-        if(attackTarget == null || attackTarget.isDead()) {
-            log.warn("Attack target is null");
+    protected void onIntentionAttack(Entity entity) {
+        if(entity != null && (attackTarget != entity || !isAutoAttacking())) {
+            log.debug("Entity is attacking a new target");
+            notifyEvent(Event.CANCEL);
+            setAttackTarget(entity);
+            intention = Intention.INTENTION_ATTACK;
+        } else if(attackTarget == null || attackTarget.isDead()) {
+            log.warn("Attack target is null or dead");
             // TODO return to spawn...
             setIntention(Intention.INTENTION_IDLE);
         }
-
-        intention = Intention.INTENTION_ATTACK;
     }
 
     @Override

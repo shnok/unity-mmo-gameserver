@@ -8,6 +8,7 @@ import com.shnok.javaserver.dto.serverpackets.*;
 import com.shnok.javaserver.enums.ClientPacketType;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
+import com.shnok.javaserver.enums.PlayerAction;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
@@ -236,9 +237,12 @@ public class ClientPacketHandlerThread extends Thread {
 
     private void onRequestCharacterMoveDirection(byte[] data) {
         RequestCharacterMoveDirection packet = new RequestCharacterMoveDirection(data);
-
-        if(client.getCurrentPlayer().isAttacking() && packet.getDirection().getX() != 0 && packet.getDirection().getZ() != 0) {
-            //TODO stop attacking
+        System.out.println("PLAYER MOVED: " + packet.getDirection());
+        if((client.getCurrentPlayer().isAttacking() ||
+                client.getCurrentPlayer().getAi().getIntention() == Intention.INTENTION_ATTACK) && // if player attack animation is playing
+                //client.getCurrentPlayer().getAi().getAttackTarget() != null && // if player has an attack target
+                packet.getDirection().getX() != 0 && packet.getDirection().getZ() != 0) { // if direction is not zero
+            log.warn("[{}] Player moved ({}), stop attacking. ", client.getCurrentPlayer().getId(), packet.getDirection());
             client.getCurrentPlayer().getAi().notifyEvent(Event.CANCEL);
         }
 
@@ -261,6 +265,7 @@ public class ClientPacketHandlerThread extends Thread {
                 log.warn("[{}] Player tried to target a wrong entity with ID [{}]",
                         client.getCurrentPlayer().getId(), packet.getTargetId());
                 //TODO send error message
+                client.sendPacket(new ActionFailedPacket(PlayerAction.SetTarget.getValue()));
                 return;
             }
 
@@ -269,6 +274,7 @@ public class ClientPacketHandlerThread extends Thread {
                 log.warn("[{}] Player tried to target an entity outside of this known list with ID [{}]",
                         client.getCurrentPlayer().getId(), packet.getTargetId());
                 //TODO send error message
+                client.sendPacket(new ActionFailedPacket(PlayerAction.SetTarget.getValue()));
                 return;
             }
 
@@ -282,12 +288,14 @@ public class ClientPacketHandlerThread extends Thread {
         if(client.getCurrentPlayer().getAi().getTarget() == null) {
             log.warn("[{}] Player doesn't have a target", client.getCurrentPlayer().getId());
             //TODO send error message
+            client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
             return;
         }
 
         if(target.isDead() || client.getCurrentPlayer().isDead()) {
             log.warn("[{}] Either user or target is already dead", client.getCurrentPlayer().getId());
             //TODO send error message
+            client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
             return;
         }
 
@@ -295,6 +303,7 @@ public class ClientPacketHandlerThread extends Thread {
         if(distance > client.getCurrentPlayer().getTemplate().getBaseAtkRange()) {
             log.warn("[{}] Player is too far from target", client.getCurrentPlayer().getId());
             //TODO send error message
+            client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
             return;
         }
 
@@ -304,8 +313,8 @@ public class ClientPacketHandlerThread extends Thread {
             return;
         }
 
-        ai.setAttackTarget(target);
-        ai.setIntention(Intention.INTENTION_ATTACK);
+        //ai.setAttackTarget(target);
+        ai.setIntention(Intention.INTENTION_ATTACK, target);
         ai.notifyEvent(Event.READY_TO_ACT);
     }
 }

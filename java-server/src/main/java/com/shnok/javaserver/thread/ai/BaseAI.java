@@ -29,6 +29,7 @@ public abstract class BaseAI {
     private GameObject target;
     private Entity castTarget;
     protected Entity attackTarget;
+    protected boolean attackTargetChanged;
     protected Entity followTarget;
     protected Future<?> followTask = null;
     private static final int FOLLOW_INTERVAL = 1000;
@@ -44,7 +45,7 @@ public abstract class BaseAI {
     }
 
     public void notifyEvent(Event evt, GameObject go) {
-        log.debug("[AI] New event: {}", evt);
+//        log.debug("[AI] New event: {}", evt);
 
         switch (evt) {
             case THINK:
@@ -95,7 +96,7 @@ public abstract class BaseAI {
     }
 
     public void setIntention(Intention intention, Object arg0) {
-        log.debug("[AI] New intention: {}", intention);
+//        log.debug("[AI] New intention: {}", intention);
         if ((intention != Intention.INTENTION_FOLLOW) && (intention != Intention.INTENTION_ATTACK)) {
             stopFollow();
         }
@@ -108,7 +109,7 @@ public abstract class BaseAI {
                 onIntentionMoveTo((Point3D) arg0);
                 break;
             case INTENTION_ATTACK:
-                onIntentionAttack();
+                onIntentionAttack((Entity) arg0);
                 break;
             case INTENTION_FOLLOW:
                 onIntentionFollow();
@@ -116,7 +117,7 @@ public abstract class BaseAI {
         }
     }
 
-    protected abstract void onIntentionAttack();
+    protected abstract void onIntentionAttack(Entity entity);
 
     protected abstract void onIntentionFollow();
 
@@ -153,6 +154,7 @@ public abstract class BaseAI {
     public synchronized void setAttackTarget(Entity target) {
         setTarget(target);
         attackTarget = target;
+        attackTargetChanged = true;
     }
 
     public synchronized void setFollowTarget(Entity target) {
@@ -223,8 +225,11 @@ public abstract class BaseAI {
     }
 
     // Start the auto attack client side
-    public void clientStartAutoAttack() {
+    public void clientStartAutoAttack(Entity target) {
+        //if (!isAutoAttacking()) {
         if (!isAutoAttacking()) {
+           // attackTargetChanged = false;
+
             log.debug("[AI] Client start auto attack");
 
             // Send a Server->Client packet AutoAttackStart to the actor and all PlayerInstances in its knownPlayers
