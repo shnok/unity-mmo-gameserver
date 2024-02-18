@@ -76,7 +76,9 @@ public class NpcAI extends EntityAI implements Runnable {
                 thinkAttack();
             }
         } catch (NullPointerException e) {
-            log.warn("Lost target during attack loop");
+            if(Config.PRINT_AI_LOGS) {
+                log.warn("[AI][{}] Lost target during attack loop", owner.getId());
+            }
             //TODO: teleport to spawn if too far on next patrol
             return;
         }
@@ -100,7 +102,6 @@ public class NpcAI extends EntityAI implements Runnable {
             return;
         }
 
-        log.debug("Before " + getIntention());
         if (getIntention() == Intention.INTENTION_MOVE_TO) {
             setIntention(Intention.INTENTION_IDLE);
         }
@@ -108,7 +109,6 @@ public class NpcAI extends EntityAI implements Runnable {
         if(getIntention() == Intention.INTENTION_ATTACK) {
             setIntention(Intention.INTENTION_ATTACK, attackTarget);
         }
-        log.debug(getIntention());
     }
 
     @Override
@@ -160,7 +160,9 @@ public class NpcAI extends EntityAI implements Runnable {
 
     void thinkAttack() {
         if(attackTarget == null || !owner.getKnownList().knowsObject(attackTarget) || attackTarget.isDead()) {
-            log.warn("Attack target is null or dead");
+            if(Config.PRINT_AI_LOGS) {
+                log.warn("[AI][{}] Attack target is null or dead", owner.getId());
+            }
             //TODO: teleport to spawn if too far on next patrol
             notifyEvent(Event.CANCEL);
             clearTarget();
@@ -176,7 +178,10 @@ public class NpcAI extends EntityAI implements Runnable {
             // Stop auto attacking
             notifyEvent(Event.CANCEL);
 
-            log.debug("Start moving to attacker");
+            if(Config.PRINT_AI_LOGS) {
+                log.debug("[AI][{}] Start moving to attacker", owner.getId());
+            }
+
             followTarget = attackTarget;
             startFollow(attackTarget, attackRange);
             return;
@@ -189,7 +194,9 @@ public class NpcAI extends EntityAI implements Runnable {
         }
 
         // Attack
-        log.debug("Start attack");
+        if(Config.PRINT_AI_LOGS) {
+            log.debug("[AI][{}] Start attack", owner.getId());
+        }
         owner.doAttack(attackTarget);
     }
 

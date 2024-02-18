@@ -215,7 +215,6 @@ public class ClientPacketHandlerThread extends Thread {
         }
 
         // ! FOR DEBUG PURPOSE
-        //TODO: MOVE ALL OF THIS IN AI
         int damage = 25;
         ((Entity) object).inflictDamage(client.getCurrentPlayer(), damage);
         boolean critical = false;
@@ -232,12 +231,10 @@ public class ClientPacketHandlerThread extends Thread {
         client.getCurrentPlayer().broadcastPacket(applyDamagePacket);
         // Send packet to player
         client.sendPacket(applyDamagePacket);
-        //TODO: MOVE ALL OF THIS IN AI
     }
 
     private void onRequestCharacterMoveDirection(byte[] data) {
         RequestCharacterMoveDirection packet = new RequestCharacterMoveDirection(data);
-        System.out.println("PLAYER MOVED: " + packet.getDirection());
         if((client.getCurrentPlayer().isAttacking() ||
                 client.getCurrentPlayer().getAi().getIntention() == Intention.INTENTION_ATTACK) && // if player attack animation is playing
                 //client.getCurrentPlayer().getAi().getAttackTarget() != null && // if player has an attack target
@@ -264,7 +261,6 @@ public class ClientPacketHandlerThread extends Thread {
             if(target == null) {
                 log.warn("[{}] Player tried to target a wrong entity with ID [{}]",
                         client.getCurrentPlayer().getId(), packet.getTargetId());
-                //TODO send error message
                 client.sendPacket(new ActionFailedPacket(PlayerAction.SetTarget.getValue()));
                 return;
             }
@@ -273,7 +269,6 @@ public class ClientPacketHandlerThread extends Thread {
             if(!client.getCurrentPlayer().getKnownList().knowsObject(target)) {
                 log.warn("[{}] Player tried to target an entity outside of this known list with ID [{}]",
                         client.getCurrentPlayer().getId(), packet.getTargetId());
-                //TODO send error message
                 client.sendPacket(new ActionFailedPacket(PlayerAction.SetTarget.getValue()));
                 return;
             }
@@ -287,22 +282,20 @@ public class ClientPacketHandlerThread extends Thread {
         Entity target = (Entity) client.getCurrentPlayer().getAi().getTarget();
         if(client.getCurrentPlayer().getAi().getTarget() == null) {
             log.warn("[{}] Player doesn't have a target", client.getCurrentPlayer().getId());
-            //TODO send error message
             client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
             return;
         }
 
         if(target.isDead() || client.getCurrentPlayer().isDead()) {
             log.warn("[{}] Either user or target is already dead", client.getCurrentPlayer().getId());
-            //TODO send error message
             client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
             return;
         }
 
         float distance = VectorUtils.calcDistance2D(client.getCurrentPlayer().getPos(), target.getPos());
         if(distance > client.getCurrentPlayer().getTemplate().getBaseAtkRange()) {
-            log.warn("[{}] Player is too far from target", client.getCurrentPlayer().getId());
-            //TODO send error message
+            log.warn("[{}] Player is too far from target {}/{}", client.getCurrentPlayer().getId(),
+                    client.getCurrentPlayer().getTemplate().getBaseAtkRange(), distance);
             client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
             return;
         }

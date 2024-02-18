@@ -29,6 +29,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * This class represents all entities in the world.<BR>
@@ -114,7 +115,15 @@ public abstract class Entity extends GameObject {
     public void doSimpleAttack(Entity target, int timeToHit) {
         //TODO do damage calculations
         int damage = 1;
-        boolean criticalHit = true;
+        boolean criticalHit = false;
+        Random r = new Random();
+        if(r.nextInt(6) == 0) {
+            criticalHit = true;
+        }
+
+        if(this instanceof PlayerInstance) {
+            damage = 40;
+        }
 
         getAi().clientStartAutoAttack(target);
 

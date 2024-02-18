@@ -1,5 +1,6 @@
 package com.shnok.javaserver.thread.ai;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.serverpackets.AutoAttackStartPacket;
 import com.shnok.javaserver.dto.serverpackets.AutoAttackStopPacket;
 import com.shnok.javaserver.dto.serverpackets.EntitySetTargetPacket;
@@ -29,7 +30,6 @@ public abstract class BaseAI {
     private GameObject target;
     private Entity castTarget;
     protected Entity attackTarget;
-    protected boolean attackTargetChanged;
     protected Entity followTarget;
     protected Future<?> followTask = null;
     private static final int FOLLOW_INTERVAL = 1000;
@@ -132,7 +132,9 @@ public abstract class BaseAI {
     */
     public void setTarget(Entity target) {
         if(getTarget() != target) {
-            log.debug("[{}] New target [{}]", owner.getId(), target != null ? target.getId() : "null");
+            if(Config.PRINT_AI_LOGS) {
+                log.debug("[AI][{}] New target [{}]", owner.getId(), target != null ? target.getId() : "null");
+            }
             this.target = target;
 
             // Sharing target with known list
@@ -145,7 +147,6 @@ public abstract class BaseAI {
     }
 
     public synchronized void clearTarget() {
-        System.out.println("Clear target");
         attackTarget = null;
         followTarget = null;
         target = null;
@@ -154,7 +155,6 @@ public abstract class BaseAI {
     public synchronized void setAttackTarget(Entity target) {
         setTarget(target);
         attackTarget = target;
-        attackTargetChanged = true;
     }
 
     public synchronized void setFollowTarget(Entity target) {
@@ -226,15 +226,13 @@ public abstract class BaseAI {
 
     // Start the auto attack client side
     public void clientStartAutoAttack(Entity target) {
-        //if (!isAutoAttacking()) {
         if (!isAutoAttacking()) {
-           // attackTargetChanged = false;
-
             log.debug("[AI] Client start auto attack");
 
             // Send a Server->Client packet AutoAttackStart to the actor and all PlayerInstances in its knownPlayers
             AutoAttackStartPacket packet = new AutoAttackStartPacket(owner.getId());
             owner.broadcastPacket(packet);
+
             if(owner instanceof PlayerInstance) {
                 ((PlayerInstance) owner).sendPacket(packet);
             }
@@ -245,8 +243,9 @@ public abstract class BaseAI {
     // Stop the auto attack client side
     public void clientStopAutoAttack() {
         if (isAutoAttacking()) {
-            log.debug("[AI] Client stop auto attack");
-
+            if(Config.PRINT_AI_LOGS) {
+                log.debug("[AI][{}] Client stop auto attack", owner.getId());
+            }
             // Send a Server->Client packet AutoAttackStop to the actor and all PlayerInstances in its knownPlayers
             AutoAttackStopPacket packet = new AutoAttackStopPacket(owner.getId());
             owner.broadcastPacket(packet);

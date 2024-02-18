@@ -18,6 +18,7 @@ public class Config {
     public static boolean PRINT_CLIENT_PACKETS_LOGS;
     public static boolean PRINT_WORLDREGION_LOGS;
     public static boolean PRINT_KNOWN_LIST_LOGS;
+    public static boolean PRINT_AI_LOGS;
     public static boolean SPAWN_NPCS;
     public static boolean SPAWN_MONSTERS;
     public static boolean SPAWN_DEBUG;
@@ -69,6 +70,7 @@ public class Config {
         PRINT_PATHFINDER_LOGS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.pathfinder", "false"));
         PRINT_WORLDREGION_LOGS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.world-region", "false"));
         PRINT_KNOWN_LIST_LOGS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.known-list", "false"));
+        PRINT_AI_LOGS = Boolean.parseBoolean(optionsSettings.getProperty("logger.print.ai", "false"));
 
         String zoneList = optionsSettings.getProperty("server.world.geodata.zones.load", "");
         ZONES_TO_LOAD = zoneList.toUpperCase().split(",");

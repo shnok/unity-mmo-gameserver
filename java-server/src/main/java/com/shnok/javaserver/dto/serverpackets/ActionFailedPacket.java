@@ -5,7 +5,7 @@ import com.shnok.javaserver.enums.ServerPacketType;
 
 public class ActionFailedPacket extends ServerPacket {
     public ActionFailedPacket(byte action) {
-        super(ServerPacketType.ObjectRotation.getValue());
+        super(ServerPacketType.ActionFailed.getValue());
         writeB(action);
         buildPacket();
     }
