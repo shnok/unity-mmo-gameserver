@@ -6175,3 +6175,375 @@ org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (
 	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
 	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-19 13:51:04 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:198)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:161)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:103)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:123)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1288)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1125)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:950)
+	at org.jkiss.dbeaver.ui.editors.DatabaseLazyEditorInput.initializeRealInput(DatabaseLazyEditorInput.java:262)
+	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:171)
+	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:88)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:72)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-19 13:53:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ETCITEM" not found; SQL statement:
+INSERT INTO `etcitem` VALUES ('3947', 'Blessed Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '35', '0', 'true', 'true', 'true', 'true', 'blessed_spiritshot_none', 'none', '2') [42102-199]
+2024-02-19 13:54:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "
+CREATE TABLE `ETCITEM` (
+  `ITEM_ID` DECIMAL(11,0) NOT NULL DEFAULT '0',
+  `NAME` VARCHAR(100) DEFAULT NULL,
+  `CRYSTALLIZABLE` VARCHAR(5) DEFAULT NULL,
+  `ITEM_TYPE` VARCHAR(12) DEFAULT NULL,
+  `WEIGHT` DECIMAL(4,0) DEFAULT NULL,
+  `CONSUME_TYPE` VARCHAR(9) DEFAULT NULL,
+  `MATERIAL` VARCHAR(11) DEFAULT NULL,
+  `CRYSTAL_TYPE` VARCHAR(4) DEFAULT NULL,
+  `DURATION` DECIMAL(3,0) DEFAULT NULL,
+  `PRICE` DECIMAL(11,0) DEFAULT NULL,
+  `CRYSTAL_COUNT` INT(4) DEFAULT NULL,
+  `SELLABLE` VARCHAR(5) DEFAULT NULL,
+  `DROPABLE` VARCHAR(5) DEFAULT NULL,
+  `DESTROYABLE` VARCHAR(5) DEFAULT NULL,
+  `TRADEABLE` VARCHAR(5) DEFAULT NULL,
+  `OLDNAME` VARCHAR(100) NOT NULL DEFAULT '',
+  `OLDTYPE` VARCHAR(100) NOT NULL DEFAULT '',
+  `DROP_CATEGORY` ENUM('0','1','2') NOT NULL DEFAULT '2',
+  PRIMARY KEY (`ITEM_ID`);[*]
+
+                               
+                     
+                               
+INSERT INTO `ETCITEM` VALUES ('17', 'Wooden Arrow', 'false', 'arrow', '6', 'stackable', 'wood', 'none', '-1', '2', '0', 'true', 'true', 'true', 'true', 'wooden_arrow', 'arrow', '2');
+INSERT INTO `ETCITEM` VALUES ('57', 'Adena', 'false', 'none', '0', 'asset', 'gold', 'none', '-1', '1', '0', 'true', 'true', 'true', 'true', 'adena', 'none', '2');
+INSERT INTO `ETCITEM` VALUES ('65', 'Red Potion', 'false', 'potion', '80', 'stackable', 'liquid', 'none', '-1', '40', '0', 'true', 'true', 'true', 'true', 'red_potion', 'potion', '2');
+INSERT INTO `ETCITEM` VALUES ('1835', 'Soulshot: No Grade', 'false', 'shot', '4', 'stackable', 'paper', 'none', '-1', '7', '0', 'true', 'true', 'true', 'true', 'soulshot_none', 'none', '2');
+INSERT INTO `ETCITEM` VALUES ('2509', 'Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '15', '0', 'true', 'true', 'true', 'true', 'spiritshot_none', 'none', '2');
+INSERT INTO `ETCITEM` VALUES ('3947', 'Blessed Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '35', '0', 'true', 'true', 'true', 'true', 'blessed_spiritshot_none', 'none', '2') "; expected "INDEX, ,, )"; SQL statement:
+
+CREATE TABLE `etcitem` (
+  `item_id` decimal(11,0) NOT NULL DEFAULT '0',
+  `name` varchar(100) DEFAULT NULL,
+  `crystallizable` varchar(5) DEFAULT NULL,
+  `item_type` varchar(12) DEFAULT NULL,
+  `weight` decimal(4,0) DEFAULT NULL,
+  `consume_type` varchar(9) DEFAULT NULL,
+  `material` varchar(11) DEFAULT NULL,
+  `crystal_type` varchar(4) DEFAULT NULL,
+  `duration` decimal(3,0) DEFAULT NULL,
+  `price` decimal(11,0) DEFAULT NULL,
+  `crystal_count` int(4) DEFAULT NULL,
+  `sellable` varchar(5) DEFAULT NULL,
+  `dropable` varchar(5) DEFAULT NULL,
+  `destroyable` varchar(5) DEFAULT NULL,
+  `tradeable` varchar(5) DEFAULT NULL,
+  `oldname` varchar(100) NOT NULL DEFAULT '',
+  `oldtype` varchar(100) NOT NULL DEFAULT '',
+  `drop_category` enum('0','1','2') NOT NULL DEFAULT '2',
+  PRIMARY KEY (`item_id`);
+
+-- ----------------------------
+-- Records of etcitem
+-- ----------------------------
+INSERT INTO `etcitem` VALUES ('17', 'Wooden Arrow', 'false', 'arrow', '6', 'stackable', 'wood', 'none', '-1', '2', '0', 'true', 'true', 'true', 'true', 'wooden_arrow', 'arrow', '2');
+INSERT INTO `etcitem` VALUES ('57', 'Adena', 'false', 'none', '0', 'asset', 'gold', 'none', '-1', '1', '0', 'true', 'true', 'true', 'true', 'adena', 'none', '2');
+INSERT INTO `etcitem` VALUES ('65', 'Red Potion', 'false', 'potion', '80', 'stackable', 'liquid', 'none', '-1', '40', '0', 'true', 'true', 'true', 'true', 'red_potion', 'potion', '2');
+INSERT INTO `etcitem` VALUES ('1835', 'Soulshot: No Grade', 'false', 'shot', '4', 'stackable', 'paper', 'none', '-1', '7', '0', 'true', 'true', 'true', 'true', 'soulshot_none', 'none', '2');
+INSERT INTO `etcitem` VALUES ('2509', 'Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '15', '0', 'true', 'true', 'true', 'true', 'spiritshot_none', 'none', '2');
+INSERT INTO `etcitem` VALUES ('3947', 'Blessed Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '35', '0', 'true', 'true', 'true', 'true', 'blessed_spiritshot_none', 'none', '2') [42001-199]
+2024-02-19 13:55:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "
+
+   
+                                  
+   
+
+INSERT INTO `WEAPON` VALUES 
+ ('6','Apprentice\'S[*] WAND','RHAND','FALSE','1350','1','1','STEEL','NONE','5','20','BLUNT','4','4.00000','0','0','0','379','0','7','-1','138','0','FALSE','FALSE','TRUE','FALSE','0','0','0','0','0','0','0','0','0','0'),
+ ('14','BOW','LRHAND','FALSE','1930','1','1','WOOD','NONE','23','5','BOW','12','-3.00000','0','0','0','293','1','9','-1','12500','0','TRUE','TRUE','TRUE','TRUE','0','0','0','0','0','0','0','0','0','0'),
+ ('20','BUCKLER','LHAND','FALSE','1410','0','0','WOOD','NONE','0','0','NONE','0','0.00000','-8','67','20','0','0','0','-1','2780','0','TRUE','TRUE','TRUE','TRUE','0','0','0','0','0','0','0','0','0','0'),
+ ('177','MAGE STAFF','LRHAND','FALSE','1050','2','2','WOOD','NONE','30','20','BIGBLUNT','4','4.00000','0','0','0','325','0','28','-1','244000','0','TRUE','TRUE','TRUE','TRUE','0','0','0','0','0','0','0','0','0','0'),
+ ('2369','SQUIRE\'s Sword','rhand','false','1600','1','1','steel','none','6','10','sword','8','0.00000','0','0','0','379','0','5','-1','138','0','false','false','true','false','0','0','0','0','0','0','0','0','0','0') "; expected "[, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, ILIKE, REGEXP, IS, IN, BETWEEN, AND, OR, ,, )"; SQL statement:
+
+
+-- 
+-- Dumping data for table `weapon`
+-- 
+
+INSERT INTO `weapon` VALUES 
+ ('6','Apprentice\'s Wand','rhand','false','1350','1','1','steel','none','5','20','blunt','4','4.00000','0','0','0','379','0','7','-1','138','0','false','false','true','false','0','0','0','0','0','0','0','0','0','0'),
+ ('14','Bow','lrhand','false','1930','1','1','wood','none','23','5','bow','12','-3.00000','0','0','0','293','1','9','-1','12500','0','true','true','true','true','0','0','0','0','0','0','0','0','0','0'),
+ ('20','Buckler','lhand','false','1410','0','0','wood','none','0','0','none','0','0.00000','-8','67','20','0','0','0','-1','2780','0','true','true','true','true','0','0','0','0','0','0','0','0','0','0'),
+ ('177','Mage Staff','lrhand','false','1050','2','2','wood','none','30','20','bigblunt','4','4.00000','0','0','0','325','0','28','-1','244000','0','true','true','true','true','0','0','0','0','0','0','0','0','0','0'),
+ ('2369','Squire\'s Sword','rhand','false','1600','1','1','steel','none','6','10','sword','8','0.00000','0','0','0','379','0','5','-1','138','0','false','false','true','false','0','0','0','0','0','0','0','0','0','0') [42001-199]
+2024-02-19 13:56:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "
+
+   
+                                  
+   
+
+INSERT INTO `WEAPON` VALUES 
+ ('6','Apprentice\'S[*] WAND','RHAND','FALSE','1350','1','1','STEEL','NONE','5','20','BLUNT','4','4.00000','0','0','0','379','0','7','-1','138','0','FALSE','FALSE','TRUE','FALSE','0','0','0','0','0','0','0','0','0','0'),
+ ('14','BOW','LRHAND','FALSE','1930','1','1','WOOD','NONE','23','5','BOW','12','-3.00000','0','0','0','293','1','9','-1','12500','0','TRUE','TRUE','TRUE','TRUE','0','0','0','0','0','0','0','0','0','0'),
+ ('20','BUCKLER','LHAND','FALSE','1410','0','0','WOOD','NONE','0','0','NONE','0','0.00000','-8','67','20','0','0','0','-1','2780','0','TRUE','TRUE','TRUE','TRUE','0','0','0','0','0','0','0','0','0','0'),
+ ('177','MAGE STAFF','LRHAND','FALSE','1050','2','2','WOOD','NONE','30','20','BIGBLUNT','4','4.00000','0','0','0','325','0','28','-1','244000','0','TRUE','TRUE','TRUE','TRUE','0','0','0','0','0','0','0','0','0','0'),
+ ('2369','SQUIRE\'s Sword','rhand','false','1600','1','1','steel','none','6','10','sword','8','0.00000','0','0','0','379','0','5','-1','138','0','false','false','true','false','0','0','0','0','0','0','0','0','0','0') "; expected "[, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, ILIKE, REGEXP, IS, IN, BETWEEN, AND, OR, ,, )"; SQL statement:
+
+
+-- 
+-- Dumping data for table `weapon`
+-- 
+
+INSERT INTO `weapon` VALUES 
+ ('6','Apprentice\'s Wand','rhand','false','1350','1','1','steel','none','5','20','blunt','4','4.00000','0','0','0','379','0','7','-1','138','0','false','false','true','false','0','0','0','0','0','0','0','0','0','0'),
+ ('14','Bow','lrhand','false','1930','1','1','wood','none','23','5','bow','12','-3.00000','0','0','0','293','1','9','-1','12500','0','true','true','true','true','0','0','0','0','0','0','0','0','0','0'),
+ ('20','Buckler','lhand','false','1410','0','0','wood','none','0','0','none','0','0.00000','-8','67','20','0','0','0','-1','2780','0','true','true','true','true','0','0','0','0','0','0','0','0','0','0'),
+ ('177','Mage Staff','lrhand','false','1050','2','2','wood','none','30','20','bigblunt','4','4.00000','0','0','0','325','0','28','-1','244000','0','true','true','true','true','0','0','0','0','0','0','0','0','0','0'),
+ ('2369','Squire\'s Sword','rhand','false','1600','1','1','steel','none','6','10','sword','8','0.00000','0','0','0','379','0','5','-1','138','0','false','false','true','false','0','0','0','0','0','0','0','0','0','0') [42001-199]
+2024-02-19 14:01:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO `weapon` VALUES 
+ ('6','Apprentice\'s Wand','rhand','false','1350','1','1','steel','none','5','20','blunt','4','4.00000','0','0','0','379','0','7','-1','138','0','false','false','true','false','0','0','0','0','0','0','0','0','0','0[*]')"; SQL statement:
+INSERT INTO `weapon` VALUES 
+ ('6','Apprentice\'s Wand','rhand','false','1350','1','1','steel','none','5','20','blunt','4','4.00000','0','0','0','379','0','7','-1','138','0','false','false','true','false','0','0','0','0','0','0','0','0','0','0') [42000-199]
+2024-02-19 14:09:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:636)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-19 14:10:04 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:198)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:161)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:103)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:123)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1288)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1125)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:950)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.runSync(ConnectJob.java:104)
+	at org.jkiss.dbeaver.ui.actions.datasource.DataSourceHandler.connectToDataSource(DataSourceHandler.java:115)
+	at org.jkiss.dbeaver.ui.actions.datasource.UIServiceConnectionsImpl.initConnection(UIServiceConnectionsImpl.java:87)
+	at org.jkiss.dbeaver.model.DBUtils.initDataSource(DBUtils.java:2486)
+	at org.jkiss.dbeaver.model.navigator.DBNDataSource.initializeNode(DBNDataSource.java:151)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:225)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:1)
+	at org.jkiss.dbeaver.model.navigator.DBNUtils.getNodeChildrenFiltered(DBNUtils.java:91)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:49)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:88)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:72)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-19 14:10:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:636)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-19 16:04:50 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:198)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:161)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:103)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:123)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1288)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1125)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:950)
+	at org.jkiss.dbeaver.ui.editors.DatabaseLazyEditorInput.initializeRealInput(DatabaseLazyEditorInput.java:262)
+	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:171)
+	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:88)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:72)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-19 16:04:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:636)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-19 16:04:54 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:198)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:161)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:103)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:123)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1288)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1125)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:950)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.runSync(ConnectJob.java:104)
+	at org.jkiss.dbeaver.ui.actions.datasource.DataSourceHandler.connectToDataSource(DataSourceHandler.java:115)
+	at org.jkiss.dbeaver.ui.actions.datasource.UIServiceConnectionsImpl.initConnection(UIServiceConnectionsImpl.java:87)
+	at org.jkiss.dbeaver.model.DBUtils.initDataSource(DBUtils.java:2486)
+	at org.jkiss.dbeaver.model.navigator.DBNDataSource.initializeNode(DBNDataSource.java:151)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:225)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:1)
+	at org.jkiss.dbeaver.model.navigator.DBNUtils.getNodeChildrenFiltered(DBNUtils.java:91)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:49)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:88)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:72)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-19 16:06:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT DISTINCT N.LHAND 
+FROM SPAWNLIST S LJS[*] 
+INNER JOIN NPC N ON N.IDTEMPLATE = LJS.NPC_TEMPLATEID "; SQL statement:
+SELECT DISTINCT n.lhand 
+FROM SPAWNLIST s ljs 
+INNER JOIN NPC n ON n.IDTEMPLATE = ljs.NPC_TEMPLATEID [42000-199]
+2024-02-19 16:10:50 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2877)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:481)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:402)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:3579)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:170)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:103)
+	at org.h2.engine.Database.getPageStore(Database.java:2659)
+	at org.h2.engine.Database.open(Database.java:675)
+	at org.h2.engine.Database.openDatabase(Database.java:307)
+	at org.h2.engine.Database.<init>(Database.java:301)
+	at org.h2.engine.Engine.openSession(Engine.java:74)
+	at org.h2.engine.Engine.openSession(Engine.java:192)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:171)
+	at org.h2.engine.Engine.createSession(Engine.java:166)
+	at org.h2.engine.Engine.createSession(Engine.java:29)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:340)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:173)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:152)
+	at org.h2.Driver.connect(Driver.java:69)
+	at org.h2.jdbcx.JdbcDataSource.getJdbcConnection(JdbcDataSource.java:189)
+	at org.h2.jdbcx.JdbcDataSource.getConnection(JdbcDataSource.java:160)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:358)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:477)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:560)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:81)
+	at org.hibernate.hikaricp.internal.HikariCPConnectionProvider.configure(HikariCPConnectionProvider.java:59)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.configureService(StandardServiceRegistryImpl.java:107)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:246)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.buildJdbcConnectionAccess(JdbcEnvironmentInitiator.java:145)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:66)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:176)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:86)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:479)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
+	at com.shnok.javaserver.db.DatabaseConfig.buildSessionFactory(DatabaseConfig.java:43)
+	at com.shnok.javaserver.db.DatabaseConfig.getSessionFactory(DatabaseConfig.java:48)
+	at com.shnok.javaserver.db.repository.ZoneListRepository.getAllZoneList(ZoneListRepository.java:20)
+	at com.shnok.javaserver.db.repository.ZoneListRepository.getAllZoneMap(ZoneListRepository.java:30)
+	at com.shnok.javaserver.pathfinding.Geodata.initGeodata(Geodata.java:35)
+	at com.shnok.javaserver.pathfinding.Geodata.<init>(Geodata.java:24)
+	at com.shnok.javaserver.pathfinding.Geodata.getInstance(Geodata.java:28)
+	at com.shnok.javaserver.Main.runServer(Main.java:27)
+	at com.shnok.javaserver.Main.main(Main.java:12)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	... 61 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
+	... 55 more
+2024-02-19 16:10:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:636)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)

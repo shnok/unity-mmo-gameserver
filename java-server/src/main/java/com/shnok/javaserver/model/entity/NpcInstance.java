@@ -30,6 +30,17 @@ public class NpcInstance extends Entity {
     public NpcInstance(int id, NpcTemplate npcTemplate) {
         super(id);
         this.template = npcTemplate;
+        // TODO add items in game
+        if(npcTemplate.lhand != 0) {
+            log.warn("Skipping equipped lhand");
+            this.leftHandId = 0;
+        }
+        if(npcTemplate.rhand != 0) {
+            log.warn("Skipping equipped rhand");
+            // Equip squires sword for now
+            this.rightHandId = 2369;
+        }
+
         this.status = new NpcStatus(npcTemplate.getLevel(), npcTemplate.baseHpMax);
         this.isStatic = npcTemplate.getNpcClass().contains("NPC");
         this.randomWalk = false;

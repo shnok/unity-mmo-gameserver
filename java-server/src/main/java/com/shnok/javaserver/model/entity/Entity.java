@@ -50,6 +50,8 @@ public abstract class Entity extends GameObject {
     protected Status status;
     protected boolean moving;
     protected long attackEndTime;
+    protected int leftHandId;
+    protected int rightHandId;
 
     public Entity(int id) {
         super(id);

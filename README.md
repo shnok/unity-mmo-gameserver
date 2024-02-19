@@ -70,7 +70,7 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 # 0x03 : SystemMessage
 [B:`Message type`|S:`message`]
 # 0x04 : PlayerInfo
-[I:`object id`|S:`player name`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`level`|I:`movespeed`|I:`patkspd`|I:`matkspd`|F:`attack range`|I:`hp`|I:`maxhp`|I:`mp`|I:`maxMp`|I:`cp`|I:`maxCp`]
+[I:`object id`|S:`player name`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`lefthand id`|I:`righthand id`|I:`level`|I:`movespeed`|I:`patkspd`|I:`matkspd`|F:`attack range`|I:`hp`|I:`maxhp`|I:`mp`|I:`maxMp`|I:`cp`|I:`maxCp`]
 # 0x05 : ObjectPosition
 [I:`object id`|F:`pos X`|F:`pos Y`|F:`pos Z`]
 # 0x06 : RemoveObject
@@ -82,11 +82,11 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 # 0x09 : ApplyDamage
 [I:`sender id`|I:`target id`|I:`damage`|I:`new hp`|B:`critical hit`]
 # 0x0A : NpcInfo
-[I:`object id`|I:`npc id`|S:`npc class`|S:`npc type`|F:`pos X`|F:`pos Y`|F:`pos Z`|F:`collision height`|I:`movespeed`|I:`patkspd`|I:`matkspd`|I:`level`|I:`hp`|I:`maxhp`]
+[I:`object id`|I:`npc id`|S:`npc class`|S:`npc type`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`lefthand id`|I:`righthand id`|F:`collision height`|I:`movespeed`|I:`patkspd`|I:`matkspd`|I:`level`|I:`hp`|I:`maxhp`]
 # 0x0B : ObjectMoveTo
 [I:`object id`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`move speed`|B:`walking`]
 # 0x0C : UserInfo
-[I:`object id`|S:`player name`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`move speed`|I:`patkspd`|I:`matkspd`|I:`level`|I:`hp`|I:`maxhp`|I:`mp`|I:`maxMp`|I:`cp`|I:`maxCp`]
+[I:`object id`|S:`player name`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`lefthand id`|I:`righthand id`|I:`move speed`|I:`patkspd`|I:`matkspd`|I:`level`|I:`hp`|I:`maxhp`|I:`mp`|I:`maxMp`|I:`cp`|I:`maxCp`]
 # 0x0D : ObjectMoveDirection
 [I:`object id`|I:`move speed`|F:`dir X`|F:`dir Y`|F:`dir Z`]
 # 0x0E : GameTime

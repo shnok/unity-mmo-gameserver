@@ -35,6 +35,9 @@ public class PlayerInstance extends Entity {
         this.name = name;
         this.template = playerTemplate;
         this.status = new PlayerStatus(playerTemplate);
+        // TODO load weapons from DB
+        this.leftHandId = 0;
+        this.rightHandId = 2369;
     }
 
     @Override
