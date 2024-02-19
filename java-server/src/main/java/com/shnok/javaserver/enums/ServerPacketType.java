@@ -19,7 +19,10 @@ public enum ServerPacketType {
     UserInfo((byte)0x0C),
     ObjectMoveDirection((byte)0x0D),
     GameTimePacket((byte)0x0E),
-    EntitySetTarget((byte)0x0F);
+    EntitySetTarget((byte)0x0F),
+    AutoAttackStart((byte)0x10),
+    AutoAttackStop((byte)0x11),
+    ActionFailed((byte)0x12);
 
     private final byte value;
 

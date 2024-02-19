@@ -1,5 +1,6 @@
 package com.shnok.javaserver.model.knownlist;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.PlayerInstance;
@@ -74,7 +75,9 @@ public class ObjectKnownList {
         if (object == null || !knownObjects.containsKey(object.getId())) {
             return false;
         }
-//        log.debug("[{}] Remove known object {}", activeObject.getId(), object.getId());
+        if(Config.PRINT_KNOWN_LIST_LOGS) {
+            log.debug("[{}] Remove known object {}", activeObject.getId(), object.getId());
+        }
         return (getKnownObjects().remove(object.getId()) != null);
     }
 
@@ -82,7 +85,9 @@ public class ObjectKnownList {
         if (getActiveObject() instanceof Entity) {
             findCloseObjects();
             forgetObjects();
-            //log.debug("[{}] Known objects count: {}", getActiveObject().getId(),knownObjects.size());
+            if(Config.PRINT_KNOWN_LIST_LOGS) {
+                log.debug("[{}] Known objects count: {}", getActiveObject().getId(), knownObjects.size());
+            }
         }
     }
 
@@ -105,11 +110,15 @@ public class ObjectKnownList {
 
                 if (object instanceof Entity) {
                     object.getKnownList().addKnownObject(getActiveObject());
-//                    log.debug("[{}] Request add entity to {} knownlist", getActiveObject().getId(), object.getId());
+                    if(Config.PRINT_KNOWN_LIST_LOGS) {
+                        log.debug("[{}] Request add entity to {} knownlist", getActiveObject().getId(), object.getId());
+                    }
                 }
                 if (object instanceof PlayerInstance) {
                     object.getKnownList().addKnownObject(getActiveObject());
-//                    log.debug("[{}] Request add player to {} knownlist", getActiveObject().getId(), object.getId());
+                    if(Config.PRINT_KNOWN_LIST_LOGS) {
+                        log.debug("[{}] Request add player to {} knownlist", getActiveObject().getId(), object.getId());
+                    }
                 }
             }
         } else {
@@ -125,7 +134,10 @@ public class ObjectKnownList {
                 }
 
                 addKnownObject(object);
-//                log.debug("[{}] Request add entity to {} knownlist", getActiveObject().getId(), object.getId());
+
+                if(Config.PRINT_KNOWN_LIST_LOGS) {
+                    log.debug("[{}] Request add entity to {} knownlist", getActiveObject().getId(), object.getId());
+                }
             }
         }
     }
@@ -142,14 +154,12 @@ public class ObjectKnownList {
                 continue;
             }
 
-            if(!object.isVisible()) {
-                System.out.println("Not visible bitch");
-            }
-
             int distanceToForgetObject = getDistanceToForgetObject(object);
             if (!object.isVisible() || !VectorUtils.checkIfInRange(distanceToForgetObject, getActiveObject(), object)) {
                 removeKnownObject(object);
-//                log.debug("[{}] Remove known object: {}", getActiveObject().getId(), object.getId());
+                if(Config.PRINT_KNOWN_LIST_LOGS) {
+                    log.debug("[{}] Remove known object: {}", getActiveObject().getId(), object.getId());
+                }
             }
         }
     }
@@ -177,7 +187,9 @@ public class ObjectKnownList {
         @Override
         public void run() {
             if (obj != null) {
-                //log.debug("[{}] Updating known objects...", obj.getId());
+                if(Config.PRINT_KNOWN_LIST_LOGS) {
+                    log.debug("[{}] Updating known objects...", obj.getId());
+                }
                 obj.getKnownList().updateKnownObjects();
             }
         }

@@ -1,13 +1,16 @@
 package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.dto.ServerPacket;
+import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
+import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.model.status.Status;
+import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.thread.GameClientThread;
 import com.shnok.javaserver.util.VectorUtils;
@@ -28,8 +31,13 @@ public class PlayerInstance extends Entity {
         this.name = name;
     }
 
-    public PlayerInstance(String name) {
+    public PlayerInstance(String name, PlayerTemplate playerTemplate) {
         this.name = name;
+        this.template = playerTemplate;
+        this.status = new PlayerStatus(playerTemplate);
+        // TODO load weapons from DB
+        this.leftHandId = 0;
+        this.rightHandId = 2369;
     }
 
     @Override
@@ -59,8 +67,26 @@ public class PlayerInstance extends Entity {
     }
 
     @Override
-    public void inflictDamage(int value) {
-        status.setHp(status.getHp() - value);
+    public void inflictDamage(Entity attacker, int value) {
+        super.inflictDamage(attacker, value);
+
+        status.setHp(Math.max(status.getHp() - value, 0));
+        if (status.getHp() == 0) {
+            onDeath();
+        }
+    }
+
+    @Override
+    public boolean onHitTimer(Entity target, int damage, boolean criticalHit) {
+        if(super.onHitTimer(target, damage, criticalHit)) {
+            ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
+                    getId(), target.getId(), damage, target.getStatus().getHp(), criticalHit);
+            broadcastPacket(applyDamagePacket);
+            sendPacket(applyDamagePacket);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -76,11 +102,6 @@ public class PlayerInstance extends Entity {
     @Override
     public boolean canMove() {
         return canMove;
-    }
-
-    @Override
-    public boolean moveTo(Point3D destination) {
-        return false;
     }
 
     @Override

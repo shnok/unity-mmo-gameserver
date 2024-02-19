@@ -3,7 +3,7 @@ package com.shnok.javaserver.model.template;
 import lombok.Data;
 
 @Data
-public abstract class EntityTemplate {
+public class EntityTemplate {
     public int baseSTR;
     public int baseCON;
     public int baseDEX;
@@ -24,11 +24,10 @@ public abstract class EntityTemplate {
     public float baseMReuseRate;
     public float baseAtkRange;
     public int baseCritRate;
-    public float baseWalkSpd;
-    public float baseRunSpd;
+    public int baseWalkSpd;
+    public int baseRunSpd;
     public float collisionRadius;
     public float collisionHeight;
 
-    public EntityTemplate() {
-    }
+    public EntityTemplate() {}
 }

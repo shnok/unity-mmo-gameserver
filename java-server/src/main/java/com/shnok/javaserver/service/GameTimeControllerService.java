@@ -49,7 +49,7 @@ public class GameTimeControllerService {
         Entity[] entities = movingObjects.toArray(new Entity[0]);
         for (Entity e : entities) {
             try {
-                // check if entities doesnt increase in size with empty values
+                // check if entities doesn't increase in size with empty values
                 if (e.updatePosition(gameTicks) || e.getStatus().getHp() <= 0) {
                     movingObjects.remove(e);
                 }

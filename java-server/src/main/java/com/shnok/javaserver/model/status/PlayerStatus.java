@@ -1,5 +1,6 @@
 package com.shnok.javaserver.model.status;
 
+import com.shnok.javaserver.model.template.PlayerTemplate;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,16 +14,17 @@ public class PlayerStatus extends Status {
     private int exp;
     private final int maxExp;
 
-    public PlayerStatus() {
-        maxHp = 100;
-        hp = maxHp;
+    public PlayerStatus(PlayerTemplate playerTemplate) {
+        this.maxHp = playerTemplate.baseHpMax;
+        this.hp = playerTemplate.baseHpMax;
         level = 1;
         exp = 0;
         maxExp = 100;
-        mp = 100;
-        maxMp = 100;
-        cp = 75;
-        maxCp = 75;
+        this.mp = playerTemplate.baseMpMax;
+        this.maxMp = playerTemplate.baseMpMax;
+        this.cp = playerTemplate.baseCpMax;
+        this.maxCp = playerTemplate.baseCpMax;
+        this.moveSpeed = playerTemplate.baseRunSpd;
     }
 
     public void addExp(int value) {

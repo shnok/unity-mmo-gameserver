@@ -10,8 +10,14 @@ import javax.persistence.Transient;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class NpcTemplate extends EntityTemplate {
+    public int baseHpMax;
+    public int baseMpMax;
+    public float baseHpReg;
+    public float baseMpReg;
     public final int npcId;
     public final int idTemplate;
+    public int baseWalkSpd;
+    public float baseMReuseRate;
     public final NpcType type;
     public final String npcClass;
     public final String name;
@@ -42,6 +48,8 @@ public class NpcTemplate extends EntityTemplate {
         this.baseMAtk = npc.getMatk();
         this.basePDef = npc.getPdef();
         this.baseMDef = npc.getMdef();
+        this.basePAtkSpd = npc.getAtkspd();
+        this.baseMAtkSpd = npc.getMatkspd();
         this.baseAtkRange = npc.getAttackRange();
         this.baseWalkSpd = npc.getWalkspd();
         this.baseRunSpd = npc.getRunspd();

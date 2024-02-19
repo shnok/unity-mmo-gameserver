@@ -1,20 +1,22 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.Config;
+import com.shnok.javaserver.db.entity.CharTemplate;
+import com.shnok.javaserver.db.repository.CharTemplateRepository;
 import com.shnok.javaserver.dto.clientpackets.*;
 import com.shnok.javaserver.dto.serverpackets.*;
 import com.shnok.javaserver.enums.ClientPacketType;
-import com.shnok.javaserver.enums.ServerPacketType;
+import com.shnok.javaserver.enums.Event;
+import com.shnok.javaserver.enums.Intention;
+import com.shnok.javaserver.enums.PlayerAction;
 import com.shnok.javaserver.model.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.entity.Entity;
 import com.shnok.javaserver.model.entity.PlayerInstance;
-import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.model.status.PlayerStatus;
-import com.shnok.javaserver.pathfinding.Geodata;
-import com.shnok.javaserver.pathfinding.PathFinding;
+import com.shnok.javaserver.model.template.EntityTemplate;
+import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.service.ServerService;
-import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.ai.PlayerAI;
 import com.shnok.javaserver.util.VectorUtils;
@@ -42,7 +44,7 @@ public class ClientPacketHandlerThread extends Thread {
 
     public void handle() {
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
-        if(Config.PRINT_CLIENT_PACKETS) {
+        if(Config.PRINT_CLIENT_PACKETS_LOGS) {
             if(type != ClientPacketType.Ping) {
                 log.debug("Received packet: {}", type);
             }
@@ -77,6 +79,9 @@ public class ClientPacketHandlerThread extends Thread {
                 break;
             case RequestSetTarget:
                 onRequestSetTarget(data);
+                break;
+            case RequestAutoAttack:
+                onRequestAutoAttack();
                 break;
         }
     }
@@ -137,19 +142,6 @@ public class ClientPacketHandlerThread extends Thread {
         PlayerInstance currentPlayer = client.getCurrentPlayer();
         currentPlayer.setPosition(newPos);
 
-        //Todo : to remove
-        //for debug purpose
-//        try {
-//            System.out.println("Node found at " + Geodata.getInstance().getNodeAt(newPos).getNodeIndex());
-//        } catch (Exception e) {
-//            System.out.println("Node not found at " + newPos);
-//        }
-        /*PathFinding.getInstance().findPath(client.getCurrentPlayer().getPos(), new Point3D(
-                client.getCurrentPlayer().getPos().getX() + 5f,
-                client.getCurrentPlayer().getPos().getY(),
-                client.getCurrentPlayer().getPos().getZ()
-        ));*/
-
         // Notify known list
         ObjectPositionPacket objectPositionPacket = new ObjectPositionPacket(currentPlayer.getId(), newPos);
         client.getCurrentPlayer().broadcastPacket(objectPositionPacket);
@@ -161,8 +153,12 @@ public class ClientPacketHandlerThread extends Thread {
 
         // Dummy player
         // TODO: FETCH FROM DB
-        PlayerInstance player = new PlayerInstance(client.getUsername());
-        player.setStatus(new PlayerStatus());
+
+        CharTemplateRepository charTemplateRepository = new CharTemplateRepository();
+        CharTemplate classTemplate = charTemplateRepository.getTemplateByClassId(31);
+        PlayerTemplate playerTemplate = new PlayerTemplate(classTemplate);
+
+        PlayerInstance player = new PlayerInstance(client.getUsername(), playerTemplate);
         player.setGameClient(client);
         player.setId(WorldManagerService.getInstance().nextID());
         player.setPosition(VectorUtils.randomPos(Config.PLAYER_SPAWN_POINT, 1.5f));
@@ -218,19 +214,19 @@ public class ClientPacketHandlerThread extends Thread {
             return;
         }
 
-        //TODO add damage calcs
+        // ! FOR DEBUG PURPOSE
         int damage = 25;
-        ((Entity) object).inflictDamage(damage);
+        ((Entity) object).inflictDamage(client.getCurrentPlayer(), damage);
         boolean critical = false;
         Random r = new Random();
         if(r.nextInt(2) == 0) {
             critical = true;
         }
-        // TODO add damage calcs
 
+        // ! FOR DEBUG PURPOSE
         // Notify known list
         ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                client.getCurrentPlayer().getId(), packet.getTargetId(), packet.getAttackType(), damage, critical);
+                client.getCurrentPlayer().getId(), packet.getTargetId(), damage, ((Entity) object).getStatus().getHp(), critical);
         // Send packet to player's known list
         client.getCurrentPlayer().broadcastPacket(applyDamagePacket);
         // Send packet to player
@@ -239,10 +235,17 @@ public class ClientPacketHandlerThread extends Thread {
 
     private void onRequestCharacterMoveDirection(byte[] data) {
         RequestCharacterMoveDirection packet = new RequestCharacterMoveDirection(data);
+        if((client.getCurrentPlayer().isAttacking() ||
+                client.getCurrentPlayer().getAi().getIntention() == Intention.INTENTION_ATTACK) && // if player attack animation is playing
+                //client.getCurrentPlayer().getAi().getAttackTarget() != null && // if player has an attack target
+                packet.getDirection().getX() != 0 && packet.getDirection().getZ() != 0) { // if direction is not zero
+            log.warn("[{}] Player moved ({}), stop attacking. ", client.getCurrentPlayer().getId(), packet.getDirection());
+            client.getCurrentPlayer().getAi().notifyEvent(Event.CANCEL);
+        }
 
         // Notify known list
         ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
-                client.getCurrentPlayer().getId(), packet.getSpeed(), packet.getDirection());
+                client.getCurrentPlayer().getId(), client.getCurrentPlayer().getStatus().getMoveSpeed(), packet.getDirection());
         client.getCurrentPlayer().broadcastPacket(objectDirectionPacket);
     }
 
@@ -258,6 +261,7 @@ public class ClientPacketHandlerThread extends Thread {
             if(target == null) {
                 log.warn("[{}] Player tried to target a wrong entity with ID [{}]",
                         client.getCurrentPlayer().getId(), packet.getTargetId());
+                client.sendPacket(new ActionFailedPacket(PlayerAction.SetTarget.getValue()));
                 return;
             }
 
@@ -265,16 +269,45 @@ public class ClientPacketHandlerThread extends Thread {
             if(!client.getCurrentPlayer().getKnownList().knowsObject(target)) {
                 log.warn("[{}] Player tried to target an entity outside of this known list with ID [{}]",
                         client.getCurrentPlayer().getId(), packet.getTargetId());
+                client.sendPacket(new ActionFailedPacket(PlayerAction.SetTarget.getValue()));
                 return;
             }
 
             // Set entity target
             client.getCurrentPlayer().getAi().setTarget(target);
         }
+    }
 
-        // Notify known list
-        EntitySetTargetPacket entitySetTargetPacket = new EntitySetTargetPacket(
-                client.getCurrentPlayer().getId(), packet.getTargetId());
-        client.getCurrentPlayer().broadcastPacket(entitySetTargetPacket);
+    private void onRequestAutoAttack() {
+        Entity target = (Entity) client.getCurrentPlayer().getAi().getTarget();
+        if(client.getCurrentPlayer().getAi().getTarget() == null) {
+            log.warn("[{}] Player doesn't have a target", client.getCurrentPlayer().getId());
+            client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
+            return;
+        }
+
+        if(target.isDead() || client.getCurrentPlayer().isDead()) {
+            log.warn("[{}] Either user or target is already dead", client.getCurrentPlayer().getId());
+            client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
+            return;
+        }
+
+        float distance = VectorUtils.calcDistance2D(client.getCurrentPlayer().getPos(), target.getPos());
+        if(distance > client.getCurrentPlayer().getTemplate().getBaseAtkRange()) {
+            log.warn("[{}] Player is too far from target {}/{}", client.getCurrentPlayer().getId(),
+                    client.getCurrentPlayer().getTemplate().getBaseAtkRange(), distance);
+            client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
+            return;
+        }
+
+        PlayerAI ai = (PlayerAI) client.getCurrentPlayer().getAi();
+        if(ai == null) {
+            log.error("[{}] No AI is attached to player", client.getCurrentPlayer().getId());
+            return;
+        }
+
+        //ai.setAttackTarget(target);
+        ai.setIntention(Intention.INTENTION_ATTACK, target);
+        ai.notifyEvent(Event.READY_TO_ACT);
     }
 }

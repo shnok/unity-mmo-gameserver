@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "spawnlist")
+@Table(name = "SPAWNLIST")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

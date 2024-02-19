@@ -1,18 +1,15 @@
 package com.shnok.javaserver.model.entity;
 
 import com.shnok.javaserver.db.entity.SpawnList;
+import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
-import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
-import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.enums.EntityAnimation;
 import com.shnok.javaserver.enums.EntityMovingReason;
-import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.NpcTemplate;
-import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.SpawnManagerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
@@ -33,18 +30,47 @@ public class NpcInstance extends Entity {
     public NpcInstance(int id, NpcTemplate npcTemplate) {
         super(id);
         this.template = npcTemplate;
+        // TODO add items in game
+        if(npcTemplate.lhand != 0) {
+            log.warn("Skipping equipped lhand");
+            this.leftHandId = 0;
+        }
+        if(npcTemplate.rhand != 0) {
+            log.warn("Skipping equipped rhand");
+            // Equip squires sword for now
+            this.rightHandId = 2369;
+        }
+
         this.status = new NpcStatus(npcTemplate.getLevel(), npcTemplate.baseHpMax);
-        this.isStatic = true;
+        this.isStatic = npcTemplate.getNpcClass().contains("NPC");
         this.randomWalk = false;
     }
 
     @Override
-    public void inflictDamage(int value) {
-        status.setHp(Math.max(status.getHp() - value, 0));
+    public void inflictDamage(Entity attacker, int value) {
+        super.inflictDamage(attacker, value);
+
+        if(isStatic()) {
+            status.setHp(Math.max(status.getHp() - value, 1));
+        } else {
+            status.setHp(Math.max(status.getHp() - value, 0));
+        }
 
         if (status.getHp() == 0) {
             onDeath();
         }
+    }
+
+    @Override
+    public boolean onHitTimer(Entity target, int damage, boolean criticalHit) {
+        if(super.onHitTimer(target, damage, criticalHit)) {
+            ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
+                    getId(), target.getId(), damage, target.getStatus().getHp(), criticalHit);
+            broadcastPacket(applyDamagePacket);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -103,15 +129,10 @@ public class NpcInstance extends Entity {
 
         switch (getAi().getIntention()) {
             case INTENTION_MOVE_TO:
-                sendPacketToPlayer(player, new ObjectMoveToPacket(getId(), moveData.destination, getStatus().getMoveSpeed()));
-
-                if(getAi().getMovingReason() == EntityMovingReason.Walking) {
-                    sendPacketToPlayer(player, new ObjectAnimationPacket(
-                            getId(), EntityAnimation.Walk.getValue(), 1f));
-                } else if(getAi().getMovingReason() == EntityMovingReason.Running) {
-                    sendPacketToPlayer(player, new ObjectAnimationPacket(
-                            getId(), EntityAnimation.Walk.getValue(), 1f));
-                }
+                sendPacketToPlayer(player, new ObjectMoveToPacket(
+                        getId(), moveData.destination,
+                        getStatus().getMoveSpeed(),
+                        getAi().getMovingReason() == EntityMovingReason.Walking));
                 break;
             case INTENTION_IDLE:
             case INTENTION_WAITING:
@@ -123,7 +144,7 @@ public class NpcInstance extends Entity {
     /* remove and stop AI */
     public void stopAndRemoveAI() {
         BaseAI ai = getAi();
-//        log.debug("[{}] Stop and remove AI", getId());
+        log.debug("[{}] Stop and remove AI", getId());
         if(ai instanceof NpcAI) {
             ((NpcAI) ai).stopAITask();
             setAi(null);
@@ -133,7 +154,7 @@ public class NpcInstance extends Entity {
     /* add AI to NPC */
     public void refreshAI() {
         if (!isStatic()) {
-//            log.debug("[{}] Add AI", getId());
+            log.debug("[{}] Add AI", getId());
             if(getAi() != null) {
                 stopAndRemoveAI();
             }

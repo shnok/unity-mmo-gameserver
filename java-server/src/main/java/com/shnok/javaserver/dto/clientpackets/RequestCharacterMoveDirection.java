@@ -6,12 +6,10 @@ import lombok.Getter;
 
 @Getter
 public class RequestCharacterMoveDirection extends ClientPacket {
-    private final float speed;
     private final Point3D direction = new Point3D();
 
     public RequestCharacterMoveDirection(byte[] data) {
         super(data);
-        speed = readF();
         direction.setX(readF());
         direction.setY(readF());
         direction.setZ(readF());
