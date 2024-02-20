@@ -47,6 +47,8 @@ public class PlayerKnownList extends EntityKnownList
         } else if (object instanceof PlayerInstance) {
             log.debug("[{}] New user added: {} Count: {}", getActiveObject().getId(), object.getId(), getKnownPlayers().size());
             PlayerInstance otherPlayer = (PlayerInstance) object;
+
+            log.debug("Sending user {} data to user {}", otherPlayer.getId(), getActiveChar().getId());
             getActiveChar().sendPacket(new UserInfoPacket(otherPlayer));
 
             log.debug("[{}] Sharing current action to [{}]", getActiveObject().getId(), object.getId());

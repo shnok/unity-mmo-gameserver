@@ -138,6 +138,7 @@ public abstract class Entity extends GameObject {
         //TODO do apply damage
         //TODO share hit
         //TODO share hp
+        //TODO if was walking around remove from moving objects
 
         if (target == null || target.isDead() || !getKnownList().knowsObject(target)) {
             getAi().notifyEvent(Event.CANCEL);

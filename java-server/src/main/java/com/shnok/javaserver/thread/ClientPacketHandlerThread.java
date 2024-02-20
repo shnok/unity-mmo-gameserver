@@ -256,22 +256,17 @@ public class ClientPacketHandlerThread extends Thread {
             // Clear target
             client.getCurrentPlayer().getAi().setTarget(null);
         } else {
-            // Find entity in entity list
-            Entity target = WorldManagerService.getInstance().getEntity(packet.getTargetId());
-            if(target == null) {
-                log.warn("[{}] Player tried to target a wrong entity with ID [{}]",
-                        client.getCurrentPlayer().getId(), packet.getTargetId());
-                client.sendPacket(new ActionFailedPacket(PlayerAction.SetTarget.getValue()));
-                return;
-            }
+            //TODO: find entity in all entities if missing in knownlist and add it
 
             // Check if user is allowed to target entity
-            if(!client.getCurrentPlayer().getKnownList().knowsObject(target)) {
+            if(!client.getCurrentPlayer().getKnownList().knowsObject(packet.getTargetId())) {
                 log.warn("[{}] Player tried to target an entity outside of this known list with ID [{}]",
                         client.getCurrentPlayer().getId(), packet.getTargetId());
                 client.sendPacket(new ActionFailedPacket(PlayerAction.SetTarget.getValue()));
                 return;
             }
+
+            Entity target = (Entity) client.getCurrentPlayer().getKnownList().getKnownObject(packet.getTargetId());
 
             // Set entity target
             client.getCurrentPlayer().getAi().setTarget(target);
