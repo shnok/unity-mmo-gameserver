@@ -30,6 +30,14 @@ public class ObjectKnownList {
         return (getActiveObject() == object) || getKnownObjects().containsKey(object.getId());
     }
 
+    public boolean knowsObject(int objectId) {
+        return getKnownObjects().containsKey(objectId);
+    }
+
+    public GameObject getKnownObject(int objectId) {
+        return getKnownObjects().get(objectId);
+    }
+
     public boolean addKnownObject(GameObject object) {
         return addKnownObject(object, false);
     }
