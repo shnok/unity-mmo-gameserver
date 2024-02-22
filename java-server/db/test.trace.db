@@ -7943,3 +7943,472 @@ org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (
 	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
 	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 17:38:20 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.runSync(ConnectJob.java:104)
+	at org.jkiss.dbeaver.ui.actions.datasource.DataSourceHandler.connectToDataSource(DataSourceHandler.java:117)
+	at org.jkiss.dbeaver.ui.actions.datasource.UIServiceConnectionsImpl.initConnection(UIServiceConnectionsImpl.java:87)
+	at org.jkiss.dbeaver.model.DBUtils.initDataSource(DBUtils.java:2488)
+	at org.jkiss.dbeaver.model.navigator.DBNDataSource.initializeNode(DBNDataSource.java:157)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:227)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:1)
+	at org.jkiss.dbeaver.model.navigator.DBNUtils.getNodeChildrenFiltered(DBNUtils.java:91)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:49)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:89)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:73)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 17:38:56 jdbc[4]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:91)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.getConnection(JDBCExecutionContext.java:204)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCConnectionImpl.getOriginal(JDBCConnectionImpl.java:60)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCConnectionImpl.getMetaData(JDBCConnectionImpl.java:350)
+	at org.jkiss.dbeaver.ext.generic.model.GenericStructureAssistant.findTablesByMask(GenericStructureAssistant.java:108)
+	at org.jkiss.dbeaver.ext.generic.model.GenericStructureAssistant.findObjectsByMask(GenericStructureAssistant.java:97)
+	at org.jkiss.dbeaver.ext.generic.model.GenericStructureAssistant.findObjectsByMask(GenericStructureAssistant.java:1)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCStructureAssistant.findObjectsByMask(JDBCStructureAssistant.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCStructureAssistant.findObjectsByMask(JDBCStructureAssistant.java:1)
+	at org.jkiss.dbeaver.model.sql.completion.SQLCompletionAnalyzer.makeProposalsFromAssistant(SQLCompletionAnalyzer.java:1160)
+	at org.jkiss.dbeaver.model.sql.completion.SQLCompletionAnalyzer.makeDataSourceProposals(SQLCompletionAnalyzer.java:937)
+	at org.jkiss.dbeaver.model.sql.completion.SQLCompletionAnalyzer.runAnalyzer(SQLCompletionAnalyzer.java:344)
+	at org.jkiss.dbeaver.model.sql.completion.SQLCompletionAnalyzer.runAnalyzer(SQLCompletionAnalyzer.java:120)
+	at org.jkiss.dbeaver.model.sql.completion.SQLCompletionAnalyzer.run(SQLCompletionAnalyzer.java:104)
+	at org.jkiss.dbeaver.model.sql.completion.SQLCompletionAnalyzer.run(SQLCompletionAnalyzer.java:1)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.syntax.SQLCompletionProcessor$ProposalSearchJob.run(SQLCompletionProcessor.java:348)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 17:41:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "
+
+INSERT INTO PUBLIC.""CHARACTER""
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID, RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, ""_INT"", MEN, WIT, COLR, COLH, 
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP, FACE, HAIR_STYLE, HAIR_COLOR, SEX, X, Y, Z)
+SELECT
+    @CHARNAME,
+    @CHARNAME,
+    @CLASS_ID,
+    RACEID,
+    ACC,
+    CRITICAL,
+    EVASION,
+    M_ATK,
+    M_DEF,
+    M_SPD,
+    P_ATK,
+    P_DEF,
+    P_SPD,
+    MOVE_SPD,
+    STR,
+    CON,
+    DEX,
+    ""_INT"",
+    MEN,
+    WIT,
+    F_COL_R,
+    F_COL_H,
+    LV.DEFAULTHPBASE + LV.DEFAULTHPADD,
+    LV.DEFAULTHPBASE + LV.DEFAULTHPADD,
+    LV.DEFAULTCPBASE + LV.DEFAULTCPADD,
+    LV.DEFAULTCPBASE + LV.DEFAULTCPADD,
+    LV.DEFAULTMPBASE + LV.DEFAULTMPADD,
+    LV.DEFAULTMPBASE + LV.DEFAULTMPADD,
+    @FACE,
+    @HAIRSTYLE,
+    @HAIRCOLOR,
+    @SEX,
+    @X,
+    @Y,
+    @Z
+FROM CHAR_TEMPLATE
+WHERE CLASSID = @CLASS_ID
+INNER[*] JOIN LVLUPGAIN LV ON LV.CLASSID = CLASSID;
+
+SET @INSERTEDID = LAST_INSERT_ID();
+
+                   
+              
+               
+
+        
+         
+              
+         
+           
+          
+            
+              
+          
+          
+         
+          
+          
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @INSERTEDID,ITEMS1,1,1,1 FROM CHAR_TEMPLATE WHERE CLASSID = @CLASS_ID;
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @INSERTEDID,ITEMS2,1,1,2 FROM CHAR_TEMPLATE WHERE CLASSID = @CLASS_ID;
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @INSERTEDID,ITEMS3,1,1,6 FROM CHAR_TEMPLATE WHERE CLASSID = @CLASS_ID
+ "; SQL statement:
+
+
+INSERT INTO PUBLIC."CHARACTER"
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID, RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, "_INT", MEN, WIT, COLR, COLH, 
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP, FACE, HAIR_STYLE, HAIR_COLOR, SEX, X, Y, Z)
+SELECT
+    @CharName,
+    @CharName,
+    @Class_ID,
+    RACEID,
+    ACC,
+    CRITICAL,
+    EVASION,
+    M_ATK,
+    M_DEF,
+    M_SPD,
+    P_ATK,
+    P_DEF,
+    P_SPD,
+    MOVE_SPD,
+    STR,
+    CON,
+    DEX,
+    "_INT",
+    MEN,
+    WIT,
+    F_COL_R,
+    F_COL_H,
+    lv.DEFAULTHPBASE + lv.DEFAULTHPADD,
+    lv.DEFAULTHPBASE + lv.DEFAULTHPADD,
+    lv.DEFAULTCPBASE + lv.DEFAULTCPADD,
+    lv.DEFAULTCPBASE + lv.DEFAULTCPADD,
+    lv.DEFAULTMPBASE + lv.DEFAULTMPADD,
+    lv.DEFAULTMPBASE + lv.DEFAULTMPADD,
+    @Face,
+    @HairStyle,
+    @HairColor,
+    @Sex,
+    @X,
+    @Y,
+    @Z
+FROM CHAR_TEMPLATE
+WHERE CLASSID = @Class_ID
+INNER JOIN LVLUPGAIN lv ON lv.CLASSID = CLASSID;
+
+SET @InsertedID = LAST_INSERT_ID();
+
+--items1: UpperBody
+--items2: Legs
+--items3: rhand
+
+-- slots
+-- 0:Head
+-- 1:UpperBody
+-- 2:Legs
+-- 3:Gloves
+-- 4:Boots
+-- 5:Lefhand
+-- 6:RightHand
+-- 7:LRing
+-- 8:RRing
+-- 9:LEar
+-- 10:REar
+-- 11:Neck
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @InsertedID,ITEMS1,1,1,1 FROM CHAR_TEMPLATE WHERE CLASSID = @Class_ID;
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @InsertedID,ITEMS2,1,1,2 FROM CHAR_TEMPLATE WHERE CLASSID = @Class_ID;
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @InsertedID,ITEMS3,1,1,6 FROM CHAR_TEMPLATE WHERE CLASSID = @Class_ID
+ [42000-199]
+2024-02-22 17:41:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "
+
+INSERT INTO PUBLIC.""CHARACTER""
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID, RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, ""_INT"", MEN, WIT, COLR, COLH, 
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP, FACE, HAIR_STYLE, HAIR_COLOR, SEX, X, Y, Z)
+SELECT
+    @CHARNAME,
+    @CHARNAME,
+    @CLASS_ID,
+    RACEID,
+    ACC,
+    CRITICAL,
+    EVASION,
+    M_ATK,
+    M_DEF,
+    M_SPD,
+    P_ATK,
+    P_DEF,
+    P_SPD,
+    MOVE_SPD,
+    STR,
+    CON,
+    DEX,
+    ""_INT"",
+    MEN,
+    WIT,
+    F_COL_R,
+    F_COL_H,
+    LV.DEFAULTHPBASE + LV.DEFAULTHPADD,
+    LV.DEFAULTHPBASE + LV.DEFAULTHPADD,
+    LV.DEFAULTCPBASE + LV.DEFAULTCPADD,
+    LV.DEFAULTCPBASE + LV.DEFAULTCPADD,
+    LV.DEFAULTMPBASE + LV.DEFAULTMPADD,
+    LV.DEFAULTMPBASE + LV.DEFAULTMPADD,
+    @FACE,
+    @HAIRSTYLE,
+    @HAIRCOLOR,
+    @SEX,
+    @X,
+    @Y,
+    @Z
+FROM CHAR_TEMPLATE
+WHERE CLASSID = @CLASS_ID
+INNER[*] JOIN LVLUPGAIN LV ON LV.CLASSID = @CLASS_ID;
+
+SET @INSERTEDID = LAST_INSERT_ID();
+
+                   
+              
+               
+
+        
+         
+              
+         
+           
+          
+            
+              
+          
+          
+         
+          
+          
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @INSERTEDID,ITEMS1,1,1,1 FROM CHAR_TEMPLATE WHERE CLASSID = @CLASS_ID;
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @INSERTEDID,ITEMS2,1,1,2 FROM CHAR_TEMPLATE WHERE CLASSID = @CLASS_ID;
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @INSERTEDID,ITEMS3,1,1,6 FROM CHAR_TEMPLATE WHERE CLASSID = @CLASS_ID
+ "; SQL statement:
+
+
+INSERT INTO PUBLIC."CHARACTER"
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID, RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, "_INT", MEN, WIT, COLR, COLH, 
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP, FACE, HAIR_STYLE, HAIR_COLOR, SEX, X, Y, Z)
+SELECT
+    @CharName,
+    @CharName,
+    @Class_ID,
+    RACEID,
+    ACC,
+    CRITICAL,
+    EVASION,
+    M_ATK,
+    M_DEF,
+    M_SPD,
+    P_ATK,
+    P_DEF,
+    P_SPD,
+    MOVE_SPD,
+    STR,
+    CON,
+    DEX,
+    "_INT",
+    MEN,
+    WIT,
+    F_COL_R,
+    F_COL_H,
+    lv.DEFAULTHPBASE + lv.DEFAULTHPADD,
+    lv.DEFAULTHPBASE + lv.DEFAULTHPADD,
+    lv.DEFAULTCPBASE + lv.DEFAULTCPADD,
+    lv.DEFAULTCPBASE + lv.DEFAULTCPADD,
+    lv.DEFAULTMPBASE + lv.DEFAULTMPADD,
+    lv.DEFAULTMPBASE + lv.DEFAULTMPADD,
+    @Face,
+    @HairStyle,
+    @HairColor,
+    @Sex,
+    @X,
+    @Y,
+    @Z
+FROM CHAR_TEMPLATE
+WHERE CLASSID = @Class_ID
+INNER JOIN LVLUPGAIN lv ON lv.CLASSID = @Class_ID;
+
+SET @InsertedID = LAST_INSERT_ID();
+
+--items1: UpperBody
+--items2: Legs
+--items3: rhand
+
+-- slots
+-- 0:Head
+-- 1:UpperBody
+-- 2:Legs
+-- 3:Gloves
+-- 4:Boots
+-- 5:Lefhand
+-- 6:RightHand
+-- 7:LRing
+-- 8:RRing
+-- 9:LEar
+-- 10:REar
+-- 11:Neck
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @InsertedID,ITEMS1,1,1,1 FROM CHAR_TEMPLATE WHERE CLASSID = @Class_ID;
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @InsertedID,ITEMS2,1,1,2 FROM CHAR_TEMPLATE WHERE CLASSID = @Class_ID;
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @InsertedID,ITEMS3,1,1,6 FROM CHAR_TEMPLATE WHERE CLASSID = @Class_ID
+ [42000-199]
+2024-02-22 17:42:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Ambiguous column name "CLASSID"; SQL statement:
+
+
+INSERT INTO PUBLIC."CHARACTER"
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID, RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, "_INT", MEN, WIT, COLR, COLH, 
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP, FACE, HAIR_STYLE, HAIR_COLOR, SEX, X, Y, Z)
+SELECT
+    @CharName,
+    @CharName,
+    @Class_ID,
+    RACEID,
+    ACC,
+    CRITICAL,
+    EVASION,
+    M_ATK,
+    M_DEF,
+    M_SPD,
+    P_ATK,
+    P_DEF,
+    P_SPD,
+    MOVE_SPD,
+    STR,
+    CON,
+    DEX,
+    "_INT",
+    MEN,
+    WIT,
+    F_COL_R,
+    F_COL_H,
+    lv.DEFAULTHPBASE + lv.DEFAULTHPADD,
+    lv.DEFAULTHPBASE + lv.DEFAULTHPADD,
+    lv.DEFAULTCPBASE + lv.DEFAULTCPADD,
+    lv.DEFAULTCPBASE + lv.DEFAULTCPADD,
+    lv.DEFAULTMPBASE + lv.DEFAULTMPADD,
+    lv.DEFAULTMPBASE + lv.DEFAULTMPADD,
+    @Face,
+    @HairStyle,
+    @HairColor,
+    @Sex,
+    @X,
+    @Y,
+    @Z
+FROM CHAR_TEMPLATE
+INNER JOIN LVLUPGAIN lv ON lv.CLASSID = @Class_ID
+WHERE CLASSID = @Class_ID;
+
+SET @InsertedID = LAST_INSERT_ID();
+
+--items1: UpperBody
+--items2: Legs
+--items3: rhand
+
+-- slots
+-- 0:Head
+-- 1:UpperBody
+-- 2:Legs
+-- 3:Gloves
+-- 4:Boots
+-- 5:Lefhand
+-- 6:RightHand
+-- 7:LRing
+-- 8:RRing
+-- 9:LEar
+-- 10:REar
+-- 11:Neck
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @InsertedID,ITEMS1,1,1,1 FROM CHAR_TEMPLATE WHERE CLASSID = @Class_ID;
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @InsertedID,ITEMS2,1,1,2 FROM CHAR_TEMPLATE WHERE CLASSID = @Class_ID;
+INSERT INTO PUBLIC.ITEM (OWNER_ID, ITEM_ID, COUNT, LOC, SLOT)
+SELECT @InsertedID,ITEMS3,1,1,6 FROM CHAR_TEMPLATE WHERE CLASSID = @Class_ID
+ [90059-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:573)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.mapColumn(ExpressionColumn.java:142)
+	at org.h2.expression.ExpressionColumn.mapColumns(ExpressionColumn.java:116)
+	at org.h2.expression.condition.Comparison.mapColumns(Comparison.java:567)
+	at org.h2.expression.condition.ConditionAndOr.mapColumns(ConditionAndOr.java:270)
+	at org.h2.command.dml.Select.mapColumns(Select.java:1632)
+	at org.h2.command.dml.Select.init(Select.java:1164)
+	at org.h2.command.Parser.parseSelect(Parser.java:2447)
+	at org.h2.command.Parser.parseInsertGivenTable(Parser.java:1759)
+	at org.h2.command.Parser.parseInsert(Parser.java:1684)
+	at org.h2.command.Parser.parsePrepared(Parser.java:891)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:50)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 17:45:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)

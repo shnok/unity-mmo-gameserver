@@ -3,13 +3,13 @@ SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8);
 -- 0x1f: dark_fighter
 -- 0x26: dark_mage
 -- 0x35: dwarven_fighter
-SET @Class_ID = 0x26;
+SET @Class_ID = 0x1f;
 
 -- 0: male
 -- 1: female
 SET @Sex = 1;
 
-SET @Face = 1;
+SET @Face = 0;
 SET @HairStyle = 0;
 SET @HairColor = 0;
 
@@ -24,7 +24,8 @@ SET @Y = -68.00;
 SET @Z = -1731.24;
 
 INSERT INTO PUBLIC."CHARACTER"
-(ACCOUNT_NAME, CHAR_NAME, CLASS_ID, RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, "_INT", MEN, WIT, COLR, COLH, HP, MAX_HP, CP, MAX_CP, MP, MAX_MP, FACE, HAIR_STYLE, HAIR_COLOR, SEX, X, Y, Z)
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID, RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, "_INT", MEN, WIT, COLR, COLH, 
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP, FACE, HAIR_STYLE, HAIR_COLOR, SEX, X, Y, Z)
 SELECT
     @CharName,
     @CharName,
@@ -48,12 +49,12 @@ SELECT
     WIT,
     F_COL_R,
     F_COL_H,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    lv.DEFAULTHPBASE + lv.DEFAULTHPADD,
+    lv.DEFAULTHPBASE + lv.DEFAULTHPADD,
+    lv.DEFAULTCPBASE + lv.DEFAULTCPADD,
+    lv.DEFAULTCPBASE + lv.DEFAULTCPADD,
+    lv.DEFAULTMPBASE + lv.DEFAULTMPADD,
+    lv.DEFAULTMPBASE + lv.DEFAULTMPADD,
     @Face,
     @HairStyle,
     @HairColor,
@@ -61,8 +62,9 @@ SELECT
     @X,
     @Y,
     @Z
-FROM CHAR_TEMPLATE
-WHERE CLASSID = @Class_ID;
+FROM CHAR_TEMPLATE crt
+INNER JOIN LVLUPGAIN lv ON lv.CLASSID = @Class_ID
+WHERE crt.CLASSID = @Class_ID;
 
 SET @InsertedID = LAST_INSERT_ID();
 
