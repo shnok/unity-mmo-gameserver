@@ -1,9 +1,7 @@
 package com.shnok.javaserver.db;
 
-import com.shnok.javaserver.db.entity.CharTemplate;
-import com.shnok.javaserver.db.entity.Npc;
-import com.shnok.javaserver.db.entity.SpawnList;
-import com.shnok.javaserver.db.entity.ZoneList;
+import com.shnok.javaserver.db.entity.*;
+import com.shnok.javaserver.db.entity.Character;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -39,6 +37,8 @@ public class DatabaseConfig {
         configuration.addAnnotatedClass(Npc.class);
         configuration.addAnnotatedClass(ZoneList.class);
         configuration.addAnnotatedClass(CharTemplate.class);
+        configuration.addAnnotatedClass(Item.class);
+        configuration.addAnnotatedClass(Character.class);
 
         return configuration.buildSessionFactory();
     }
