@@ -2,8 +2,8 @@
 -- Table structure for table `L2J_CHAR_TEMPLATES`
 -- 
 
-DROP TABLE IF EXISTS `CHAR_TEMPLATES`;
-CREATE TABLE `CHAR_TEMPLATES` (
+DROP TABLE IF EXISTS `CHAR_TEMPLATE`;
+CREATE TABLE `CHAR_TEMPLATE` (
   `ClassId` int(11) NOT NULL default '0',
   `ClassName` varchar(20) NOT NULL default '',
   `RaceId` int(1) NOT NULL default '0',

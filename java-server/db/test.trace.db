@@ -6547,3 +6547,1399 @@ org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (
 	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
 	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 13:58:07 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:198)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:161)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:103)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:123)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1288)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1125)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:950)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.runSync(ConnectJob.java:104)
+	at org.jkiss.dbeaver.ui.actions.datasource.DataSourceHandler.connectToDataSource(DataSourceHandler.java:115)
+	at org.jkiss.dbeaver.ui.actions.datasource.UIServiceConnectionsImpl.initConnection(UIServiceConnectionsImpl.java:87)
+	at org.jkiss.dbeaver.model.DBUtils.initDataSource(DBUtils.java:2486)
+	at org.jkiss.dbeaver.model.navigator.DBNDataSource.initializeNode(DBNDataSource.java:151)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:225)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:1)
+	at org.jkiss.dbeaver.model.navigator.DBNUtils.getNodeChildrenFiltered(DBNUtils.java:91)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:49)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:88)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:72)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 13:58:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:636)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 14:01:39 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.runSync(ConnectJob.java:104)
+	at org.jkiss.dbeaver.ui.actions.datasource.DataSourceHandler.connectToDataSource(DataSourceHandler.java:117)
+	at org.jkiss.dbeaver.ui.actions.datasource.UIServiceConnectionsImpl.initConnection(UIServiceConnectionsImpl.java:87)
+	at org.jkiss.dbeaver.model.DBUtils.initDataSource(DBUtils.java:2488)
+	at org.jkiss.dbeaver.model.navigator.DBNDataSource.initializeNode(DBNDataSource.java:157)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:227)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:1)
+	at org.jkiss.dbeaver.model.navigator.DBNUtils.getNodeChildrenFiltered(DBNUtils.java:91)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:49)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:89)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:73)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 14:04:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS CHARACTERS (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    ACCOUNT_NAME VARCHAR(64),
+    CHAR_NAME VARCHAR(64),
+    TITLE VARCHAR(64),
+    RACE TINYINT,
+    CLASS_ID TINYINT,
+    ACCESS_LEVEL INT,
+    ONLINE BOOLEAN,
+    CHAR_SLOT TINYINT,
+    LEVEL INT,
+    MAX_HP INT,
+    HP INT,
+    MAX_CP INT,
+    CP INT,
+    MAX_MP INT,
+    CUR_MP INT,
+    ACC INT,
+    CRIT INT,
+    EVASION INT,
+    M_ATK INT,
+    M_DEF INT,
+    M_SPD INT,
+    P_ATK INT,
+    P_DEF INT,
+    P_SPD INT,
+    RUN_SPD INT,
+    WALK_SPD FLOAT,
+    STR TINYINT,
+    CON TINYINT,
+    DEX TINYINT,
+    _INT TINYINT,
+    MEN TINYINT,
+    WIT TINYINT,
+    FACE TINYINT,
+    HAIR_STYLE TINYINT,
+    HAIR_COLOR TINYINT,
+    SEX TINYINT,
+    HEADING FLOAT,
+    X FLOAT,
+    Y FLOAT,
+    Z FLOAT,
+    COLR FLOAT,
+    COLH FLOAT,
+    EXP BIGINT,
+    SP BIGINT,
+    KARMA INT,
+    PVP_KILLS INT,
+    PK_KILLS INT,
+    CLAN_ID INT,
+    MAX_WEIGHT INT
+    ONLINE_TIME[*] BIGINT, 
+    LAST_LOGIN BIGINT,
+    DELETE_TIME BIGINT,
+) "; expected "(, FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE IF NOT EXISTS CHARACTERS (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    account_name VARCHAR(64),
+    char_name VARCHAR(64),
+    title VARCHAR(64),
+    race TINYINT,
+    class_id TINYINT,
+    access_level INT,
+    online BOOLEAN,
+    char_slot TINYINT,
+    level INT,
+    max_hp INT,
+    hp INT,
+    max_cp INT,
+    cp INT,
+    max_mp INT,
+    cur_mp INT,
+    acc INT,
+    crit INT,
+    evasion INT,
+    m_atk INT,
+    m_def INT,
+    m_spd INT,
+    p_atk INT,
+    p_def INT,
+    p_spd INT,
+    run_spd INT,
+    walk_spd FLOAT,
+    str TINYINT,
+    con TINYINT,
+    dex TINYINT,
+    _int TINYINT,
+    men TINYINT,
+    wit TINYINT,
+    face TINYINT,
+    hair_style TINYINT,
+    hair_color TINYINT,
+    sex TINYINT,
+    heading FLOAT,
+    x FLOAT,
+    y FLOAT,
+    z FLOAT,
+    colR FLOAT,
+    colH FLOAT,
+    exp BIGINT,
+    sp BIGINT,
+    karma INT,
+    pvp_kills INT,
+    pk_kills INT,
+    clan_id INT,
+    max_weight INT
+    online_time BIGINT, 
+    last_login BIGINT,
+    delete_time BIGINT,
+) [42001-199]
+2024-02-22 14:51:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CHARACTERS" not found; SQL statement:
+CREATE TABLE IF NOT EXISTS ITEMS (
+    object_id INT AUTO_INCREMENT PRIMARY KEY,
+    owner_id INT,
+    item_id INT,
+    count INT,
+    enchant_level TINYINT,
+    loc TINYINT,
+    slot INT,
+    price_sell INT,
+    price_buy INT,
+    CONSTRAINT fk_owner_id FOREIGN KEY (owner_id) REFERENCES CHARACTERS(id) ON DELETE CASCADE
+) [42102-199]
+2024-02-22 14:51:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CHARACTERS" not found; SQL statement:
+CREATE TABLE IF NOT EXISTS ITEMS (
+    object_id INT AUTO_INCREMENT PRIMARY KEY,
+    owner_id INT,
+    item_id INT,
+    count INT,
+    enchant_level TINYINT,
+    loc TINYINT,
+    slot INT,
+    price_sell INT,
+    price_buy INT,
+    CONSTRAINT fk_owner_id FOREIGN KEY (owner_id) REFERENCES CHARACTERS(id) ON DELETE CASCADE
+) [42102-199]
+2024-02-22 14:56:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 14:57:37 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.runSync(ConnectJob.java:104)
+	at org.jkiss.dbeaver.ui.actions.datasource.DataSourceHandler.connectToDataSource(DataSourceHandler.java:117)
+	at org.jkiss.dbeaver.ui.actions.datasource.UIServiceConnectionsImpl.initConnection(UIServiceConnectionsImpl.java:87)
+	at org.jkiss.dbeaver.model.DBUtils.initDataSource(DBUtils.java:2488)
+	at org.jkiss.dbeaver.model.navigator.DBNDataSource.initializeNode(DBNDataSource.java:157)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:227)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:1)
+	at org.jkiss.dbeaver.model.navigator.DBNUtils.getNodeChildrenFiltered(DBNUtils.java:91)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:49)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:89)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:73)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 15:31:29 jdbc[4]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:91)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.getConnection(JDBCExecutionContext.java:204)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCConnectionImpl.getOriginal(JDBCConnectionImpl.java:60)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCConnectionImpl.getMetaData(JDBCConnectionImpl.java:350)
+	at org.jkiss.dbeaver.ext.generic.model.GenericStructureAssistant.findTablesByMask(GenericStructureAssistant.java:108)
+	at org.jkiss.dbeaver.ext.generic.model.GenericStructureAssistant.findObjectsByMask(GenericStructureAssistant.java:97)
+	at org.jkiss.dbeaver.ext.generic.model.GenericStructureAssistant.findObjectsByMask(GenericStructureAssistant.java:1)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCStructureAssistant.findObjectsByMask(JDBCStructureAssistant.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCStructureAssistant.findObjectsByMask(JDBCStructureAssistant.java:1)
+	at org.jkiss.dbeaver.ui.editors.sql.syntax.SQLContextInformer$TablesFinderJob.findTables(SQLContextInformer.java:391)
+	at org.jkiss.dbeaver.ui.editors.sql.syntax.SQLContextInformer$TablesFinderJob.lambda$0(SQLContextInformer.java:283)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.syntax.SQLContextInformer$TablesFinderJob.run(SQLContextInformer.java:281)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:10:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DECLARE @[*]CHARNAME AS VARCHAR(100)
+SET @CHARNAME = LEFT(CONVERT(VARCHAR(255), NEWID()), 8);
+
+                     
+                  
+                        
+DECLARE @CLASSID AS TINYINT
+SET @CLASSID = 0X1F;
+
+          
+            
+DECLARE @SEX AS TINYINT
+SET @SEX = 1;
+
+DECLARE @X AS DOUBLE;
+DECLARE @Y AS DOUBLE;
+DECLARE @Z AS DOUBLE;
+
+                      
+                   
+                  
+                    
+
+                   
+SET @X = 4724.32;
+SET @Y = -68.00;
+SET @Z = -1731.24;
+
+INSERT INTO PUBLIC.""CHARACTER""
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID,
+RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, ""_INT"", MEN, WIT, COLR, COLH,
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP,
+FACE, 
+HAIR_STYLE, 
+HAIR_COLOR, 
+SEX,
+X, 
+Y, 
+Z)
+VALUES(@CHARNAME, @CHARNAME, @CLASSID, 
+SELECT 
+RACEID, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, MOVE_SPD, STR, CON, DEX, ""_INT"", MEN, WIT, F_COL_R, F_COL_H
+FROM CHAR_TEMPLATE WHERE CLASS_ID = @CLASSID,
+0,
+0,
+0
+@SEX,
+@X,
+@Y,
+@Z) "; expected "OR, FORCE, VIEW, ALIAS, SEQUENCE, USER, TRIGGER, ROLE, SCHEMA, CONSTANT, DOMAIN, TYPE, DATATYPE, AGGREGATE, LINKED, MEMORY, CACHED, LOCAL, GLOBAL, TEMP, TEMPORARY, TABLE, SYNONYM, PRIMARY, UNIQUE, HASH, SPATIAL, INDEX"; SQL statement:
+DECLARE @CharName AS VARCHAR(100)
+SET @CharName = LEFT(CONVERT(varchar(255), NEWID()), 8);
+
+-- 0x1f: dark_fighter
+-- 0x26: dark_mage
+-- 0x35: dwarven_fighter
+DECLARE @ClassId AS TINYINT
+SET @ClassId = 0x1f;
+
+-- 0: male
+-- 1: female
+DECLARE @Sex AS TINYINT
+SET @Sex = 1;
+
+DECLARE @X AS Double;
+DECLARE @Y AS Double;
+DECLARE @Z AS Double;
+
+-- human fighter spawn
+--SET @X = 4919.45;
+--SET @Y = -59.12;
+--SET @Z = -1358.82;
+
+-- human mage spawn
+SET @X = 4724.32;
+SET @Y = -68.00;
+SET @Z = -1731.24;
+
+INSERT INTO PUBLIC."CHARACTER"
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID,
+RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, "_INT", MEN, WIT, COLR, COLH,
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP,
+FACE, 
+HAIR_STYLE, 
+HAIR_COLOR, 
+SEX,
+X, 
+Y, 
+Z)
+VALUES(@CharName, @CharName, @ClassId, 
+SELECT 
+RACEID, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, MOVE_SPD, STR, CON, DEX, "_INT", MEN, WIT, F_COL_R, F_COL_H
+FROM CHAR_TEMPLATE WHERE CLASS_ID = @ClassId,
+0,
+0,
+0
+@Sex,
+@X,
+@Y,
+@Z) [42001-199]
+2024-02-22 16:12:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DECLARE @[*]CHARNAME AS VARCHAR(100)
+SET @CHARNAME = LEFT(CONVERT(VARCHAR(255), NEWID()), 8);
+
+                     
+                  
+                        
+DECLARE @CLASSID AS TINYINT
+SET @CLASSID = 0X1F;
+
+          
+            
+DECLARE @SEX AS TINYINT
+SET @SEX = 1;
+
+DECLARE @X AS DOUBLE;
+DECLARE @Y AS DOUBLE;
+DECLARE @Z AS DOUBLE;
+
+                      
+                   
+                  
+                    
+
+                   
+SET @X = 4724.32;
+SET @Y = -68.00;
+SET @Z = -1731.24;
+
+INSERT INTO PUBLIC.""CHARACTER""
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID,
+RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, ""_INT"", MEN, WIT, COLR, COLH,
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP,
+FACE, 
+HAIR_STYLE, 
+HAIR_COLOR, 
+SEX,
+X, 
+Y, 
+Z)
+VALUES(@CHARNAME, @CHARNAME, @CLASSID, 
+SELECT 
+RACEID, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, MOVE_SPD, STR, CON, DEX, ""_INT"", MEN, WIT, F_COL_R, F_COL_H
+FROM CHAR_TEMPLATE WHERE CLASS_ID = @CLASSID,
+0,
+0,
+0,
+@SEX,
+@X,
+@Y,
+@Z) "; expected "OR, FORCE, VIEW, ALIAS, SEQUENCE, USER, TRIGGER, ROLE, SCHEMA, CONSTANT, DOMAIN, TYPE, DATATYPE, AGGREGATE, LINKED, MEMORY, CACHED, LOCAL, GLOBAL, TEMP, TEMPORARY, TABLE, SYNONYM, PRIMARY, UNIQUE, HASH, SPATIAL, INDEX"; SQL statement:
+DECLARE @CharName AS VARCHAR(100)
+SET @CharName = LEFT(CONVERT(varchar(255), NEWID()), 8);
+
+-- 0x1f: dark_fighter
+-- 0x26: dark_mage
+-- 0x35: dwarven_fighter
+DECLARE @ClassId AS TINYINT
+SET @ClassId = 0x1f;
+
+-- 0: male
+-- 1: female
+DECLARE @Sex AS TINYINT
+SET @Sex = 1;
+
+DECLARE @X AS Double;
+DECLARE @Y AS Double;
+DECLARE @Z AS Double;
+
+-- human fighter spawn
+--SET @X = 4919.45;
+--SET @Y = -59.12;
+--SET @Z = -1358.82;
+
+-- human mage spawn
+SET @X = 4724.32;
+SET @Y = -68.00;
+SET @Z = -1731.24;
+
+INSERT INTO PUBLIC."CHARACTER"
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID,
+RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, "_INT", MEN, WIT, COLR, COLH,
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP,
+FACE, 
+HAIR_STYLE, 
+HAIR_COLOR, 
+SEX,
+X, 
+Y, 
+Z)
+VALUES(@CharName, @CharName, @ClassId, 
+SELECT 
+RACEID, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, MOVE_SPD, STR, CON, DEX, "_INT", MEN, WIT, F_COL_R, F_COL_H
+FROM CHAR_TEMPLATE WHERE CLASS_ID = @ClassId,
+0,
+0,
+0,
+@Sex,
+@X,
+@Y,
+@Z) [42001-199]
+2024-02-22 16:13:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DECLARE @[*]CHARNAME AS VARCHAR(100);
+SET @CHARNAME = LEFT(CONVERT(VARCHAR(255), NEWID()), 8)
+ "; expected "OR, FORCE, VIEW, ALIAS, SEQUENCE, USER, TRIGGER, ROLE, SCHEMA, CONSTANT, DOMAIN, TYPE, DATATYPE, AGGREGATE, LINKED, MEMORY, CACHED, LOCAL, GLOBAL, TEMP, TEMPORARY, TABLE, SYNONYM, PRIMARY, UNIQUE, HASH, SPATIAL, INDEX"; SQL statement:
+DECLARE @CharName AS VARCHAR(100);
+SET @CharName = LEFT(CONVERT(varchar(255), NEWID()), 8)
+ [42001-199]
+2024-02-22 16:13:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DECLARE @[*]CHARNAME AS VARCHAR(100);
+SET @CHARNAME = LEFT(CONVERT(VARCHAR(255), NEWID()), 8);
+
+                     
+                  
+                        
+DECLARE @CLASSID AS TINYINT;
+SET @CLASSID = 0X1F;
+
+          
+            
+DECLARE @SEX AS TINYINT;
+SET @SEX = 1;
+
+DECLARE @X AS DOUBLE;
+DECLARE @Y AS DOUBLE;
+DECLARE @Z AS DOUBLE;
+
+                      
+                   
+                  
+                    
+
+                   
+SET @X = 4724.32;
+SET @Y = -68.00;
+SET @Z = -1731.24;
+
+INSERT INTO PUBLIC.""CHARACTER""
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID,
+RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, ""_INT"", MEN, WIT, COLR, COLH,
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP,
+FACE, 
+HAIR_STYLE, 
+HAIR_COLOR, 
+SEX,
+X, 
+Y, 
+Z)
+VALUES(@CHARNAME, @CHARNAME, @CLASSID, 
+SELECT 
+RACEID, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, MOVE_SPD, STR, CON, DEX, ""_INT"", MEN, WIT, F_COL_R, F_COL_H
+FROM CHAR_TEMPLATE WHERE CLASS_ID = @CLASSID,
+0,
+0,
+0,
+@SEX,
+@X,
+@Y,
+@Z) "; expected "OR, FORCE, VIEW, ALIAS, SEQUENCE, USER, TRIGGER, ROLE, SCHEMA, CONSTANT, DOMAIN, TYPE, DATATYPE, AGGREGATE, LINKED, MEMORY, CACHED, LOCAL, GLOBAL, TEMP, TEMPORARY, TABLE, SYNONYM, PRIMARY, UNIQUE, HASH, SPATIAL, INDEX"; SQL statement:
+DECLARE @CharName AS VARCHAR(100);
+SET @CharName = LEFT(CONVERT(varchar(255), NEWID()), 8);
+
+-- 0x1f: dark_fighter
+-- 0x26: dark_mage
+-- 0x35: dwarven_fighter
+DECLARE @ClassId AS TINYINT;
+SET @ClassId = 0x1f;
+
+-- 0: male
+-- 1: female
+DECLARE @Sex AS TINYINT;
+SET @Sex = 1;
+
+DECLARE @X AS Double;
+DECLARE @Y AS Double;
+DECLARE @Z AS Double;
+
+-- human fighter spawn
+--SET @X = 4919.45;
+--SET @Y = -59.12;
+--SET @Z = -1358.82;
+
+-- human mage spawn
+SET @X = 4724.32;
+SET @Y = -68.00;
+SET @Z = -1731.24;
+
+INSERT INTO PUBLIC."CHARACTER"
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID,
+RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, "_INT", MEN, WIT, COLR, COLH,
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP,
+FACE, 
+HAIR_STYLE, 
+HAIR_COLOR, 
+SEX,
+X, 
+Y, 
+Z)
+VALUES(@CharName, @CharName, @ClassId, 
+SELECT 
+RACEID, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, MOVE_SPD, STR, CON, DEX, "_INT", MEN, WIT, F_COL_R, F_COL_H
+FROM CHAR_TEMPLATE WHERE CLASS_ID = @ClassId,
+0,
+0,
+0,
+@Sex,
+@X,
+@Y,
+@Z) [42001-199]
+2024-02-22 16:15:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Function "VARCHAR" not found; SQL statement:
+SET @CharName = LEFT(CONVERT(varchar(255), NEWID()), 8);
+
+-- 0x1f: dark_fighter
+-- 0x26: dark_mage
+-- 0x35: dwarven_fighter
+SET @ClassId = 0x1f;
+
+-- 0: male
+-- 1: female
+SET @Sex = 1;
+
+-- human fighter spawn
+--SET @X = 4919.45;
+--SET @Y = -59.12;
+--SET @Z = -1358.82;
+
+-- human mage spawn
+SET @X = 4724.32;
+SET @Y = -68.00;
+SET @Z = -1731.24;
+
+INSERT INTO PUBLIC."CHARACTER"
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID,
+RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, "_INT", MEN, WIT, COLR, COLH,
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP,
+FACE, 
+HAIR_STYLE, 
+HAIR_COLOR, 
+SEX,
+X, 
+Y, 
+Z)
+VALUES(@CharName, @CharName, @ClassId, 
+SELECT 
+RACEID, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, MOVE_SPD, STR, CON, DEX, "_INT", MEN, WIT, F_COL_R, F_COL_H
+FROM CHAR_TEMPLATE WHERE CLASS_ID = @ClassId,
+0,
+0,
+0,
+@Sex,
+@X,
+@Y,
+@Z) [90022-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:573)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.Parser.readJavaFunction(Parser.java:3288)
+	at org.h2.command.Parser.readFunction(Parser.java:3495)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.readFunction(Parser.java:3514)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.readFunction(Parser.java:3660)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.parseSet(Parser.java:6745)
+	at org.h2.command.Parser.parsePrepared(Parser.java:923)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:16:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Function "VARCHAR" not found; SQL statement:
+SET @CharName = LEFT(CONVERT(VARCHAR(255), NEWID()), 8);
+
+-- 0x1f: dark_fighter
+-- 0x26: dark_mage
+-- 0x35: dwarven_fighter
+SET @ClassId = 0x1f;
+
+-- 0: male
+-- 1: female
+SET @Sex = 1;
+
+-- human fighter spawn
+--SET @X = 4919.45;
+--SET @Y = -59.12;
+--SET @Z = -1358.82;
+
+-- human mage spawn
+SET @X = 4724.32;
+SET @Y = -68.00;
+SET @Z = -1731.24;
+
+INSERT INTO PUBLIC."CHARACTER"
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID,
+RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, "_INT", MEN, WIT, COLR, COLH,
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP,
+FACE, 
+HAIR_STYLE, 
+HAIR_COLOR, 
+SEX,
+X, 
+Y, 
+Z)
+VALUES(@CharName, @CharName, @ClassId, 
+SELECT 
+RACEID, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, MOVE_SPD, STR, CON, DEX, "_INT", MEN, WIT, F_COL_R, F_COL_H
+FROM CHAR_TEMPLATE WHERE CLASS_ID = @ClassId,
+0,
+0,
+0,
+@Sex,
+@X,
+@Y,
+@Z) [90022-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:573)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.Parser.readJavaFunction(Parser.java:3288)
+	at org.h2.command.Parser.readFunction(Parser.java:3495)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.readFunction(Parser.java:3514)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.readFunction(Parser.java:3660)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.parseSet(Parser.java:6745)
+	at org.h2.command.Parser.parsePrepared(Parser.java:923)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:16:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Function "VARCHAR" not found; SQL statement:
+SET @CharName = LEFT(CONVERT(VARCHAR(255), NEWID()), 8);
+
+-- 0x1f: dark_fighter
+-- 0x26: dark_mage
+-- 0x35: dwarven_fighter
+SET @ClassId = 0x1f;
+
+-- 0: male
+-- 1: female
+SET @Sex = 1;
+
+-- human fighter spawn
+--SET @X = 4919.45;
+--SET @Y = -59.12;
+--SET @Z = -1358.82;
+
+-- human mage spawn
+SET @X = 4724.32;
+SET @Y = -68.00;
+SET @Z = -1731.24;
+
+INSERT INTO PUBLIC."CHARACTER"
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID,
+RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, "_INT", MEN, WIT, COLR, COLH,
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP,
+FACE, 
+HAIR_STYLE, 
+HAIR_COLOR, 
+SEX,
+X, 
+Y, 
+Z)
+VALUES(@CharName, @CharName, @ClassId, 
+SELECT 
+RACEID, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, MOVE_SPD, STR, CON, DEX, "_INT", MEN, WIT, F_COL_R, F_COL_H
+FROM CHAR_TEMPLATE WHERE CLASS_ID = @ClassId,
+0,
+0,
+0,
+@Sex,
+@X,
+@Y,
+@Z) [90022-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:573)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.Parser.readJavaFunction(Parser.java:3288)
+	at org.h2.command.Parser.readFunction(Parser.java:3495)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.readFunction(Parser.java:3514)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.readFunction(Parser.java:3660)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.parseSet(Parser.java:6745)
+	at org.h2.command.Parser.parsePrepared(Parser.java:923)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:17:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Function "NEWID" not found; SQL statement:
+SET @CharName = LEFT(CAST(NEWID() AS VARCHAR(255)), 8);
+
+-- 0x1f: dark_fighter
+-- 0x26: dark_mage
+-- 0x35: dwarven_fighter
+SET @ClassId = 0x1f;
+
+-- 0: male
+-- 1: female
+SET @Sex = 1;
+
+-- human fighter spawn
+--SET @X = 4919.45;
+--SET @Y = -59.12;
+--SET @Z = -1358.82;
+
+-- human mage spawn
+SET @X = 4724.32;
+SET @Y = -68.00;
+SET @Z = -1731.24;
+
+INSERT INTO PUBLIC."CHARACTER"
+(ACCOUNT_NAME, CHAR_NAME, CLASS_ID,
+RACE, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, RUN_SPD, STR, CON, DEX, "_INT", MEN, WIT, COLR, COLH,
+HP, MAX_HP, CP, MAX_CP, MP, MAX_MP,
+FACE, 
+HAIR_STYLE, 
+HAIR_COLOR, 
+SEX,
+X, 
+Y, 
+Z)
+VALUES(@CharName, @CharName, @ClassId, 
+SELECT 
+RACEID, ACC, CRITICAL, EVASION, M_ATK, M_DEF, M_SPD, P_ATK, P_DEF, P_SPD, MOVE_SPD, STR, CON, DEX, "_INT", MEN, WIT, F_COL_R, F_COL_H
+FROM CHAR_TEMPLATE WHERE CLASS_ID = @ClassId,
+0,
+0,
+0,
+@Sex,
+@X,
+@Y,
+@Z) [90022-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:573)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.Parser.readJavaFunction(Parser.java:3288)
+	at org.h2.command.Parser.readFunction(Parser.java:3495)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.readFunction(Parser.java:3499)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.readFunction(Parser.java:3660)
+	at org.h2.command.Parser.readTerm(Parser.java:3970)
+	at org.h2.command.Parser.readFactor(Parser.java:3090)
+	at org.h2.command.Parser.readSum(Parser.java:3077)
+	at org.h2.command.Parser.readConcat(Parser.java:3047)
+	at org.h2.command.Parser.readCondition(Parser.java:2900)
+	at org.h2.command.Parser.readAnd(Parser.java:2872)
+	at org.h2.command.Parser.readExpression(Parser.java:2864)
+	at org.h2.command.Parser.parseSet(Parser.java:6745)
+	at org.h2.command.Parser.parsePrepared(Parser.java:923)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:17:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(255)), 8); [21002-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:314)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:18:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8); [21002-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:314)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:19:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "FACE" not found; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8); [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.command.dml.Select.prepare(Select.java:1245)
+	at org.h2.command.dml.Insert.prepare(Insert.java:332)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:19:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "FACE" not found; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8); [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.command.dml.Select.prepare(Select.java:1245)
+	at org.h2.command.dml.Insert.prepare(Insert.java:332)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:19:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "FACE" not found; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8); [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.command.dml.Select.prepare(Select.java:1245)
+	at org.h2.command.dml.Insert.prepare(Insert.java:332)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:19:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "FACE" not found; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8); [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.command.dml.Select.prepare(Select.java:1245)
+	at org.h2.command.dml.Insert.prepare(Insert.java:332)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:19:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "FACE" not found; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8); [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.command.dml.Select.prepare(Select.java:1245)
+	at org.h2.command.dml.Insert.prepare(Insert.java:332)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:19:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "FACE" not found; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8); [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.command.dml.Select.prepare(Select.java:1245)
+	at org.h2.command.dml.Insert.prepare(Insert.java:332)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:19:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "FACE" not found; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8); [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.command.dml.Select.prepare(Select.java:1245)
+	at org.h2.command.dml.Insert.prepare(Insert.java:332)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:19:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "FACE" not found; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8); [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.command.dml.Select.prepare(Select.java:1245)
+	at org.h2.command.dml.Insert.prepare(Insert.java:332)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:20:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "FACE" not found; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8); [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.command.dml.Select.prepare(Select.java:1245)
+	at org.h2.command.dml.Insert.prepare(Insert.java:332)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:22:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "CLASS_ID" not found; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8); [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.expression.condition.Comparison.optimize(Comparison.java:205)
+	at org.h2.command.dml.Select.prepare(Select.java:1248)
+	at org.h2.command.dml.Insert.prepare(Insert.java:332)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 16:56:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "ITEM1" not found; SQL statement:
+SET @CharName = LEFT(CAST(RANDOM_UUID() AS VARCHAR(36)), 8); [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.command.dml.Select.prepare(Select.java:1245)
+	at org.h2.command.dml.Insert.prepare(Insert.java:332)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:42)
+	at org.h2.command.CommandList.update(CommandList.java:63)
+	at org.h2.command.Command.executeUpdate(Command.java:267)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:233)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:601)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$2(SQLQueryJob.java:504)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:511)
+	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:963)
+	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:4134)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 17:07:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DECLARE @[*]CLASSID INT =  31;
+SELECT ITEMS1, ITEMS2, ITEMS3, CLASSID FROM CHAR_TEMPLATE WHERE CLASSID = @CLASSID "; expected "OR, FORCE, VIEW, ALIAS, SEQUENCE, USER, TRIGGER, ROLE, SCHEMA, CONSTANT, DOMAIN, TYPE, DATATYPE, AGGREGATE, LINKED, MEMORY, CACHED, LOCAL, GLOBAL, TEMP, TEMPORARY, TABLE, SYNONYM, PRIMARY, UNIQUE, HASH, SPATIAL, INDEX"; SQL statement:
+DECLARE @ClassId INT =  31;
+SELECT ITEMS1, ITEMS2, ITEMS3, CLASSID FROM CHAR_TEMPLATE WHERE CLASSID = @ClassId [42001-199]
+2024-02-22 17:34:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)

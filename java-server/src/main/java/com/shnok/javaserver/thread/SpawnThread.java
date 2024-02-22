@@ -45,7 +45,7 @@ public class SpawnThread implements Runnable {
             npc.setPosition(spawnInfo.getSpawnPosition());
             npc.setHeading(spawnInfo.getHeading());
 
-            if(npc.getTemplate().getType() == NpcType.L2Monster) {
+            if(npc.getTemplate().getType() == NpcType.Monster) {
                 npc.setStatic(false);
                 npc.setRandomWalk(true);
             } else {
