@@ -19,8 +19,7 @@ CREATE TABLE `etcitem` (
   `dropable` varchar(5) DEFAULT NULL,
   `destroyable` varchar(5) DEFAULT NULL,
   `tradeable` varchar(5) DEFAULT NULL,
-  `oldname` varchar(100) NOT NULL DEFAULT '',
-  `oldtype` varchar(100) NOT NULL DEFAULT '',
+  `id_name` varchar(100) NOT NULL DEFAULT '',
   `drop_category` enum('0','1','2') NOT NULL DEFAULT '2',
   PRIMARY KEY (`item_id`)
 );
@@ -28,9 +27,9 @@ CREATE TABLE `etcitem` (
 -- ----------------------------
 -- Records of etcitem
 -- ----------------------------
-INSERT INTO `etcitem` VALUES ('17', 'Wooden Arrow', 'false', 'arrow', '6', 'stackable', 'wood', 'none', '-1', '2', '0', 'true', 'true', 'true', 'true', 'wooden_arrow', 'arrow', '2');
-INSERT INTO `etcitem` VALUES ('57', 'Adena', 'false', 'none', '0', 'asset', 'gold', 'none', '-1', '1', '0', 'true', 'true', 'true', 'true', 'adena', 'none', '2');
-INSERT INTO `etcitem` VALUES ('65', 'Red Potion', 'false', 'potion', '80', 'stackable', 'liquid', 'none', '-1', '40', '0', 'true', 'true', 'true', 'true', 'red_potion', 'potion', '2');
-INSERT INTO `etcitem` VALUES ('1835', 'Soulshot: No Grade', 'false', 'shot', '4', 'stackable', 'paper', 'none', '-1', '7', '0', 'true', 'true', 'true', 'true', 'soulshot_none', 'none', '2');
-INSERT INTO `etcitem` VALUES ('2509', 'Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '15', '0', 'true', 'true', 'true', 'true', 'spiritshot_none', 'none', '2');
-INSERT INTO `etcitem` VALUES ('3947', 'Blessed Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '35', '0', 'true', 'true', 'true', 'true', 'blessed_spiritshot_none', 'none', '2');
+INSERT INTO `etcitem` VALUES ('17', 'Wooden Arrow', 'false', 'arrow', '6', 'stackable', 'wood', 'none', '-1', '2', '0', 'true', 'true', 'true', 'true', 'wooden_arrow', '2');
+INSERT INTO `etcitem` VALUES ('57', 'Adena', 'false', 'none', '0', 'asset', 'gold', 'none', '-1', '1', '0', 'true', 'true', 'true', 'true', 'adena', '2');
+INSERT INTO `etcitem` VALUES ('65', 'Red Potion', 'false', 'potion', '80', 'stackable', 'liquid', 'none', '-1', '40', '0', 'true', 'true', 'true', 'true', 'red_potion', '2');
+INSERT INTO `etcitem` VALUES ('1835', 'Soulshot: No Grade', 'false', 'shot', '4', 'stackable', 'paper', 'none', '-1', '7', '0', 'true', 'true', 'true', 'true', 'soulshot_none', '2');
+INSERT INTO `etcitem` VALUES ('2509', 'Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '15', '0', 'true', 'true', 'true', 'true', 'spiritshot_none', '2');
+INSERT INTO `etcitem` VALUES ('3947', 'Blessed Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '35', '0', 'true', 'true', 'true', 'true', 'blessed_spiritshot_none', '2');

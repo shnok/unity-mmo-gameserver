@@ -8459,3 +8459,1960 @@ org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (
 	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
 	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 21:53:54 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.runSync(ConnectJob.java:104)
+	at org.jkiss.dbeaver.ui.actions.datasource.DataSourceHandler.connectToDataSource(DataSourceHandler.java:117)
+	at org.jkiss.dbeaver.ui.actions.datasource.UIServiceConnectionsImpl.initConnection(UIServiceConnectionsImpl.java:87)
+	at org.jkiss.dbeaver.model.DBUtils.initDataSource(DBUtils.java:2488)
+	at org.jkiss.dbeaver.model.navigator.DBNDataSource.initializeNode(DBNDataSource.java:157)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:227)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:1)
+	at org.jkiss.dbeaver.model.navigator.DBNUtils.getNodeChildrenFiltered(DBNUtils.java:91)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:49)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:89)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:73)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 22:41:08 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.rollback(JDBCExecutionContext.java:447)
+	at org.jkiss.dbeaver.ui.editors.EditorUtils.lambda$1(EditorUtils.java:553)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 22:41:08 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.rollback(JDBCExecutionContext.java:447)
+	at org.jkiss.dbeaver.ui.editors.EditorUtils.lambda$1(EditorUtils.java:553)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-22 22:41:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 08:59:11 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.ui.editors.DatabaseLazyEditorInput.initializeRealInput(DatabaseLazyEditorInput.java:262)
+	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:171)
+	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:89)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:73)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 14:18:24 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:48:34 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:48:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:48:58 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.ui.editors.DatabaseLazyEditorInput.initializeRealInput(DatabaseLazyEditorInput.java:262)
+	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:171)
+	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:89)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:73)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:49:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:49:36 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.runSync(ConnectJob.java:104)
+	at org.jkiss.dbeaver.ui.actions.datasource.DataSourceHandler.connectToDataSource(DataSourceHandler.java:117)
+	at org.jkiss.dbeaver.ui.actions.datasource.UIServiceConnectionsImpl.initConnection(UIServiceConnectionsImpl.java:87)
+	at org.jkiss.dbeaver.model.DBUtils.initDataSource(DBUtils.java:2488)
+	at org.jkiss.dbeaver.model.navigator.DBNDataSource.initializeNode(DBNDataSource.java:157)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:227)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:1)
+	at org.jkiss.dbeaver.model.navigator.DBNUtils.getNodeChildrenFiltered(DBNUtils.java:91)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:49)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:89)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:73)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:49:43 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:50:30 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.runSync(ConnectJob.java:104)
+	at org.jkiss.dbeaver.ui.actions.datasource.DataSourceHandler.connectToDataSource(DataSourceHandler.java:117)
+	at org.jkiss.dbeaver.ui.actions.datasource.UIServiceConnectionsImpl.initConnection(UIServiceConnectionsImpl.java:87)
+	at org.jkiss.dbeaver.model.DBUtils.initDataSource(DBUtils.java:2488)
+	at org.jkiss.dbeaver.model.navigator.DBNDataSource.initializeNode(DBNDataSource.java:157)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:227)
+	at org.jkiss.dbeaver.model.navigator.DBNDatabaseNode.getChildren(DBNDatabaseNode.java:1)
+	at org.jkiss.dbeaver.model.navigator.DBNUtils.getNodeChildrenFiltered(DBNUtils.java:91)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:49)
+	at org.jkiss.dbeaver.ui.navigator.database.load.TreeLoadService.evaluate(TreeLoadService.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:89)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:73)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:50:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:51:00 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.ui.editors.DatabaseLazyEditorInput.initializeRealInput(DatabaseLazyEditorInput.java:262)
+	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:171)
+	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:89)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:73)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:51:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:56:35 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:91)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.getConnection(JDBCExecutionContext.java:204)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCConnectionImpl.getOriginal(JDBCConnectionImpl.java:60)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCConnectionImpl.prepareStatement(JDBCConnectionImpl.java:100)
+	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCConnectionImpl.prepareStatement(JDBCConnectionImpl.java:1)
+	at org.jkiss.dbeaver.model.DBUtils.createStatement(DBUtils.java:1436)
+	at org.jkiss.dbeaver.model.DBUtils.makeStatement(DBUtils.java:1403)
+	at org.jkiss.dbeaver.model.DBUtils.makeStatement(DBUtils.java:1331)
+	at org.jkiss.dbeaver.model.impl.jdbc.struct.JDBCTable.readData(JDBCTable.java:169)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
+	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:190)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
+	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5148)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:56:42 jdbc[4]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.erd.ui.editor.ERDEditorEmbedded.loadFromDatabase(ERDEditorEmbedded.java:228)
+	at org.jkiss.dbeaver.erd.ui.editor.ERDEditorEmbedded$1.evaluate(ERDEditorEmbedded.java:180)
+	at org.jkiss.dbeaver.erd.ui.editor.ERDEditorEmbedded$1.evaluate(ERDEditorEmbedded.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:89)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:73)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 15:56:50 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 16:04:35 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.ui.editors.DatabaseLazyEditorInput.initializeRealInput(DatabaseLazyEditorInput.java:262)
+	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:171)
+	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:1)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:89)
+	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:73)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 16:05:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 16:12:02 jdbc[3]: exception
+java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
+	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:199)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.openConnection(GenericDataSource.java:162)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.openConnection(H2DataSource.java:74)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCExecutionContext.connect(JDBCExecutionContext.java:106)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.initializeMainContext(JDBCRemoteInstance.java:102)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCRemoteInstance.<init>(JDBCRemoteInstance.java:61)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.initializeRemoteInstance(JDBCDataSource.java:119)
+	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.<init>(GenericDataSource.java:124)
+	at org.jkiss.dbeaver.ext.h2.model.H2DataSource.<init>(H2DataSource.java:43)
+	at org.jkiss.dbeaver.ext.h2.model.H2MetaModel.createDataSourceImpl(H2MetaModel.java:55)
+	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1385)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect0(DataSourceDescriptor.java:1229)
+	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1015)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 16:12:49 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2877)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:481)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:402)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:3579)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:170)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:103)
+	at org.h2.engine.Database.getPageStore(Database.java:2659)
+	at org.h2.engine.Database.open(Database.java:675)
+	at org.h2.engine.Database.openDatabase(Database.java:307)
+	at org.h2.engine.Database.<init>(Database.java:301)
+	at org.h2.engine.Engine.openSession(Engine.java:74)
+	at org.h2.engine.Engine.openSession(Engine.java:192)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:171)
+	at org.h2.engine.Engine.createSession(Engine.java:166)
+	at org.h2.engine.Engine.createSession(Engine.java:29)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:340)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:173)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:152)
+	at org.h2.Driver.connect(Driver.java:69)
+	at org.h2.jdbcx.JdbcDataSource.getJdbcConnection(JdbcDataSource.java:189)
+	at org.h2.jdbcx.JdbcDataSource.getConnection(JdbcDataSource.java:160)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:358)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:477)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:560)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:81)
+	at org.hibernate.hikaricp.internal.HikariCPConnectionProvider.configure(HikariCPConnectionProvider.java:59)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.configureService(StandardServiceRegistryImpl.java:107)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:246)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.buildJdbcConnectionAccess(JdbcEnvironmentInitiator.java:145)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:66)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:176)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:86)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:479)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
+	at com.shnok.javaserver.db.DatabaseConfig.buildSessionFactory(DatabaseConfig.java:46)
+	at com.shnok.javaserver.db.DatabaseConfig.getSessionFactory(DatabaseConfig.java:51)
+	at com.shnok.javaserver.db.repository.CharTemplateRepository.getTemplateByClassId(CharTemplateRepository.java:13)
+	at com.shnok.javaserver.service.ItemTableService.LoadAllItems(ItemTableService.java:48)
+	at com.shnok.javaserver.service.ItemTableService.<init>(ItemTableService.java:41)
+	at com.shnok.javaserver.service.ItemTableService.getInstance(ItemTableService.java:28)
+	at com.shnok.javaserver.Main.runServer(Main.java:27)
+	at com.shnok.javaserver.Main.main(Main.java:12)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	... 60 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
+	... 54 more
+2024-02-23 16:12:50 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2877)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:481)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:402)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:3579)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:170)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:103)
+	at org.h2.engine.Database.getPageStore(Database.java:2659)
+	at org.h2.engine.Database.open(Database.java:675)
+	at org.h2.engine.Database.openDatabase(Database.java:307)
+	at org.h2.engine.Database.<init>(Database.java:301)
+	at org.h2.engine.Engine.openSession(Engine.java:74)
+	at org.h2.engine.Engine.openSession(Engine.java:192)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:171)
+	at org.h2.engine.Engine.createSession(Engine.java:166)
+	at org.h2.engine.Engine.createSession(Engine.java:29)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:340)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:173)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:152)
+	at org.h2.Driver.connect(Driver.java:69)
+	at org.h2.jdbcx.JdbcDataSource.getJdbcConnection(JdbcDataSource.java:189)
+	at org.h2.jdbcx.JdbcDataSource.getConnection(JdbcDataSource.java:160)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:358)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:477)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:560)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:81)
+	at org.hibernate.hikaricp.internal.HikariCPConnectionProvider.configure(HikariCPConnectionProvider.java:59)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.configureService(StandardServiceRegistryImpl.java:107)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:246)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.buildJdbcConnectionAccess(JdbcEnvironmentInitiator.java:145)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:66)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:101)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:176)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:127)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:86)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:479)
+	at org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:85)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:724)
+	at com.shnok.javaserver.db.DatabaseConfig.buildSessionFactory(DatabaseConfig.java:46)
+	at com.shnok.javaserver.db.DatabaseConfig.getSessionFactory(DatabaseConfig.java:51)
+	at com.shnok.javaserver.db.repository.ArmorRepository.getAllArmors(ArmorRepository.java:26)
+	at com.shnok.javaserver.service.ItemTableService.LoadAllItems(ItemTableService.java:50)
+	at com.shnok.javaserver.service.ItemTableService.<init>(ItemTableService.java:41)
+	at com.shnok.javaserver.service.ItemTableService.getInstance(ItemTableService.java:28)
+	at com.shnok.javaserver.Main.runServer(Main.java:27)
+	at com.shnok.javaserver.Main.main(Main.java:12)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	... 60 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:D:/Stock/Projects/unity-mmo-server/java-server/db/test.mv.db [1.4.200/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
+	... 54 more
+2024-02-23 16:12:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:617)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1571)
+	at org.h2.jdbc.JdbcConnection.checkClosedForWrite(JdbcConnection.java:1557)
+	at org.h2.jdbc.JdbcConnection.rollback(JdbcConnection.java:561)
+	at org.jkiss.dbeaver.model.impl.jdbc.JDBCDataSource.lambda$0(JDBCDataSource.java:361)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$MonitoringTask.run(RuntimeUtils.java:722)
+	at org.jkiss.dbeaver.utils.RuntimeUtils$1.run(RuntimeUtils.java:264)
+	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2024-02-23 16:12:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CHAR_TEMPLATE" not found; SQL statement:
+select dbchartemp0_.classId as classid1_1_0_, dbchartemp0_._INT as _int2_1_0_, dbchartemp0_.ACC as acc3_1_0_, dbchartemp0_.className as classnam4_1_0_, dbchartemp0_.F_COL_H as f_col_h5_1_0_, dbchartemp0_.M_COL_H as m_col_h6_1_0_, dbchartemp0_.F_COL_R as f_col_r7_1_0_, dbchartemp0_.M_COL_R as m_col_r8_1_0_, dbchartemp0_.CON as con9_1_0_, dbchartemp0_.CRITICAL as critica10_1_0_, dbchartemp0_.DEX as dex11_1_0_, dbchartemp0_.EVASION as evasion12_1_0_, dbchartemp0_.items1 as items13_1_0_, dbchartemp0_.items2 as items14_1_0_, dbchartemp0_.items3 as items15_1_0_, dbchartemp0_.items4 as items16_1_0_, dbchartemp0_.items5 as items17_1_0_, dbchartemp0_.M_ATK as m_atk18_1_0_, dbchartemp0_.M_SPD as m_spd19_1_0_, dbchartemp0_.M_DEF as m_def20_1_0_, dbchartemp0_.MEN as men21_1_0_, dbchartemp0_.MOVE_SPD as move_sp22_1_0_, dbchartemp0_.P_ATK as p_atk23_1_0_, dbchartemp0_.P_SPD as p_spd24_1_0_, dbchartemp0_.P_DEF as p_def25_1_0_, dbchartemp0_.X as x26_1_0_, dbchartemp0_.Y as y27_1_0_, dbchartemp0_.Z as z28_1_0_, dbchartemp0_.raceId as raceid29_1_0_, dbchartemp0_.STR as str30_1_0_, dbchartemp0_.WIT as wit31_1_0_ from CHAR_TEMPLATE dbchartemp0_ where dbchartemp0_.classId=? [42102-200]
+2024-02-23 16:12:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ARMOR" not found; SQL statement:
+select dbarmor0_.ITEM_ID as item_id1_0_, dbarmor0_.ARMOR_TYPE as armor_ty2_0_, dbarmor0_.AVOID_MODIFY as avoid_mo3_0_, dbarmor0_.BODYPART as bodypart4_0_, dbarmor0_.M_DEF as m_def5_0_, dbarmor0_.MP_BONUS as mp_bonus6_0_, dbarmor0_.P_DEF as p_def7_0_ from ARMOR dbarmor0_ [42102-200]
+2024-02-23 16:13:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "magic" [22018-200]
+2024-02-23 16:16:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "magic" [22018-200]
+2024-02-23 16:17:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "magic" [22018-200]
+2024-02-23 16:19:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "rhand" [22018-200]
+2024-02-23 16:25:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DBNPC" not found; SQL statement:
+select dbspawnlis0_.id as id1_6_, dbspawnlis0_.count as count2_6_, dbspawnlis0_.heading as heading3_6_, dbspawnlis0_.loc_id as loc_id4_6_, dbspawnlis0_.location as location5_6_, dbspawnlis0_.npc_templateid as npc_temp6_6_, dbspawnlis0_.periodOfDay as periodof7_6_, dbspawnlis0_.locx as locx8_6_, dbspawnlis0_.locy as locy9_6_, dbspawnlis0_.locz as locz10_6_, dbspawnlis0_.randomx as randomx11_6_, dbspawnlis0_.randomy as randomy12_6_, dbspawnlis0_.respawn_delay as respawn13_6_ from SPAWNLIST dbspawnlis0_ inner join DBNpc dbnpc1_ on (dbspawnlis0_.npc_templateid=dbnpc1_.idTemplate and dbnpc1_.type<>'L2Monster') [42102-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Merchant" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Merchant" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Merchant" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Merchant" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Warehouse" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Teleporter" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2VillageMaster" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Trainer" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Trainer" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Trainer" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2VillageMaster" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Trainer" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Trainer" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Trainer" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Trainer" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Merchant" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Warehouse" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Warehouse" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Teleporter" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Teleporter" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Teleporter" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Npc" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Guard" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2NpcWalker" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2NpcWalker" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Merchant" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Adventurer" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Adventurer" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:26:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "L2Monster" [22018-200]
+2024-02-23 16:58:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "DBARMOR0_.ITEM_NAME" not found; SQL statement:
+select dbarmor0_.ITEM_ID as item_id1_0_, dbarmor0_.CRYSTAL_COUNT as crystal_2_0_, dbarmor0_.DESTROYABLE as destroya3_0_, dbarmor0_.DROPABLE as dropable4_0_, dbarmor0_.DURATION as duration5_0_, dbarmor0_.CRYSTAL_TYPE as crystal_6_0_, dbarmor0_.MATERIAL as material7_0_, dbarmor0_.ITEM_NAME as item_nam8_0_, dbarmor0_.PRICE as price9_0_, dbarmor0_.SELLABLE as sellabl10_0_, dbarmor0_.TRADEABLE as tradeab11_0_, dbarmor0_.WEIGHT as weight12_0_, dbarmor0_.ARMOR_TYPE as armor_t13_0_, dbarmor0_.AVOID_MODIFY as avoid_m14_0_, dbarmor0_.BODYPART as bodypar15_0_, dbarmor0_.M_DEF as m_def16_0_, dbarmor0_.MP_BONUS as mp_bonu17_0_, dbarmor0_.P_DEF as p_def18_0_ from ARMOR dbarmor0_ [42122-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:163)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:145)
+	at org.h2.expression.Alias.optimize(Alias.java:52)
+	at org.h2.command.dml.Select.prepare(Select.java:1206)
+	at org.h2.command.Parser.prepareCommand(Parser.java:744)
+	at org.h2.engine.Session.prepareLocal(Session.java:657)
+	at org.h2.engine.Session.prepareCommand(Session.java:595)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:76)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:352)
+	at com.zaxxer.hikari.pool.ProxyConnection.prepareStatement(ProxyConnection.java:337)
+	at com.zaxxer.hikari.pool.HikariProxyConnection.prepareStatement(HikariProxyConnection.java)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$5.doPrepare(StatementPreparerImpl.java:149)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$StatementPreparationTemplate.prepareStatement(StatementPreparerImpl.java:176)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.prepareQueryStatement(StatementPreparerImpl.java:151)
+	at org.hibernate.loader.Loader.prepareQueryStatement(Loader.java:2097)
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:2034)
+	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:2012)
+	at org.hibernate.loader.Loader.doQuery(Loader.java:948)
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:349)
+	at org.hibernate.loader.Loader.doList(Loader.java:2843)
+	at org.hibernate.loader.Loader.doList(Loader.java:2825)
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2657)
+	at org.hibernate.loader.Loader.list(Loader.java:2652)
+	at org.hibernate.loader.hql.QueryLoader.list(QueryLoader.java:506)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.list(QueryTranslatorImpl.java:400)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.performList(HQLQueryPlan.java:219)
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1414)
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1636)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1604)
+	at org.hibernate.query.Query.getResultList(Query.java:165)
+	at com.shnok.javaserver.db.repository.ArmorRepository.getAllArmors(ArmorRepository.java:27)
+	at com.shnok.javaserver.service.ItemTableService.LoadAllItems(ItemTableService.java:50)
+	at com.shnok.javaserver.service.ItemTableService.<init>(ItemTableService.java:41)
+	at com.shnok.javaserver.service.ItemTableService.getInstance(ItemTableService.java:28)
+	at com.shnok.javaserver.Main.runServer(Main.java:27)
+	at com.shnok.javaserver.Main.main(Main.java:12)
+2024-02-23 17:00:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "none" [22018-200]
+2024-02-23 17:04:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "stackable" [22018-200]

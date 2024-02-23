@@ -11,8 +11,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "ITEMS")
-public class Item {
+@Table(name = "PLAYER_ITEM")
+public class PlayerItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "object_id")
