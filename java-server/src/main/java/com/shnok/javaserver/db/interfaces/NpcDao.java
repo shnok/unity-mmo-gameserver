@@ -1,7 +1,7 @@
 package com.shnok.javaserver.db.interfaces;
 
-import com.shnok.javaserver.db.entity.Npc;
+import com.shnok.javaserver.db.entity.DBNpc;
 
 public interface NpcDao {
-    public Npc getNpcById(int id);
+    public DBNpc getNpcById(int id);
 }

@@ -1,9 +1,8 @@
 package com.shnok.javaserver.service;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.model.entity.Entity;
+import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.util.TimeUtils;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;

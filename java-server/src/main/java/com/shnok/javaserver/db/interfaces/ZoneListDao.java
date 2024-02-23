@@ -1,10 +1,10 @@
 package com.shnok.javaserver.db.interfaces;
 
-import com.shnok.javaserver.db.entity.ZoneList;
+import com.shnok.javaserver.db.entity.DBZoneList;
 
 import java.util.List;
 
 public interface ZoneListDao {
-    public List<ZoneList> getAllZoneList();
-    public ZoneList getZoneListById(String id);
+    public List<DBZoneList> getAllZoneList();
+    public DBZoneList getZoneListById(String id);
 }

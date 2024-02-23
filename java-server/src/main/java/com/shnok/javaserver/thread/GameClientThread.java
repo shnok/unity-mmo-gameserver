@@ -5,7 +5,7 @@ import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.enums.ServerPacketType;
-import com.shnok.javaserver.model.entity.PlayerInstance;
+import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;

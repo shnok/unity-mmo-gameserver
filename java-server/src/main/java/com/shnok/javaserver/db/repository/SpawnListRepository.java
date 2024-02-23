@@ -1,7 +1,7 @@
 package com.shnok.javaserver.db.repository;
 
 import com.shnok.javaserver.db.DatabaseConfig;
-import com.shnok.javaserver.db.entity.SpawnList;
+import com.shnok.javaserver.db.entity.DBSpawnList;
 import com.shnok.javaserver.db.interfaces.SpawnListDao;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.Session;
@@ -13,7 +13,7 @@ public class SpawnListRepository implements SpawnListDao {
     public SpawnListRepository() {}
 
     @Override
-    public void addSpawnList(SpawnList spawnList) {
+    public void addSpawnList(DBSpawnList spawnList) {
         try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.save(spawnList);
@@ -24,9 +24,9 @@ public class SpawnListRepository implements SpawnListDao {
     }
 
     @Override
-    public SpawnList getSpawnListById(int id) {
+    public DBSpawnList getSpawnListById(int id) {
         try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
-            return session.get(SpawnList.class, id);
+            return session.get(DBSpawnList.class, id);
         } catch (Exception e) {
             log.error("SQL ERROR: {}", e.getMessage(), e);
             return null;
@@ -34,9 +34,9 @@ public class SpawnListRepository implements SpawnListDao {
     }
 
     @Override
-    public List<SpawnList> getAllSpawnList() {
+    public List<DBSpawnList> getAllSpawnList() {
         try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
-            return session.createQuery("select s from SpawnList s", SpawnList.class)
+            return session.createQuery("select s from DBSpawnList s", DBSpawnList.class)
                     .getResultList();
         } catch (Exception e) {
             log.error("SQL ERROR: {}", e.getMessage(), e);
@@ -45,13 +45,13 @@ public class SpawnListRepository implements SpawnListDao {
     }
 
     @Override
-    public List<SpawnList> getAllMonsters() {
+    public List<DBSpawnList> getAllMonsters() {
         try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT s FROM SpawnList s \n" +
+            return session.createQuery("SELECT s FROM DBSpawnList s \n" +
                             "INNER JOIN\n" +
-                            "Npc n ON \n" +
+                            "DBNpc n ON \n" +
                             "s.npcId = n.idTemplate\n" +
-                            "AND n.type = 'L2Monster'", SpawnList.class)
+                            "AND n.type = 'L2Monster'", DBSpawnList.class)
                     .getResultList();
         } catch (Exception e) {
             log.error("SQL ERROR: {}", e.getMessage(), e);
@@ -60,13 +60,13 @@ public class SpawnListRepository implements SpawnListDao {
     }
 
     @Override
-    public List<SpawnList> getAllNPCs() {
+    public List<DBSpawnList> getAllNPCs() {
         try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT s FROM SpawnList s \n" +
+            return session.createQuery("SELECT s FROM DBSpawnList s \n" +
                             "INNER JOIN\n" +
-                            "Npc n ON \n" +
+                            "DBNpc n ON \n" +
                             "s.npcId = n.idTemplate\n" +
-                            "AND n.type <> 'L2Monster'", SpawnList.class)
+                            "AND n.type <> 'L2Monster'", DBSpawnList.class)
                     .getResultList();
         } catch (Exception e) {
             log.error("SQL ERROR: {}", e.getMessage(), e);

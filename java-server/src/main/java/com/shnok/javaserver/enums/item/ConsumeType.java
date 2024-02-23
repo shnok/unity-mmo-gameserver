@@ -1,2 +1,7 @@
-package com.shnok.javaserver.enums.item;public enum ConsumeType {
+package com.shnok.javaserver.enums.item;
+
+public enum ConsumeType {
+    stackable,
+    asset,
+    normal
 }

@@ -1,8 +1,8 @@
 package com.shnok.javaserver.service;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.db.entity.Npc;
-import com.shnok.javaserver.db.entity.SpawnList;
+import com.shnok.javaserver.db.entity.DBNpc;
+import com.shnok.javaserver.db.entity.DBSpawnList;
 import com.shnok.javaserver.db.repository.NpcRepository;
 import com.shnok.javaserver.db.repository.SpawnListRepository;
 import com.shnok.javaserver.model.template.NpcTemplate;
@@ -22,7 +22,7 @@ public class SpawnManagerService {
         return instance;
     }
 
-    private List<SpawnList> registeredSpawns;
+    private List<DBSpawnList> registeredSpawns;
 
     private SpawnManagerService() {
         registeredSpawns = new ArrayList<>();
@@ -75,7 +75,7 @@ public class SpawnManagerService {
 //                    3000,
 //                    0,
 //                    0));
-            registeredSpawns.add(new SpawnList(
+            registeredSpawns.add(new DBSpawnList(
                     54496,
                     "gludio32_qm1725_00",
                     1,
@@ -93,7 +93,7 @@ public class SpawnManagerService {
     public void spawnMonsters() {
         registeredSpawns.forEach((spawnInfo) -> {
             NpcRepository npcRepository = new NpcRepository();
-            Npc npc = npcRepository.getNpcById(spawnInfo.getNpcId());
+            DBNpc npc = npcRepository.getNpcById(spawnInfo.getNpcId());
             if(npc != null) {
                 NpcTemplate npcTemplate = new NpcTemplate(npc);
                 ThreadPoolManagerService.getInstance().scheduleSpawn(new SpawnThread(spawnInfo, npcTemplate), 0);
@@ -103,7 +103,7 @@ public class SpawnManagerService {
         });
     }
 
-    public void respawn(SpawnList spawnInfo, NpcTemplate template) {
+    public void respawn(DBSpawnList spawnInfo, NpcTemplate template) {
         log.debug("Scheduling respawn for [{}]{} in {}ms",
                 spawnInfo.getNpcId(),template.getName(), spawnInfo.getRespawnDelay());
         ThreadPoolManagerService.getInstance().scheduleSpawn(

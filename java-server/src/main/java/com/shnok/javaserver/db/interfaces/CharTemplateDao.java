@@ -1,7 +1,7 @@
 package com.shnok.javaserver.db.interfaces;
 
-import com.shnok.javaserver.db.entity.CharTemplate;
+import com.shnok.javaserver.db.entity.DBCharTemplate;
 
 public interface CharTemplateDao {
-    public CharTemplate getTemplateByClassId(int id);
+    public DBCharTemplate getTemplateByClassId(int id);
 }

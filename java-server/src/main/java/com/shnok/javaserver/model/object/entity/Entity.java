@@ -1,15 +1,14 @@
-package com.shnok.javaserver.model.entity;
+package com.shnok.javaserver.model.object.entity;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.ServerPacket;
-import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.serverpackets.EntitySetTargetPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
-import com.shnok.javaserver.model.GameObject;
+import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
 import com.shnok.javaserver.model.skills.Formulas;
@@ -21,7 +20,6 @@ import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
-import com.shnok.javaserver.thread.ai.NpcAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

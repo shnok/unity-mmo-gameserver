@@ -1,4 +1,4 @@
-package com.shnok.javaserver.enums;
+package com.shnok.javaserver.enums.item;
 
 public enum ArmorType {
     none((byte) 0),

@@ -5,7 +5,7 @@ import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.entity.Entity;
+import com.shnok.javaserver.model.object.entity.Entity;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2

@@ -24,6 +24,8 @@ public class Main {
         ThreadPoolManagerService.getInstance().initialize();
         Runtime.getRuntime().addShutdownHook(ServerShutdownService.getInstance());
 
+        ItemTableService.getInstance();
+
         Geodata.getInstance().loadGeodata();
         PathFinding.getInstance();
 

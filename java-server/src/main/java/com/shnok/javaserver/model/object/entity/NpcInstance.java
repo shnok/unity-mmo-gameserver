@@ -1,10 +1,8 @@
-package com.shnok.javaserver.model.entity;
+package com.shnok.javaserver.model.object.entity;
 
-import com.shnok.javaserver.db.entity.SpawnList;
+import com.shnok.javaserver.db.entity.DBSpawnList;
 import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
-import com.shnok.javaserver.dto.serverpackets.ObjectAnimationPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
-import com.shnok.javaserver.enums.EntityAnimation;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
@@ -25,7 +23,7 @@ import lombok.extern.log4j.Log4j2;
 public class NpcInstance extends Entity {
     private boolean isStatic;
     private boolean randomWalk;
-    private SpawnList spawnInfo;
+    private DBSpawnList spawnInfo;
 
     public NpcInstance(int id, NpcTemplate npcTemplate) {
         super(id);

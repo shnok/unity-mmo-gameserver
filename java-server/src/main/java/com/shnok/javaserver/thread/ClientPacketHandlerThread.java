@@ -1,7 +1,7 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.db.entity.CharTemplate;
+import com.shnok.javaserver.db.entity.DBCharTemplate;
 import com.shnok.javaserver.db.repository.CharTemplateRepository;
 import com.shnok.javaserver.dto.clientpackets.*;
 import com.shnok.javaserver.dto.serverpackets.*;
@@ -9,12 +9,10 @@ import com.shnok.javaserver.enums.ClientPacketType;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.PlayerAction;
-import com.shnok.javaserver.model.GameObject;
+import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.entity.Entity;
-import com.shnok.javaserver.model.entity.PlayerInstance;
-import com.shnok.javaserver.model.status.PlayerStatus;
-import com.shnok.javaserver.model.template.EntityTemplate;
+import com.shnok.javaserver.model.object.entity.Entity;
+import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.WorldManagerService;
@@ -155,7 +153,7 @@ public class ClientPacketHandlerThread extends Thread {
         // TODO: FETCH FROM DB
 
         CharTemplateRepository charTemplateRepository = new CharTemplateRepository();
-        CharTemplate classTemplate = charTemplateRepository.getTemplateByClassId(31);
+        DBCharTemplate classTemplate = charTemplateRepository.getTemplateByClassId(31);
         PlayerTemplate playerTemplate = new PlayerTemplate(classTemplate);
 
         PlayerInstance player = new PlayerInstance(client.getUsername(), playerTemplate);

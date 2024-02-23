@@ -1,17 +1,13 @@
 package com.shnok.javaserver.db.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "CHAR_TEMPLATE")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class CharTemplate {
+public class DBCharTemplate {
     @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

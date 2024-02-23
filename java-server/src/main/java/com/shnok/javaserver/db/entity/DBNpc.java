@@ -7,7 +7,8 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class Npc {
+@Table(name = "NPC")
+public class DBNpc {
     @Id
     private int id;
     private int idTemplate;

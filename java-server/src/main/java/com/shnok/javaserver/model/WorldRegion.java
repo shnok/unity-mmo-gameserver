@@ -1,7 +1,8 @@
 package com.shnok.javaserver.model;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.model.entity.PlayerInstance;
+import com.shnok.javaserver.model.object.GameObject;
+import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SpawnList {
+public class DBSpawnList {
     /*
         CREATE TABLE `spawnlist` (
       `id` int(11) NOT NULL auto_increment,
@@ -33,8 +33,8 @@ public class SpawnList {
     ) ENGINE=MyISAM;
     */
 
-    public SpawnList(int id, String location, int count, int npcId, float posX, float posY, float posZ, float randomX,
-                     float randomY, float heading, int respawnDelay, int locId, float periodOfDay) {
+    public DBSpawnList(int id, String location, int count, int npcId, float posX, float posY, float posZ, float randomX,
+                       float randomY, float heading, int respawnDelay, int locId, float periodOfDay) {
         this.id = id;
         this.location = location;
         this.count = count;

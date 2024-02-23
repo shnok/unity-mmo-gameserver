@@ -1,19 +1,13 @@
 package com.shnok.javaserver.db.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "CHARACTER")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Character {
+@Data
+public class DBCharacter {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

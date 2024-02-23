@@ -1,7 +1,7 @@
 package com.shnok.javaserver.db.interfaces;
 
-import com.shnok.javaserver.db.entity.Character;
+import com.shnok.javaserver.db.entity.DBCharacter;
 
 public interface CharacterDao {
-    public Character getRandomCharacter();
+    public DBCharacter getRandomCharacter();
 }

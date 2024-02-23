@@ -1,21 +1,14 @@
-package com.shnok.javaserver.model.entity;
+package com.shnok.javaserver.model.object.entity;
 
 import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
-import com.shnok.javaserver.enums.Event;
-import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
-import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.PlayerTemplate;
-import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.thread.GameClientThread;
-import com.shnok.javaserver.util.VectorUtils;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 

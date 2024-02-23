@@ -1,9 +1,9 @@
 package com.shnok.javaserver.model.template;
 
-import com.shnok.javaserver.db.entity.CharTemplate;
+import com.shnok.javaserver.db.entity.DBCharTemplate;
 
 public class PlayerTemplate extends EntityTemplate {
-    public PlayerTemplate(CharTemplate template) {
+    public PlayerTemplate(DBCharTemplate template) {
         this.baseSTR = template.getStr();
         this.baseDEX = template.getDex();
         this.baseINT = template.get_int();

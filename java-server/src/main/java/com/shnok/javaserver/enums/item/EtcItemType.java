@@ -1,4 +1,4 @@
-package com.shnok.javaserver.enums;
+package com.shnok.javaserver.enums.item;
 
 public enum EtcItemType {
     ARROW(0, "Arrow"),
@@ -18,30 +18,8 @@ public enum EtcItemType {
     final int id;
     final String name;
 
-    /**
-     * Constructor of the L2EtcItemType.
-     * @param id : int designating the ID of the EtcItemType
-     * @param name : String designating the name of the EtcItemType
-     */
     EtcItemType(int id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    /**
-     * Returns the ID of the item after applying the mask.
-     * @return int : ID of the item
-     */
-    public int mask() {
-        return 1 << (id + 21);
-    }
-
-    /**
-     * Returns the name of the EtcItemType
-     * @return String
-     */
-    @Override
-    public String toString() {
-        return name;
     }
 }
