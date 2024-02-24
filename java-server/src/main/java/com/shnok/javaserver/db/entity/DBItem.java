@@ -46,4 +46,6 @@ public abstract class DBItem {
     protected boolean destroyable;
     @Column(name = "TRADEABLE")
     protected boolean tradeable;
+    @Transient
+    protected boolean stackable;
 }

@@ -94,7 +94,7 @@ public class ItemTableService {
     public List<DBItem> getPlayerItemData(List<DBPlayerItem> playerItems) {
         List<DBItem> playerItemData = new FastList<>();
         playerItems.forEach((pi) -> {
-            playerItemData.add(getEtcItemById(pi.getItemId()));
+            playerItemData.add(getItemById(pi.getItemId()));
         });
 
         return playerItemData;

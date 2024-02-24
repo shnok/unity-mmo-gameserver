@@ -228,7 +228,7 @@ public abstract class Inventory extends ItemContainer {
 
     // adds item to inventory and equip it if necessary
     @Override
-    protected void addItem(ItemInstance item) {
+    public void addItem(ItemInstance item) {
         super.addItem(item);
         if (item.isEquipped()) {
             equipItem(item);

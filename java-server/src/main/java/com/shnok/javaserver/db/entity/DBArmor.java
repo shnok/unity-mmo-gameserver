@@ -31,4 +31,6 @@ public class DBArmor extends DBItem {
     private int mDef;
     @Column(name = "MP_BONUS")
     private int mpBonus;
+    @Transient
+    private boolean stackable = false;
 }

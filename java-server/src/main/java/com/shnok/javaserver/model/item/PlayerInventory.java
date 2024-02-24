@@ -7,7 +7,7 @@ import com.shnok.javaserver.model.object.entity.PlayerInstance;
 
 public class PlayerInventory extends Inventory {
     private final PlayerInstance owner;
-    private ItemInstance adena;
+    private ItemInstance money;
 
     public PlayerInventory(PlayerInstance owner) {
         super();
@@ -15,12 +15,12 @@ public class PlayerInventory extends Inventory {
     }
 
     public ItemInstance getMoneyInstance() {
-        return adena;
+        return money;
     }
 
     @Override
     public int getMoney() {
-        return adena != null ? adena.getCount() : 0;
+        return money != null ? money.getCount() : 0;
     }
 
     @Override
@@ -33,12 +33,50 @@ public class PlayerInventory extends Inventory {
         return ItemLocation.INVENTORY;
     }
 
+    // adds specified amount of money to player inventory
+    public void addMoney(int count, PlayerInstance actor) {
+        if (count > 0) {
+            addItem(Config.MONEY_ID, count, actor);
+        }
+    }
+
+    // removes specified amount of money from player inventory
+    public void reduceMoney(String process, int count, PlayerInstance actor) {
+        if (count > 0) {
+            destroyItemByItemId(Config.MONEY_ID, count, actor);
+        }
+    }
+
+    // adds item in inventory and checks money
+    @Override
+    public ItemInstance addItem(ItemInstance item, PlayerInstance actor) {
+        item = super.addItem(item, actor);
+
+        if ((item != null) && (item.getItemId() == Config.MONEY_ID) && !item.equals(money)) {
+            money = item;
+        }
+
+        return item;
+    }
+
+    // adds item in inventory and checks money
+    @Override
+    public ItemInstance addItem(int itemId, int count, PlayerInstance actor) {
+        ItemInstance item = super.addItem(itemId, count, actor);
+
+        if ((item != null) && (item.getItemId() == Config.MONEY_ID) && !item.equals(money)) {
+            money = item;
+        }
+
+        return item;
+    }
+
     @Override
     public ItemInstance destroyItem(ItemInstance item, PlayerInstance actor) {
         item = super.destroyItem(item, actor);
 
-        if ((adena != null) && (adena.getCount() <= 0)) {
-            adena = null;
+        if ((money != null) && (money.getCount() <= 0)) {
+            money = null;
         }
 
         return item;
@@ -49,8 +87,8 @@ public class PlayerInventory extends Inventory {
     public ItemInstance destroyItem(int objectId, int count, PlayerInstance actor) {
         ItemInstance item = super.destroyItem(objectId, count, actor);
 
-        if ((adena != null) && (adena.getCount() <= 0)) {
-            adena = null;
+        if ((money != null) && (money.getCount() <= 0)) {
+            money = null;
         }
 
         return item;
@@ -61,8 +99,8 @@ public class PlayerInventory extends Inventory {
     public ItemInstance destroyItemByItemId(int itemId, int count, PlayerInstance actor) {
         ItemInstance item = super.destroyItemByItemId(itemId, count, actor);
 
-        if ((adena != null) && (adena.getCount() <= 0)) {
-            adena = null;
+        if ((money != null) && (money.getCount() <= 0)) {
+            money = null;
         }
 
         return item;
@@ -73,8 +111,8 @@ public class PlayerInventory extends Inventory {
     public ItemInstance dropItem(ItemInstance item, PlayerInstance actor) {
         item = super.dropItem(item, actor);
 
-        if ((adena != null) && ((adena.getCount() <= 0) || (adena.getOwnerId() != getOwnerId()))) {
-            adena = null;
+        if ((money != null) && ((money.getCount() <= 0) || (money.getOwnerId() != getOwnerId()))) {
+            money = null;
         }
 
         return item;
@@ -86,8 +124,8 @@ public class PlayerInventory extends Inventory {
     public ItemInstance dropItem(int objectId, int count, PlayerInstance actor) {
         ItemInstance item = super.dropItem(objectId, count, actor);
 
-        if ((adena != null) && ((adena.getCount() <= 0) || (adena.getOwnerId() != getOwnerId()))) {
-            adena = null;
+        if ((money != null) && ((money.getCount() <= 0) || (money.getOwnerId() != getOwnerId()))) {
+            money = null;
         }
 
         return item;
@@ -100,7 +138,7 @@ public class PlayerInventory extends Inventory {
         //getOwner().removeItemFromShortCut(item.getObjectId());
 
         if (item.getItemId() == Config.MONEY_ID) {
-            adena = null;
+            money = null;
         }
 
         super.removeItem(item);

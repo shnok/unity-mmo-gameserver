@@ -7,6 +7,9 @@ import com.shnok.javaserver.db.entity.DBItem;
 import com.shnok.javaserver.db.entity.DBPlayerItem;
 import com.shnok.javaserver.db.repository.CharTemplateRepository;
 import com.shnok.javaserver.db.repository.CharacterRepository;
+import com.shnok.javaserver.enums.ItemLocation;
+import com.shnok.javaserver.model.item.PlayerInventory;
+import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.service.WorldManagerService;
@@ -43,11 +46,26 @@ public class PlayerFactoryService {
         List<DBItem> inventoryData = ItemTableService.getInstance().getPlayerItemData(inventory);
         log.debug("Player {} has {} item(s) in his inventory.", character.getId(), inventoryData.size());
 
-        //TODO add items in playerinstance inventory
 
         PlayerTemplate playerTemplate = new PlayerTemplate(character);
         PlayerInstance player = new PlayerInstance(character.getCharName(), playerTemplate);
         player.setId(WorldManagerService.getInstance().nextID());
+
+        PlayerInventory playerInventory = new PlayerInventory(player);
+        //TODO add items in playerinstance inventory
+        for (DBItem item: equippedData) {
+            ItemInstance itemInstance = new ItemInstance(player.getId(), item);
+            itemInstance.setLocation(ItemLocation.EQUIPPED);
+            playerInventory.addItem(itemInstance);
+        }
+
+        for (DBItem item: inventoryData) {
+            ItemInstance itemInstance = new ItemInstance(player.getId(), item);
+            itemInstance.setLocation(ItemLocation.INVENTORY);
+            playerInventory.addItem(itemInstance);
+        }
+
+        player.setInventory(playerInventory);
 
         //TODO: Use the character pos or add setting for defined spawn point
         player.setPosition(VectorUtils.randomPos(Config.PLAYER_SPAWN_POINT, 1.5f));

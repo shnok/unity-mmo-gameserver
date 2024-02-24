@@ -11,7 +11,7 @@ public class DBCharacter {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "account_name")
     private String accountName;
@@ -20,10 +20,10 @@ public class DBCharacter {
     private String charName;
 
     @Column(name = "race")
-    private byte race;
+    private Byte race;
 
     @Column(name = "class_id")
-    private byte classId;
+    private Byte classId;
 
     @Column(name = "title")
     private String title;
@@ -38,7 +38,7 @@ public class DBCharacter {
     private Long onlineTime;
 
     @Column(name = "char_slot")
-    private byte charSlot;
+    private Byte charSlot;
 
     @Column(name = "last_login")
     private Long lastLogin;
@@ -47,106 +47,106 @@ public class DBCharacter {
     private Long delete_time;
 
     @Column(name = "level")
-    private int level;
+    private Integer level;
 
     @Column(name = "max_hp")
-    private int maxHp;
+    private Integer maxHp;
 
     @Column(name = "hp")
-    private int curHp;
+    private Integer curHp;
 
     @Column(name = "max_cp")
-    private int maxCp;
+    private Integer maxCp;
 
     @Column(name = "cp")
-    private int curCp;
+    private Integer curCp;
 
     @Column(name = "max_mp")
-    private int maxMp;
+    private Integer maxMp;
 
-    @Column(name = "cur_mp")
-    private int curMp;
+    @Column(name = "mp")
+    private Integer curMp;
 
     @Column(name = "acc")
-    private int acc;
+    private Integer acc;
 
-    @Column(name = "crit")
-    private int crit;
+    @Column(name = "critical")
+    private Integer critical;
 
     @Column(name = "evasion")
-    private int evasion;
+    private Integer evasion;
 
     @Column(name = "m_atk")
-    private int mAtk;
+    private Integer mAtk;
 
     @Column(name = "m_def")
-    private int mDef;
+    private Integer mDef;
 
     @Column(name = "m_spd")
-    private int mSpd;
+    private Integer mSpd;
 
     @Column(name = "p_atk")
-    private int pAtk;
+    private Integer pAtk;
 
     @Column(name = "p_def")
-    private int pDef;
+    private Integer pDef;
 
     @Column(name = "p_spd")
-    private int pSpd;
+    private Integer pSpd;
 
     @Column(name = "run_spd")
-    private int runSpd;
+    private Integer runSpd;
 
     @Column(name = "walk_spd")
-    private int walkSpd;
+    private Integer walkSpd;
 
     @Column(name = "str")
-    private byte str;
+    private Byte str;
 
     @Column(name = "con")
-    private byte con;
+    private Byte con;
 
     @Column(name = "dex")
-    private byte dex;
+    private Byte dex;
 
     @Column(name = "_int")
-    private byte _int;
+    private Byte _int;
 
     @Column(name = "men")
-    private byte men;
+    private Byte men;
 
     @Column(name = "wit")
-    private byte wit;
+    private Byte wit;
 
     @Column(name = "face")
-    private byte face;
+    private Byte face;
 
     @Column(name = "hair_style")
-    private byte hairStyle;
+    private Byte hairStyle;
 
     @Column(name = "hair_color")
-    private byte hairColor;
+    private Byte hairColor;
 
     @Column(name = "sex")
-    private byte sex;
+    private Byte sex;
 
     @Column(name = "heading")
-    private float heading;
+    private Float heading;
 
     @Column(name = "x")
-    private float posX;
+    private Float posX;
 
     @Column(name = "y")
-    private float posY;
+    private Float posY;
 
     @Column(name = "z")
-    private float posZ;
+    private Float posZ;
 
     @Column(name = "colR")
-    private float colR;
+    private Float colR;
 
     @Column(name = "colH")
-    private float colH;
+    private Float colH;
 
     @Column(name = "exp")
     private long exp;
@@ -155,17 +155,17 @@ public class DBCharacter {
     private long sp;
 
     @Column(name = "karma")
-    private int karma;
+    private Integer karma;
 
     @Column(name = "pvp_kills")
-    private int pvpKills;
+    private Integer pvpKills;
 
     @Column(name = "pk_kills")
-    private int pkKills;
+    private Integer pkKills;
 
     @Column(name = "clan_id")
-    private int clan_id;
+    private Integer clan_id;
 
     @Column(name = "max_weight")
-    private int maxWeight;
+    private Integer maxWeight;
 }

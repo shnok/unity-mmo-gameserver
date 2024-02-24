@@ -20,12 +20,11 @@ import lombok.extern.log4j.Log4j2;
 public class PlayerInstance extends Entity {
     public final String name;
     private GameClientThread gameClient;
-    private Inventory inventory;
+    private PlayerInventory inventory;
 
     public PlayerInstance(int id, String name) {
         super(id);
         this.name = name;
-        inventory = new PlayerInventory(this);
     }
 
     public PlayerInstance(String name, PlayerTemplate playerTemplate) {

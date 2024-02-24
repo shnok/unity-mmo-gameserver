@@ -25,7 +25,7 @@ public class PlayerItemRepository implements PlayerItemDao {
     @Override
     public List<DBPlayerItem> getEquippedItemsForUser(int id) {
         try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT i FROM DBPlayerItem i WHERE loc=" + ItemLocation.EQUIPPED +
+            return session.createQuery("SELECT i FROM DBPlayerItem i WHERE loc=" + ItemLocation.EQUIPPED.getValue() +
                             " AND owner_id=" + id, DBPlayerItem.class)
                     .getResultList();
         } catch (Exception e) {
@@ -37,7 +37,7 @@ public class PlayerItemRepository implements PlayerItemDao {
     @Override
     public List<DBPlayerItem> getInventoryItemsForUser(int id) {
         try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT i FROM DBPlayerItem i WHERE loc=" + ItemLocation.INVENTORY +
+            return session.createQuery("SELECT i FROM DBPlayerItem i WHERE loc=" + ItemLocation.INVENTORY.getValue() +
                             " AND owner_id=" + id, DBPlayerItem.class)
                     .getResultList();
         } catch (Exception e) {
@@ -49,7 +49,7 @@ public class PlayerItemRepository implements PlayerItemDao {
     @Override
     public List<DBPlayerItem> getWarehouseItemsForUser(int id) {
         try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT i FROM DBPlayerItem i WHERE loc=" + ItemLocation.WAREHOUSE +
+            return session.createQuery("SELECT i FROM DBPlayerItem i WHERE loc=" + ItemLocation.WAREHOUSE.getValue() +
                             " AND owner_id=" + id, DBPlayerItem.class)
                     .getResultList();
         } catch (Exception e) {

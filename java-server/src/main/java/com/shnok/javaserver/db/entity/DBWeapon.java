@@ -47,4 +47,6 @@ public class DBWeapon extends DBItem {
     private int atkSpd;
     @Column(name = "MP_CONSUME")
     private int mpConsume;
+    @Transient
+    private boolean stackable = false;
 }

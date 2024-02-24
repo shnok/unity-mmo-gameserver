@@ -11,7 +11,8 @@ public class CharacterRepository implements CharacterDao {
     @Override
     public DBCharacter getRandomCharacter() {
         try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT c FROM DBCharacter c ORDER BY RAND() LIMIT 1", DBCharacter.class)
+            return session.createQuery("SELECT c FROM DBCharacter c ORDER BY RAND()", DBCharacter.class)
+                    .setMaxResults(1)
                     .getSingleResult();
         } catch (Exception e) {
             log.error("SQL ERROR: {}", e.getMessage(), e);

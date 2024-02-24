@@ -20,6 +20,7 @@ public class DBEtcItem extends DBItem {
     protected int id;
     @Column(name = "CONSUME_TYPE")
     @Enumerated(EnumType.STRING)
+    @Access(AccessType.PROPERTY)
     private ConsumeType consumeType;
     @Column(name = "ITEM_TYPE")
     @Enumerated(EnumType.STRING)
@@ -30,4 +31,11 @@ public class DBEtcItem extends DBItem {
     private int dropCategory;
     @Transient
     private ItemSlot bodyPart;
+    @Transient
+    private boolean stackable;
+
+    public void setConsumeType(ConsumeType type) {
+        consumeType = type;
+        stackable = type == ConsumeType.stackable;
+    }
 }
