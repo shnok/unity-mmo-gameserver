@@ -11,14 +11,14 @@ public enum ItemSlot {
     lhand((byte) 7),
     rhand((byte) 8),
     lrhand((byte) 9),
-    ring((byte) 10),
-    rfinger((byte) 11),
-    lfinger((byte) 12),
-    earring((byte) 13),
-    lear((byte) 14),
-    rear((byte) 15),
-    neck((byte) 16),
-    underwear((byte) 17);
+    rfinger((byte) 10),
+    lfinger((byte) 11),
+    lear((byte) 12),
+    rear((byte) 13),
+    neck((byte) 14),
+    underwear((byte) 15),
+    ring((byte) 16),
+    earring((byte) 17);
 
     private final byte value;
 
@@ -28,6 +28,15 @@ public enum ItemSlot {
 
     public byte getValue() {
         return value;
+    }
+
+    public static ItemSlot getSlot(byte value) {
+        for (ItemSlot slot : ItemSlot.values()) {
+            if (slot.getValue() == value) {
+                return slot;
+            }
+        }
+        return null;
     }
 }
 

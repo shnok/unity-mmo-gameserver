@@ -3,6 +3,8 @@ package com.shnok.javaserver.model.object.entity;
 import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
+import com.shnok.javaserver.model.item.Inventory;
+import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
 import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.model.status.Status;
@@ -18,10 +20,12 @@ import lombok.extern.log4j.Log4j2;
 public class PlayerInstance extends Entity {
     public final String name;
     private GameClientThread gameClient;
+    private Inventory inventory;
 
     public PlayerInstance(int id, String name) {
         super(id);
         this.name = name;
+        inventory = new PlayerInventory(this);
     }
 
     public PlayerInstance(String name, PlayerTemplate playerTemplate) {

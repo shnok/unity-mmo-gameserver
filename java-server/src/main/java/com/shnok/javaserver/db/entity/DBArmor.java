@@ -22,7 +22,7 @@ public class DBArmor extends DBItem {
     private ItemSlot bodyPart;
     @Column(name = "ARMOR_TYPE")
     @Enumerated(EnumType.STRING)
-    private ArmorType armorType;
+    private ArmorType type;
     @Column(name = "AVOID_MODIFY")
     private int avoidModify;
     @Column(name = "P_DEF")

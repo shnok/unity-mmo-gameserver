@@ -1,14 +1,11 @@
-package com.shnok.javaserver.service;
+package com.shnok.javaserver.service.db;
 
-import com.shnok.javaserver.db.entity.DBArmor;
-import com.shnok.javaserver.db.entity.DBEtcItem;
-import com.shnok.javaserver.db.entity.DBItem;
-import com.shnok.javaserver.db.entity.DBWeapon;
+import com.shnok.javaserver.db.entity.*;
 import com.shnok.javaserver.db.repository.ArmorRepository;
 import com.shnok.javaserver.db.repository.CharTemplateRepository;
 import com.shnok.javaserver.db.repository.EtcItemRepository;
 import com.shnok.javaserver.db.repository.WeaponRepository;
-import com.shnok.javaserver.model.item.Item;
+import javolution.util.FastList;
 import javolution.util.FastMap;
 import lombok.extern.log4j.Log4j2;
 
@@ -23,7 +20,7 @@ public class ItemTableService {
     private final Map<Integer, DBArmor> armorData;
     private final Map<Integer, DBWeapon> weaponData;
     private final Map<Integer, DBEtcItem> etcItemsData;
-    private final Map<Integer, DBItem> allItems;
+    private final Map<Integer, DBItem> itemData;
 
     private static ItemTableService instance;
     public static ItemTableService getInstance() {
@@ -40,7 +37,7 @@ public class ItemTableService {
         armorData = new FastMap<>();
         weaponData = new FastMap<>();
         etcItemsData = new FastMap<>();
-        allItems = new FastMap<>();
+        itemData = new FastMap<>();
 
         LoadAllItems();
     }
@@ -54,22 +51,52 @@ public class ItemTableService {
         List<DBArmor> allArmors = armorRepository.getAllArmors();
         allArmors.forEach((armor) -> {
             armorData.put(armor.getId(), armor);
+            itemData.put(armor.getId(), armor);
             log.debug(armor.toString());
         });
-        log.info("Loaded {} armor(s) from DB", armorData.size());
+        log.info("Loaded {} armor(s) from DB.", armorData.size());
 
         List<DBWeapon> allWeapons = weaponRepository.getAllWeapons();
         allWeapons.forEach((weapon) -> {
             weaponData.put(weapon.getId(), weapon);
+            itemData.put(weapon.getId(), weapon);
             log.debug(weapon.toString());
         });
-        log.info("Loaded {} weapon(s) from DB", weaponData.size());
+        log.info("Loaded {} weapon(s) from DB.", weaponData.size());
 
         List<DBEtcItem> allEtcItems = etcItemRepository.getAllEtcItems();
         allEtcItems.forEach((etcItem) -> {
             etcItemsData.put(etcItem.getId(), etcItem);
+            itemData.put(etcItem.getId(), etcItem);
             log.debug(etcItem.toString());
         });
-        log.info("Loaded {} etcItem(s) from DB", etcItemsData.size());
+        log.info("Loaded {} etcItem(s) from DB.", etcItemsData.size());
+
+        log.info("Loaded {} item(s) from DB.", itemData.size());
+    }
+
+    public DBItem getItemById(int id) {
+        return itemData.get(id);
+    }
+
+    public DBWeapon getWeaponById(int id) {
+        return weaponData.get(id);
+    }
+
+    public DBArmor getArmorById(int id) {
+        return armorData.get(id);
+    }
+
+    public DBEtcItem getEtcItemById(int id) {
+        return etcItemsData.get(id);
+    }
+
+    public List<DBItem> getPlayerItemData(List<DBPlayerItem> playerItems) {
+        List<DBItem> playerItemData = new FastList<>();
+        playerItems.forEach((pi) -> {
+            playerItemData.add(getEtcItemById(pi.getItemId()));
+        });
+
+        return playerItemData;
     }
 }

@@ -1,9 +1,9 @@
 package com.shnok.javaserver;
 
 import com.shnok.javaserver.pathfinding.Geodata;
-import com.shnok.javaserver.pathfinding.GeodataLoader;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.*;
+import com.shnok.javaserver.service.db.ItemTableService;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2

@@ -1,6 +1,7 @@
 package com.shnok.javaserver.db.entity;
 
 import com.shnok.javaserver.enums.item.Grade;
+import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.enums.item.Material;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,10 @@ public abstract class DBItem {
     @Column(name = "MATERIAL")
     @Enumerated(EnumType.STRING)
     protected Material material;
+    @Transient
+    protected Enum<?> type;
+    @Transient
+    protected ItemSlot bodyPart;
     @Column(name = "CRYSTAL_TYPE")
     @Enumerated(EnumType.STRING)
     protected Grade grade;

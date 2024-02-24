@@ -1,25 +1,28 @@
 package com.shnok.javaserver.enums.item;
 
 public enum EtcItemType {
-    ARROW(0, "Arrow"),
-    MATERIAL(1, "Material"),
-    PET_COLLAR(2, "PetCollar"),
-    POTION(3, "Potion"),
-    RECIPE(4, "Receipe"),
-    SCROLL(5, "Scroll"),
-    QUEST(6, "Quest"),
-    MONEY(7, "Money"),
-    OTHER(8, "Other"),
-    SPELLBOOK(9, "Spellbook"),
-    SEED(10, "Seed"),
-    SHOT(11, "Shot"),
-    HERB(12, "Herb");
+    none((byte) 0),
+    arrow((byte) 1),
+    material((byte) 2),
+    pet_collar((byte) 3),
+    potion((byte) 4),
+    recipe((byte) 5),
+    scroll((byte) 6),
+    quest((byte) 7),
+    money((byte) 8),
+    other((byte) 9),
+    spellbook((byte) 10),
+    seed((byte) 11),
+    shot((byte) 12),
+    herb((byte) 13);
 
-    final int id;
-    final String name;
+    private final byte value;
 
-    EtcItemType(int id, String name) {
-        this.id = id;
-        this.name = name;
+    EtcItemType(byte value) {
+        this.value = value;
+    }
+
+    public byte getValue() {
+        return value;
     }
 }

@@ -1,6 +1,8 @@
 package com.shnok.javaserver.db.entity;
 
 import com.shnok.javaserver.enums.item.ConsumeType;
+import com.shnok.javaserver.enums.item.EtcItemType;
+import com.shnok.javaserver.enums.item.ItemSlot;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,8 +21,13 @@ public class DBEtcItem extends DBItem {
     @Column(name = "CONSUME_TYPE")
     @Enumerated(EnumType.STRING)
     private ConsumeType consumeType;
+    @Column(name = "ITEM_TYPE")
+    @Enumerated(EnumType.STRING)
+    private EtcItemType type;
     @Column(name = "ID_NAME")
     private String idName;
     @Column(name = "DROP_CATEGORY")
     private int dropCategory;
+    @Transient
+    private ItemSlot bodyPart;
 }

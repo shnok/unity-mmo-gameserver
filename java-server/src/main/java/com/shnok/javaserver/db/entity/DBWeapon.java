@@ -32,7 +32,7 @@ public class DBWeapon extends DBItem {
     private int rndDmg;
     @Column(name = "WEAPONTYPE")
     @Enumerated(EnumType.STRING)
-    private WeaponType weaponType;
+    private WeaponType type;
     @Column(name = "CRITICAL")
     private int critical;
     @Column(name = "HIT_MODIFY")
