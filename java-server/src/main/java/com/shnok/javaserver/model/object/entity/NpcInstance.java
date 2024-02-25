@@ -1,5 +1,6 @@
 package com.shnok.javaserver.model.object.entity;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.db.entity.DBSpawnList;
 import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
@@ -24,6 +25,8 @@ public class NpcInstance extends Entity {
     private boolean isStatic;
     private boolean randomWalk;
     private DBSpawnList spawnInfo;
+    private int leftHandId;
+    private int rightHandId;
 
     public NpcInstance(int id, NpcTemplate npcTemplate) {
         super(id);
@@ -142,7 +145,9 @@ public class NpcInstance extends Entity {
     /* remove and stop AI */
     public void stopAndRemoveAI() {
         BaseAI ai = getAi();
-        log.debug("[{}] Stop and remove AI", getId());
+        if(Config.PRINT_AI_LOGS) {
+            log.debug("[{}] Stop and remove AI", getId());
+        }
         if(ai instanceof NpcAI) {
             ((NpcAI) ai).stopAITask();
             setAi(null);
@@ -152,13 +157,14 @@ public class NpcInstance extends Entity {
     /* add AI to NPC */
     public void refreshAI() {
         if (!isStatic()) {
-            log.debug("[{}] Add AI", getId());
+            if(Config.PRINT_AI_LOGS) {
+                log.debug("[{}] Add AI", getId());
+            }
             if(getAi() != null) {
                 stopAndRemoveAI();
             }
 
-            NpcAI ai = new NpcAI();
-            ai.setOwner(this);
+            NpcAI ai = new NpcAI(this);
             setAi(ai);
         }
     }

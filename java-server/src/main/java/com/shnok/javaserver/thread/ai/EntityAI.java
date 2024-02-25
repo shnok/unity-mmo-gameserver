@@ -12,6 +12,10 @@ import lombok.extern.log4j.Log4j2;
 public class EntityAI extends BaseAI {
     protected boolean thinking = false;
 
+    public EntityAI(Entity owner) {
+        super(owner);
+    }
+
     /*
     =========================
     ========= EVENT =========

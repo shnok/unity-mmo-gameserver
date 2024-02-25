@@ -35,6 +35,10 @@ public abstract class BaseAI {
     private static final int FOLLOW_INTERVAL = 1000;
     private static final int ATTACK_FOLLOW_INTERVAL = 500;
 
+    public BaseAI(Entity owner) {
+        this.owner = owner;
+    }
+
     /*
     =========================
     ========= EVENT =========

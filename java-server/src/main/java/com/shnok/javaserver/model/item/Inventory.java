@@ -24,11 +24,6 @@ public abstract class Inventory extends ItemContainer {
 
     public void setEquippedItems(List<DBItem> itemData) {}
 
-    @Override
-    protected Entity getOwner() {
-        return null;
-    }
-
     protected abstract ItemLocation getEquipLocation();
 
     public synchronized void equipItem(ItemInstance item) {
@@ -157,6 +152,14 @@ public abstract class Inventory extends ItemContainer {
         return equipped[slot.getValue()];
     }
 
+    public int getEquippedItemId(ItemSlot slot) {
+        if(equipped[slot.getValue()] != null) {
+            return equipped[slot.getValue()].getItemId();
+        }
+
+        return 0;
+    }
+
     public ItemInstance setEquipItem(ItemSlot slot, ItemInstance item) {
         ItemInstance old = equipped[slot.getValue()];
         if (old != item) {
@@ -172,6 +175,8 @@ public abstract class Inventory extends ItemContainer {
             if (item != null) {
                 equipped[slot.getValue()] = item;
                 item.setLocation(getEquipLocation(), slot.getValue());
+
+                log.debug("[{}] Equipped {} int slot {}", getOwner().getId(), item.getItemId(), slot);
                 //TODO: notify player
                 //TODO: update db
             }

@@ -1,5 +1,6 @@
 package com.shnok.javaserver.model.knownlist;
 
+import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.serverpackets.NpcInfoPacket;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
@@ -41,10 +42,14 @@ public class PlayerKnownList extends EntityKnownList
         if (object instanceof ItemInstance){
 
         } else if (object instanceof NpcInstance) {
-            log.debug("[{}] New npc [{}] added to known list", getActiveObject().getId(), object.getId());
+            if(Config.PRINT_KNOWN_LIST_LOGS) {
+                log.debug("[{}] New npc [{}] added to known list", getActiveObject().getId(), object.getId());
+            }
             getActiveChar().sendPacket(new NpcInfoPacket((NpcInstance) object));
         } else if (object instanceof PlayerInstance) {
-            log.debug("[{}] New user added: {} Count: {}", getActiveObject().getId(), object.getId(), getKnownPlayers().size());
+            if(Config.PRINT_KNOWN_LIST_LOGS) {
+                log.debug("[{}] New user added: {} Count: {}", getActiveObject().getId(), object.getId(), getKnownPlayers().size());
+            }
             PlayerInstance otherPlayer = (PlayerInstance) object;
 
             log.debug("Sending user {} data to user {}", otherPlayer.getId(), getActiveChar().getId());

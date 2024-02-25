@@ -22,7 +22,8 @@ public class NpcAI extends EntityAI implements Runnable {
     private NpcInstance npc;
     private Future<?> aiTask;
 
-    public NpcAI() {
+    public NpcAI(Entity owner) {
+        super(owner);
         startAITask();
     }
 

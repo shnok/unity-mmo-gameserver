@@ -3,6 +3,7 @@ package com.shnok.javaserver.model.item;
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.model.object.ItemInstance;
+import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 
 public class PlayerInventory extends Inventory {
@@ -26,6 +27,11 @@ public class PlayerInventory extends Inventory {
     @Override
     protected ItemLocation getEquipLocation() {
         return ItemLocation.EQUIPPED;
+    }
+
+    @Override
+    protected Entity getOwner() {
+        return owner;
     }
 
     @Override

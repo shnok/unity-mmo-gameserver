@@ -27,7 +27,7 @@ public class ItemInstance extends GameObject {
 
     public ItemInstance(int ownerId, DBItem item) {
         this.itemId = item.getId();
-        this.ownerId = ownerId;
+        this.ownerId = ownerId; //TODO check if better to use charId instead of entity id
         this.item = item;
         this.stackable = false;
 

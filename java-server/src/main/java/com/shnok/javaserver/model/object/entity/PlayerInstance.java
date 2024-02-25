@@ -3,6 +3,7 @@ package com.shnok.javaserver.model.object.entity;
 import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
+import com.shnok.javaserver.model.PlayerAppearance;
 import com.shnok.javaserver.model.item.Inventory;
 import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
@@ -18,22 +19,17 @@ import lombok.extern.log4j.Log4j2;
 @Getter
 @Setter
 public class PlayerInstance extends Entity {
-    public final String name;
+    private final String name;
+    private final int charId; // char id in the database
+    private PlayerAppearance appearance;
     private GameClientThread gameClient;
     private PlayerInventory inventory;
 
-    public PlayerInstance(int id, String name) {
-        super(id);
-        this.name = name;
-    }
-
-    public PlayerInstance(String name, PlayerTemplate playerTemplate) {
+    public PlayerInstance(int charId, String name, PlayerTemplate playerTemplate) {
+        this.charId = charId;
         this.name = name;
         this.template = playerTemplate;
         this.status = new PlayerStatus(playerTemplate);
-        // TODO load weapons from DB
-        this.leftHandId = 0;
-        this.rightHandId = 2369;
     }
 
     @Override

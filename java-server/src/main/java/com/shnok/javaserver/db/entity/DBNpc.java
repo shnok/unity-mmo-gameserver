@@ -34,13 +34,13 @@ public class DBNpc {
     private float hpReg;
     @Column(name = "mpreg")
     private float mpReg;
-    private int str;
-    private int con;
-    private int dex;
+    private byte str;
+    private byte con;
+    private byte dex;
     @Column(name = "int")
-    private int intStat;
-    private int wit;
-    private int men;
+    private byte intStat;
+    private byte wit;
+    private byte men;
     private int exp;
     private int sp;
     private int patk;
