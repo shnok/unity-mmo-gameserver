@@ -76,7 +76,7 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 # 0x03 : SystemMessage
 [B:`Message type`|S:`message`]
 # 0x04 : PlayerInfo
-[I:`object id`|S:`player name`|F:`heading`|F:`posX`|F:`posY`|F:`posZ`|I:`level`|I:`hp`|I:`maxhp`|I:`mp`|I:`maxMp`|I:`cp`|I:`maxCp`|I:`movespd`|I:`patkspd`|I:`matkspd`|F:`atkrange`|B:`con`|B:`dex`|B:`str`|B:`men`|B:`wit`|B:`int`|F:`colh`|F:`colr`|B:`face`|B:`hair`|B:`haircolor`|I:`lefthand `|I:`righthand`|I:`chest`|I:`gloves`|I:`feet`]
+[I:`object id`|S:`player name`|B:`class`|B:`isMage`|F:`heading`|F:`posX`|F:`posY`|F:`posZ`|I:`level`|I:`hp`|I:`maxhp`|I:`mp`|I:`maxMp`|I:`cp`|I:`maxCp`|I:`movespd`|I:`patkspd`|I:`matkspd`|F:`atkrange`|B:`con`|B:`dex`|B:`str`|B:`men`|B:`wit`|B:`int`|F:`colh`|F:`colr`|B:`race`|B:`sex`|B:`face`|B:`hair`|B:`haircolor`|I:`lefthand `|I:`righthand`|I:`chest`|I:`gloves`|I:`feet`]
 # 0x05 : ObjectPosition
 [I:`object id`|F:`posX`|F:`posY`|F:`posZ`]
 # 0x06 : RemoveObject
@@ -92,8 +92,8 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 # 0x0B : ObjectMoveTo
 [I:`object id`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`move speed`|B:`walking`]
 # 0x0C : UserInfo
-[I:`object id`|S:`player name`|F:`heading`|F:`posX`|F:`posY`|F:`posZ`|I:`level`|I:`hp`|I:`maxhp`|I:`movespd`|I:`patkspd`|I:`matkspd`|F:`colh`|F:`colr`|B:`face`|B:`hair`|B:`haircolor`|I:`lefthand `|I:`righthand`|I:`chest`|I:`gloves`|I:`feet`]
-# 0x0D : ObjectMoveDirection
+[I:`object id`|S:`player name`|B:`class`|B:`isMage`|F:`heading`|F:`posX`|F:`posY`|F:`posZ`|I:`level`|I:`hp`|I:`maxhp`|I:`movespd`|I:`patkspd`|I:`matkspd`|F:`colh`|F:`colr`|B:`race`|B:`sex`|B:`face`|B:`hair`|B:`haircolor`|I:`lefthand`|I:`righthand`|I:`chest`|I:`gloves`|I:`feet`]
+# 0x0D : ObjectMoveDirecion
 [I:`object id`|I:`move speed`|F:`dir X`|F:`dir Y`|F:`dir Z`]
 # 0x0E : GameTime
 [Long:`current server ticks`|I:`tick duration in Ms`|I:`day duration in minutes`]

@@ -1,5 +1,7 @@
 package com.shnok.javaserver.db.entity;
 
+import com.shnok.javaserver.enums.ClassId;
+import com.shnok.javaserver.enums.Race;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,10 +22,11 @@ public class DBCharacter {
     private String charName;
 
     @Column(name = "race")
-    private Byte race;
+    private Race race;
 
     @Column(name = "class_id")
-    private Byte classId;
+    @Enumerated(EnumType.ORDINAL)
+    private ClassId classId;
 
     @Column(name = "title")
     private String title;

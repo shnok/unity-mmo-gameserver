@@ -1,10 +1,18 @@
 package com.shnok.javaserver.model.template;
 
-import com.shnok.javaserver.db.entity.DBCharTemplate;
 import com.shnok.javaserver.db.entity.DBCharacter;
+import com.shnok.javaserver.enums.ClassId;
+import com.shnok.javaserver.enums.Race;
+import lombok.Getter;
 
+@Getter
 public class PlayerTemplate extends EntityTemplate {
+    private final Race race;
+    private final ClassId classId;
+
     public PlayerTemplate(DBCharacter character) {
+        this.race = character.getRace();
+        this.classId = character.getClassId();
         this.baseSTR = character.getStr();
         this.baseDEX = character.getDex();
         this.baseINT = character.get_int();

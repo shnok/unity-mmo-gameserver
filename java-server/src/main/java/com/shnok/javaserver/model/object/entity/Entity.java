@@ -14,6 +14,7 @@ import com.shnok.javaserver.model.knownlist.EntityKnownList;
 import com.shnok.javaserver.model.skills.Formulas;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.EntityTemplate;
+import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.MoveData;
 import com.shnok.javaserver.pathfinding.PathFinding;
@@ -26,6 +27,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
+import javax.xml.transform.sax.TemplatesHandler;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -57,6 +59,10 @@ public abstract class Entity extends GameObject {
         if(getAi() != null) {
             getAi().notifyEvent(Event.ATTACKED, attacker);
         }
+    }
+
+    public EntityTemplate getTemplate() {
+        return template;
     }
 
     public abstract void setStatus(Status status);

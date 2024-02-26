@@ -1,5 +1,7 @@
 package com.shnok.javaserver.db.entity;
 
+import com.shnok.javaserver.enums.ClassId;
+import com.shnok.javaserver.enums.Race;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,11 +13,11 @@ public class DBCharTemplate {
     @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int classId;
+    private ClassId classId;
     @Column
     private String className;
-    @Column
-    private int raceId;
+    @Column(name = "RaceId")
+    private Race race;
     @Column(name = "STR")
     private int str;
     @Column(name = "CON")

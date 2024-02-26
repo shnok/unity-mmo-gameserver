@@ -9,6 +9,7 @@ import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
 import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.model.status.Status;
+import com.shnok.javaserver.model.template.NpcTemplate;
 import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.thread.GameClientThread;
 import lombok.Getter;
@@ -99,5 +100,10 @@ public class PlayerInstance extends Entity {
     @Override
     public void onDeath() {
 
+    }
+
+    @Override
+    public final PlayerTemplate getTemplate() {
+        return (PlayerTemplate) super.getTemplate();
     }
 }
