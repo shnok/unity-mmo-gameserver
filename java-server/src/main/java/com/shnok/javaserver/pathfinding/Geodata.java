@@ -1,7 +1,7 @@
 package com.shnok.javaserver.pathfinding;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.db.entity.ZoneList;
+import com.shnok.javaserver.db.entity.DBZoneList;
 import com.shnok.javaserver.db.repository.ZoneListRepository;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.model.Point3D;
@@ -18,7 +18,7 @@ import java.util.Random;
 public class Geodata {
     private static Geodata instance;
     private Map<String, Node[][][]> geoData;
-    private Map<String, ZoneList> zoneList;
+    private Map<String, DBZoneList> zoneList;
 
     public Geodata() {
         initGeodata();
@@ -54,7 +54,7 @@ public class Geodata {
     }
 
     public String getCurrentZone(Point3D location) throws Exception {
-        for(ZoneList z : zoneList.values()) {
+        for(DBZoneList z : zoneList.values()) {
             if(z.isInBounds(location)) {
                 return z.getId();
             }

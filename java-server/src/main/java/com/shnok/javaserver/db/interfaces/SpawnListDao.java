@@ -1,15 +1,15 @@
 package com.shnok.javaserver.db.interfaces;
 
-import com.shnok.javaserver.db.entity.SpawnList;
+import com.shnok.javaserver.db.entity.DBSpawnList;
 
 import java.util.List;
 
 public interface SpawnListDao {
-    public void addSpawnList(SpawnList spawnList);
-    public SpawnList getSpawnListById(int id);
-    public List<SpawnList> getAllSpawnList();
+    public void addSpawnList(DBSpawnList spawnList);
+    public DBSpawnList getSpawnListById(int id);
+    public List<DBSpawnList> getAllSpawnList();
 
-    List<SpawnList> getAllMonsters();
+    List<DBSpawnList> getAllMonsters();
 
-    List<SpawnList> getAllNPCs();
+    List<DBSpawnList> getAllNPCs();
 }

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ZoneList {
+public class DBZoneList {
 
     @Column
     @Id

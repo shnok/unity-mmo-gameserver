@@ -2,10 +2,10 @@ package com.shnok.javaserver.model.knownlist;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.enums.Event;
-import com.shnok.javaserver.model.GameObject;
-import com.shnok.javaserver.model.entity.Entity;
-import com.shnok.javaserver.model.entity.NpcInstance;
-import com.shnok.javaserver.model.entity.PlayerInstance;
+import com.shnok.javaserver.model.object.GameObject;
+import com.shnok.javaserver.model.object.entity.Entity;
+import com.shnok.javaserver.model.object.entity.NpcInstance;
+import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.util.VectorUtils;
 import javolution.util.FastList;
 import javolution.util.FastMap;

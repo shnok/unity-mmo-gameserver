@@ -1,11 +1,9 @@
 package com.shnok.javaserver.model.knownlist;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.dto.serverpackets.NpcInfoPacket;
-import com.shnok.javaserver.model.GameObject;
-import com.shnok.javaserver.model.entity.Entity;
-import com.shnok.javaserver.model.entity.NpcInstance;
-import com.shnok.javaserver.model.entity.PlayerInstance;
+import com.shnok.javaserver.model.object.GameObject;
+import com.shnok.javaserver.model.object.entity.NpcInstance;
+import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2

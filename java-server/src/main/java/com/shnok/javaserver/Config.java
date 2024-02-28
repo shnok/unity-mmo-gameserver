@@ -36,6 +36,8 @@ public class Config {
     public static int GEODATA_MAP_SIZE;
     public static int GEODATA_MAXIMUM_LAYERS;
 
+    public static final int MONEY_ID = 57;
+
     public static void LoadSettings() throws Exception {
         ClassLoader classLoader = Main.class.getClassLoader();
         URL resourceUrl = classLoader.getResource(CONFIG_FILE);

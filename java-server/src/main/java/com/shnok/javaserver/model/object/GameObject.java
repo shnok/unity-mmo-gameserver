@@ -1,9 +1,9 @@
-package com.shnok.javaserver.model;
+package com.shnok.javaserver.model.object;
 
-import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
+import com.shnok.javaserver.model.Point3D;
+import com.shnok.javaserver.model.WorldRegion;
 import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.model.position.ObjectPosition;
-import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import lombok.Data;
 import lombok.NoArgsConstructor;

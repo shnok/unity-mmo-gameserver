@@ -1,6 +1,6 @@
 package com.shnok.javaserver.util;
 
-import com.shnok.javaserver.model.GameObject;
+import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 
 import java.util.Random;

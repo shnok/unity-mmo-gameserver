@@ -1,9 +1,9 @@
 package com.shnok.javaserver.model.knownlist;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.model.GameObject;
-import com.shnok.javaserver.model.entity.Entity;
-import com.shnok.javaserver.model.entity.PlayerInstance;
+import com.shnok.javaserver.model.object.GameObject;
+import com.shnok.javaserver.model.object.entity.Entity;
+import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.util.VectorUtils;

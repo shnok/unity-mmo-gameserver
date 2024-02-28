@@ -1,33 +1,33 @@
-package com.shnok.javaserver.model.entity;
+package com.shnok.javaserver.model.object.entity;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.ServerPacket;
-import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.serverpackets.EntitySetTargetPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
-import com.shnok.javaserver.model.GameObject;
+import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
 import com.shnok.javaserver.model.skills.Formulas;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.EntityTemplate;
+import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.MoveData;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
-import com.shnok.javaserver.thread.ai.NpcAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
+import javax.xml.transform.sax.TemplatesHandler;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -50,8 +50,6 @@ public abstract class Entity extends GameObject {
     protected Status status;
     protected boolean moving;
     protected long attackEndTime;
-    protected int leftHandId;
-    protected int rightHandId;
 
     public Entity(int id) {
         super(id);
@@ -61,6 +59,10 @@ public abstract class Entity extends GameObject {
         if(getAi() != null) {
             getAi().notifyEvent(Event.ATTACKED, attacker);
         }
+    }
+
+    public EntityTemplate getTemplate() {
+        return template;
     }
 
     public abstract void setStatus(Status status);

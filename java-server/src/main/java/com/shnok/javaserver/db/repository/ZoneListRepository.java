@@ -2,7 +2,7 @@ package com.shnok.javaserver.db.repository;
 
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.db.DatabaseConfig;
-import com.shnok.javaserver.db.entity.ZoneList;
+import com.shnok.javaserver.db.entity.DBZoneList;
 import com.shnok.javaserver.db.interfaces.ZoneListDao;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.util.VectorUtils;
@@ -16,9 +16,9 @@ import java.util.Map;
 @Log4j2
 public class ZoneListRepository implements ZoneListDao {
     @Override
-    public List<ZoneList> getAllZoneList() {
+    public List<DBZoneList> getAllZoneList() {
         try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
-            return session.createQuery("select s from ZoneList s", ZoneList.class)
+            return session.createQuery("select s from DBZoneList s", DBZoneList.class)
                     .getResultList();
         } catch (Exception e) {
             log.error("SQL ERROR: {}", e.getMessage(), e);
@@ -26,11 +26,11 @@ public class ZoneListRepository implements ZoneListDao {
         }
     }
 
-    public Map<String, ZoneList> getAllZoneMap() {
-        List<ZoneList> zoneLists = getAllZoneList();
+    public Map<String, DBZoneList> getAllZoneMap() {
+        List<DBZoneList> zoneLists = getAllZoneList();
         log.debug("Loaded {} zone info(s).", zoneLists.size());
-        Map<String, ZoneList> zoneMap = new FastMap<>();
-        for(ZoneList zone : zoneLists) {
+        Map<String, DBZoneList> zoneMap = new FastMap<>();
+        for(DBZoneList zone : zoneLists) {
             Point3D origin = VectorUtils.floorToNearest(zone.getOrigin(), Config.GEODATA_NODE_SIZE);
             zone.setOrigX(origin.getX());
             zone.setOrigY(origin.getY());
@@ -42,9 +42,9 @@ public class ZoneListRepository implements ZoneListDao {
     }
 
     @Override
-    public ZoneList getZoneListById(String id) {
+    public DBZoneList getZoneListById(String id) {
         try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
-            return session.get(ZoneList.class, id);
+            return session.get(DBZoneList.class, id);
         } catch (Exception e) {
             log.error("SQL ERROR: {}", e.getMessage(), e);
             return null;

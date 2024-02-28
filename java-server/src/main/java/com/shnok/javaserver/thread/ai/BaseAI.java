@@ -7,10 +7,10 @@ import com.shnok.javaserver.dto.serverpackets.EntitySetTargetPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
-import com.shnok.javaserver.model.GameObject;
+import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.entity.Entity;
-import com.shnok.javaserver.model.entity.PlayerInstance;
+import com.shnok.javaserver.model.object.entity.Entity;
+import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.AllArgsConstructor;
@@ -34,6 +34,10 @@ public abstract class BaseAI {
     protected Future<?> followTask = null;
     private static final int FOLLOW_INTERVAL = 1000;
     private static final int ATTACK_FOLLOW_INTERVAL = 500;
+
+    public BaseAI(Entity owner) {
+        this.owner = owner;
+    }
 
     /*
     =========================

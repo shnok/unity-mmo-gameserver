@@ -1,10 +1,10 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.db.entity.SpawnList;
+import com.shnok.javaserver.db.entity.DBSpawnList;
 import com.shnok.javaserver.enums.NpcType;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.entity.NpcInstance;
+import com.shnok.javaserver.model.object.entity.NpcInstance;
 import com.shnok.javaserver.model.template.NpcTemplate;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.node.Node;
@@ -13,10 +13,10 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class SpawnThread implements Runnable {
-    private final SpawnList spawnInfo;
+    private final DBSpawnList spawnInfo;
     private final NpcTemplate npcTemplate;
 
-    public SpawnThread(SpawnList spawnInfo, NpcTemplate npcTemplate) {
+    public SpawnThread(DBSpawnList spawnInfo, NpcTemplate npcTemplate) {
         this.spawnInfo = spawnInfo;
         this.npcTemplate = npcTemplate;
 

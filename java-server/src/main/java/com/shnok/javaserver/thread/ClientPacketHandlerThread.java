@@ -1,7 +1,7 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.Config;
-import com.shnok.javaserver.db.entity.CharTemplate;
+import com.shnok.javaserver.db.entity.DBCharTemplate;
 import com.shnok.javaserver.db.repository.CharTemplateRepository;
 import com.shnok.javaserver.dto.clientpackets.*;
 import com.shnok.javaserver.dto.serverpackets.*;
@@ -9,15 +9,14 @@ import com.shnok.javaserver.enums.ClientPacketType;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.PlayerAction;
-import com.shnok.javaserver.model.GameObject;
+import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.entity.Entity;
-import com.shnok.javaserver.model.entity.PlayerInstance;
-import com.shnok.javaserver.model.status.PlayerStatus;
-import com.shnok.javaserver.model.template.EntityTemplate;
+import com.shnok.javaserver.model.object.entity.Entity;
+import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.WorldManagerService;
+import com.shnok.javaserver.service.factory.PlayerFactoryService;
 import com.shnok.javaserver.thread.ai.PlayerAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.extern.log4j.Log4j2;
@@ -151,22 +150,8 @@ public class ClientPacketHandlerThread extends Thread {
         client.setClientReady(true);
         System.out.println("On load world");
 
-        // Dummy player
-        // TODO: FETCH FROM DB
-
-        CharTemplateRepository charTemplateRepository = new CharTemplateRepository();
-        CharTemplate classTemplate = charTemplateRepository.getTemplateByClassId(31);
-        PlayerTemplate playerTemplate = new PlayerTemplate(classTemplate);
-
-        PlayerInstance player = new PlayerInstance(client.getUsername(), playerTemplate);
+        PlayerInstance player = PlayerFactoryService.getInstance().getPlayerInstanceById(0);
         player.setGameClient(client);
-        player.setId(WorldManagerService.getInstance().nextID());
-        player.setPosition(VectorUtils.randomPos(Config.PLAYER_SPAWN_POINT, 1.5f));
-
-        // AI initialization
-        PlayerAI ai = new PlayerAI();
-        ai.setOwner(player);
-        player.setAi(ai);
 
         client.setCurrentPlayer(player);
 

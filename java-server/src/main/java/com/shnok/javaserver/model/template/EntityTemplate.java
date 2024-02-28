@@ -4,12 +4,12 @@ import lombok.Data;
 
 @Data
 public class EntityTemplate {
-    public int baseSTR;
-    public int baseCON;
-    public int baseDEX;
-    public int baseINT;
-    public int baseWIT;
-    public int baseMEN;
+    public byte baseSTR;
+    public byte baseCON;
+    public byte baseDEX;
+    public byte baseINT;
+    public byte baseWIT;
+    public byte baseMEN;
     public int baseHpMax;
     public int baseCpMax;
     public int baseMpMax;

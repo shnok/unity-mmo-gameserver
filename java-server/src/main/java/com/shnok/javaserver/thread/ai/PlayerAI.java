@@ -3,11 +3,15 @@ package com.shnok.javaserver.thread.ai;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
+import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class PlayerAI extends EntityAI {
+    public PlayerAI(Entity owner) {
+        super(owner);
+    }
 
     @Override
     protected void onEvtThink() {

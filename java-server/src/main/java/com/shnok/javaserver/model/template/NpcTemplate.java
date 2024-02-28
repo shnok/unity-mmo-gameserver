@@ -1,11 +1,9 @@
 package com.shnok.javaserver.model.template;
 
-import com.shnok.javaserver.db.entity.Npc;
+import com.shnok.javaserver.db.entity.DBNpc;
 import com.shnok.javaserver.enums.NpcType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.persistence.Transient;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
@@ -32,7 +30,7 @@ public class NpcTemplate extends EntityTemplate {
     public final String factionId;
     public final float factionRange;
 
-    public NpcTemplate(Npc npc) {
+    public NpcTemplate(DBNpc npc) {
         this.npcId = npc.getIdTemplate();
         this.idTemplate = npc.getIdTemplate();
         this.baseSTR = npc.getStr();

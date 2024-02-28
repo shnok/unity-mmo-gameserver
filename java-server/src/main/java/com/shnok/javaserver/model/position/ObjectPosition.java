@@ -1,9 +1,8 @@
 package com.shnok.javaserver.model.position;
 
-import com.shnok.javaserver.model.GameObject;
+import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.WorldRegion;
-import com.shnok.javaserver.model.knownlist.ObjectKnownList;
 import com.shnok.javaserver.service.WorldManagerService;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;

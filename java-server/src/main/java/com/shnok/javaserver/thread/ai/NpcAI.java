@@ -3,13 +3,13 @@ package com.shnok.javaserver.thread.ai;
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
-import com.shnok.javaserver.model.entity.Entity;
+import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.entity.NpcInstance;
+import com.shnok.javaserver.model.object.entity.NpcInstance;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.extern.log4j.Log4j2;
@@ -22,7 +22,8 @@ public class NpcAI extends EntityAI implements Runnable {
     private NpcInstance npc;
     private Future<?> aiTask;
 
-    public NpcAI() {
+    public NpcAI(Entity owner) {
+        super(owner);
         startAITask();
     }
 

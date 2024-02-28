@@ -1,11 +1,11 @@
 package com.shnok.javaserver.service;
 
-import com.shnok.javaserver.model.GameObject;
+import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.WorldRegion;
-import com.shnok.javaserver.model.entity.Entity;
-import com.shnok.javaserver.model.entity.NpcInstance;
-import com.shnok.javaserver.model.entity.PlayerInstance;
+import com.shnok.javaserver.model.object.entity.Entity;
+import com.shnok.javaserver.model.object.entity.NpcInstance;
+import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 

@@ -1,9 +1,7 @@
 package com.shnok.javaserver.db;
 
-import com.shnok.javaserver.db.entity.CharTemplate;
-import com.shnok.javaserver.db.entity.Npc;
-import com.shnok.javaserver.db.entity.SpawnList;
-import com.shnok.javaserver.db.entity.ZoneList;
+import com.shnok.javaserver.db.entity.*;
+import com.shnok.javaserver.db.entity.DBCharacter;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -35,10 +33,15 @@ public class DatabaseConfig {
         configuration.setProperty("hibernate.hikari.maxLifetime", "60000"); // in milliseconds
 
         // Add entity classes to configuration
-        configuration.addAnnotatedClass(SpawnList.class);
-        configuration.addAnnotatedClass(Npc.class);
-        configuration.addAnnotatedClass(ZoneList.class);
-        configuration.addAnnotatedClass(CharTemplate.class);
+        configuration.addAnnotatedClass(DBSpawnList.class);
+        configuration.addAnnotatedClass(DBNpc.class);
+        configuration.addAnnotatedClass(DBZoneList.class);
+        configuration.addAnnotatedClass(DBCharTemplate.class);
+        configuration.addAnnotatedClass(DBPlayerItem.class);
+        configuration.addAnnotatedClass(DBCharacter.class);
+        configuration.addAnnotatedClass(DBEtcItem.class);
+        configuration.addAnnotatedClass(DBWeapon.class);
+        configuration.addAnnotatedClass(DBArmor.class);
 
         return configuration.buildSessionFactory();
     }
