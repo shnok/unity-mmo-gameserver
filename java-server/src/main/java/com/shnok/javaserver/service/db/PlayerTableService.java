@@ -20,4 +20,8 @@ public class PlayerTableService {
     public DBCharacter getRandomCharacter() {
         return characterRepository.getRandomCharacter();
     }
+
+    public DBCharacter getCharacterById(int id) {
+        return characterRepository.getCharacterById(id);
+    }
 }
