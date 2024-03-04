@@ -55,4 +55,7 @@ INSERT INTO `weapon` VALUES
  ('177','Mage Staff','lrhand','false','1050','2','2','wood','none','30','20','bigblunt','4','4.00000','0','0','0','325','0','28','-1','244000','0','true','true','true','true'),
  ('156','Hand Axe','rhand','true','1820','2','2','steel','d','40','20','blunt','4','4.00000','0','0','0','379','0','26','-1','409000','743','true','true','true','true'),
  ('275','Long Bow','lrhand','true','1830','6','2','steel','d','114','5','bow','12','-3.00000','0','0','0','227','4','35','-1','644000','1170','true','true','true','true'),
- ('2369','Squire''s Sword','rhand','false','1600','1','1','steel','none','6','10','sword','8','0.00000','0','0','0','379','0','5','-1','138','0','false','false','true','false');
+ ('2369','Squire''s Sword','rhand','false','1600','1','1','steel','none','6','10','sword','8','0.00000','0','0','0','379','0','5','-1','138','0','false','false','true','false'),
+ ('2370','Guild Member''s Club','rhand','false','1910','1','1','wood','none','6','20','blunt','4','4.00000','0','0','0','379','0','5','-1','138','0','false','false','true','false'),
+ ('5284','Zweihander','lrhand','false','1530','2','2','bronze','none','38','10','bigsword','8','0.00000','0','0','0','325','0','21','-1','244000','0','true','true','true','true');
+ 

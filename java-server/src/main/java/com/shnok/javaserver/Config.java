@@ -35,6 +35,8 @@ public class Config {
     public static float GEODATA_NODE_SIZE;
     public static int GEODATA_MAP_SIZE;
     public static int GEODATA_MAXIMUM_LAYERS;
+    public static boolean SPECIFIC_CHARACTER;
+    public static int SPECIFIC_CHARACTER_ID;
 
     public static final int MONEY_ID = 57;
 
@@ -84,5 +86,8 @@ public class Config {
         GEODATA_MAXIMUM_LAYERS = Integer.parseInt(optionsSettings.getProperty("server.world.geodata.maximum-layers", "5"));
         PATHFINDER_ENABLED = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.pathfinder.enabled", "false"));
         PATHFINDER_SIMPLIFY_PATH = Boolean.parseBoolean(optionsSettings.getProperty("server.world.geodata.pathfinder.simplify-path", "false"));
+
+        SPECIFIC_CHARACTER = Boolean.parseBoolean(optionsSettings.getProperty("server.world.player.specific-character", "false"));
+        SPECIFIC_CHARACTER_ID = Integer.parseInt(optionsSettings.getProperty("server.world.player.specific-character-id", "5"));
     }
 }

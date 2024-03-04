@@ -45,9 +45,6 @@ public class ItemTableService {
     private void LoadAllItems() {
         log.info("Loading all items from DB...");
 
-        CharTemplateRepository charTemplateRepository = new CharTemplateRepository();
-        charTemplateRepository.getTemplateByClassId(1);
-
         List<DBArmor> allArmors = armorRepository.getAllArmors();
         allArmors.forEach((armor) -> {
             armorData.put(armor.getId(), armor);

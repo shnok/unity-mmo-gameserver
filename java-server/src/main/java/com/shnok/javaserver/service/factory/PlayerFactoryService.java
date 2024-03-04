@@ -32,7 +32,12 @@ public class PlayerFactoryService {
 
     public PlayerInstance getPlayerInstanceById(int id) {
         // TODO: get actual player id
-        DBCharacter character = PlayerTableService.getInstance().getRandomCharacter();
+        DBCharacter character;
+        if(Config.SPECIFIC_CHARACTER) {
+            character = PlayerTableService.getInstance().getCharacterById(Config.SPECIFIC_CHARACTER_ID);
+        } else {
+            character = PlayerTableService.getInstance().getRandomCharacter();
+        }
 
         PlayerTemplate playerTemplate = new PlayerTemplate(character);
         PlayerInstance player = new PlayerInstance(character.getId(), character.getCharName(), playerTemplate);
