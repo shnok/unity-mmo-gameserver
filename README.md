@@ -88,7 +88,7 @@ For now it contains only basic features of an online RPG game. <p>Such as:
 # 0x09 : ApplyDamage
 [I:`sender id`|I:`target id`|I:`damage`|I:`new hp`|B:`critical hit`]
 # 0x0A : NpcInfo
-[I:`object id`|I:`npc id`|S:`npc class`|S:`npc type`|S:`npc name`|S:`npc title`|F:`heading`|F:`posX`|F:`posY`|F:`posZ`|F:`colh`|F:`colr`|I:`lefthand`|I:`righthand`|I:`movespeed`|I:`patkspd`|I:`matkspd`|I:`level`|I:`hp`|I:`maxhp`]
+[I:`object id`|I:`npc id|F:`heading`|F:`posX`|F:`posY`|F:`posZ`|I:`movespeed`|I:`patkspd`|I:`matkspd`|I:`level`|I:`hp`|I:`maxhp`]
 # 0x0B : ObjectMoveTo
 [I:`object id`|F:`pos X`|F:`pos Y`|F:`pos Z`|I:`move speed`|B:`walking`]
 # 0x0C : UserInfo
