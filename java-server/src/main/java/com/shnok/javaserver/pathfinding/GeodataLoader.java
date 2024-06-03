@@ -10,9 +10,11 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 @Log4j2
 public class GeodataLoader {
@@ -34,19 +36,15 @@ public class GeodataLoader {
 
     private Node[][][] loadFromFile(String path, String mapId) {
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(Objects.requireNonNull(classLoader.getResource(path)).getFile());
 
         // Read zip file (geodata file container)
-        try (ZipFile zipFile = new ZipFile(file)) {
-            Enumeration<? extends ZipEntry> entries = zipFile.entries();
-
-            while (entries.hasMoreElements()) {
-                ZipEntry entry = entries.nextElement();
+        try (InputStream resourceStream = classLoader.getResourceAsStream(path);
+             ZipInputStream zipStream = new ZipInputStream(resourceStream)) {
+            ZipEntry entry;
+            while ((entry = zipStream.getNextEntry()) != null) {
                 if (entry.getName().equals("geodata")) {
-                    try (InputStream inputStream = zipFile.getInputStream(entry)) {
-                        DataInputStream dataInputStream = new DataInputStream(inputStream);
-                        return readGeodataFile(dataInputStream, mapId);
-                    }
+                    DataInputStream dataInputStream = new DataInputStream(zipStream);
+                    return readGeodataFile(dataInputStream, mapId);
                 }
             }
         } catch (IOException e) {
