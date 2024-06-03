@@ -15,7 +15,8 @@ public class Main {
     public static void runServer(String... args)  {
         log.info("Starting application.");
         try {
-            Config.LoadSettings();
+            //Config.initializeLog4j();
+            Config.loadConfig();
         } catch (Exception e) {
             log.error("Error while loading config file.", e);
             return;

@@ -1,14 +1,14 @@
 package com.shnok.javaserver;
 
 import com.shnok.javaserver.model.Point3D;
+import org.apache.logging.log4j.core.config.Configurator;
 
 import java.io.*;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.Properties;
 
 public class Config {
-    public static final String CONFIG_FILE = "server.properties";
+    public static final String CONFIG_FILE = "conf/server.properties";
     public static int GAMESERVER_PORT;
     public static int CONNECTION_TIMEOUT_SEC;
     public static int TIME_TICKS_PER_SECOND;
@@ -37,15 +37,14 @@ public class Config {
     public static int GEODATA_MAXIMUM_LAYERS;
     public static boolean SPECIFIC_CHARACTER;
     public static int SPECIFIC_CHARACTER_ID;
-
     public static final int MONEY_ID = 57;
 
-    public static void LoadSettings() throws Exception {
+    public static void loadConfig() throws Exception {
         ClassLoader classLoader = Main.class.getClassLoader();
         URL resourceUrl = classLoader.getResource(CONFIG_FILE);
 
         Properties optionsSettings = new Properties();
-        InputStream is = Files.newInputStream(new File(resourceUrl.getPath()).toPath());
+        InputStream is = resourceUrl.openStream();
         optionsSettings.load(is);
         is.close();
 
