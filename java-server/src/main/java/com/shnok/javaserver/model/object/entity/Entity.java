@@ -288,6 +288,9 @@ public abstract class Entity extends GameObject {
 
         GameTimeControllerService.getInstance().addMovingObject(this);
 
+        // calculate heading
+        getPosition().setHeading(VectorUtils.calculateMoveDirectionAngle(getPos(), moveData.destination));
+
         // send destination to known players
         ObjectMoveToPacket packet = new ObjectMoveToPacket(
                 getId(),

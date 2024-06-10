@@ -68,4 +68,16 @@ public class VectorUtils {
 
         return new Point3D(intermediateX, intermediateY, intermediateZ);
     }
+
+    public static float calculateMoveDirectionAngle(Point3D from, Point3D to) {
+        // Calculate the direction vector (destination - current position)
+        float directionX = to.getX() - from.getX();
+        float directionZ = to.getZ() - from.getZ();
+
+        return calculateMoveDirectionAngle(directionX, directionZ);
+    }
+
+    public static float calculateMoveDirectionAngle(float directionX, float directionZ) {
+        return (float) Math.toDegrees(Math.atan2(directionX, directionZ)) ;
+    }
 }
