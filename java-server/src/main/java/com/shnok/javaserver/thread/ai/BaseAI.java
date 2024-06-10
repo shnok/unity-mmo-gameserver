@@ -216,7 +216,8 @@ public abstract class BaseAI {
 
         // Calculate movement data for a move to location action and add the actor to movingObjects of GameTimeController
         // TODO: add range
-        log.warn("Follow! Current distance: {} Attack distance: {} Speed: {}", VectorUtils.calcDistance2D(owner.getPos(), entity.getPos()), distance, entity.getStatus().getMoveSpeed());
+        log.warn("Follow! Current distance: {} Attack distance: {} Speed: {}",
+                VectorUtils.calcDistance2D(owner.getPos(), entity.getPos()), distance, entity.getStatus().getMoveSpeed());
         owner.moveTo(new Point3D(entity.getPos()), distance);
 
         if (!owner.isMoving()) {

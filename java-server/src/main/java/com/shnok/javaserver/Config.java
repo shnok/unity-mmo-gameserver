@@ -25,6 +25,7 @@ public class Config {
     public static boolean AI_PATROL;
     public static int AI_LOOP_RATE_MS;
     public static float AI_PATROL_CHANCE;
+    public static int AI_PATROL_DISTANCE;
     public static Point3D PLAYER_SPAWN_POINT;
     public static String[] ZONES_TO_LOAD;
     public static boolean PATHFINDER_ENABLED;
@@ -62,9 +63,10 @@ public class Config {
         SPAWN_DEBUG = Boolean.parseBoolean(optionsSettings.getProperty("server.world.npc.spawn-debug", "false"));
 
         AI_LOOP_RATE_MS = Integer.parseInt(optionsSettings.getProperty("server.ai.loop-rate-ms", "1000"));
-        AI_PATROL = Boolean.parseBoolean(optionsSettings.getProperty("server.world.ai.monsters.patrol", "true"));
+        AI_PATROL = Boolean.parseBoolean(optionsSettings.getProperty("server.ai.monsters.patrol", "true"));
         AI_PATROL_CHANCE = Float.parseFloat(optionsSettings.getProperty("server.ai.monsters.patrol-chance", "10"));
-        KEEP_AI_ALIVE = Boolean.parseBoolean(optionsSettings.getProperty("server.world.ai.keep-alive", "true"));
+        AI_PATROL_DISTANCE = Integer.parseInt(optionsSettings.getProperty("server.ai.monsters.patrol-distance", "6"));
+        KEEP_AI_ALIVE = Boolean.parseBoolean(optionsSettings.getProperty("server.ai.keep-alive", "true"));
 
         PLAYER_SPAWN_POINT = new Point3D(spawnX, spawnY, spawnZ);
 

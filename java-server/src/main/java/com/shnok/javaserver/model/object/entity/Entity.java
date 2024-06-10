@@ -192,7 +192,12 @@ public abstract class Entity extends GameObject {
         // Update known list
         float distanceDelta = VectorUtils.calcDistance(
                 getPosition().getWorldPosition(), getPosition().getLastWorldPosition());
-        if(distanceDelta > 4.0f) {
+
+
+        // Share position after delta is higher than 2 nodes
+        if(distanceDelta >= Config.GEODATA_NODE_SIZE * 2) {
+            // Share new position to known list
+            broadcastPacket(new ObjectPositionPacket(getId(), position));
             getKnownList().forceRecheckSurroundings();
             getPosition().setLastWorldPosition(getPosition().getWorldPosition());
         }
@@ -297,7 +302,7 @@ public abstract class Entity extends GameObject {
     // calculate how many ticks do we need to move to destination
     private void updateMoveData(float moveSpeed) {
         Point3D destination = new Point3D(moveData.path.get(0));
-        float distance = VectorUtils.calcDistance2D(getPos(), destination);
+        float distance = VectorUtils.calcDistance2D(getPos(), destination); // Ensure this is 2D distance
         Point3D delta = new Point3D(destination.getX() - getPosX(),
                 destination.getY() - getPosY(),
                 destination.getZ() - getPosZ());
@@ -323,17 +328,17 @@ public abstract class Entity extends GameObject {
     // Update entity position based on server ticks and move data
     public boolean updatePosition(long gameTicks) {
         if (moveData == null) {
-            return true;
+            return true;  // No movement if moveData is null
         }
 
         if (moveData.moveTimestamp == gameTicks) {
-            return false;
+            return false; // Prevent multiple updates in the same tick
         }
 
-        // calculate the time since started moving
+        // Calculate the time elapsed since starting the move
         long elapsed = gameTicks - moveData.moveStartTime;
 
-        // lerp entity position between the start position and destination based on server ticks elapsed
+        // Linear interpolate entity position between start and destination
         Point3D lerpPosition = VectorUtils.lerpPosition(
                 moveData.startPosition,
                 moveData.destination,
@@ -367,6 +372,8 @@ public abstract class Entity extends GameObject {
             if (ai != null) {
                 ai.notifyEvent(Event.ARRIVED);
             }
+
+            log.debug("[{}] Reached move data destination.", getId());
 
             return true;
         }

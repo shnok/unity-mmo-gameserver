@@ -18,6 +18,10 @@ public class VectorUtils {
         return calcDistance(obj1.getPos(), obj2.getPos()) <= range;
     }
 
+    public static Point3D flatten(Point3D position) {
+        return new Point3D(position.getX(), 0, position.getZ());
+    }
+
     public static float calcDistance(Point3D from, Point3D to) {
         double dx = (to.getX() - from.getX());
         double dy = (to.getY() - from.getY());

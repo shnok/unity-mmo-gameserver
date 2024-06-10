@@ -247,7 +247,8 @@ public class NpcAI extends EntityAI implements Runnable {
     private void randomWalk() {
         if ((npc.getSpawnInfo() != null) && npc.isOnGeoData()) {
             try {
-                Node n = Geodata.getInstance().findRandomNodeInRange(npc.getSpawnInfo().getSpawnPosition(), 6);
+                Node n = Geodata.getInstance().findRandomNodeInRange(npc.getSpawnInfo().getSpawnPosition(),
+                        Config.AI_PATROL_DISTANCE);
                 setIntention(Intention.INTENTION_MOVE_TO, n.getCenter());
             } catch (Exception e) {
                 if(Config.PRINT_PATHFINDER_LOGS) {

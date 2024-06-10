@@ -140,15 +140,10 @@ public class ClientPacketHandlerThread extends Thread {
 
         PlayerInstance currentPlayer = client.getCurrentPlayer();
         currentPlayer.setPosition(newPos);
-
-        // Notify known list
-        ObjectPositionPacket objectPositionPacket = new ObjectPositionPacket(currentPlayer.getId(), newPos);
-        client.getCurrentPlayer().broadcastPacket(objectPositionPacket);
     }
 
     private void onRequestLoadWorld() {
         client.setClientReady(true);
-        System.out.println("On load world");
 
         PlayerInstance player = PlayerFactoryService.getInstance().getPlayerInstanceById(0);
         player.setGameClient(client);
