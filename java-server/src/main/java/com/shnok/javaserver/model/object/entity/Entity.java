@@ -376,7 +376,9 @@ public abstract class Entity extends GameObject {
                 ai.notifyEvent(Event.ARRIVED);
             }
 
-            log.debug("[{}] Reached move data destination.", getId());
+            if(Config.PRINT_PATHFINDER_LOGS) {
+                log.debug("[{}] Reached move data destination.", getId());
+            }
 
             return true;
         }

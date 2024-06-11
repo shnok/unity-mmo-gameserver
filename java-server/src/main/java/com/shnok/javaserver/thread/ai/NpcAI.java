@@ -3,24 +3,24 @@ package com.shnok.javaserver.thread.ai;
 import com.shnok.javaserver.Config;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
+import com.shnok.javaserver.enums.Intention;
+import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.object.entity.Entity;
+import com.shnok.javaserver.model.object.entity.NpcInstance;
+import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
-import com.shnok.javaserver.enums.Intention;
-import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.object.entity.NpcInstance;
-import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Random;
-import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledFuture;
 
 @Log4j2
 public class NpcAI extends EntityAI implements Runnable {
-    private NpcInstance npc;
-    private Future<?> aiTask;
+    protected NpcInstance npc;
+    protected ScheduledFuture<?> aiTask;
 
     public NpcAI(Entity owner) {
         super(owner);
@@ -33,6 +33,10 @@ public class NpcAI extends EntityAI implements Runnable {
     }
 
     private void startAITask() {
+        if(Config.PRINT_AI_LOGS) {
+            log.debug("[AI][{}] Starting AI task.", getOwner().getId());
+        }
+
         if (aiTask == null) {
             aiTask = ThreadPoolManagerService.getInstance().scheduleAiAtFixedRate(this, 1000,
                     Config.AI_LOOP_RATE_MS);
@@ -40,6 +44,10 @@ public class NpcAI extends EntityAI implements Runnable {
     }
 
     public void stopAITask() {
+        if(Config.PRINT_AI_LOGS) {
+            log.debug("[AI][{}] Stopping AI task.", getOwner().getId());
+        }
+
         if (aiTask != null) {
             if (getIntention() == Intention.INTENTION_MOVE_TO) {
                 GameTimeControllerService.getInstance().removeMovingObject(owner);
@@ -85,7 +93,6 @@ public class NpcAI extends EntityAI implements Runnable {
         }
 
         thinking = false;
-        startAITask();
     }
 
     @Override
@@ -222,11 +229,8 @@ public class NpcAI extends EntityAI implements Runnable {
     protected void onIntentionIdle() {
         super.onIntentionIdle();
 
-        if (getIntention() == Intention.INTENTION_MOVE_TO) {
-            getOwner().setMoving(false);
-        }
-
-        intention = Intention.INTENTION_IDLE;
+        // Stop moving
+        getOwner().setMoving(false);
     }
 
     /*

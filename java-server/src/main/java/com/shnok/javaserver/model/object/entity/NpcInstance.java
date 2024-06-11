@@ -5,6 +5,7 @@ import com.shnok.javaserver.db.entity.DBSpawnList;
 import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
+import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.Status;
@@ -14,9 +15,12 @@ import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.thread.ai.NpcAI;
+import com.shnok.javaserver.thread.ai.TestAI;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
+
+import java.util.Arrays;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
@@ -121,6 +125,8 @@ public class NpcInstance extends Entity {
             return false;
         }
 
+        System.out.println(getId() + " Share current action: " + getAi().getIntention());
+
         switch (getAi().getIntention()) {
             case INTENTION_MOVE_TO:
                 sendPacketToPlayer(player, new ObjectMoveToPacket(
@@ -158,6 +164,10 @@ public class NpcInstance extends Entity {
             }
 
             NpcAI ai = new NpcAI(this);
+//            TestAI ai = new TestAI(this, Arrays.asList(
+//                    new Point3D(4726.871f, -68.61623f, -1732.926f),
+//                    new Point3D(4733.977f, -68.61623f, -1722.304f)
+//                     ));
             setAi(ai);
         }
     }

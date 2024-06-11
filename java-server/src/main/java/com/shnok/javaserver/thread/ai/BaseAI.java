@@ -100,7 +100,11 @@ public abstract class BaseAI {
     }
 
     public void setIntention(Intention intention, Object arg0) {
-//        log.debug("[AI] New intention: {}", intention);
+        if(Config.PRINT_AI_LOGS) {
+            log.debug("[AI][{}] New intention: {}", getOwner().getId(), intention);
+        }
+        this.intention = intention;
+
         if ((intention != Intention.INTENTION_FOLLOW) && (intention != Intention.INTENTION_ATTACK)) {
             stopFollow();
         }
