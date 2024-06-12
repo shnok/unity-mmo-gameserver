@@ -46,6 +46,9 @@ public class PlayerKnownList extends EntityKnownList
                 log.debug("[{}] New npc [{}] added to known list", getActiveObject().getId(), object.getId());
             }
             getActiveChar().sendPacket(new NpcInfoPacket((NpcInstance) object));
+
+            log.debug("[{}] Sharing npc [{}] current action.", getActiveObject().getId(), object.getId());
+            ((NpcInstance) object).shareCurrentAction(getActiveChar());
         } else if (object instanceof PlayerInstance) {
             if(Config.PRINT_KNOWN_LIST_LOGS) {
                 log.debug("[{}] New user added: {} Count: {}", getActiveObject().getId(), object.getId(), getKnownPlayers().size());

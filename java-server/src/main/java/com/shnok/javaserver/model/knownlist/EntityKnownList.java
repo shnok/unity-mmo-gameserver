@@ -36,6 +36,8 @@ public class EntityKnownList extends ObjectKnownList  {
         if (object instanceof PlayerInstance) {
             getKnownPlayers().put(object.getId(), (PlayerInstance) object);
             log.debug("[{}] Adding known player: {}", getActiveObject().getId(), object.getId());
+        } else {
+            log.debug("[{}] Adding known npc: {}", getActiveObject().getId(), object.getId());
         }
 
         return true;

@@ -18,6 +18,10 @@ public class VectorUtils {
         return calcDistance(obj1.getPos(), obj2.getPos()) <= range;
     }
 
+    public static Point3D flatten(Point3D position) {
+        return new Point3D(position.getX(), 0, position.getZ());
+    }
+
     public static float calcDistance(Point3D from, Point3D to) {
         double dx = (to.getX() - from.getX());
         double dy = (to.getY() - from.getY());
@@ -63,5 +67,17 @@ public class VectorUtils {
         float intermediateZ = start.getZ() + scaledDeltaZ;
 
         return new Point3D(intermediateX, intermediateY, intermediateZ);
+    }
+
+    public static float calculateMoveDirectionAngle(Point3D from, Point3D to) {
+        // Calculate the direction vector (destination - current position)
+        float directionX = to.getX() - from.getX();
+        float directionZ = to.getZ() - from.getZ();
+
+        return calculateMoveDirectionAngle(directionX, directionZ);
+    }
+
+    public static float calculateMoveDirectionAngle(float directionX, float directionZ) {
+        return (float) Math.toDegrees(Math.atan2(directionX, directionZ)) ;
     }
 }

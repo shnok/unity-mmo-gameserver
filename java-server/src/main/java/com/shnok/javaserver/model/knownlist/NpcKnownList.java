@@ -34,15 +34,9 @@ public class NpcKnownList extends EntityKnownList
         }
 
         if (object instanceof PlayerInstance) {
-            if(getKnownPlayers().size() == 1 && !getActiveChar().isStatic()) {
+            if(getKnownPlayers().size() == 1 && !getActiveChar().isStatic() && !Config.KEEP_AI_ALIVE) {
                 getActiveChar().refreshAI();
             }
-
-            // Share current action to player instance
-            if(Config.PRINT_KNOWN_LIST_LOGS) {
-                log.debug("[{}] Sharing current action to user", getActiveChar().getId());
-            }
-            getActiveChar().shareCurrentAction((PlayerInstance) object);
         }
 
         return true;

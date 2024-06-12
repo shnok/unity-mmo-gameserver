@@ -100,7 +100,11 @@ public abstract class BaseAI {
     }
 
     public void setIntention(Intention intention, Object arg0) {
-//        log.debug("[AI] New intention: {}", intention);
+        if(Config.PRINT_AI_LOGS) {
+            log.debug("[AI][{}] New intention: {}", getOwner().getId(), intention);
+        }
+        this.intention = intention;
+
         if ((intention != Intention.INTENTION_FOLLOW) && (intention != Intention.INTENTION_ATTACK)) {
             stopFollow();
         }
@@ -216,7 +220,8 @@ public abstract class BaseAI {
 
         // Calculate movement data for a move to location action and add the actor to movingObjects of GameTimeController
         // TODO: add range
-        log.warn("Follow! Current distance: {} Attack distance: {} Speed: {}", VectorUtils.calcDistance2D(owner.getPos(), entity.getPos()), distance, entity.getStatus().getMoveSpeed());
+        log.warn("Follow! Current distance: {} Attack distance: {} Speed: {}",
+                VectorUtils.calcDistance2D(owner.getPos(), entity.getPos()), distance, entity.getStatus().getMoveSpeed());
         owner.moveTo(new Point3D(entity.getPos()), distance);
 
         if (!owner.isMoving()) {

@@ -71,7 +71,7 @@ public class PlayerAI extends EntityAI {
 
     @Override
     protected void onIntentionIdle() {
-        intention = Intention.INTENTION_IDLE;
+
     }
 
     @Override
@@ -81,7 +81,7 @@ public class PlayerAI extends EntityAI {
 
     @Override
     protected void onEvtCancel() {
-        setIntention(Intention.INTENTION_IDLE);
+     //   setIntention(Intention.INTENTION_IDLE);
         clientStopAutoAttack();
     }
 }

@@ -140,15 +140,10 @@ public class ClientPacketHandlerThread extends Thread {
 
         PlayerInstance currentPlayer = client.getCurrentPlayer();
         currentPlayer.setPosition(newPos);
-
-        // Notify known list
-        ObjectPositionPacket objectPositionPacket = new ObjectPositionPacket(currentPlayer.getId(), newPos);
-        client.getCurrentPlayer().broadcastPacket(objectPositionPacket);
     }
 
     private void onRequestLoadWorld() {
         client.setClientReady(true);
-        System.out.println("On load world");
 
         PlayerInstance player = PlayerFactoryService.getInstance().getPlayerInstanceById(0);
         player.setGameClient(client);
@@ -232,6 +227,12 @@ public class ClientPacketHandlerThread extends Thread {
         ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
                 client.getCurrentPlayer().getId(), client.getCurrentPlayer().getStatus().getMoveSpeed(), packet.getDirection());
         client.getCurrentPlayer().broadcastPacket(objectDirectionPacket);
+
+        // calculate heading
+        if(packet.getDirection().getX() != 0 || packet.getDirection().getZ() != 0) {
+            client.getCurrentPlayer().getPosition().setHeading(
+                    VectorUtils.calculateMoveDirectionAngle(packet.getDirection().getX(), packet.getDirection().getZ()));
+        }
     }
 
     private void onRequestSetTarget(byte[] data) {

@@ -84,7 +84,7 @@ public class EntityAI extends BaseAI {
             }
             notifyEvent(Event.CANCEL);
             setAttackTarget(entity);
-            intention = Intention.INTENTION_ATTACK;
+            System.out.println(intention);
         } else if(attackTarget == null || attackTarget.isDead()) {
             if(Config.PRINT_AI_LOGS) {
                 log.warn("[AI][{}] Attack target is null or dead", owner.getId());
@@ -102,7 +102,6 @@ public class EntityAI extends BaseAI {
         if(Config.PRINT_AI_LOGS) {
             log.debug("[AI][{}] Intention MoveTo", owner.getId());
         }
-        intention = Intention.INTENTION_MOVE_TO;
     }
 
     @Override
