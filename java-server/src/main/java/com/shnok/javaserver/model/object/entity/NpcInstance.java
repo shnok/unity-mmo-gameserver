@@ -124,9 +124,6 @@ public class NpcInstance extends Entity {
         if(!super.shareCurrentAction(player)) {
             return false;
         }
-
-        System.out.println(getId() + " Share current action: " + getAi().getIntention());
-
         switch (getAi().getIntention()) {
             case INTENTION_MOVE_TO:
                 sendPacketToPlayer(player, new ObjectMoveToPacket(
