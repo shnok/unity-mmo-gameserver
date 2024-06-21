@@ -120,10 +120,6 @@ public class ClientPacketHandlerThread extends Thread {
         }
 
         client.sendPacket(authResponsePacket);
-
-        if (client.authenticated) {
-            client.authenticate();
-        }
     }
 
     private void onReceiveMessage(byte[] data) {
@@ -158,6 +154,8 @@ public class ClientPacketHandlerThread extends Thread {
 
         // Loads surrounding area
         client.getCurrentPlayer().getKnownList().forceRecheckSurroundings();
+
+        client.authenticate();
     }
 
     private void onRequestCharacterRotate(byte[] data) {

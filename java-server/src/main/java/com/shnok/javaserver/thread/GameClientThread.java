@@ -145,6 +145,10 @@ public class GameClientThread extends Thread {
         if (authenticated) {
             authenticated = false;
 
+            if(!clientReady) {
+                return;
+            }
+
             /* remove player from world player list */
             WorldManagerService.getInstance().removePlayer(currentPlayer);
 

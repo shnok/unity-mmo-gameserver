@@ -46,19 +46,22 @@ public class PlayerKnownList extends EntityKnownList
                 log.debug("[{}] New npc [{}] added to known list", getActiveObject().getId(), object.getId());
             }
             getActiveChar().sendPacket(new NpcInfoPacket((NpcInstance) object));
-
-            log.debug("[{}] Sharing npc [{}] current action.", getActiveObject().getId(), object.getId());
+            if(Config.PRINT_KNOWN_LIST_LOGS) {
+                log.debug("[{}] Sharing npc [{}] current action.", getActiveObject().getId(), object.getId());
+            }
             ((NpcInstance) object).shareCurrentAction(getActiveChar());
         } else if (object instanceof PlayerInstance) {
             if(Config.PRINT_KNOWN_LIST_LOGS) {
                 log.debug("[{}] New user added: {} Count: {}", getActiveObject().getId(), object.getId(), getKnownPlayers().size());
             }
             PlayerInstance otherPlayer = (PlayerInstance) object;
-
-            log.debug("Sending user {} data to user {}", otherPlayer.getId(), getActiveChar().getId());
+            if(Config.PRINT_KNOWN_LIST_LOGS) {
+                log.debug("Sending user {} data to user {}", otherPlayer.getId(), getActiveChar().getId());
+            }
             getActiveChar().sendPacket(new UserInfoPacket(otherPlayer));
-
-            log.debug("[{}] Sharing current action to [{}]", getActiveObject().getId(), object.getId());
+            if(Config.PRINT_KNOWN_LIST_LOGS) {
+                log.debug("[{}] Sharing current action to [{}]", getActiveObject().getId(), object.getId());
+            }
             getActiveChar().shareCurrentAction((PlayerInstance) object);
         }
 
