@@ -1,6 +1,6 @@
 package com.shnok.javaserver.db.repository;
 
-import com.shnok.javaserver.db.DatabaseConfig;
+import com.shnok.javaserver.db.DbFactory;
 import com.shnok.javaserver.db.entity.DBPlayerItem;
 import com.shnok.javaserver.db.interfaces.PlayerItemDao;
 import com.shnok.javaserver.enums.ItemLocation;
@@ -13,7 +13,7 @@ import java.util.List;
 public class PlayerItemRepository implements PlayerItemDao {
     @Override
     public List<DBPlayerItem> getAllItemsForUser(int id) {
-        try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
+        try (Session session = DbFactory.getSessionFactory().openSession()) {
             return session.createQuery("SELECT i FROM DBPlayerItem i WHERE owner_id=" + id, DBPlayerItem.class)
                     .getResultList();
         } catch (Exception e) {
@@ -24,7 +24,7 @@ public class PlayerItemRepository implements PlayerItemDao {
 
     @Override
     public List<DBPlayerItem> getEquippedItemsForUser(int id) {
-        try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
+        try (Session session = DbFactory.getSessionFactory().openSession()) {
             return session.createQuery("SELECT i FROM DBPlayerItem i WHERE loc=" + ItemLocation.EQUIPPED.getValue() +
                             " AND owner_id=" + id, DBPlayerItem.class)
                     .getResultList();
@@ -36,7 +36,7 @@ public class PlayerItemRepository implements PlayerItemDao {
 
     @Override
     public List<DBPlayerItem> getInventoryItemsForUser(int id) {
-        try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
+        try (Session session = DbFactory.getSessionFactory().openSession()) {
             return session.createQuery("SELECT i FROM DBPlayerItem i WHERE loc=" + ItemLocation.INVENTORY.getValue() +
                             " AND owner_id=" + id, DBPlayerItem.class)
                     .getResultList();
@@ -48,7 +48,7 @@ public class PlayerItemRepository implements PlayerItemDao {
 
     @Override
     public List<DBPlayerItem> getWarehouseItemsForUser(int id) {
-        try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
+        try (Session session = DbFactory.getSessionFactory().openSession()) {
             return session.createQuery("SELECT i FROM DBPlayerItem i WHERE loc=" + ItemLocation.WAREHOUSE.getValue() +
                             " AND owner_id=" + id, DBPlayerItem.class)
                     .getResultList();

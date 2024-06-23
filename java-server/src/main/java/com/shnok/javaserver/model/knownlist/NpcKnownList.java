@@ -1,10 +1,12 @@
 package com.shnok.javaserver.model.knownlist;
 
-import com.shnok.javaserver.Config;
+import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.object.entity.NpcInstance;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import lombok.extern.log4j.Log4j2;
+
+import static com.shnok.javaserver.config.Configuration.serverConfig;
 
 @Log4j2
 public class NpcKnownList extends EntityKnownList
@@ -34,7 +36,7 @@ public class NpcKnownList extends EntityKnownList
         }
 
         if (object instanceof PlayerInstance) {
-            if(getKnownPlayers().size() == 1 && !getActiveChar().isStatic() && !Config.KEEP_AI_ALIVE) {
+            if(getKnownPlayers().size() == 1 && !getActiveChar().isStatic() && !serverConfig.aiKeepAlive()) {
                 getActiveChar().refreshAI();
             }
         }
@@ -50,13 +52,13 @@ public class NpcKnownList extends EntityKnownList
         }
 
         if (object instanceof PlayerInstance) {
-            if (!Config.KEEP_AI_ALIVE) {
+            if (!serverConfig.aiKeepAlive()) {
                 if (getKnownPlayers().size() == 0) {
                     getActiveChar().stopAndRemoveAI();
                 }
             }
 
-            if(Config.PRINT_KNOWN_LIST_LOGS) {
+            if(serverConfig.printKnownList()) {
                 log.debug("[{}] Removing player [{}] from known list", getActiveChar().getId(), object.getId());
             }
         }

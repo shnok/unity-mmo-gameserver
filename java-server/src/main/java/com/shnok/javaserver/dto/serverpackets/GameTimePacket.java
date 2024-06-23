@@ -1,9 +1,10 @@
 package com.shnok.javaserver.dto.serverpackets;
 
-import com.shnok.javaserver.Config;
 import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.enums.ServerPacketType;
 import com.shnok.javaserver.service.GameTimeControllerService;
+
+import static com.shnok.javaserver.config.Configuration.serverConfig;
 
 public class GameTimePacket extends ServerPacket {
     public GameTimePacket() {
@@ -11,7 +12,7 @@ public class GameTimePacket extends ServerPacket {
 
         writeL(GameTimeControllerService.getInstance().gameTicks);
         writeI(GameTimeControllerService.getInstance().getTickDurationMs());
-        writeI(Config.TIME_DAY_DURATION_MINUTES);
+        writeI(serverConfig.dayDurationMin());
 
         buildPacket();
     }

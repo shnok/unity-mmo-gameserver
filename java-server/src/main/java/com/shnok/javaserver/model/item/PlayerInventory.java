@@ -1,10 +1,12 @@
 package com.shnok.javaserver.model.item;
 
-import com.shnok.javaserver.Config;
+import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
+
+import static com.shnok.javaserver.config.Configuration.serverConfig;
 
 public class PlayerInventory extends Inventory {
     private final PlayerInstance owner;
@@ -42,14 +44,14 @@ public class PlayerInventory extends Inventory {
     // adds specified amount of money to player inventory
     public void addMoney(int count, PlayerInstance actor) {
         if (count > 0) {
-            addItem(Config.MONEY_ID, count, actor);
+            addItem(serverConfig.itemMoneyId(), count, actor);
         }
     }
 
     // removes specified amount of money from player inventory
     public void reduceMoney(String process, int count, PlayerInstance actor) {
         if (count > 0) {
-            destroyItemByItemId(Config.MONEY_ID, count, actor);
+            destroyItemByItemId(serverConfig.itemMoneyId(), count, actor);
         }
     }
 
@@ -58,7 +60,7 @@ public class PlayerInventory extends Inventory {
     public ItemInstance addItem(ItemInstance item, PlayerInstance actor) {
         item = super.addItem(item, actor);
 
-        if ((item != null) && (item.getItemId() == Config.MONEY_ID) && !item.equals(money)) {
+        if ((item != null) && (item.getItemId() == serverConfig.itemMoneyId()) && !item.equals(money)) {
             money = item;
         }
 
@@ -70,7 +72,7 @@ public class PlayerInventory extends Inventory {
     public ItemInstance addItem(int itemId, int count, PlayerInstance actor) {
         ItemInstance item = super.addItem(itemId, count, actor);
 
-        if ((item != null) && (item.getItemId() == Config.MONEY_ID) && !item.equals(money)) {
+        if ((item != null) && (item.getItemId() == serverConfig.itemMoneyId()) && !item.equals(money)) {
             money = item;
         }
 
@@ -143,7 +145,7 @@ public class PlayerInventory extends Inventory {
         // Removes any reference to the item from Shortcut bar
         //getOwner().removeItemFromShortCut(item.getObjectId());
 
-        if (item.getItemId() == Config.MONEY_ID) {
+        if (item.getItemId() == serverConfig.itemMoneyId()) {
             money = null;
         }
 

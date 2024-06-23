@@ -1,22 +1,18 @@
 package com.shnok.javaserver.thread.ai;
 
-import com.shnok.javaserver.Config;
+import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.enums.EntityMovingReason;
-import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.NpcInstance;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.node.Node;
-import com.shnok.javaserver.service.GameTimeControllerService;
-import com.shnok.javaserver.service.ThreadPoolManagerService;
-import com.shnok.javaserver.util.VectorUtils;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ScheduledFuture;
+
+import static com.shnok.javaserver.config.Configuration.serverConfig;
 
 @Log4j2
 public class TestAI extends NpcAI implements Runnable {
@@ -131,7 +127,7 @@ public class TestAI extends NpcAI implements Runnable {
 
                 setIntention(Intention.INTENTION_MOVE_TO, n.getCenter());
             } catch (Exception e) {
-                if(Config.PRINT_PATHFINDER_LOGS) {
+                if(serverConfig.printPathfinder()) {
                     log.debug(e);
                 }
 

@@ -1,6 +1,6 @@
 package com.shnok.javaserver.db.repository;
 
-import com.shnok.javaserver.db.DatabaseConfig;
+import com.shnok.javaserver.db.DbFactory;
 import com.shnok.javaserver.db.entity.DBNpc;
 import com.shnok.javaserver.db.interfaces.NpcDao;
 import lombok.extern.log4j.Log4j2;
@@ -10,7 +10,7 @@ import org.hibernate.Session;
 public class NpcRepository implements NpcDao {
     @Override
     public DBNpc getNpcById(int id) {
-        try (Session session = DatabaseConfig.getSessionFactory().openSession()) {
+        try (Session session = DbFactory.getSessionFactory().openSession()) {
             return session.get(DBNpc.class, id);
         } catch (Exception e) {
             log.error("SQL ERROR: {}", e.getMessage(), e);

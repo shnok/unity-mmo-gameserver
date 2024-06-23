@@ -1,6 +1,6 @@
 package com.shnok.javaserver.thread;
 
-import com.shnok.javaserver.Config;
+import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.dto.ServerPacket;
 import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.serverpackets.SystemMessagePacket;
@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+
+import static com.shnok.javaserver.config.Configuration.serverConfig;
 
 @Getter
 @Setter
@@ -99,7 +101,7 @@ public class GameClientThread extends Thread {
     }
 
     public boolean sendPacket(ServerPacket packet) {
-        if(Config.PRINT_SERVER_PACKETS_LOGS) {
+        if(serverConfig.printServerPackets()) {
             ServerPacketType packetType = ServerPacketType.fromByte(packet.getType());
             if(packetType != ServerPacketType.Ping) {
                 log.debug("Sent packet: {}", packetType);

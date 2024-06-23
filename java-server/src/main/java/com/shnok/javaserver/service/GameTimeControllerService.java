@@ -1,6 +1,6 @@
 package com.shnok.javaserver.service;
 
-import com.shnok.javaserver.Config;
+import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.util.TimeUtils;
 import lombok.Getter;
@@ -9,6 +9,8 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.shnok.javaserver.config.Configuration.serverConfig;
 
 @Log4j2
 @Getter
@@ -31,7 +33,7 @@ public class GameTimeControllerService {
     }
 
     public void initialize() {
-        ticksPerSecond = Config.TIME_TICKS_PER_SECOND;
+        ticksPerSecond = serverConfig.serverTicksPerSecond();
         tickDurationMs = 1000 / ticksPerSecond;
 
         log.info("Starting server clock with a tick rate of {} ticks/second.", ticksPerSecond);
@@ -93,7 +95,7 @@ public class GameTimeControllerService {
                     long runtime = System.currentTimeMillis() - gameStartTime;
 
                     gameTicks = (int) (runtime / tickDurationMs); // new ticks value (ticks now)
-                    gameTime = TimeUtils.ticksToHour(gameTicks, tickDurationMs, Config.TIME_DAY_DURATION_MINUTES);
+                    gameTime = TimeUtils.ticksToHour(gameTicks, tickDurationMs, serverConfig.dayDurationMin());
                     if (oldTicks != gameTicks) {
                         moveObjects();
                     }

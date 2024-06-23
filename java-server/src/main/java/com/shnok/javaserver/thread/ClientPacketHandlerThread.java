@@ -1,8 +1,7 @@
 package com.shnok.javaserver.thread;
 
-import com.shnok.javaserver.Config;
-import com.shnok.javaserver.db.entity.DBCharTemplate;
-import com.shnok.javaserver.db.repository.CharTemplateRepository;
+import com.shnok.javaserver.config.Configuration;
+import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.dto.clientpackets.*;
 import com.shnok.javaserver.dto.serverpackets.*;
 import com.shnok.javaserver.enums.ClientPacketType;
@@ -13,7 +12,6 @@ import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
-import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.service.ServerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.service.factory.PlayerFactoryService;
@@ -25,6 +23,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import static com.shnok.javaserver.config.Configuration.serverConfig;
 
 @Log4j2
 public class ClientPacketHandlerThread extends Thread {
@@ -43,7 +42,7 @@ public class ClientPacketHandlerThread extends Thread {
 
     public void handle() {
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
-        if(Config.PRINT_CLIENT_PACKETS_LOGS) {
+        if(serverConfig.printClientPackets()) {
             if(type != ClientPacketType.Ping) {
                 log.debug("Received packet: {}", type);
             }
@@ -88,10 +87,10 @@ public class ClientPacketHandlerThread extends Thread {
     private void onReceiveEcho() {
         client.sendPacket(new PingPacket());
 
-        Timer timer = new Timer(Config.CONNECTION_TIMEOUT_SEC, new ActionListener() {
+        Timer timer = new Timer(serverConfig.aiLoopRateMs(), new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if (System.currentTimeMillis() - client.getLastEcho() >= Config.CONNECTION_TIMEOUT_SEC) {
+                if (System.currentTimeMillis() - client.getLastEcho() >= serverConfig.serverConnectionTimeoutMs()) {
                     log.info("User connection timeout.");
                     client.removeSelf();
                     client.disconnect();

@@ -1,5 +1,6 @@
 package com.shnok.javaserver;
 
+import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.*;
@@ -14,13 +15,13 @@ public class Main {
 
     public static void runServer(String... args)  {
         log.info("Starting application.");
-        try {
-            //Config.initializeLog4j();
-            Config.loadConfig();
-        } catch (Exception e) {
-            log.error("Error while loading config file.", e);
-            return;
-        }
+//        try {
+//            //Config.initializeLog4j();
+//            ServerConfig.loadConfig();
+//        } catch (Exception e) {
+//            log.error("Error while loading config file.", e);
+//            return;
+//        }
 
         ThreadPoolManagerService.getInstance().initialize();
         Runtime.getRuntime().addShutdownHook(ServerShutdownService.getInstance());

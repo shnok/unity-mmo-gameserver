@@ -1,11 +1,13 @@
 package com.shnok.javaserver.service;
 
-import com.shnok.javaserver.Config;
+import com.shnok.javaserver.config.ServerConfig;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import static com.shnok.javaserver.config.Configuration.serverConfig;
 
 @Log4j2
 public class GameServerListenerService extends Thread {
@@ -22,8 +24,8 @@ public class GameServerListenerService extends Thread {
 
     public void Initialize() {
         try {
-            port = Config.GAMESERVER_PORT;
-            serverSocket = new ServerSocket(Config.GAMESERVER_PORT);
+            port = serverConfig.gameserverPort();
+            serverSocket = new ServerSocket(port);
         } catch (IOException e) {
             throw new RuntimeException("Could not create ServerSocket ", e);
         }

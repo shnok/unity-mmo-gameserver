@@ -1,6 +1,6 @@
 package com.shnok.javaserver.pathfinding;
 
-import com.shnok.javaserver.Config;
+import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.db.entity.DBZoneList;
 import com.shnok.javaserver.db.repository.ZoneListRepository;
 import com.shnok.javaserver.pathfinding.node.Node;
@@ -14,15 +14,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static com.shnok.javaserver.config.Configuration.serverConfig;
+
 @Log4j2
 public class Geodata {
     private static Geodata instance;
     private Map<String, Node[][][]> geoData;
     private Map<String, DBZoneList> zoneList;
+    private final float nodeSize;
+    private final int mapSize;
+    private final int layerCount;
+    private final int maximumYError;
 
     public Geodata() {
+        nodeSize = serverConfig.geodataNodeSize();
+        mapSize = serverConfig.geodataMapSize();
+        layerCount = serverConfig.geodataTotalLayers();
+        maximumYError = serverConfig.geodataMaximumYError();
+
         initGeodata();
     }
+
     public static Geodata getInstance() {
         if (instance == null) {
             instance = new Geodata();
@@ -37,8 +49,8 @@ public class Geodata {
     }
 
     public void loadGeodata() {
-        for(int i = 0; i < Config.ZONES_TO_LOAD.length; i++) {
-            String zoneId = Config.ZONES_TO_LOAD[i];
+        for(int i = 0; i < serverConfig.geodataZonesToLoad().length; i++) {
+            String zoneId = serverConfig.geodataZonesToLoad()[i];
             log.debug("Loading geodata for map {}.", zoneId);
             geoData.put(zoneId, GeodataLoader.getInstance().loadGeodataForMap(zoneId));
         }
@@ -91,7 +103,7 @@ public class Geodata {
         int x = (int)nodeIndex.getX();
         int z = (int)nodeIndex.getZ();
 
-        for (int y = 0; y < Config.GEODATA_MAXIMUM_LAYERS; y++) {
+        for (int y = 0; y < serverConfig.geodataTotalLayers(); y++) {
             Node layer = geoData.get(mapId)[x][y][z];
             if (layer == null) {
                 continue;
@@ -99,7 +111,7 @@ public class Geodata {
 
             float layerOffset = Math.abs(layer.getNodeIndex().getY() - nodeIndex.getY());
             // verify if the node y diff is lower or higher than _maximumElevationError
-            if (layerOffset >= 0 && layerOffset <= Config.GEODATA_MAXIMUM_Y_ERROR) {
+            if (layerOffset >= 0 && layerOffset <= maximumYError) {
                 return new Node(layer);
             }
         }
@@ -155,7 +167,7 @@ public class Geodata {
 
         List<Node> layers = new ArrayList<>();
 
-        for (int y = 0; y < Config.GEODATA_MAXIMUM_LAYERS; y++) {
+        for (int y = 0; y < layerCount; y++) {
             Node layer = geoData.get(mapId)[x][y][z];
             if (layer == null) {
                 continue;
@@ -172,7 +184,7 @@ public class Geodata {
     }
 
     public Node findRandomNodeInRange(Point3D center, int nodeRange) throws Exception {
-        float range = nodeRange * Config.GEODATA_NODE_SIZE;
+        float range = nodeRange * nodeSize;
         Random r = new Random();
 
         //closest node y offset
@@ -189,7 +201,7 @@ public class Geodata {
             } catch (Exception e) {}
         }
 
-        if(Config.PRINT_PATHFINDER_LOGS) {
+        if(serverConfig.printPathfinder()) {
             log.error("Cant find drift: {}", lowestDiff);
         }
         throw new Exception("Couldn't find random drift point");
@@ -198,14 +210,14 @@ public class Geodata {
     public Point3D fromNodeToWorldPos(Point3D nodePos, String mapId) throws Exception {
         Point3D origin = getZoneOrigin(mapId);
 
-        Point3D worldPos = new Point3D(nodePos.getX() * Config.GEODATA_NODE_SIZE + origin.getX(),
-                nodePos.getY() * Config.GEODATA_NODE_SIZE + origin.getY(),
-                nodePos.getZ() * Config.GEODATA_NODE_SIZE + origin.getZ());
+        Point3D worldPos = new Point3D(nodePos.getX() * nodeSize + origin.getX(),
+                nodePos.getY() * nodeSize + origin.getY(),
+                nodePos.getZ() * nodeSize + origin.getZ());
 
         worldPos = new Point3D(
-                VectorUtils.floorToNearest(worldPos.getX(), Config.GEODATA_NODE_SIZE),
-                VectorUtils.floorToNearest(worldPos.getY(), Config.GEODATA_NODE_SIZE),
-                VectorUtils.floorToNearest(worldPos.getZ(), Config.GEODATA_NODE_SIZE));
+                VectorUtils.floorToNearest(worldPos.getX(), nodeSize),
+                VectorUtils.floorToNearest(worldPos.getY(), nodeSize),
+                VectorUtils.floorToNearest(worldPos.getZ(), nodeSize));
 
         return worldPos;
     }
@@ -218,9 +230,9 @@ public class Geodata {
                 worldPos.getZ() - origin.getZ());
 
         Point3D nodeId = new Point3D(
-                (float) Math.floor(offsetPos.getX() / Config.GEODATA_NODE_SIZE),
-                (float) Math.floor(offsetPos.getY() / Config.GEODATA_NODE_SIZE),
-                (float) Math.floor(offsetPos.getZ() / Config.GEODATA_NODE_SIZE));
+                (float) Math.floor(offsetPos.getX() / nodeSize),
+                (float) Math.floor(offsetPos.getY() / nodeSize),
+                (float) Math.floor(offsetPos.getZ() / nodeSize));
 
         return nodeId;
     }

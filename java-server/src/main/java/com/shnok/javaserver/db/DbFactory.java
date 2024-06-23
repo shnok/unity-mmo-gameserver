@@ -5,7 +5,7 @@ import com.shnok.javaserver.db.entity.DBCharacter;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class DatabaseConfig {
+public class DbFactory {
     private static SessionFactory sessionFactory;
 
     public static SessionFactory buildSessionFactory() {

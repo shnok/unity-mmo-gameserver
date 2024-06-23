@@ -1,6 +1,6 @@
 package com.shnok.javaserver.thread;
 
-import com.shnok.javaserver.Config;
+import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.db.entity.DBSpawnList;
 import com.shnok.javaserver.enums.NpcType;
 import com.shnok.javaserver.model.Point3D;
@@ -10,6 +10,8 @@ import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.service.WorldManagerService;
 import lombok.extern.log4j.Log4j2;
+
+import static com.shnok.javaserver.config.Configuration.serverConfig;
 
 @Log4j2
 public class SpawnThread implements Runnable {
@@ -55,7 +57,7 @@ public class SpawnThread implements Runnable {
 
             npc.setSpawnInfo(spawnInfo);
 
-            if(Config.KEEP_AI_ALIVE) {
+            if(serverConfig.aiKeepAlive()) {
                 npc.refreshAI();
             }
 

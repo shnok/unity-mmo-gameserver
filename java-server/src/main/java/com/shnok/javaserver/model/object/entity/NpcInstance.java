@@ -1,11 +1,10 @@
 package com.shnok.javaserver.model.object.entity;
 
-import com.shnok.javaserver.Config;
+import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.db.entity.DBSpawnList;
 import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
-import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.Status;
@@ -15,12 +14,11 @@ import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.thread.ai.NpcAI;
-import com.shnok.javaserver.thread.ai.TestAI;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 
-import java.util.Arrays;
+import static com.shnok.javaserver.config.Configuration.serverConfig;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
@@ -141,7 +139,7 @@ public class NpcInstance extends Entity {
     /* remove and stop AI */
     public void stopAndRemoveAI() {
         BaseAI ai = getAi();
-        if(Config.PRINT_AI_LOGS) {
+        if(serverConfig.printAi()) {
             log.debug("[{}] Stop and remove AI", getId());
         }
         if(ai instanceof NpcAI) {
@@ -153,7 +151,7 @@ public class NpcInstance extends Entity {
     /* add AI to NPC */
     public void refreshAI() {
         if (!isStatic()) {
-            if(Config.PRINT_AI_LOGS) {
+            if(serverConfig.printAi()) {
                 log.debug("[{}] Add AI", getId());
             }
             if(getAi() != null) {

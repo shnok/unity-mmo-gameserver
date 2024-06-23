@@ -1,11 +1,11 @@
 package com.shnok.javaserver.service.factory;
 
-import com.shnok.javaserver.Config;
 import com.shnok.javaserver.db.entity.DBCharacter;
 import com.shnok.javaserver.db.entity.DBItem;
 import com.shnok.javaserver.db.entity.DBPlayerItem;
 import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.model.PlayerAppearance;
+import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
@@ -20,6 +20,8 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
+import static com.shnok.javaserver.config.Configuration.serverConfig;
+
 @Log4j2
 public class PlayerFactoryService {
     private static PlayerFactoryService instance;
@@ -33,8 +35,8 @@ public class PlayerFactoryService {
     public PlayerInstance getPlayerInstanceById(int id) {
         // TODO: get actual player id
         DBCharacter character;
-        if(Config.SPECIFIC_CHARACTER) {
-            character = PlayerTableService.getInstance().getCharacterById(Config.SPECIFIC_CHARACTER_ID);
+        if(serverConfig.playerSpecificCharacterEnabled()) {
+            character = PlayerTableService.getInstance().getCharacterById(serverConfig.playerSpecificCharacterId());
         } else {
             character = PlayerTableService.getInstance().getRandomCharacter();
         }
@@ -53,7 +55,9 @@ public class PlayerFactoryService {
         player.setAppearance(appearance);
 
         //TODO: Use the character pos or add setting for defined spawn point
-        player.setPosition(VectorUtils.randomPos(Config.PLAYER_SPAWN_POINT, 1.5f));
+        player.setPosition(VectorUtils.randomPos(
+                new Point3D(serverConfig.spawnLocationX(), serverConfig.spawnLocationY(), serverConfig.spawnLocationZ())
+                , 1.5f));
         player.setHeading(character.getHeading());
 
         // AI initialization

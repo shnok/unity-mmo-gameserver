@@ -1,6 +1,6 @@
 package com.shnok.javaserver.model.item;
 
-import com.shnok.javaserver.Config;
+import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.db.entity.DBItem;
 import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.model.object.ItemInstance;
@@ -11,6 +11,8 @@ import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
+
+import static com.shnok.javaserver.config.Configuration.serverConfig;
 
 @Log4j2
 public abstract class ItemContainer {
@@ -251,7 +253,7 @@ public abstract class ItemContainer {
         int count = 0;
 
         for (ItemInstance item : items) {
-            if (item.getItemId() == Config.MONEY_ID) {
+            if (item.getItemId() == serverConfig.itemMoneyId()) {
                 count = item.getCount();
                 return count;
             }

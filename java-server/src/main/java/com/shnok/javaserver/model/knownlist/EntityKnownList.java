@@ -1,6 +1,5 @@
 package com.shnok.javaserver.model.knownlist;
 
-import com.shnok.javaserver.Config;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.object.entity.Entity;
@@ -13,6 +12,8 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.Collection;
 import java.util.Map;
+
+import static com.shnok.javaserver.config.Configuration.serverConfig;
 
 @Log4j2
 public class EntityKnownList extends ObjectKnownList  {
@@ -35,11 +36,11 @@ public class EntityKnownList extends ObjectKnownList  {
         }
         if (object instanceof PlayerInstance) {
             getKnownPlayers().put(object.getId(), (PlayerInstance) object);
-            if (Config.PRINT_KNOWN_LIST_LOGS) {
+            if (serverConfig.printKnownList()) {
                 log.debug("[{}] Adding known player: {}", getActiveObject().getId(), object.getId());
             }
         } else {
-            if (Config.PRINT_KNOWN_LIST_LOGS) {
+            if (serverConfig.printKnownList()) {
                 log.debug("[{}] Adding known npc: {}", getActiveObject().getId(), object.getId());
             }
         }
@@ -67,14 +68,14 @@ public class EntityKnownList extends ObjectKnownList  {
 
         if (object instanceof PlayerInstance) {
             getKnownPlayers().remove(object.getId());
-            if(Config.PRINT_KNOWN_LIST_LOGS) {
+            if(serverConfig.printKnownList()) {
                 log.debug("[{}] Removing known player: {}", getActiveObject().getId(), object.getId());
             }
         }
 
         if(getActiveChar().getAi() != null) {
             if(getActiveChar().getAi().getTarget() == object) {
-                if(Config.PRINT_KNOWN_LIST_LOGS) {
+                if(serverConfig.printKnownList()) {
                     log.debug("[{}] Removed entity was target", getActiveChar().getId());
                 }
 
