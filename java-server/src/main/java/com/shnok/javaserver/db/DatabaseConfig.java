@@ -19,8 +19,8 @@ public class DatabaseConfig {
 
         // HikariCP properties
         configuration.setProperty("hibernate.hikari.dataSourceClassName", "org.h2.jdbcx.JdbcDataSource");
-        configuration.setProperty("hibernate.hikari.dataSource.url", "jdbc:h2:file:./db/test");
-        configuration.setProperty("hibernate.hikari.dataSource.user", "sa");
+        configuration.setProperty("hibernate.hikari.dataSource.url", "jdbc:h2:file:./db/l2-unity");
+        configuration.setProperty("hibernate.hikari.dataSource.user", "h2");
         configuration.setProperty("hibernate.hikari.dataSource.password", "");
 
         // Connection pool properties
