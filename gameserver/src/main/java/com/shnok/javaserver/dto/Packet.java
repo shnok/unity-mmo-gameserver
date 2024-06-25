@@ -26,4 +26,8 @@ public abstract class Packet {
     public byte getType() {
         return packetType;
     }
+
+    public byte getLength() {
+        return packetLength;
+    }
 }

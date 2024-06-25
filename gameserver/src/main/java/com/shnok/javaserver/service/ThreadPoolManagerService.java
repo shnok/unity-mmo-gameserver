@@ -76,7 +76,7 @@ public class ThreadPoolManagerService {
         }
     }
 
-    public void handlePacket(ClientPacketHandlerThread cph) {
+    public void handlePacket(Thread cph) {
         packetsThreadPool.execute(cph);
     }
 

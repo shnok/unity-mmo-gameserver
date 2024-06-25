@@ -1,7 +1,7 @@
 package com.shnok.javaserver.dto.external.serverpackets;
 
 import com.shnok.javaserver.dto.SendablePacket;
-import com.shnok.javaserver.enums.ServerPacketType;
+import com.shnok.javaserver.enums.packettypes.ServerPacketType;
 
 public class ApplyDamagePacket extends SendablePacket {
     public ApplyDamagePacket(int sender, int target, int damage, int newHp, boolean criticalHit) {

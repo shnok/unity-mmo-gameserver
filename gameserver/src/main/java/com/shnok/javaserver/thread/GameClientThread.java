@@ -3,7 +3,7 @@ package com.shnok.javaserver.thread;
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
-import com.shnok.javaserver.enums.ServerPacketType;
+import com.shnok.javaserver.enums.packettypes.ServerPacketType;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.service.GameServerController;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
@@ -109,6 +109,8 @@ public class GameClientThread extends Thread {
 
         try {
             synchronized (out) {
+                out.write(packet.getLength() & 0xff);
+                out.write((packet.getLength() >> 8) & 0xff);
                 for (byte b : packet.getData()) {
                     out.write(b & 0xFF);
                 }
