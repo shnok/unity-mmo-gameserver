@@ -1,6 +1,5 @@
 package com.shnok.javaserver.thread.ai;
 
-import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
@@ -17,7 +16,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.Random;
 import java.util.concurrent.ScheduledFuture;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 public class NpcAI extends EntityAI implements Runnable {
@@ -35,18 +34,18 @@ public class NpcAI extends EntityAI implements Runnable {
     }
 
     private void startAITask() {
-        if(serverConfig.printAi()) {
+        if(server.printAi()) {
             log.debug("[AI][{}] Starting AI task.", getOwner().getId());
         }
 
         if (aiTask == null) {
             aiTask = ThreadPoolManagerService.getInstance().scheduleAiAtFixedRate(this, 1000,
-                    serverConfig.aiLoopRateMs());
+                    server.aiLoopRateMs());
         }
     }
 
     public void stopAITask() {
-        if(serverConfig.printAi()) {
+        if(server.printAi()) {
             log.debug("[AI][{}] Stopping AI task.", getOwner().getId());
         }
 
@@ -87,7 +86,7 @@ public class NpcAI extends EntityAI implements Runnable {
                 thinkAttack();
             }
         } catch (NullPointerException e) {
-            if(serverConfig.printAi()) {
+            if(server.printAi()) {
                 log.warn("[AI][{}] Lost target during attack loop", owner.getId());
             }
             //TODO: teleport to spawn if too far on next patrol
@@ -170,7 +169,7 @@ public class NpcAI extends EntityAI implements Runnable {
 
     void thinkAttack() {
         if(attackTarget == null || !owner.getKnownList().knowsObject(attackTarget) || attackTarget.isDead()) {
-            if(serverConfig.printAi()) {
+            if(server.printAi()) {
                 log.warn("[AI][{}] Attack target is null or dead", owner.getId());
             }
             //TODO: teleport to spawn if too far on next patrol
@@ -188,7 +187,7 @@ public class NpcAI extends EntityAI implements Runnable {
             // Stop auto attacking
             notifyEvent(Event.CANCEL);
 
-            if(serverConfig.printAi()) {
+            if(server.printAi()) {
                 log.debug("[AI][{}] Start moving to attacker", owner.getId());
             }
 
@@ -204,7 +203,7 @@ public class NpcAI extends EntityAI implements Runnable {
         }
 
         // Attack
-        if(serverConfig.printAi()) {
+        if(server.printAi()) {
             log.debug("[AI][{}] Start attack", owner.getId());
         }
         owner.doAttack(attackTarget);
@@ -242,7 +241,7 @@ public class NpcAI extends EntityAI implements Runnable {
      */
     private boolean shouldWalk() {
         Random r = new Random();
-        if(r.nextInt(101) <=  Math.min((int) serverConfig.aiMonstersPatrolChance(), 100)) {
+        if(r.nextInt(101) <=  Math.min((int) server.aiMonstersPatrolChance(), 100)) {
             return true;
         }
 
@@ -254,10 +253,10 @@ public class NpcAI extends EntityAI implements Runnable {
         if ((npc.getSpawnInfo() != null) && npc.isOnGeoData()) {
             try {
                 Node n = Geodata.getInstance().findRandomNodeInRange(npc.getSpawnInfo().getSpawnPosition(),
-                        serverConfig.aiMonstersPatrolDistance());
+                        server.aiMonstersPatrolDistance());
                 setIntention(Intention.INTENTION_MOVE_TO, n.getCenter());
             } catch (Exception e) {
-                if(serverConfig.printPathfinder()) {
+                if(server.printPathfinder()) {
                     log.debug(e);
                 }
 

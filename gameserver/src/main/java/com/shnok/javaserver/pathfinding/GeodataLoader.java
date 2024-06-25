@@ -1,6 +1,5 @@
 package com.shnok.javaserver.pathfinding;
 
-import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.util.ByteUtils;
@@ -12,7 +11,7 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 public class GeodataLoader {
@@ -53,9 +52,9 @@ public class GeodataLoader {
     }
 
     private Node[][][] readGeodataFile(DataInputStream dis, String mapId) throws IOException {
-        float nodeSize = serverConfig.geodataNodeSize();
-        int rowCount = (int)Math.ceil(serverConfig.geodataMapSize() / serverConfig.geodataNodeSize());
-        Node[][][] geodata = new Node[rowCount][serverConfig.geodataTotalLayers()][rowCount];
+        float nodeSize = server.geodataNodeSize();
+        int rowCount = (int)Math.ceil(server.geodataMapSize() / server.geodataNodeSize());
+        Node[][][] geodata = new Node[rowCount][server.geodataTotalLayers()][rowCount];
 
         int count = 0;
         int layer = 0;

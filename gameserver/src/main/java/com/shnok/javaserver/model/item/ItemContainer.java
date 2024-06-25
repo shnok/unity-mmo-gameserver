@@ -1,18 +1,17 @@
 package com.shnok.javaserver.model.item;
 
-import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.db.entity.DBItem;
 import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
-import com.shnok.javaserver.service.db.ItemTableService;
+import com.shnok.javaserver.service.db.ItemTable;
 import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 public abstract class ItemContainer {
@@ -147,7 +146,7 @@ public abstract class ItemContainer {
         // If item hasn't be found in inventory, create new one
         } else {
             for (int i = 0; i < count; i++) {
-                DBItem template = ItemTableService.getInstance().getItemById(itemId);
+                DBItem template = ItemTable.getInstance().getItemById(itemId);
                 if (template == null) {
                     log.warn("Item {} not found in DB", itemId);
                     return null;
@@ -253,7 +252,7 @@ public abstract class ItemContainer {
         int count = 0;
 
         for (ItemInstance item : items) {
-            if (item.getItemId() == serverConfig.itemMoneyId()) {
+            if (item.getItemId() == server.itemMoneyId()) {
                 count = item.getCount();
                 return count;
             }

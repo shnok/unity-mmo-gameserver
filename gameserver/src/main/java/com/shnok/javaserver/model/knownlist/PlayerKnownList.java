@@ -1,16 +1,15 @@
 package com.shnok.javaserver.model.knownlist;
 
-import com.shnok.javaserver.config.ServerConfig;
-import com.shnok.javaserver.dto.serverpackets.NpcInfoPacket;
-import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
-import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
+import com.shnok.javaserver.dto.external.serverpackets.NpcInfoPacket;
+import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
+import com.shnok.javaserver.dto.external.serverpackets.UserInfoPacket;
 import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.NpcInstance;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import lombok.extern.log4j.Log4j2;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 public class PlayerKnownList extends EntityKnownList
@@ -44,24 +43,24 @@ public class PlayerKnownList extends EntityKnownList
         if (object instanceof ItemInstance){
 
         } else if (object instanceof NpcInstance) {
-            if(serverConfig.printKnownList()) {
+            if(server.printKnownList()) {
                 log.debug("[{}] New npc [{}] added to known list", getActiveObject().getId(), object.getId());
             }
             getActiveChar().sendPacket(new NpcInfoPacket((NpcInstance) object));
-            if(serverConfig.printKnownList()) {
+            if(server.printKnownList()) {
                 log.debug("[{}] Sharing npc [{}] current action.", getActiveObject().getId(), object.getId());
             }
             ((NpcInstance) object).shareCurrentAction(getActiveChar());
         } else if (object instanceof PlayerInstance) {
-            if(serverConfig.printKnownList()) {
+            if(server.printKnownList()) {
                 log.debug("[{}] New user added: {} Count: {}", getActiveObject().getId(), object.getId(), getKnownPlayers().size());
             }
             PlayerInstance otherPlayer = (PlayerInstance) object;
-            if(serverConfig.printKnownList()) {
+            if(server.printKnownList()) {
                 log.debug("Sending user {} data to user {}", otherPlayer.getId(), getActiveChar().getId());
             }
             getActiveChar().sendPacket(new UserInfoPacket(otherPlayer));
-            if(serverConfig.printKnownList()) {
+            if(server.printKnownList()) {
                 log.debug("[{}] Sharing current action to [{}]", getActiveObject().getId(), object.getId());
             }
             getActiveChar().shareCurrentAction((PlayerInstance) object);

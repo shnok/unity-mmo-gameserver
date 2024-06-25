@@ -1,9 +1,8 @@
 package com.shnok.javaserver.thread.ai;
 
-import com.shnok.javaserver.config.ServerConfig;
-import com.shnok.javaserver.dto.serverpackets.AutoAttackStartPacket;
-import com.shnok.javaserver.dto.serverpackets.AutoAttackStopPacket;
-import com.shnok.javaserver.dto.serverpackets.EntitySetTargetPacket;
+import com.shnok.javaserver.dto.external.serverpackets.AutoAttackStartPacket;
+import com.shnok.javaserver.dto.external.serverpackets.AutoAttackStopPacket;
+import com.shnok.javaserver.dto.external.serverpackets.EntitySetTargetPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
@@ -20,7 +19,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.concurrent.Future;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Data
 @Log4j2
@@ -102,7 +101,7 @@ public abstract class BaseAI {
     }
 
     public void setIntention(Intention intention, Object arg0) {
-        if(serverConfig.printAi()) {
+        if(server.printAi()) {
             log.debug("[AI][{}] New intention: {}", getOwner().getId(), intention);
         }
         this.intention = intention;
@@ -142,7 +141,7 @@ public abstract class BaseAI {
     */
     public void setTarget(Entity target) {
         if(getTarget() != target) {
-            if(serverConfig.printAi()) {
+            if(server.printAi()) {
                 log.debug("[AI][{}] New target [{}]", owner.getId(), target != null ? target.getId() : "null");
             }
             this.target = target;
@@ -254,7 +253,7 @@ public abstract class BaseAI {
     // Stop the auto attack client side
     public void clientStopAutoAttack() {
         if (isAutoAttacking()) {
-            if(serverConfig.printAi()) {
+            if(server.printAi()) {
                 log.debug("[AI][{}] Client stop auto attack", owner.getId());
             }
             // Send a Server->Client packet AutoAttackStop to the actor and all PlayerInstances in its knownPlayers

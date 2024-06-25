@@ -1,9 +1,8 @@
 package com.shnok.javaserver.model.object.entity;
 
-import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.db.entity.DBSpawnList;
-import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
-import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
+import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
+import com.shnok.javaserver.dto.external.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
 import com.shnok.javaserver.model.status.NpcStatus;
@@ -18,7 +17,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
@@ -139,7 +138,7 @@ public class NpcInstance extends Entity {
     /* remove and stop AI */
     public void stopAndRemoveAI() {
         BaseAI ai = getAi();
-        if(serverConfig.printAi()) {
+        if(server.printAi()) {
             log.debug("[{}] Stop and remove AI", getId());
         }
         if(ai instanceof NpcAI) {
@@ -151,7 +150,7 @@ public class NpcInstance extends Entity {
     /* add AI to NPC */
     public void refreshAI() {
         if (!isStatic()) {
-            if(serverConfig.printAi()) {
+            if(server.printAi()) {
                 log.debug("[{}] Add AI", getId());
             }
             if(getAi() != null) {

@@ -1,10 +1,9 @@
 package com.shnok.javaserver;
 
-import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.*;
-import com.shnok.javaserver.service.db.ItemTableService;
+import com.shnok.javaserver.service.db.ItemTable;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -26,7 +25,7 @@ public class Main {
         ThreadPoolManagerService.getInstance().initialize();
         Runtime.getRuntime().addShutdownHook(ServerShutdownService.getInstance());
 
-        ItemTableService.getInstance();
+        ItemTable.getInstance();
 
         Geodata.getInstance().loadGeodata();
         PathFinding.getInstance();

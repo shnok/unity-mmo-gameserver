@@ -1,15 +1,13 @@
 package com.shnok.javaserver.model.object.entity;
 
-import com.shnok.javaserver.dto.ServerPacket;
-import com.shnok.javaserver.dto.serverpackets.ApplyDamagePacket;
-import com.shnok.javaserver.dto.serverpackets.UserInfoPacket;
+import com.shnok.javaserver.dto.SendablePacket;
+import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
+import com.shnok.javaserver.dto.external.serverpackets.UserInfoPacket;
 import com.shnok.javaserver.model.PlayerAppearance;
-import com.shnok.javaserver.model.item.Inventory;
 import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
 import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.model.status.Status;
-import com.shnok.javaserver.model.template.NpcTemplate;
 import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.thread.GameClientThread;
 import lombok.Getter;
@@ -42,7 +40,7 @@ public class PlayerInstance extends Entity {
     }
 
     // Send packet to player
-    public boolean sendPacket(ServerPacket packet) {
+    public boolean sendPacket(SendablePacket packet) {
         if(gameClient.isClientReady() && gameClient.isAuthenticated()) {
             if(gameClient.sendPacket(packet)) {
                 if(packet instanceof UserInfoPacket) {

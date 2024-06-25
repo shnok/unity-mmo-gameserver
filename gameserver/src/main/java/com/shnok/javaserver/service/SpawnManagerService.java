@@ -1,6 +1,5 @@
 package com.shnok.javaserver.service;
 
-import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.db.entity.DBNpc;
 import com.shnok.javaserver.db.entity.DBSpawnList;
 import com.shnok.javaserver.db.repository.NpcRepository;
@@ -12,7 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 public class SpawnManagerService {
@@ -43,15 +42,15 @@ public class SpawnManagerService {
     public void loadSpawnList() {
         SpawnListRepository spawnListRepository = new SpawnListRepository();
 
-        if(serverConfig.spawnNpcs()) {
+        if(server.spawnNpcs()) {
             registeredSpawns.addAll(spawnListRepository.getAllNPCs());
         }
 
-        if(serverConfig.spawnMonsters()) {
+        if(server.spawnMonsters()) {
             registeredSpawns.addAll(spawnListRepository.getAllMonsters());
         }
 
-        if(serverConfig.spawnDebug()) {
+        if(server.spawnDebug()) {
             // For debug purposes
 //            registeredSpawns.add(new SpawnList(
 //                    25405,

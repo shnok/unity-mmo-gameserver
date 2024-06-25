@@ -1,6 +1,5 @@
 package com.shnok.javaserver.pathfinding;
 
-import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.pathfinding.node.FastNodeList;
 import com.shnok.javaserver.pathfinding.node.Node;
@@ -10,7 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 public class PathFinding {
@@ -31,18 +30,18 @@ public class PathFinding {
         try {
             String startZone = Geodata.getInstance().getCurrentZone(from);
             Node start = Geodata.getInstance().getNodeAt(from, startZone);
-            if(serverConfig.printPathfinder()) {
+            if(server.printPathfinder()) {
                 log.debug("Startnode: {}", start.getWorldPosition());
             }
             String endZone = Geodata.getInstance().getCurrentZone(to);
             Node end = Geodata.getInstance().getNodeAt(to, endZone);
-            if(serverConfig.printPathfinder()) {
+            if(server.printPathfinder()) {
                 log.debug("EndNode: {}", end.getWorldPosition());
             }
             return searchByClosest(start, end, stopAtRange);
 
         } catch (Exception e) {
-            if(serverConfig.printPathfinder()) {
+            if(server.printPathfinder()) {
                 log.debug("{}.", e.getMessage());
             }
             return null;
@@ -70,7 +69,7 @@ public class PathFinding {
                 node = nodesToVisit.removeFirst();
             } catch (Exception e) {
                 // No Path found
-                if(serverConfig.printPathfinder()) {
+                if(server.printPathfinder()) {
                     log.debug("No path found - {} to {}.", start.getCenter(), end.getCenter());
                 }
                 return null;
@@ -79,7 +78,7 @@ public class PathFinding {
             // Current node is the destination node
             // Path was found
             if (node.equals(end)) {
-                if(serverConfig.printPathfinder()) {
+                if(server.printPathfinder()) {
                     log.debug("Found path - {} to {} after {} iteration(s).", start.getCenter(), end.getCenter(), i);
                 }
                 return constructPath(node);
@@ -135,7 +134,7 @@ public class PathFinding {
         }
 
         // No Path found
-        if(serverConfig.printPathfinder()) {
+        if(server.printPathfinder()) {
             log.debug("No path found (max iterations reached)");
         }
         return null;
@@ -151,9 +150,9 @@ public class PathFinding {
                     continue;
 
                 try {
-                    Point3D neighborPos = new Point3D(nodePos.getX() + x * serverConfig.geodataNodeSize(),
+                    Point3D neighborPos = new Point3D(nodePos.getX() + x * server.geodataNodeSize(),
                             nodePos.getY(),
-                            nodePos.getZ() + z * serverConfig.geodataNodeSize());
+                            nodePos.getZ() + z * server.geodataNodeSize());
                     String mapId = Geodata.getInstance().getCurrentZone(neighborPos);
 
                     Node node = null;
@@ -162,14 +161,14 @@ public class PathFinding {
                     } catch(Exception e) {}
 
                     if (node == null) {
-                        neighborPos.setY(nodePos.getY() + serverConfig.geodataNodeSize());
+                        neighborPos.setY(nodePos.getY() + server.geodataNodeSize());
                         try {
                             node = Geodata.getInstance().getNodeAt(neighborPos, mapId);
                         } catch(Exception e) {}
                     }
 
                     if (node == null) {
-                        neighborPos.setY(nodePos.getY() - serverConfig.geodataNodeSize());
+                        neighborPos.setY(nodePos.getY() - server.geodataNodeSize());
                         try {
                             node = Geodata.getInstance().getNodeAt(neighborPos, mapId);
                         } catch(Exception e) {}
@@ -179,7 +178,7 @@ public class PathFinding {
                         returnList[i++] = node;
                     }
                 } catch (Exception e) {
-                    if(serverConfig.printPathfinder()) {
+                    if(server.printPathfinder()) {
                         log.debug("Node neighbor could not be found.");
                     }
                 }
@@ -191,7 +190,7 @@ public class PathFinding {
     }
 
     public List<Point3D> constructPath(Node node) {
-        if(serverConfig.geodataPathFinderSimplifyPath()) {
+        if(server.geodataPathFinderSimplifyPath()) {
             return constructPathSimplified(node);
         } else {
             return constructPathFull(node);

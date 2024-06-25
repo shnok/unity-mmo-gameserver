@@ -1,10 +1,9 @@
 package com.shnok.javaserver.model.object.entity;
 
-import com.shnok.javaserver.config.ServerConfig;
-import com.shnok.javaserver.dto.ServerPacket;
-import com.shnok.javaserver.dto.serverpackets.EntitySetTargetPacket;
-import com.shnok.javaserver.dto.serverpackets.ObjectMoveToPacket;
-import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
+import com.shnok.javaserver.dto.SendablePacket;
+import com.shnok.javaserver.dto.external.serverpackets.EntitySetTargetPacket;
+import com.shnok.javaserver.dto.external.serverpackets.ObjectMoveToPacket;
+import com.shnok.javaserver.dto.external.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
@@ -29,7 +28,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 /**
  * This class represents all entities in the world.<BR>
@@ -195,7 +194,7 @@ public abstract class Entity extends GameObject {
 
 
         // Share position after delta is higher than 2 nodes
-        if(distanceDelta >= serverConfig.geodataNodeSize() * 2) {
+        if(distanceDelta >= server.geodataNodeSize() * 2) {
             // Share new position to known list
             broadcastPacket(new ObjectPositionPacket(getId(), position));
             getKnownList().forceRecheckSurroundings();
@@ -222,10 +221,10 @@ public abstract class Entity extends GameObject {
 
         /* find path using pathfinder */
         if (moveData.path == null || moveData.path.size() == 0) {
-            if(serverConfig.geodataPathFinderEnabled()) {
+            if(server.geodataPathFinderEnabled()) {
 
                 moveData.path = PathFinding.getInstance().findPath(getPosition().getWorldPosition(), destination, stopAtRange);
-                if(serverConfig.printPathfinder()) {
+                if(server.printPathfinder()) {
                     log.debug("[{}] Found path length: {}", getId(), moveData.path.size());
                 }
             } else {
@@ -239,7 +238,7 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
-        if(serverConfig.printPathfinder()) {
+        if(server.printPathfinder()) {
             log.debug("[{}] Move to {} reason {}", getId(),destination, getAi().getMovingReason());
         }
 
@@ -376,7 +375,7 @@ public abstract class Entity extends GameObject {
                 ai.notifyEvent(Event.ARRIVED);
             }
 
-            if(serverConfig.printPathfinder()) {
+            if(server.printPathfinder()) {
                 log.debug("[{}] Reached move data destination.", getId());
             }
 
@@ -396,7 +395,7 @@ public abstract class Entity extends GameObject {
         }
     }
 
-    public void broadcastPacket(ServerPacket packet) {
+    public void broadcastPacket(SendablePacket packet) {
         for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {
             sendPacketToPlayer(player, packet);
         }
@@ -416,7 +415,7 @@ public abstract class Entity extends GameObject {
         return true;
     }
 
-    public void sendPacketToPlayer(PlayerInstance player, ServerPacket packet) {
+    public void sendPacketToPlayer(PlayerInstance player, SendablePacket packet) {
         if(!player.sendPacket(packet)) {
             log.warn("Packet could not be sent to player");
             getKnownList().removeKnownObject(player);

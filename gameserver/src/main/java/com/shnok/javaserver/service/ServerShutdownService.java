@@ -24,7 +24,7 @@ public class ServerShutdownService extends Thread {
         }
 
         try {
-            for (GameClientThread c : ServerService.getInstance().getAllClients()) {
+            for (GameClientThread c : GameServerController.getInstance().getAllClients()) {
                 c.interrupt();
             }
         } catch (Exception e) {

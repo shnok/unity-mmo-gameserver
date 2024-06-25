@@ -1,6 +1,5 @@
 package com.shnok.javaserver.thread.ai;
 
-import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
@@ -12,7 +11,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 public class TestAI extends NpcAI implements Runnable {
@@ -127,7 +126,7 @@ public class TestAI extends NpcAI implements Runnable {
 
                 setIntention(Intention.INTENTION_MOVE_TO, n.getCenter());
             } catch (Exception e) {
-                if(serverConfig.printPathfinder()) {
+                if(server.printPathfinder()) {
                     log.debug(e);
                 }
 

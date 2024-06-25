@@ -1,14 +1,13 @@
 package com.shnok.javaserver.thread.ai;
 
-import com.shnok.javaserver.config.ServerConfig;
-import com.shnok.javaserver.dto.serverpackets.ObjectPositionPacket;
+import com.shnok.javaserver.dto.external.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.object.entity.Entity;
 import lombok.extern.log4j.Log4j2;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 public class EntityAI extends BaseAI {
@@ -81,14 +80,14 @@ public class EntityAI extends BaseAI {
     @Override
     protected void onIntentionAttack(Entity entity) {
         if(entity != null && (attackTarget != entity || !isAutoAttacking())) {
-            if(serverConfig.printAi()) {
+            if(server.printAi()) {
                 log.debug("[AI][{}] Entity is attacking a new target", owner.getId());
             }
             notifyEvent(Event.CANCEL);
             setAttackTarget(entity);
             System.out.println(intention);
         } else if(attackTarget == null || attackTarget.isDead()) {
-            if(serverConfig.printAi()) {
+            if(server.printAi()) {
                 log.warn("[AI][{}] Attack target is null or dead", owner.getId());
             }
             // TODO return to spawn...
@@ -101,14 +100,14 @@ public class EntityAI extends BaseAI {
 
     @Override
     protected void onIntentionMoveTo(Point3D arg0) {
-        if(serverConfig.printAi()) {
+        if(server.printAi()) {
             log.debug("[AI][{}] Intention MoveTo", owner.getId());
         }
     }
 
     @Override
     protected void onIntentionIdle() {
-        if(serverConfig.printAi()) {
+        if(server.printAi()) {
             log.debug("[AI][{}] Intention Idle", owner.getId());
         }
     }

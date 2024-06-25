@@ -1,6 +1,5 @@
 package com.shnok.javaserver.pathfinding;
 
-import com.shnok.javaserver.config.ServerConfig;
 import com.shnok.javaserver.db.entity.DBZoneList;
 import com.shnok.javaserver.db.repository.ZoneListRepository;
 import com.shnok.javaserver.pathfinding.node.Node;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 public class Geodata {
@@ -27,10 +26,10 @@ public class Geodata {
     private final int maximumYError;
 
     public Geodata() {
-        nodeSize = serverConfig.geodataNodeSize();
-        mapSize = serverConfig.geodataMapSize();
-        layerCount = serverConfig.geodataTotalLayers();
-        maximumYError = serverConfig.geodataMaximumYError();
+        nodeSize = server.geodataNodeSize();
+        mapSize = server.geodataMapSize();
+        layerCount = server.geodataTotalLayers();
+        maximumYError = server.geodataMaximumYError();
 
         initGeodata();
     }
@@ -49,8 +48,8 @@ public class Geodata {
     }
 
     public void loadGeodata() {
-        for(int i = 0; i < serverConfig.geodataZonesToLoad().length; i++) {
-            String zoneId = serverConfig.geodataZonesToLoad()[i];
+        for(int i = 0; i < server.geodataZonesToLoad().length; i++) {
+            String zoneId = server.geodataZonesToLoad()[i];
             log.debug("Loading geodata for map {}.", zoneId);
             geoData.put(zoneId, GeodataLoader.getInstance().loadGeodataForMap(zoneId));
         }
@@ -103,7 +102,7 @@ public class Geodata {
         int x = (int)nodeIndex.getX();
         int z = (int)nodeIndex.getZ();
 
-        for (int y = 0; y < serverConfig.geodataTotalLayers(); y++) {
+        for (int y = 0; y < server.geodataTotalLayers(); y++) {
             Node layer = geoData.get(mapId)[x][y][z];
             if (layer == null) {
                 continue;
@@ -201,7 +200,7 @@ public class Geodata {
             } catch (Exception e) {}
         }
 
-        if(serverConfig.printPathfinder()) {
+        if(server.printPathfinder()) {
             log.error("Cant find drift: {}", lowestDiff);
         }
         throw new Exception("Couldn't find random drift point");

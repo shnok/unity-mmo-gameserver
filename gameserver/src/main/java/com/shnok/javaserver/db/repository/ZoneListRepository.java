@@ -12,7 +12,7 @@ import org.hibernate.Session;
 import java.util.List;
 import java.util.Map;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 public class ZoneListRepository implements ZoneListDao {
@@ -32,7 +32,7 @@ public class ZoneListRepository implements ZoneListDao {
         log.debug("Loaded {} zone info(s).", zoneLists.size());
         Map<String, DBZoneList> zoneMap = new FastMap<>();
         for(DBZoneList zone : zoneLists) {
-            Point3D origin = VectorUtils.floorToNearest(zone.getOrigin(), serverConfig.geodataNodeSize());
+            Point3D origin = VectorUtils.floorToNearest(zone.getOrigin(), server.geodataNodeSize());
             zone.setOrigX(origin.getX());
             zone.setOrigY(origin.getY());
             zone.setOrigZ(origin.getZ());

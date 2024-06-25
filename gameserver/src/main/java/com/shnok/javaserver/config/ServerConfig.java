@@ -22,6 +22,16 @@ public interface ServerConfig extends Mutable, Reloadable {
     Integer gameserverPort();
     @Key("server.connection.timeout.ms")
     Integer serverConnectionTimeoutMs();
+    @Key("loginserver.host")
+    String loginServerHost();
+    @Key("loginserver.port")
+    Integer loginServerPort();
+    @Key("request.server.id")
+    Integer requestServerId();
+    @Key("accept.alternate.id")
+    Boolean acceptAlternateId();
+    @Key("max.online.user")
+    Integer maxOnlineUser();
 
     // Timer
     @Key("server.time.day.duration.minutes")

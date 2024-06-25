@@ -1,12 +1,11 @@
 package com.shnok.javaserver.thread;
 
-import com.shnok.javaserver.config.ServerConfig;
-import com.shnok.javaserver.dto.ServerPacket;
-import com.shnok.javaserver.dto.serverpackets.RemoveObjectPacket;
-import com.shnok.javaserver.dto.serverpackets.SystemMessagePacket;
+import com.shnok.javaserver.dto.SendablePacket;
+import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
+import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.enums.ServerPacketType;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
-import com.shnok.javaserver.service.ServerService;
+import com.shnok.javaserver.service.GameServerController;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import lombok.Getter;
@@ -20,7 +19,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import static com.shnok.javaserver.config.Configuration.serverConfig;
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Getter
 @Setter
@@ -44,7 +43,7 @@ public class GameClientThread extends Thread {
         try {
             in = connection.getInputStream();
             out = new BufferedOutputStream(connection.getOutputStream());
-            log.debug("New connection: {}" + connectionIp);
+            log.debug("New connection: {}", connectionIp);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -100,8 +99,8 @@ public class GameClientThread extends Thread {
         }
     }
 
-    public boolean sendPacket(ServerPacket packet) {
-        if(serverConfig.printServerPackets()) {
+    public boolean sendPacket(SendablePacket packet) {
+        if(server.printServerPackets()) {
             ServerPacketType packetType = ServerPacketType.fromByte(packet.getType());
             if(packetType != ServerPacketType.Ping) {
                 log.debug("Sent packet: {}", packetType);
@@ -139,7 +138,7 @@ public class GameClientThread extends Thread {
 
     void authenticate() {
         log.debug("Authenticating new player.");
-        ServerService.getInstance().broadcast(
+        GameServerController.getInstance().broadcast(
                 new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, username), this);
     }
 
@@ -183,11 +182,11 @@ public class GameClientThread extends Thread {
             }
 
             /* broadcast log off message to server */
-            ServerService.getInstance().broadcast(
+            GameServerController.getInstance().broadcast(
                     new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_OFF, username), this);
         }
 
-        ServerService.getInstance().removeClient(this);
+        GameServerController.getInstance().removeClient(this);
         this.interrupt();
     }
 }
