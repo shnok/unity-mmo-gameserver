@@ -10,6 +10,7 @@ import com.shnok.javaserver.security.Rnd;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.util.HexUtils;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
@@ -26,6 +27,7 @@ import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.RSAKeyGenParameterSpec;
 import java.security.spec.RSAPublicKeySpec;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,7 @@ import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 @Getter
+@Setter
 public class LoginServerThread extends Thread {
     private final String hostname;
     private final int port;
@@ -64,8 +67,7 @@ public class LoginServerThread extends Thread {
     private String serverName;
     private final List<String> subnets;
     private final List<String> hosts;
-    private long lastEcho;
-    private Timer watchDog;
+    private byte[] blowfishKey;
 
     private static LoginServerThread instance;
     public static LoginServerThread getInstance() {
@@ -143,7 +145,7 @@ public class LoginServerThread extends Thread {
 
     private void initBlowfish() {
         // init Blowfish
-        byte[] blowfishKey = HexUtils.generateHex(40);
+        blowfishKey = HexUtils.generateHex(40);
         // Protect the new blowfish key what cannot begin with zero
         if (blowfishKey[0] == 0) {
             blowfishKey[0] = (byte) Rnd.get(32, 64);
@@ -180,22 +182,15 @@ public class LoginServerThread extends Thread {
         ThreadPoolManagerService.getInstance().handlePacket(new LoginServerPacketHandler(this, data));
     }
 
-    public void setLastEcho(long lastEcho, Timer watchDog) {
-        if(this.watchDog != null) {
-            watchDog.stop();
-        }
-
-        this.lastEcho = lastEcho;
-        this.watchDog = watchDog;
-    }
-
     public boolean sendPacket(SendablePacket packet) {
         if(server.printServerPackets()) {
             GameServerPacketType packetType = GameServerPacketType.fromByte(packet.getType());
-            if(packetType != GameServerPacketType.Ping) {
-                log.debug("Sent packet: {}", packetType);
-            }
+            log.debug("Sent packet: {}", packetType);
         }
+
+        log.debug("---> Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
+        blowfish.crypt(packet.getData(), 0, packet.getData().length);
+        log.debug("---> Encrypted packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
 
         try {
             synchronized (out) {

@@ -2,6 +2,7 @@ package com.shnok.javaserver.dto;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public abstract class ReceivablePacket extends Packet {
     private int iterator;
@@ -14,6 +15,12 @@ public abstract class ReceivablePacket extends Packet {
 
     protected byte readB() {
         return packetData[iterator++];
+    }
+
+    protected byte[] readB(int size) {
+        byte[] readBytes = Arrays.copyOfRange(packetData, iterator, iterator + size);
+        iterator += size;
+        return readBytes;
     }
 
     protected int readI() {

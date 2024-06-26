@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum GameServerPacketType {
-    Ping((byte)0);
+    BlowFishKey((byte) 0),
+    AuthRequest((byte) 1);
 
     private final byte value;
 

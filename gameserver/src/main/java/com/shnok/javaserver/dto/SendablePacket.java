@@ -31,6 +31,12 @@ public abstract class SendablePacket extends Packet {
         buffer.add(b);
     }
 
+    protected void writeB(byte[] b) {
+        for (byte bb : b) {
+            buffer.add(bb);
+        }
+    }
+
     protected void writeI(int i) {
         Byte[] array = new Byte[]{(byte) ((i >> 24) & 0xff),
                 (byte) ((i >> 16) & 0xff),

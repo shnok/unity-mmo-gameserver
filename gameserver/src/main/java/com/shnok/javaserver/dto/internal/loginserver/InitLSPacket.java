@@ -11,6 +11,8 @@ public class InitLSPacket extends ReceivablePacket {
     public InitLSPacket(byte[] data) {
         super(data);
 
-        rsaKey = Arrays.copyOfRange(data, 2, data.length);
+        readB();
+        int rsaKeyLength = readI();
+        rsaKey = readB(rsaKeyLength);
     }
 }
