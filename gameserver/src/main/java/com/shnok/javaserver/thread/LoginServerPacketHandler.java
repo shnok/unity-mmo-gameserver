@@ -4,6 +4,8 @@ import com.shnok.javaserver.dto.external.serverpackets.PingPacket;
 import com.shnok.javaserver.dto.internal.gameserver.AuthRequest;
 import com.shnok.javaserver.dto.internal.gameserver.BlowFishKeyPacket;
 import com.shnok.javaserver.dto.internal.loginserver.InitLSPacket;
+import com.shnok.javaserver.dto.internal.loginserver.LoginServerFailPacket;
+import com.shnok.javaserver.enums.LoginServerFailReason;
 import com.shnok.javaserver.enums.packettypes.LoginServerPacketType;
 import com.shnok.javaserver.security.NewCrypt;
 import jdk.nashorn.internal.runtime.Debug;
@@ -50,7 +52,9 @@ public class LoginServerPacketHandler extends Thread {
             case InitLS:
                 onInitLS();
                 break;
-                //TODO: Handle fail packet
+            case Fail:
+                onLoginAuthFail();
+                break;
         }
     }
 
@@ -80,5 +84,11 @@ public class LoginServerPacketHandler extends Thread {
                 loginserver.getHexID(), loginserver.getPort(), loginserver.getMaxPlayer(),
                 loginserver.getSubnets(), loginserver.getHosts()));
 
+    }
+
+    private void onLoginAuthFail() {
+        LoginServerFailPacket packet = new LoginServerFailPacket(data);
+        LoginServerFailReason failReason = LoginServerFailReason.fromValue(packet.getFailReason());
+        log.error("Registration Failed: {}", failReason);
     }
 }
