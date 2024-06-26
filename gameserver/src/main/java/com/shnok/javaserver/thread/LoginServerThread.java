@@ -1,5 +1,6 @@
 package com.shnok.javaserver.thread;
 
+import com.shnok.javaserver.config.Configuration;
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.internal.loginserver.InitLSPacket;
 import com.shnok.javaserver.enums.packettypes.GameServerPacketType;
@@ -12,6 +13,7 @@ import com.shnok.javaserver.util.HexUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import lombok.var;
 
 import javax.swing.*;
 import java.io.BufferedOutputStream;
@@ -22,6 +24,8 @@ import java.math.BigInteger;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
@@ -35,6 +39,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.shnok.javaserver.config.Configuration.hexId;
 import static com.shnok.javaserver.config.Configuration.server;
+import static com.shnok.javaserver.config.HexIdConfig.HEXID_KEY;
+import static com.shnok.javaserver.config.HexIdConfig.SERVERID_KEY;
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
 @Log4j2
 @Getter
@@ -83,14 +91,16 @@ public class LoginServerThread extends Thread {
         port = server.loginServerPort();
         gamePort = server.gameserverPort();
         hostname = server.loginServerHost();
+
         if (hexId.getHexID() == null) {
             hexID = HexUtils.generateHex(16);
             requestID = server.requestServerId();
             hexId.setProperty("ServerID", String.valueOf(requestID));
         } else {
-            hexID = hexId.getHexID().toByteArray();
+            hexID = HexUtils.toUnsignedByteArray(hexId.getHexID());
             requestID = hexId.getServerID();
         }
+
         acceptAlternate = server.acceptAlternateId();
         subnets = Collections.singletonList("0.0.0.0/0");
         hosts = Collections.singletonList("127.0.0.1");
@@ -215,6 +225,27 @@ public class LoginServerThread extends Thread {
             loginSocket.close();
         } catch (IOException e) {
             log.error("Error while closing connection.", e);
+        }
+    }
+
+    /**
+     * Save hexadecimal ID of the server in the L2Properties file.
+     * @param serverId the ID of the server whose hexId to save
+     * @param newHexId the hexadecimal ID to store
+     */
+    public void saveHexId(int serverId, String newHexId) {
+        Path hexIdFilePath = Configuration.getCustomOrDefaultPath(hexId.FILENAME);
+        hexId.setProperty(SERVERID_KEY, String.valueOf(serverId));
+        hexId.setProperty(HEXID_KEY, newHexId);
+
+        try {
+            Files.createDirectories(hexIdFilePath.getParent());
+            try (OutputStream out = Files.newOutputStream(hexIdFilePath, CREATE, TRUNCATE_EXISTING)) {
+                hexId.store(out, "the hexID to auth into login");
+                log.info("Saved {}.", hexIdFilePath);
+            }
+        } catch (Exception ex) {
+            log.warn("Failed to save {}.", hexIdFilePath, ex);
         }
     }
 }

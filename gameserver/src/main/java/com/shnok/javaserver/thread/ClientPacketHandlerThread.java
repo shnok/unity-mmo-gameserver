@@ -102,16 +102,16 @@ public class ClientPacketHandlerThread extends Thread {
     }
 
     private void onReceiveAuth(byte[] data) {
-        AuthRequestPacket packet = new AuthRequestPacket(data);
+        LegcacyAuthRequestPacket packet = new LegcacyAuthRequestPacket(data);
         String username = packet.getUsername();
 
-        AuthResponsePacket authResponsePacket;
+        LegacyAuthResponsePacket authResponsePacket;
         if (GameServerController.getInstance().userExists(username)) {
-            authResponsePacket = new AuthResponsePacket(AuthResponsePacket.AuthResponseType.ALREADY_CONNECTED);
+            authResponsePacket = new LegacyAuthResponsePacket(LegacyAuthResponsePacket.AuthResponseType.ALREADY_CONNECTED);
         } else if (username.length() <= 0 || username.length() > 16) {
-            authResponsePacket = new AuthResponsePacket(AuthResponsePacket.AuthResponseType.INVALID_USERNAME);
+            authResponsePacket = new LegacyAuthResponsePacket(LegacyAuthResponsePacket.AuthResponseType.INVALID_USERNAME);
         } else {
-            authResponsePacket = new AuthResponsePacket(AuthResponsePacket.AuthResponseType.ALLOW);
+            authResponsePacket = new LegacyAuthResponsePacket(LegacyAuthResponsePacket.AuthResponseType.ALLOW);
             client.authenticated = true;
             client.setUsername(username);
         }

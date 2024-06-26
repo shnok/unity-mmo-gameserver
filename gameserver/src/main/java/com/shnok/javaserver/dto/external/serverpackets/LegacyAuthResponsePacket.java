@@ -3,9 +3,9 @@ package com.shnok.javaserver.dto.external.serverpackets;
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.enums.packettypes.ServerPacketType;
 
-public class AuthResponsePacket extends SendablePacket {
+public class LegacyAuthResponsePacket extends SendablePacket {
 
-    public AuthResponsePacket(AuthResponseType reason) {
+    public LegacyAuthResponsePacket(AuthResponseType reason) {
         super(ServerPacketType.AuthResponse.getValue());
         writeB((byte) reason.ordinal());
         buildPacket();

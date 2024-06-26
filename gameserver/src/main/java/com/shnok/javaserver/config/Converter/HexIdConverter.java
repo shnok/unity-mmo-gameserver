@@ -18,6 +18,7 @@ public class HexIdConverter implements Converter<BigInteger> {
         if (Strings.isBlank(input)) {
             return null;
         }
+
         return new BigInteger(input, 16);
     }
 }

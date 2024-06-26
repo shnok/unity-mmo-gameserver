@@ -4,11 +4,11 @@ import com.shnok.javaserver.dto.ReceivablePacket;
 import lombok.Getter;
 
 @Getter
-public class AuthRequestPacket extends ReceivablePacket {
+public class LegcacyAuthRequestPacket extends ReceivablePacket {
 
     private final String username;
 
-    public AuthRequestPacket(byte[] data) {
+    public LegcacyAuthRequestPacket(byte[] data) {
         super(data);
 
         username = readS();
