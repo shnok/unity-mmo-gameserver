@@ -90,7 +90,6 @@ public abstract class SendablePacket extends Packet {
 
     // Padding needed for blowfish encryption
     private void padBuffer() {
-        System.out.println(buffer.size());
         byte paddingLength = (byte) (buffer.size() % 8);
         if(paddingLength > 0) {
 

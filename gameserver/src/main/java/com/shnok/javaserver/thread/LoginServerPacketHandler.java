@@ -135,14 +135,5 @@ public class LoginServerPacketHandler extends Thread {
 
             loginserver.sendPacket(new PlayerInGamePacket(playerList));
         }
-
-        //test data
-        List<String> playerList = new ArrayList<>();
-        playerList.add("12");
-        playerList.add("12");
-        playerList.add("123");
-        playerList.add("1234");
-        playerList.add("12345");
-        loginserver.sendPacket(new PlayerInGamePacket(playerList));
     }
 }
