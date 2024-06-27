@@ -31,7 +31,7 @@ public class Main {
        // Geodata.getInstance().loadGeodata();
        // PathFinding.getInstance();
 
-       // WorldManagerService.getInstance().initialize();
+       WorldManagerService.getInstance().initialize();
        // GameTimeControllerService.getInstance().initialize();
        // SpawnManagerService.getInstance().initialize();
 

@@ -6,7 +6,8 @@ import java.util.Map;
 public enum GameServerPacketType {
     BlowFishKey((byte) 0),
     AuthRequest((byte) 1),
-    ServerStatus((byte) 2);
+    ServerStatus((byte) 2),
+    PlayerInGame((byte) 3);
 
     private final byte value;
 

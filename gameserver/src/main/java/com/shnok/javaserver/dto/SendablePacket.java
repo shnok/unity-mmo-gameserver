@@ -1,5 +1,6 @@
 package com.shnok.javaserver.dto;
 
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Log4j2
 public abstract class SendablePacket extends Packet {
     private final List<Byte> buffer = new ArrayList<>();
 
@@ -79,9 +81,28 @@ public abstract class SendablePacket extends Packet {
     protected void buildPacket() {
         buffer.add(0, packetType);
         buffer.add(1, (byte) (buffer.size() + 1));
+
+        padBuffer();
+
         Byte[] array = buffer.toArray(new Byte[0]);
         setData(ArrayUtils.toPrimitive(array));
+    }
 
-        //System.out.println("Sent: " + Arrays.toString(_packetData));
+    // Padding needed for blowfish encryption
+    private void padBuffer() {
+        System.out.println(buffer.size());
+        byte paddingLength = (byte) (buffer.size() % 8);
+        if(paddingLength > 0) {
+
+            paddingLength = (byte) (8 - paddingLength);
+
+            log.debug("Packet needs a padding of {} bytes", paddingLength);
+
+            for(int i = 0; i < paddingLength; i++) {
+                buffer.add((byte) 0);
+            }
+
+            buffer.set(1, (byte) buffer.size());
+        }
     }
 }

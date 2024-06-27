@@ -2,13 +2,16 @@ package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.internal.gameserver.AuthRequestPacket;
 import com.shnok.javaserver.dto.internal.gameserver.BlowFishKeyPacket;
+import com.shnok.javaserver.dto.internal.gameserver.PlayerInGamePacket;
 import com.shnok.javaserver.dto.internal.gameserver.ServerStatusPacket;
 import com.shnok.javaserver.dto.internal.loginserver.AuthResponsePacket;
 import com.shnok.javaserver.dto.internal.loginserver.InitLSPacket;
 import com.shnok.javaserver.dto.internal.loginserver.LoginServerFailPacket;
 import com.shnok.javaserver.enums.LoginServerFailReason;
 import com.shnok.javaserver.enums.packettypes.LoginServerPacketType;
+import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.NewCrypt;
+import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.util.HexUtils;
 import com.shnok.javaserver.util.ServerNameDAO;
 import lombok.extern.log4j.Log4j2;
@@ -19,7 +22,9 @@ import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.RSAKeyGenParameterSpec;
 import java.security.spec.RSAPublicKeySpec;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.shnok.javaserver.config.Configuration.server;
 
@@ -120,12 +125,24 @@ public class LoginServerPacketHandler extends Thread {
         loginserver.sendPacket(statusPacket);
 
         // Share logged in usersAD
-//        if (L2World.getInstance().getAllPlayersCount() > 0) {
-//            final List<String> playerList = new ArrayList<>();
-//            for (L2PcInstance player : L2World.getInstance().getPlayers()) {
-//                playerList.add(player.getAccountName());
-//            }
-//            sendPacket(new PlayerInGame(playerList));
-//        }
+        if(WorldManagerService.getInstance().getAllPlayers().size() > 0) {
+            List<String> playerList = new ArrayList<>();
+
+            for(PlayerInstance player : WorldManagerService.getInstance().getAllPlayers().values()) {
+                playerList.add(player.getName());
+                //TODO: change to accountname
+            }
+
+            loginserver.sendPacket(new PlayerInGamePacket(playerList));
+        }
+
+        //test data
+        List<String> playerList = new ArrayList<>();
+        playerList.add("12");
+        playerList.add("12");
+        playerList.add("123");
+        playerList.add("1234");
+        playerList.add("12345");
+        loginserver.sendPacket(new PlayerInGamePacket(playerList));
     }
 }
