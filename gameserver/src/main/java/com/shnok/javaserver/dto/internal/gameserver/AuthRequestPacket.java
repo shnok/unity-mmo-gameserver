@@ -5,9 +5,9 @@ import com.shnok.javaserver.enums.packettypes.GameServerPacketType;
 
 import java.util.List;
 
-public class AuthRequest extends SendablePacket {
-    public AuthRequest(int id, boolean acceptAlternate, byte[] hexid, int port, int maxplayer,
-                       List<String> subnets, List<String> hosts) {
+public class AuthRequestPacket extends SendablePacket {
+    public AuthRequestPacket(int id, boolean acceptAlternate, byte[] hexid, int port, int maxplayer,
+                             List<String> subnets, List<String> hosts) {
         super(GameServerPacketType.AuthRequest.getValue());
 
         writeB((byte) id);

@@ -1,8 +1,8 @@
 package com.shnok.javaserver.thread;
 
-import com.shnok.javaserver.dto.external.serverpackets.LegacyAuthResponsePacket;
-import com.shnok.javaserver.dto.internal.gameserver.AuthRequest;
+import com.shnok.javaserver.dto.internal.gameserver.AuthRequestPacket;
 import com.shnok.javaserver.dto.internal.gameserver.BlowFishKeyPacket;
+import com.shnok.javaserver.dto.internal.gameserver.ServerStatusPacket;
 import com.shnok.javaserver.dto.internal.loginserver.AuthResponsePacket;
 import com.shnok.javaserver.dto.internal.loginserver.InitLSPacket;
 import com.shnok.javaserver.dto.internal.loginserver.LoginServerFailPacket;
@@ -20,6 +20,8 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.RSAKeyGenParameterSpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Arrays;
+
+import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 public class LoginServerPacketHandler extends Thread {
@@ -80,7 +82,7 @@ public class LoginServerPacketHandler extends Thread {
 
         log.info("Updated loginserver blowfish");
 
-        loginserver.sendPacket(new AuthRequest(loginserver.getRequestID(), loginserver.isAcceptAlternate(),
+        loginserver.sendPacket(new AuthRequestPacket(loginserver.getRequestID(), loginserver.isAcceptAlternate(),
                 loginserver.getHexID(), loginserver.getPort(), loginserver.getMaxPlayer(),
                 loginserver.getSubnets(), loginserver.getHosts()));
 
@@ -93,6 +95,7 @@ public class LoginServerPacketHandler extends Thread {
     }
 
     private void onAuthResponse() {
+        // Handle auth response
         AuthResponsePacket packet = new AuthResponsePacket(data);
         int serverId = packet.getId();
         String serverName = ServerNameDAO.getServer(serverId);
@@ -101,31 +104,22 @@ public class LoginServerPacketHandler extends Thread {
 
         log.info("Registered on login as Server {}: {}", serverId, serverName);
 
-//        AuthResponse aresp = new AuthResponse(incoming);
-//        int serverID = aresp.getServerId();
-//        _serverName = aresp.getServerName();
-//        saveHexid(serverID, hexToString(_hexID));
-//        LOG.info("Registered on login as Server {}: {}", serverID, _serverName);
-//        ServerStatus st = new ServerStatus();
-//        if (general().getServerListBrackets()) {
-//            st.addAttribute(ServerStatus.SERVER_LIST_SQUARE_BRACKET, ServerStatus.ON);
-//        } else {
-//            st.addAttribute(ServerStatus.SERVER_LIST_SQUARE_BRACKET, ServerStatus.OFF);
-//        }
-//        st.addAttribute(ServerStatus.SERVER_TYPE, general().getServerListType());
-//        if (general().serverGMOnly()) {
-//            st.addAttribute(ServerStatus.SERVER_LIST_STATUS, ServerStatus.STATUS_GM_ONLY);
-//        } else {
-//            st.addAttribute(ServerStatus.SERVER_LIST_STATUS, ServerStatus.STATUS_AUTO);
-//        }
-//        if (general().getServerListAge() == TEENAGER) {
-//            st.addAttribute(ServerStatus.SERVER_AGE, ServerStatus.SERVER_AGE_15);
-//        } else if (general().getServerListAge() == ADULT) {
-//            st.addAttribute(ServerStatus.SERVER_AGE, ServerStatus.SERVER_AGE_18);
-//        } else {
-//            st.addAttribute(ServerStatus.SERVER_AGE, ServerStatus.SERVER_AGE_ALL);
-//        }
-//        sendPacket(st);
+        // Share status
+        ServerStatusPacket statusPacket = new ServerStatusPacket();
+
+        if(server.serverGMOnly()) {
+            statusPacket.addAttribute(ServerStatusPacket.SERVER_LIST_STATUS, ServerStatusPacket.STATUS_GM_ONLY);
+        } else {
+            statusPacket.addAttribute(ServerStatusPacket.SERVER_LIST_STATUS, ServerStatusPacket.STATUS_LIGHT);
+        }
+
+        statusPacket.addAttribute(ServerStatusPacket.MAX_PLAYERS, loginserver.getMaxPlayer());
+
+        statusPacket.build();
+
+        loginserver.sendPacket(statusPacket);
+
+        // Share logged in usersAD
 //        if (L2World.getInstance().getAllPlayersCount() > 0) {
 //            final List<String> playerList = new ArrayList<>();
 //            for (L2PcInstance player : L2World.getInstance().getPlayers()) {

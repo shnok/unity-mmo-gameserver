@@ -33,6 +33,10 @@ public interface ServerConfig extends Mutable, Reloadable {
     @Key("max.online.user")
     Integer maxOnlineUser();
 
+    // Administrator
+    @Key("server.gm.only")
+    Boolean serverGMOnly();
+
     // Timer
     @Key("server.time.day.duration.minutes")
     Integer dayDurationMin();
