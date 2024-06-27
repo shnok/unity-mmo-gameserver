@@ -113,7 +113,7 @@ public class ClientPacketHandlerThread extends Thread {
         } else {
             authResponsePacket = new LegacyAuthResponsePacket(LegacyAuthResponsePacket.AuthResponseType.ALLOW);
             client.authenticated = true;
-            client.setUsername(username);
+            client.setAccountName(username);
         }
 
         client.sendPacket(authResponsePacket);
@@ -123,7 +123,7 @@ public class ClientPacketHandlerThread extends Thread {
         RequestSendMessagePacket packet = new RequestSendMessagePacket(data);
         String message = packet.getMessage();
 
-        MessagePacket messagePacket = new MessagePacket(client.getUsername(), message);
+        MessagePacket messagePacket = new MessagePacket(client.getAccountName(), message);
         GameServerController.getInstance().broadcast(messagePacket);
     }
 

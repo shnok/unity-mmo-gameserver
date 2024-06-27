@@ -62,7 +62,7 @@ public class GameServerController {
         synchronized (clients) {
             for (GameClientThread c : clients) {
                 if (c.authenticated) {
-                    return c.getUsername().equals(user);
+                    return c.getAccountName().equals(user);
                 }
             }
 

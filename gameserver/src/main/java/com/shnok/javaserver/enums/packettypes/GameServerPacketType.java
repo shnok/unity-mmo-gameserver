@@ -7,7 +7,8 @@ public enum GameServerPacketType {
     BlowFishKey((byte) 0),
     AuthRequest((byte) 1),
     ServerStatus((byte) 2),
-    PlayerInGame((byte) 3);
+    PlayerInGame((byte) 3),
+    PlayerLogout((byte) 4);
 
     private final byte value;
 

@@ -2,35 +2,27 @@ package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.config.Configuration;
 import com.shnok.javaserver.dto.SendablePacket;
-import com.shnok.javaserver.dto.internal.loginserver.InitLSPacket;
+import com.shnok.javaserver.dto.internal.gameserver.PlayerLogoutPacket;
+import com.shnok.javaserver.dto.internal.gameserver.ServerStatusPacket;
 import com.shnok.javaserver.enums.packettypes.GameServerPacketType;
-import com.shnok.javaserver.enums.packettypes.LoginServerPacketType;
-import com.shnok.javaserver.enums.packettypes.ServerPacketType;
 import com.shnok.javaserver.security.NewCrypt;
 import com.shnok.javaserver.security.Rnd;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.util.HexUtils;
+import com.shnok.javaserver.util.ServerNameDAO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import lombok.var;
 
-import javax.swing.*;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.math.BigInteger;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.GeneralSecurityException;
-import java.security.KeyFactory;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.RSAKeyGenParameterSpec;
-import java.security.spec.RSAPublicKeySpec;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -69,7 +61,6 @@ public class LoginServerThread extends Thread {
     private final boolean acceptAlternate;
     private final int requestID;
     private int maxPlayer;
-   // private final List<WaitingClient> waitingClients;
     private final Map<String, GameClientThread> accountsInGameServer = new ConcurrentHashMap<>();
     private int status;
     private String serverName;
@@ -127,13 +118,7 @@ public class LoginServerThread extends Thread {
             } catch (IOException e) {
                 log.warn("Disconnected from Login, Trying to reconnect!", e);
             } finally {
-                try {
-                    loginSocket.close();
-                    if (isInterrupted()) {
-                        return;
-                    }
-                } catch (Exception ignored) {
-                }
+                disconnect();
             }
 
             try {
@@ -246,6 +231,74 @@ public class LoginServerThread extends Thread {
             }
         } catch (Exception ex) {
             log.warn("Failed to save {}.", hexIdFilePath, ex);
+        }
+    }
+
+    /**
+     * Send logout for the given account.
+     * @param account the account
+     */
+    public void sendLogout(String account) {
+        if (account == null) {
+            return;
+        }
+
+        PlayerLogoutPacket pl = new PlayerLogoutPacket(account);
+        sendPacket(pl);
+
+        removedLoggedAccount(account);
+    }
+
+    public void addLoggedAccount(String account, GameClientThread client) {
+        accountsInGameServer.put(account, client);
+        calculateNewStatus();
+    }
+
+    public void removedLoggedAccount(String account) {
+        accountsInGameServer.remove(account);
+        calculateNewStatus();
+    }
+
+    public void calculateNewStatus() {
+        if(status == ServerStatusPacket.STATUS_DOWN || status == ServerStatusPacket.STATUS_GM_ONLY) {
+            return;
+        }
+
+        int onlineCount = accountsInGameServer.size();
+        float chargePercent = (float)onlineCount / (float)maxPlayer * 100;
+
+        if(chargePercent <= 25) {
+            setStatus(ServerStatusPacket.STATUS_LIGHT);
+        } else if(chargePercent < 75) {
+            setStatus(ServerStatusPacket.STATUS_NORMAL);
+        } else if(chargePercent < 100) {
+            setStatus(ServerStatusPacket.STATUS_HEAVY);
+        } else {
+            setStatus(ServerStatusPacket.STATUS_FULL);
+        }
+    }
+
+    public void setStatus(int value) {
+        if(status != value) {
+            status = value;
+            log.info("Server {}[{}] status changed to {}.", getServerName(),
+                    getId(), getStatusName());
+
+            ServerStatusPacket packet = new ServerStatusPacket();
+            packet.addAttribute(ServerStatusPacket.SERVER_LIST_STATUS, value);
+            sendPacket(packet);
+        }
+    }
+
+    public String getStatusName() {
+        switch (status) {
+            case 0: return "Light";
+            case 1: return "Normal";
+            case 2: return "Heavy";
+            case 3: return "Full";
+            case 4: return "Down";
+            case 5: return "GM Only";
+            default: return "Unknown";
         }
     }
 }

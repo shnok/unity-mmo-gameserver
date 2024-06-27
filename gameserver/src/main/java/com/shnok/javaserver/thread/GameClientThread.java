@@ -30,7 +30,7 @@ public class GameClientThread extends Thread {
     public boolean authenticated;
     private InputStream in;
     private OutputStream out;
-    private String username;
+    private String accountName;
     private PlayerInstance currentPlayer;
     private boolean clientReady = false;
     private long lastEcho;
@@ -86,13 +86,15 @@ public class GameClientThread extends Thread {
             log.error("Exception while reading packets.");
         } finally {
             log.info("User {} disconnected", connectionIp);
-            removeSelf();
             disconnect();
         }
     }
 
     public void disconnect() {
         try {
+            //TODO: Save user state
+            LoginServerThread.getInstance().sendLogout(getAccountName());
+            removeSelf();
             connection.close();
         } catch (IOException e) {
             log.error("Error while closing connection.", e);
@@ -141,7 +143,7 @@ public class GameClientThread extends Thread {
     void authenticate() {
         log.debug("Authenticating new player.");
         GameServerController.getInstance().broadcast(
-                new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, username), this);
+                new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, accountName), this);
     }
 
     void removeSelf() {
@@ -185,7 +187,7 @@ public class GameClientThread extends Thread {
 
             /* broadcast log off message to server */
             GameServerController.getInstance().broadcast(
-                    new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_OFF, username), this);
+                    new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_OFF, accountName), this);
         }
 
         GameServerController.getInstance().removeClient(this);
