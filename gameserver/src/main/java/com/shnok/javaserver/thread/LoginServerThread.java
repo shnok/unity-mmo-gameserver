@@ -210,8 +210,7 @@ public class LoginServerThread extends Thread {
     public void disconnect() {
         try {
             loginSocket.close();
-        } catch (IOException e) {
-            log.error("Error while closing connection.", e);
+        } catch (Exception e) {
         }
     }
 

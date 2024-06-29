@@ -64,43 +64,64 @@ public class PlayerTable {
         float posZ = -1731.24f;
 
         DBCharacter dbCharacter = new DBCharacter();
+        dbCharacter.setTitle("");
         dbCharacter.setCharName(account);
         dbCharacter.setAccountName(account);
-        dbCharacter.setClassId(ClassId.getById((byte) charTemplate.getClassId()));
-        dbCharacter.setRace(charTemplate.getRace());
+        dbCharacter.setAccessLevel(0);
+        dbCharacter.setLevel(1);
+        dbCharacter.setCharSlot((byte) 0);
+        dbCharacter.setKarma(0);
+        dbCharacter.setPkKills(0);
+        dbCharacter.setPvpKills(0);
+        dbCharacter.setMaxWeight(0);
+        dbCharacter.setMaxWeight(10000);
+
+        //STATS
+        dbCharacter.setAcc(charTemplate.getAcc());
         dbCharacter.setCritical(charTemplate.getCritical());
         dbCharacter.setEvasion(charTemplate.getEvasion());
         dbCharacter.setMAtk(charTemplate.getMAtk());
         dbCharacter.setMDef(charTemplate.getMDef());
         dbCharacter.setMSpd(charTemplate.getMAtkSpd());
         dbCharacter.setPAtk(charTemplate.getPAtk());
+        dbCharacter.setPDef(charTemplate.getPDef());
+        dbCharacter.setPSpd(charTemplate.getPAtkSpd());
+        dbCharacter.setWalkSpd(1);
         dbCharacter.setRunSpd(charTemplate.getMoveSpd());
         dbCharacter.setStr((byte) charTemplate.getStr());
         dbCharacter.setCon((byte) charTemplate.getCon());
         dbCharacter.setDex((byte) charTemplate.getDex());
         dbCharacter.set_int((byte) charTemplate.get_int());
+        dbCharacter.setWit((byte) charTemplate.getWit());
         dbCharacter.setMen((byte) charTemplate.getMen());
-        dbCharacter.setColR(charTemplate.getCollisionHeightFemale());
-        dbCharacter.setColH(charTemplate.getCollisionHeightMale());
         dbCharacter.setMen((byte) charTemplate.getMen());
 
         //HP MP CP
-
-        dbCharacter.setPosX(posX);
-        dbCharacter.setPosY(posY);
-        dbCharacter.setPosZ(posZ);
-        dbCharacter.setFace((byte) face);
-        dbCharacter.setHairColor((byte) hairColor);
-        dbCharacter.setHairStyle((byte) hairStyle);
-
-        dbCharacter.setCharSlot((byte) 0);
-
         DBLevelUpGain levelUpGain = LvlUpGainTable.getInstance().
                 getCharacterByClassId(charTemplate.getClassId());
 
         dbCharacter.setMaxHp((int) (levelUpGain.getDefaultHpBase() + levelUpGain.getDefaultHpAdd()));
+        dbCharacter.setCurHp(dbCharacter.getMaxHp());
         dbCharacter.setMaxMp((int) (levelUpGain.getDefaultMpBase() + levelUpGain.getDefaultMpAdd()));
+        dbCharacter.setMaxMp(dbCharacter.getMaxMp());
         dbCharacter.setMaxCp((int) (levelUpGain.getDefaultCpAdd() + levelUpGain.getDefaultCpAdd()));
+        dbCharacter.setMaxCp(dbCharacter.getMaxCp());
+
+        //Loc
+        dbCharacter.setPosX(posX);
+        dbCharacter.setPosY(posY);
+        dbCharacter.setPosZ(posZ);
+        dbCharacter.setHeading(0f);
+
+        //Appearance
+        dbCharacter.setClassId(ClassId.getById((byte) charTemplate.getClassId()));
+        dbCharacter.setRace(charTemplate.getRace());
+        dbCharacter.setFace((byte) face);
+        dbCharacter.setHairColor((byte) hairColor);
+        dbCharacter.setHairStyle((byte) hairStyle);
+        dbCharacter.setSex((byte) 1);
+        dbCharacter.setColR(charTemplate.getCollisionRadiusFemale());
+        dbCharacter.setColH(charTemplate.getCollisionHeightFemale());
 
         saveOrUpdateCharacter(dbCharacter);
     }
