@@ -1,7 +1,5 @@
 package com.shnok.javaserver.enums;
 
-import com.shnok.javaserver.enums.packettypes.ClientPacketType;
-
 import java.util.HashMap;
 import java.util.Map;
 

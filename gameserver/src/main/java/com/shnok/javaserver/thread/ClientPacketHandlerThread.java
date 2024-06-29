@@ -2,10 +2,11 @@ package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.external.clientpackets.*;
 import com.shnok.javaserver.dto.external.serverpackets.*;
-import com.shnok.javaserver.enums.packettypes.ClientPacketType;
+import com.shnok.javaserver.enums.packettypes.external.ClientPacketType;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.PlayerAction;
+import com.shnok.javaserver.model.network.SessionKey;
 import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.object.entity.Entity;
@@ -49,32 +50,32 @@ public class ClientPacketHandlerThread extends Thread {
             case Ping:
                 onReceiveEcho();
                 break;
-            case AuthRequest:
-                onReceiveAuth(data);
+            case AuthLogin:
+                onReceiveAuth();
                 break;
             case SendMessage:
-                onReceiveMessage(data);
+                onReceiveMessage();
                 break;
             case RequestMove:
-                onRequestCharacterMove(data);
+                onRequestCharacterMove();
                 break;
             case LoadWorld:
                 onRequestLoadWorld();
                 break;
             case RequestRotate:
-                onRequestCharacterRotate(data);
+                onRequestCharacterRotate();
                 break;
             case RequestAnim:
-                onRequestCharacterAnimation(data);
+                onRequestCharacterAnimation();
                 break;
             case RequestAttack:
-                onRequestAttack(data);
+                onRequestAttack();
                 break;
             case RequestMoveDirection:
-                onRequestCharacterMoveDirection(data);
+                onRequestCharacterMoveDirection();
                 break;
             case RequestSetTarget:
-                onRequestSetTarget(data);
+                onRequestSetTarget();
                 break;
             case RequestAutoAttack:
                 onRequestAutoAttack();
@@ -101,25 +102,27 @@ public class ClientPacketHandlerThread extends Thread {
         client.setLastEcho(System.currentTimeMillis(), timer);
     }
 
-    private void onReceiveAuth(byte[] data) {
-        LegcacyAuthRequestPacket packet = new LegcacyAuthRequestPacket(data);
-        String username = packet.getUsername();
+    private void onReceiveAuth() {
+        AuthLoginPacket packet = new AuthLoginPacket(data);
+        // avoid potential exploits
+        if (client.getAccountName() == null) {
+            SessionKey key = new SessionKey(packet.getLoginKey1(), packet.getLoginKey2(),
+                    packet.getPlayKey1(), packet.getPlayKey2());
 
-        LegacyAuthResponsePacket authResponsePacket;
-        if (GameServerController.getInstance().userExists(username)) {
-            authResponsePacket = new LegacyAuthResponsePacket(LegacyAuthResponsePacket.AuthResponseType.ALREADY_CONNECTED);
-        } else if (username.length() <= 0 || username.length() > 16) {
-            authResponsePacket = new LegacyAuthResponsePacket(LegacyAuthResponsePacket.AuthResponseType.INVALID_USERNAME);
-        } else {
-            authResponsePacket = new LegacyAuthResponsePacket(LegacyAuthResponsePacket.AuthResponseType.ALLOW);
-            client.authenticated = true;
-            client.setAccountName(username);
+                log.info("user:" + packet.getAccount());
+                log.info("key:" + key);
+
+            // Preventing duplicate login in case client login server socket was disconnected or this packet was not sent yet
+            if (LoginServerThread.getInstance().addLoggedAccount(packet.getAccount(), client)) {
+                client.setAccountName(packet.getAccount());
+                LoginServerThread.getInstance().addWaitingClientAndSendRequest(packet.getAccount(), client, key);
+            } else {
+                client.disconnect();
+            }
         }
-
-        client.sendPacket(authResponsePacket);
     }
 
-    private void onReceiveMessage(byte[] data) {
+    private void onReceiveMessage() {
         RequestSendMessagePacket packet = new RequestSendMessagePacket(data);
         String message = packet.getMessage();
 
@@ -127,7 +130,7 @@ public class ClientPacketHandlerThread extends Thread {
         GameServerController.getInstance().broadcast(messagePacket);
     }
 
-    private void onRequestCharacterMove(byte[] data) {
+    private void onRequestCharacterMove() {
         RequestCharacterMovePacket packet = new RequestCharacterMovePacket(data);
         Point3D newPos = packet.getPosition();
 
@@ -155,7 +158,7 @@ public class ClientPacketHandlerThread extends Thread {
         client.authenticate();
     }
 
-    private void onRequestCharacterRotate(byte[] data) {
+    private void onRequestCharacterRotate() {
         RequestCharacterRotatePacket packet = new RequestCharacterRotatePacket(data);
 
         // Notify known list
@@ -164,7 +167,7 @@ public class ClientPacketHandlerThread extends Thread {
         client.getCurrentPlayer().broadcastPacket(objectRotationPacket);
     }
 
-    private void onRequestCharacterAnimation(byte[] data) {
+    private void onRequestCharacterAnimation() {
         RequestCharacterAnimationPacket packet = new RequestCharacterAnimationPacket(data);
 
         // Notify known list
@@ -173,7 +176,7 @@ public class ClientPacketHandlerThread extends Thread {
         client.getCurrentPlayer().broadcastPacket(objectAnimationPacket);
     }
 
-    private void onRequestAttack(byte[] data) {
+    private void onRequestAttack() {
         RequestAttackPacket packet = new RequestAttackPacket(data);
 
         GameObject object = client.getCurrentPlayer().getKnownList().getKnownObjects().get(packet.getTargetId());
@@ -208,7 +211,7 @@ public class ClientPacketHandlerThread extends Thread {
         client.sendPacket(applyDamagePacket);
     }
 
-    private void onRequestCharacterMoveDirection(byte[] data) {
+    private void onRequestCharacterMoveDirection() {
         RequestCharacterMoveDirection packet = new RequestCharacterMoveDirection(data);
         if((client.getCurrentPlayer().isAttacking() ||
                 client.getCurrentPlayer().getAi().getIntention() == Intention.INTENTION_ATTACK) && // if player attack animation is playing
@@ -230,7 +233,7 @@ public class ClientPacketHandlerThread extends Thread {
         }
     }
 
-    private void onRequestSetTarget(byte[] data) {
+    private void onRequestSetTarget() {
         RequestSetTargetPacket packet = new RequestSetTargetPacket(data);
 
         if(packet.getTargetId() == -1) {

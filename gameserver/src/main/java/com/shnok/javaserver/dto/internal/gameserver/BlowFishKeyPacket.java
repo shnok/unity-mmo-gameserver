@@ -1,7 +1,7 @@
 package com.shnok.javaserver.dto.internal.gameserver;
 
 import com.shnok.javaserver.dto.SendablePacket;
-import com.shnok.javaserver.enums.packettypes.GameServerPacketType;
+import com.shnok.javaserver.enums.packettypes.internal.GameServerPacketType;
 import lombok.extern.log4j.Log4j2;
 
 import javax.crypto.Cipher;

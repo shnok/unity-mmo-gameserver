@@ -1,7 +1,7 @@
 package com.shnok.javaserver.dto.external.serverpackets;
 
 import com.shnok.javaserver.dto.SendablePacket;
-import com.shnok.javaserver.enums.packettypes.ServerPacketType;
+import com.shnok.javaserver.enums.packettypes.external.ServerPacketType;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 

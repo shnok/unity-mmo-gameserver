@@ -1,11 +1,11 @@
-package com.shnok.javaserver.enums.packettypes;
+package com.shnok.javaserver.enums.packettypes.external;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public enum ClientPacketType {
     Ping((byte)0),
-    AuthRequest((byte)1),
+    AuthLogin((byte)1),
     SendMessage((byte)2),
     RequestMove((byte)3),
     LoadWorld((byte)4),

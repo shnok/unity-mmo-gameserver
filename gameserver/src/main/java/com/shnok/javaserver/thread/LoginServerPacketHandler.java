@@ -3,12 +3,11 @@ package com.shnok.javaserver.thread;
 import com.shnok.javaserver.db.entity.DBCharacter;
 import com.shnok.javaserver.db.repository.CharacterRepository;
 import com.shnok.javaserver.dto.internal.gameserver.*;
-import com.shnok.javaserver.dto.internal.loginserver.AuthResponsePacket;
-import com.shnok.javaserver.dto.internal.loginserver.InitLSPacket;
-import com.shnok.javaserver.dto.internal.loginserver.LoginServerFailPacket;
-import com.shnok.javaserver.dto.internal.loginserver.RequestCharactersPacket;
+import com.shnok.javaserver.dto.internal.loginserver.*;
+import com.shnok.javaserver.enums.GameClientState;
 import com.shnok.javaserver.enums.LoginServerFailReason;
-import com.shnok.javaserver.enums.packettypes.LoginServerPacketType;
+import com.shnok.javaserver.enums.packettypes.internal.LoginServerPacketType;
+import com.shnok.javaserver.model.network.WaitingClient;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.NewCrypt;
 import com.shnok.javaserver.service.WorldManagerService;
@@ -69,6 +68,9 @@ public class LoginServerPacketHandler extends Thread {
                 break;
             case RequestCharacters:
                 onRequestCharacters();
+                break;
+            case PlayerAuthResponse:
+                onPlayerAuthResponse();
                 break;
         }
     }
@@ -164,5 +166,37 @@ public class LoginServerPacketHandler extends Thread {
         }
 
         loginserver.sendPacket(new ReplyCharactersPacket(account, characters.size()));
+    }
+
+    private void onPlayerAuthResponse() {
+        PlayerAuthResponsePacket packet = new PlayerAuthResponsePacket(data);
+        String account = packet.getAccount();
+        WaitingClient wcToRemove = null;
+        synchronized (loginserver.getWaitingClients()) {
+            for (WaitingClient wc : loginserver.getWaitingClients()) {
+                if (wc.account.equals(account)) {
+                    wcToRemove = wc;
+                }
+            }
+        }
+        if (wcToRemove != null) {
+            if (packet.isAuthed()) {
+
+//                PlayerInGame pig = new PlayerInGame(par.getAccount());
+//                sendPacket(pig);
+                wcToRemove.gameClient.setGameClientState(GameClientState.AUTHED);
+//                wcToRemove.gameClient.setSessionId(wcToRemove.session);
+//
+//                CharSelectionInfo cl = new CharSelectionInfo(wcToRemove.account, wcToRemove.gameClient.getSessionId().playOkID1);
+//                wcToRemove.gameClient.getConnection().sendPacket(cl);
+//                wcToRemove.gameClient.setCharSelection(cl.getCharInfo());
+            } else {
+                log.warn("Session key is not correct. Closing connection for account {}.", wcToRemove.account);
+                // wcToRemove.gameClient.getConnection().sendPacket(new LoginFail(LoginFail.SYSTEM_ERROR_LOGIN_LATER));
+//                wcToRemove.gameClient.close(new LoginFail(LoginFail.SYSTEM_ERROR_LOGIN_LATER));
+                loginserver.getAccountsInGameServer().remove(wcToRemove.account);
+            }
+            loginserver.getWaitingClients().remove(wcToRemove);
+        }
     }
 }

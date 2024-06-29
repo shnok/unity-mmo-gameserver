@@ -1,4 +1,4 @@
-package com.shnok.javaserver.enums.packettypes;
+package com.shnok.javaserver.enums.packettypes.internal;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,8 @@ public enum GameServerPacketType {
     ServerStatus((byte) 2),
     PlayerInGame((byte) 3),
     PlayerLogout((byte) 4),
-    ReplyCharacters((byte) 5);
+    ReplyCharacters((byte) 5),
+    PlayerAuthRequest((byte) 6);
 
     private final byte value;
 

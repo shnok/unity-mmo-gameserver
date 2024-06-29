@@ -2,14 +2,16 @@ package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.config.Configuration;
 import com.shnok.javaserver.dto.SendablePacket;
+import com.shnok.javaserver.dto.internal.gameserver.PlayerAuthRequestPacket;
 import com.shnok.javaserver.dto.internal.gameserver.PlayerLogoutPacket;
 import com.shnok.javaserver.dto.internal.gameserver.ServerStatusPacket;
-import com.shnok.javaserver.enums.packettypes.GameServerPacketType;
+import com.shnok.javaserver.enums.packettypes.internal.GameServerPacketType;
+import com.shnok.javaserver.model.network.SessionKey;
+import com.shnok.javaserver.model.network.WaitingClient;
 import com.shnok.javaserver.security.NewCrypt;
 import com.shnok.javaserver.security.Rnd;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.util.HexUtils;
-import com.shnok.javaserver.util.ServerNameDAO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -23,10 +25,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.shnok.javaserver.config.Configuration.hexId;
@@ -67,6 +66,7 @@ public class LoginServerThread extends Thread {
     private final List<String> subnets;
     private final List<String> hosts;
     private byte[] blowfishKey;
+    private final List<WaitingClient> waitingClients;
 
     private static LoginServerThread instance;
     public static LoginServerThread getInstance() {
@@ -97,6 +97,7 @@ public class LoginServerThread extends Thread {
         hosts = Collections.singletonList("127.0.0.1");
         //waitingClients = new CopyOnWriteArrayList<>();
         maxPlayer = server.maxOnlineUser();
+        waitingClients = new ArrayList<>();
     }
 
     @Override
@@ -250,9 +251,18 @@ public class LoginServerThread extends Thread {
         removedLoggedAccount(account);
     }
 
-    public void addLoggedAccount(String account, GameClientThread client) {
-        accountsInGameServer.put(account, client);
+    /**
+     * Adds the game server login.
+     * @param account the account
+     * @param client the client
+     * @return {@code true} if account was not already logged in, {@code false} otherwise
+     */
+    public boolean addLoggedAccount(String account, GameClientThread client) {
+        boolean wasNotLoggedIn = accountsInGameServer.putIfAbsent(account, client) == null;
+
         calculateNewStatus();
+
+        return wasNotLoggedIn;
     }
 
     public void removedLoggedAccount(String account) {
@@ -303,7 +313,37 @@ public class LoginServerThread extends Thread {
         }
     }
 
-    public void getCharactersOnServer(String account) {
+    /**
+     * Adds the waiting client and send request.
+     * @param account the account
+     * @param client the game client
+     * @param key the session key
+     */
+    public void addWaitingClientAndSendRequest(String account, GameClientThread client, SessionKey key) {
+        WaitingClient wc = new WaitingClient(account, client, key);
+        synchronized (waitingClients) {
+            waitingClients.add(wc);
+        }
 
+        PlayerAuthRequestPacket par = new PlayerAuthRequestPacket(account, key);
+        sendPacket(par);
+    }
+
+    /**
+     * Removes the waiting client.
+     * @param client the client
+     */
+    public void removeWaitingClient(GameClientThread client) {
+        WaitingClient toRemove = null;
+        synchronized (waitingClients) {
+            for (WaitingClient c : waitingClients) {
+                if (c.gameClient == client) {
+                    toRemove = c;
+                }
+            }
+            if (toRemove != null) {
+                waitingClients.remove(toRemove);
+            }
+        }
     }
 }

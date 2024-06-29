@@ -3,7 +3,9 @@ package com.shnok.javaserver.thread;
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
-import com.shnok.javaserver.enums.packettypes.ServerPacketType;
+import com.shnok.javaserver.enums.GameClientState;
+import com.shnok.javaserver.enums.packettypes.external.ServerPacketType;
+import com.shnok.javaserver.model.network.SessionKey;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.service.GameServerController;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
@@ -25,6 +27,9 @@ import static com.shnok.javaserver.config.Configuration.server;
 @Setter
 @Log4j2
 public class GameClientThread extends Thread {
+    private GameClientState gameClientState;
+    private SessionKey sessionId;
+    private int _charSlot = -1;
     private final Socket connection;
     private final String connectionIp;
     public boolean authenticated;
