@@ -1,17 +1,17 @@
 package com.shnok.javaserver.thread;
 
-import com.shnok.javaserver.dto.internal.gameserver.AuthRequestPacket;
-import com.shnok.javaserver.dto.internal.gameserver.BlowFishKeyPacket;
-import com.shnok.javaserver.dto.internal.gameserver.PlayerInGamePacket;
-import com.shnok.javaserver.dto.internal.gameserver.ServerStatusPacket;
+import com.shnok.javaserver.db.entity.DBCharacter;
+import com.shnok.javaserver.dto.internal.gameserver.*;
 import com.shnok.javaserver.dto.internal.loginserver.AuthResponsePacket;
 import com.shnok.javaserver.dto.internal.loginserver.InitLSPacket;
 import com.shnok.javaserver.dto.internal.loginserver.LoginServerFailPacket;
+import com.shnok.javaserver.dto.internal.loginserver.RequestCharactersPacket;
 import com.shnok.javaserver.enums.LoginServerFailReason;
 import com.shnok.javaserver.enums.packettypes.LoginServerPacketType;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.NewCrypt;
 import com.shnok.javaserver.service.WorldManagerService;
+import com.shnok.javaserver.service.db.PlayerTable;
 import com.shnok.javaserver.util.HexUtils;
 import com.shnok.javaserver.util.ServerNameDAO;
 import lombok.extern.log4j.Log4j2;
@@ -48,6 +48,11 @@ public class LoginServerPacketHandler extends Thread {
         loginserver.getBlowfish().decrypt(data, 0, data.length);
         log.debug("<--- Decrypted packet {} : {}", data.length, Arrays.toString(data));
 
+        if(!NewCrypt.verifyChecksum(data)) {
+            log.warn("Packet's checksum is wrong.");
+            return;
+        }
+
         LoginServerPacketType type = LoginServerPacketType.fromByte(data[0]);
 
         log.debug("Received packet from loginserver: {}", type);
@@ -61,6 +66,9 @@ public class LoginServerPacketHandler extends Thread {
                 break;
             case AuthResponse:
                 onAuthResponse();
+                break;
+            case RequestCharacters:
+                onRequestCharacters();
                 break;
         }
     }
@@ -135,5 +143,26 @@ public class LoginServerPacketHandler extends Thread {
 
             loginserver.sendPacket(new PlayerInGamePacket(playerList));
         }
+    }
+
+    private void onRequestCharacters() {
+        RequestCharactersPacket packet = new RequestCharactersPacket(data);
+
+        String account = packet.getAccount().toLowerCase();
+
+        List<DBCharacter> characters = PlayerTable.getInstance().getCharactersForAccount(account);
+
+        log.info("Account {} have {} character(s).", account, characters.size());
+
+        if(characters.size() == 0 && server.createRandomCharacter()) {
+
+            PlayerTable.getInstance().createRandomCharForAccount(account);
+
+            characters = PlayerTable.getInstance().getCharactersForAccount(account);
+
+            log.info("Account {} have {} character(s).", account, characters.size());
+        }
+
+        loginserver.sendPacket(new ReplyCharactersPacket(account, characters.size()));
     }
 }

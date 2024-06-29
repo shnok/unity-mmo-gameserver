@@ -55,28 +55,27 @@ public class GameClientThread extends Thread {
     }
 
     private void startReadingPackets() {
-        int packetType;
-        int packetLength;
+        int lengthHi;
+        int lengthLo;
+        int length;
 
         try {
             for (; ; ) {
-                packetType = in.read();
-                packetLength = in.read();
+                lengthLo = in.read();
+                lengthHi = in.read();
+                length = (lengthHi * 256) + lengthLo;
 
-                if (packetType == -1 || connection.isClosed()) {
-                    log.warn("Connection was closed.");
+                if ((lengthHi < 0) || connection.isClosed()) {
+                    log.warn("Gameserver terminated the connection!");
                     break;
                 }
 
-                byte[] data = new byte[packetLength];
-                data[0] = (byte) packetType;
-                data[1] = (byte) packetLength;
+                byte[] data = new byte[length];
 
                 int receivedBytes = 0;
                 int newBytes = 0;
-
-                while ((newBytes != -1) && (receivedBytes < (packetLength - 2))) {
-                    newBytes = in.read(data, 2, packetLength - 2);
+                while ((newBytes != -1) && (receivedBytes < (length))) {
+                    newBytes = in.read(data, 0, length);
                     receivedBytes = receivedBytes + newBytes;
                 }
 
@@ -111,8 +110,9 @@ public class GameClientThread extends Thread {
 
         try {
             synchronized (out) {
-                out.write(packet.getLength() & 0xff);
-                out.write((packet.getLength() >> 8) & 0xff);
+                out.write((byte)(packet.getData().length) & 0xff);
+                out.write((byte)((packet.getData().length) >> 8) & 0xff);
+
                 for (byte b : packet.getData()) {
                     out.write(b & 0xFF);
                 }

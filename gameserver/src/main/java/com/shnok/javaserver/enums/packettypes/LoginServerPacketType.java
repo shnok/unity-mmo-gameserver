@@ -6,7 +6,8 @@ import java.util.Map;
 public enum LoginServerPacketType {
     InitLS((byte)0),
     Fail((byte)1),
-    AuthResponse((byte) 2);
+    AuthResponse((byte) 2),
+    RequestCharacters((byte) 4);
 
     private final byte value;
 

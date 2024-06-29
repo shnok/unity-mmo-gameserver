@@ -33,9 +33,15 @@ public interface ServerConfig extends Mutable, Reloadable {
     @Key("max.online.user")
     Integer maxOnlineUser();
 
+    // Security
+    @Key("rsa.padding.mode")
+    String rsaPaddingMode();
+
     // Administrator
     @Key("server.gm.only")
     Boolean serverGMOnly();
+    @Key("create.random.character")
+    Boolean createRandomCharacter();
 
     // Timer
     @Key("server.time.day.duration.minutes")

@@ -8,7 +8,8 @@ public enum GameServerPacketType {
     AuthRequest((byte) 1),
     ServerStatus((byte) 2),
     PlayerInGame((byte) 3),
-    PlayerLogout((byte) 4);
+    PlayerLogout((byte) 4),
+    ReplyCharacters((byte) 5);
 
     private final byte value;
 

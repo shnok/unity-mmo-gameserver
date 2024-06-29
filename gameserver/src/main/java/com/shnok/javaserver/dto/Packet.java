@@ -2,7 +2,6 @@ package com.shnok.javaserver.dto;
 
 public abstract class Packet {
     protected byte packetType;
-    protected byte packetLength;
     protected byte[] packetData;
 
     public Packet(byte type) {
@@ -19,15 +18,10 @@ public abstract class Packet {
 
     public void setData(byte[] data) {
         packetType = data[0];
-        packetLength = data[1];
         packetData = data;
     }
 
     public byte getType() {
         return packetType;
-    }
-
-    public byte getLength() {
-        return packetLength;
     }
 }

@@ -14,7 +14,8 @@ public class PlayerItemRepository implements PlayerItemDao {
     @Override
     public List<DBPlayerItem> getAllItemsForUser(int id) {
         try (Session session = DbFactory.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT i FROM DBPlayerItem i WHERE owner_id=" + id, DBPlayerItem.class)
+            return session.createQuery("SELECT i FROM DBPlayerItem i WHERE owner_id=:owner_id", DBPlayerItem.class)
+                    .setParameter("owner_id", id)
                     .getResultList();
         } catch (Exception e) {
             log.error("SQL ERROR: {}", e.getMessage(), e);
@@ -25,8 +26,10 @@ public class PlayerItemRepository implements PlayerItemDao {
     @Override
     public List<DBPlayerItem> getEquippedItemsForUser(int id) {
         try (Session session = DbFactory.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT i FROM DBPlayerItem i WHERE loc=" + ItemLocation.EQUIPPED.getValue() +
-                            " AND owner_id=" + id, DBPlayerItem.class)
+            return session.createQuery("SELECT i FROM DBPlayerItem i WHERE loc=:loc AND owner_id=:owner_id",
+                            DBPlayerItem.class)
+                    .setParameter("loc", ItemLocation.EQUIPPED.getValue())
+                    .setParameter("owner_id", id)
                     .getResultList();
         } catch (Exception e) {
             log.error("SQL ERROR: {}", e.getMessage(), e);

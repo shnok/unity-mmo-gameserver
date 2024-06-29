@@ -8,6 +8,8 @@ import javax.crypto.Cipher;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
 
+import static com.shnok.javaserver.config.Configuration.server;
+
 @Log4j2
 public class BlowFishKeyPacket extends SendablePacket {
     public BlowFishKeyPacket(byte[] blowfishKey, RSAPublicKey publicKey) {
@@ -16,7 +18,7 @@ public class BlowFishKeyPacket extends SendablePacket {
         try {
             log.debug("Decrypted blowfish key length: {}", blowfishKey.length);
             log.debug("Decrypted blowfish key: {}", Arrays.toString(blowfishKey));
-            final Cipher rsaCipher = Cipher.getInstance("RSA/ECB/nopadding");
+            final Cipher rsaCipher = Cipher.getInstance(server.rsaPaddingMode());
             rsaCipher.init(Cipher.ENCRYPT_MODE, publicKey);
             byte[] encrypted = rsaCipher.doFinal(blowfishKey);
             writeB((byte) 0);

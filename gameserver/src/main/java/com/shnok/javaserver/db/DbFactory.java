@@ -42,6 +42,7 @@ public class DbFactory {
         configuration.addAnnotatedClass(DBEtcItem.class);
         configuration.addAnnotatedClass(DBWeapon.class);
         configuration.addAnnotatedClass(DBArmor.class);
+        configuration.addAnnotatedClass(DBLevelUpGain.class);
 
         return configuration.buildSessionFactory();
     }

@@ -183,14 +183,16 @@ public class LoginServerThread extends Thread {
             log.debug("Sent packet: {}", packetType);
         }
 
+        NewCrypt.appendChecksum(packet.getData());
+
         log.debug("---> Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
         blowfish.crypt(packet.getData(), 0, packet.getData().length);
         log.debug("---> Encrypted packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
 
         try {
             synchronized (out) {
-                out.write(packet.getLength() & 0xff);
-                out.write((packet.getLength() >> 8) & 0xff);
+                out.write((byte)(packet.getData().length) & 0xff);
+                out.write((byte)((packet.getData().length) >> 8) & 0xff);
                 for (byte b : packet.getData()) {
                     out.write(b & 0xFF);
                 }
@@ -300,5 +302,9 @@ public class LoginServerThread extends Thread {
             case 5: return "GM Only";
             default: return "Unknown";
         }
+    }
+
+    public void getCharactersOnServer(String account) {
+
     }
 }

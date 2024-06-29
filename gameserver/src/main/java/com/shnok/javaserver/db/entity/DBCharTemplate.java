@@ -13,7 +13,7 @@ public class DBCharTemplate {
     @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private ClassId classId;
+    private int classId;
     @Column
     private String className;
     @Column(name = "RaceId")

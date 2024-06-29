@@ -10,7 +10,6 @@ public abstract class ReceivablePacket extends Packet {
     public ReceivablePacket(byte[] data) {
         super(data);
         readB();
-        readB();
     }
 
     protected byte readB() {

@@ -123,4 +123,13 @@ public enum ClassId {
     public boolean isMage() {
         return isMage;
     }
+
+    public static ClassId getById(byte id) {
+        for (ClassId classId : values()) {
+            if (classId.getId() == id) {
+                return classId;
+            }
+        }
+        throw new IllegalArgumentException("No ClassId with id " + id);
+    }
 }

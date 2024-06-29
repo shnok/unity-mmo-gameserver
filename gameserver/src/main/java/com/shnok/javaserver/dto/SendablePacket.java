@@ -79,8 +79,15 @@ public abstract class SendablePacket extends Packet {
     }
 
     protected void buildPacket() {
+        buildPacket(true);
+    }
+
+    protected void buildPacket(boolean padXor) {
         buffer.add(0, packetType);
-        buffer.add(1, (byte) (buffer.size() + 1));
+
+        if(padXor) {
+            padXor();
+        }
 
         padBuffer();
 
@@ -100,8 +107,10 @@ public abstract class SendablePacket extends Packet {
             for(int i = 0; i < paddingLength; i++) {
                 buffer.add((byte) 0);
             }
-
-            buffer.set(1, (byte) buffer.size());
         }
+    }
+
+    private void padXor() {
+        writeI(0);
     }
 }
