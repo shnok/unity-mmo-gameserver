@@ -1,6 +1,7 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.db.entity.DBCharacter;
+import com.shnok.javaserver.db.repository.CharacterRepository;
 import com.shnok.javaserver.dto.internal.gameserver.*;
 import com.shnok.javaserver.dto.internal.loginserver.AuthResponsePacket;
 import com.shnok.javaserver.dto.internal.loginserver.InitLSPacket;
@@ -11,7 +12,6 @@ import com.shnok.javaserver.enums.packettypes.LoginServerPacketType;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.NewCrypt;
 import com.shnok.javaserver.service.WorldManagerService;
-import com.shnok.javaserver.service.db.PlayerTable;
 import com.shnok.javaserver.util.HexUtils;
 import com.shnok.javaserver.util.ServerNameDAO;
 import lombok.extern.log4j.Log4j2;
@@ -150,15 +150,15 @@ public class LoginServerPacketHandler extends Thread {
 
         String account = packet.getAccount().toLowerCase();
 
-        List<DBCharacter> characters = PlayerTable.getInstance().getCharactersForAccount(account);
+        List<DBCharacter> characters = CharacterRepository.getInstance().getCharactersForAccount(account);
 
         log.info("Account {} have {} character(s).", account, characters.size());
 
         if(characters.size() == 0 && server.createRandomCharacter()) {
 
-            PlayerTable.getInstance().createRandomCharForAccount(account);
+            CharacterRepository.getInstance().createRandomCharForAccount(account);
 
-            characters = PlayerTable.getInstance().getCharactersForAccount(account);
+            characters = CharacterRepository.getInstance().getCharactersForAccount(account);
 
             log.info("Account {} have {} character(s).", account, characters.size());
         }

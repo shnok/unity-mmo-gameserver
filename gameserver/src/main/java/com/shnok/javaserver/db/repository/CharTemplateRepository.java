@@ -8,6 +8,14 @@ import org.hibernate.Session;
 
 @Log4j2
 public class CharTemplateRepository implements CharTemplateDao {
+    private static CharTemplateRepository instance;
+    public static CharTemplateRepository getInstance() {
+        if (instance == null) {
+            instance = new CharTemplateRepository();
+        }
+        return instance;
+    }
+
     @Override
     public DBCharTemplate getTemplateByClassId(int id) {
         try (Session session = DbFactory.getSessionFactory().openSession()) {

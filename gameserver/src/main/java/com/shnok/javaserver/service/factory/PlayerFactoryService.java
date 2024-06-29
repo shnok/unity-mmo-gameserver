@@ -3,6 +3,8 @@ package com.shnok.javaserver.service.factory;
 import com.shnok.javaserver.db.entity.DBCharacter;
 import com.shnok.javaserver.db.entity.DBItem;
 import com.shnok.javaserver.db.entity.DBPlayerItem;
+import com.shnok.javaserver.db.repository.CharacterRepository;
+import com.shnok.javaserver.db.repository.PlayerItemRepository;
 import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.model.PlayerAppearance;
 import com.shnok.javaserver.model.Point3D;
@@ -12,8 +14,6 @@ import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.service.db.ItemTable;
-import com.shnok.javaserver.service.db.PlayerItemTable;
-import com.shnok.javaserver.service.db.PlayerTable;
 import com.shnok.javaserver.thread.ai.PlayerAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.extern.log4j.Log4j2;
@@ -36,9 +36,9 @@ public class PlayerFactoryService {
         // TODO: get actual player id
         DBCharacter character;
         if(server.playerSpecificCharacterEnabled()) {
-            character = PlayerTable.getInstance().getCharacterById(server.playerSpecificCharacterId());
+            character = CharacterRepository.getInstance().getCharacterById(server.playerSpecificCharacterId());
         } else {
-            character = PlayerTable.getInstance().getRandomCharacter();
+            character = CharacterRepository.getInstance().getRandomCharacter();
         }
 
         PlayerTemplate playerTemplate = new PlayerTemplate(character);
@@ -71,7 +71,7 @@ public class PlayerFactoryService {
         PlayerInventory playerInventory = new PlayerInventory(player);
 
         // Load equipped items
-        List<DBPlayerItem> equipped = PlayerItemTable.getInstance().getEquippedItemsForPlayer(player.getCharId());
+        List<DBPlayerItem> equipped = PlayerItemRepository.getInstance().getEquippedItemsForUser(player.getCharId());
         List<DBItem> equippedData = ItemTable.getInstance().getPlayerItemData(equipped);
         log.debug("Player {} has {} equipped item(s).", player.getId(), equippedData.size());
 
@@ -81,7 +81,7 @@ public class PlayerFactoryService {
             playerInventory.addItem(itemInstance);
         }
         // Load inventory
-        List<DBPlayerItem> inventory = PlayerItemTable.getInstance().getInventoryItemsForPlayer(player.getCharId());
+        List<DBPlayerItem> inventory = PlayerItemRepository.getInstance().getInventoryItemsForUser(player.getCharId());
         List<DBItem> inventoryData = ItemTable.getInstance().getPlayerItemData(inventory);
         log.debug("Player {} has {} item(s) in his inventory.", player.getId(), inventoryData.size());
 

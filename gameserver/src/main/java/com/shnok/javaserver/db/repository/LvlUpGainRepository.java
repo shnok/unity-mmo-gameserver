@@ -8,6 +8,14 @@ import org.hibernate.Session;
 
 @Log4j2
 public class LvlUpGainRepository implements ClassLevelDao {
+    private static LvlUpGainRepository instance;
+    public static LvlUpGainRepository getInstance() {
+        if (instance == null) {
+            instance = new LvlUpGainRepository();
+        }
+        return instance;
+    }
+
     @Override
     public DBLevelUpGain getCharacterByClassId(int classId) {
         try (Session session = DbFactory.getSessionFactory().openSession()) {
