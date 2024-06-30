@@ -54,7 +54,7 @@ public class LoginServerPacketHandler extends Thread {
 
         LoginServerPacketType type = LoginServerPacketType.fromByte(data[0]);
 
-        log.debug("Received packet from loginserver: {}", type);
+        log.debug("[LOGIN] Received packet: {}", type);
 
         switch (type) {
             case InitLS:

@@ -4,12 +4,12 @@ import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.enums.packettypes.external.ServerPacketType;
 
 public class KeyPacket extends SendablePacket {
-    public KeyPacket(byte[] key, int id) {
+    public KeyPacket(byte[] key, boolean allowed) {
         super(ServerPacketType.Key.getValue());
 
         writeB((byte) key.length);
         writeB(key);
-        writeI(id);
+        writeB(allowed ? (byte) 1 : (byte) 0);
 
         buildPacket();
     }

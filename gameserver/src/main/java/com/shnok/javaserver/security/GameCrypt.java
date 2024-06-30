@@ -1,9 +1,11 @@
 package com.shnok.javaserver.security;
 
+import lombok.Getter;
+
+@Getter
 public class GameCrypt {
     private final byte[] _inKey = new byte[16];
     private final byte[] _outKey = new byte[16];
-    private boolean _isEnabled;
 
     public void setKey(byte[] key) {
         System.arraycopy(key, 0, _inKey, 0, 16);
@@ -11,9 +13,6 @@ public class GameCrypt {
     }
 
     public void decrypt(byte[] raw, final int offset, final int size) {
-        if (!_isEnabled) {
-            return;
-        }
 
         int temp = 0;
         for (int i = 0; i < size; i++) {
@@ -36,10 +35,6 @@ public class GameCrypt {
     }
 
     public void encrypt(byte[] raw, final int offset, final int size) {
-        if (!_isEnabled) {
-            _isEnabled = true;
-            return;
-        }
 
         int temp = 0;
         for (int i = 0; i < size; i++) {

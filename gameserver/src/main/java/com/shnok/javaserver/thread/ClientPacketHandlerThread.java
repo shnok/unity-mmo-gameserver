@@ -45,21 +45,22 @@ public class ClientPacketHandlerThread extends Thread {
     public void handle() {
         if(client.isCryptEnabled()) {
             log.debug("<--- [CLIENT] Encrypted packet {} : {}", data.length, Arrays.toString(data));
-            System.out.println(Arrays.toString(LoginServerThread.getInstance().getBlowfishKey()));
             client.getGameCrypt().decrypt(data, 0, data.length);
+            log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
 
             if(!NewCrypt.verifyChecksum(data)) {
                 log.warn("Packet's checksum is wrong.");
                 return;
             }
+        } else {
+            log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
         }
 
-        log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
 
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
         if(server.printClientPackets()) {
             if(type != ClientPacketType.Ping) {
-                log.debug("Received packet: {}", type);
+                log.debug("[CLIENT] Received packet: {}", type);
             }
         }
         switch (type) {
@@ -127,7 +128,7 @@ public class ClientPacketHandlerThread extends Thread {
         if (!server.allowedProtocolVersions().contains(packet.getVersion())) {
             log.warn("Received wrong protocol version: {}.", packet.getVersion());
 
-            KeyPacket pk = new KeyPacket(client.enableCrypt(), 0);
+            KeyPacket pk = new KeyPacket(client.enableCrypt(), false);
             client.sendPacket(pk);
             client.setProtocolOk(false);
             client.setCryptEnabled(true);
@@ -135,7 +136,7 @@ public class ClientPacketHandlerThread extends Thread {
         } else {
             log.debug("Client protocol version is ok: {}.", packet.getVersion());
 
-            KeyPacket pk = new KeyPacket(client.enableCrypt(), 1);
+            KeyPacket pk = new KeyPacket(client.enableCrypt(), true);
             client.sendPacket(pk);
             client.setProtocolOk(true);
             client.setCryptEnabled(true);
