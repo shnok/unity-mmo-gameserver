@@ -2,13 +2,14 @@ package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.external.clientpackets.*;
 import com.shnok.javaserver.dto.external.serverpackets.*;
-import com.shnok.javaserver.enums.network.packettypes.external.ClientPacketType;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.PlayerAction;
+import com.shnok.javaserver.enums.network.GameClientState;
+import com.shnok.javaserver.enums.network.packettypes.external.ClientPacketType;
+import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.network.SessionKey;
 import com.shnok.javaserver.model.object.GameObject;
-import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.NewCrypt;
@@ -24,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Random;
+
 import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
@@ -43,21 +45,25 @@ public class ClientPacketHandlerThread extends Thread {
 
     public void handle() {
         if(client.isCryptEnabled()) {
-            log.debug("<--- [CLIENT] Encrypted packet {} : {}", data.length, Arrays.toString(data));
+            if(client.isPrintCryptography()) {
+                log.debug("<--- [CLIENT] Encrypted packet {} : {}", data.length, Arrays.toString(data));
+            }
             client.getGameCrypt().decrypt(data, 0, data.length);
-            log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
+            if(client.isPrintCryptography()) {
+                log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
+            }
 
             if(!NewCrypt.verifyChecksum(data)) {
                 log.warn("Packet's checksum is wrong.");
                 return;
             }
-        } else {
+        } else if(client.isPrintCryptography()) {
             log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
         }
 
 
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
-        if(server.printClientPackets()) {
+        if(client.isPrintPacketsIn()) {
             if(type != ClientPacketType.Ping) {
                 log.debug("[CLIENT] Received packet: {}", type);
             }
@@ -105,12 +111,11 @@ public class ClientPacketHandlerThread extends Thread {
     private void onReceiveEcho() {
         client.sendPacket(new PingPacket());
 
-        Timer timer = new Timer(server.aiLoopRateMs(), new ActionListener() {
+        Timer timer = new Timer(client.getConnectionTimeoutMs() + 100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if (System.currentTimeMillis() - client.getLastEcho() >= server.serverConnectionTimeoutMs()) {
+                if (System.currentTimeMillis() - client.getLastEcho() >= client.getConnectionTimeoutMs()) {
                     log.info("User connection timeout.");
-                    client.removeSelf();
                     client.disconnect();
                 }
             }
@@ -149,9 +154,7 @@ public class ClientPacketHandlerThread extends Thread {
             SessionKey key = new SessionKey(packet.getLoginKey1(), packet.getLoginKey2(),
                     packet.getPlayKey1(), packet.getPlayKey2());
 
-                log.info("user:" + packet.getAccount());
-                log.info("key:" + key);
-
+            log.info("Received auth request for account: {}.", packet.getAccount());
             // Preventing duplicate login in case client login server socket was disconnected or this packet was not sent yet
             if (LoginServerThread.getInstance().addLoggedAccount(packet.getAccount(), client)) {
                 client.setAccountName(packet.getAccount());
@@ -180,8 +183,11 @@ public class ClientPacketHandlerThread extends Thread {
 
     private void onRequestLoadWorld() {
         client.setClientReady(true);
+        client.setGameClientState(GameClientState.IN_GAME);
 
-        PlayerInstance player = PlayerFactoryService.getInstance().getPlayerInstanceById(0);
+        //TODO: Get char based on char select, for now get first char of account
+        PlayerInstance player = PlayerFactoryService.getInstance().getPlayerInstanceByAccount(client.getAccountName());
+
         player.setGameClient(client);
 
         client.setCurrentPlayer(player);

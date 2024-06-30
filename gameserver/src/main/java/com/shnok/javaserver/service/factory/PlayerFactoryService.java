@@ -32,15 +32,24 @@ public class PlayerFactoryService {
         return instance;
     }
 
-    public PlayerInstance getPlayerInstanceById(int id) {
-        // TODO: get actual player id
+    public PlayerInstance getPlayerInstanceByAccount(String account) {
+        List<DBCharacter> characters = CharacterRepository.getInstance().getCharactersForAccount(account);
+
         DBCharacter character;
-        if(server.playerSpecificCharacterEnabled()) {
-            character = CharacterRepository.getInstance().getCharacterById(server.playerSpecificCharacterId());
+        if(characters == null || characters.size() == 0) {
+            if(server.playerSpecificCharacterEnabled()) {
+                character = CharacterRepository.getInstance().getCharacterById(server.playerSpecificCharacterId());
+            } else {
+                character = CharacterRepository.getInstance().getRandomCharacter();
+            }
         } else {
-            character = CharacterRepository.getInstance().getRandomCharacter();
+            character = characters.get(0);
         }
 
+        return buildPlayerInstance(character);
+    }
+
+    private PlayerInstance buildPlayerInstance(DBCharacter character) {
         PlayerTemplate playerTemplate = new PlayerTemplate(character);
         PlayerInstance player = new PlayerInstance(character.getId(), character.getCharName(), playerTemplate);
         player.setId(WorldManagerService.getInstance().nextID());

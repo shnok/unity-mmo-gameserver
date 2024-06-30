@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "PLAYER_ITEM")
 public class DBPlayerItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "object_id")
@@ -41,4 +42,15 @@ public class DBPlayerItem {
 
     @Column(name = "price_buy")
     private int priceBuy;
+
+    public DBPlayerItem(int ownerId, int itemId, ItemLocation location, int slot) {
+        this.ownerId = ownerId;
+        this.itemId = itemId;
+        this.location = location;
+        this.slot = slot;
+
+        priceBuy = 0;
+        priceSell = 0;
+        count = 1;
+    }
 }

@@ -67,6 +67,20 @@ public class CharacterRepository implements CharacterDao {
         }
     }
 
+    @Override
+    public int saveCharacter(DBCharacter character) {
+        int id = 0;
+        try (Session session = DbFactory.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            id = (int) session.save(character);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            log.error("SQL ERROR: {}", e.getMessage(), e);
+        }
+
+        return id;
+    }
+
     public void createRandomCharForAccount(String account) {
         log.info("Creating random character for account {}.", account);
         Random random = new Random();
@@ -147,6 +161,8 @@ public class CharacterRepository implements CharacterDao {
         dbCharacter.setColR(charTemplate.getCollisionRadiusFemale());
         dbCharacter.setColH(charTemplate.getCollisionHeightFemale());
 
-        saveOrUpdateCharacter(dbCharacter);
+        int insertedId = saveCharacter(dbCharacter);
+
+        PlayerItemRepository.getInstance().giveRandomGearToCharacter(insertedId);
     }
 }

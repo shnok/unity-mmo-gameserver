@@ -9,4 +9,5 @@ public interface PlayerItemDao {
     List<DBPlayerItem> getEquippedItemsForUser(int id);
     List<DBPlayerItem> getInventoryItemsForUser(int id);
     List<DBPlayerItem> getWarehouseItemsForUser(int id);
+    public int savePlayerItem(DBPlayerItem playerItem);
 }

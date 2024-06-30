@@ -40,7 +40,6 @@ public class GameClientThread extends Thread {
     private int _charSlot = -1;
     private final Socket connection;
     private final String connectionIp;
-    public boolean authenticated;
     private InputStream in;
     private OutputStream out;
     private String accountName;
@@ -52,11 +51,19 @@ public class GameClientThread extends Thread {
     private boolean protocolOk;
     private boolean cryptEnabled;
     private List<CharSelectInfoPackage> charSelection = null;
+    private int connectionTimeoutMs;
+    private boolean printCryptography;
+    private boolean printPacketsIn;
+    private boolean printPacketsOut;
 
     public GameClientThread(Socket con) {
         connection = con;
         connectionIp = con.getInetAddress().getHostAddress();
         gameCrypt = new GameCrypt();
+        connectionTimeoutMs = server.serverConnectionTimeoutMs();
+        printCryptography = server.printCryptography();
+        printPacketsIn = server.printClientPackets();
+        printPacketsOut = server.printServerPackets();
 
         try {
             in = connection.getInputStream();
@@ -125,7 +132,7 @@ public class GameClientThread extends Thread {
     }
 
     public boolean sendPacket(SendablePacket packet) {
-        if(server.printServerPackets()) {
+        if(isPrintPacketsOut()) {
             ServerPacketType packetType = ServerPacketType.fromByte(packet.getType());
             if(packetType != ServerPacketType.Ping) {
                 log.debug("[CLIENT] Sent packet: {}", packetType);
@@ -135,11 +142,18 @@ public class GameClientThread extends Thread {
         if(isCryptEnabled()) {
             NewCrypt.appendChecksum(packet.getData());
 
-            log.debug("---> [CLIENT] Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
+            if(printCryptography) {
+                log.debug("---> [CLIENT] Clear packet {} : {}", packet.getData().length,
+                        Arrays.toString(packet.getData()));
+            }
             gameCrypt.encrypt(packet.getData(), 0, packet.getData().length);
-            log.debug("---> [CLIENT] Encrypted packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
-        } else {
-            log.debug("---> [CLIENT] Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
+            if(printCryptography) {
+                log.debug("---> [CLIENT] Encrypted packet {} : {}", packet.getData().length,
+                        Arrays.toString(packet.getData()));
+            }
+        } else if(printCryptography) {
+            log.debug("---> [CLIENT] Clear packet {} : {}", packet.getData().length,
+                    Arrays.toString(packet.getData()));
         }
 
         try {
@@ -175,14 +189,14 @@ public class GameClientThread extends Thread {
     }
 
     void authenticate() {
-        log.debug("Authenticating new player.");
+        log.info("Authenticating new player.");
         GameServerController.getInstance().broadcast(
                 new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, accountName), this);
     }
 
     void removeSelf() {
-        if (authenticated) {
-            authenticated = false;
+        if (getGameClientState() == GameClientState.IN_GAME) {
+            setGameClientState(GameClientState.AUTHED);
 
             if(!clientReady) {
                 return;
@@ -214,14 +228,14 @@ public class GameClientThread extends Thread {
             /* remove player from region */
             currentPlayer.getPosition().getWorldRegion().removeVisibleObject(currentPlayer);
 
-            /* stop watch dog */
-            if(watchDog != null) {
-                watchDog.stop();
-            }
-
             /* broadcast log off message to server */
             GameServerController.getInstance().broadcast(
                     new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_OFF, accountName), this);
+        }
+
+        /* stop watch dog */
+        if(watchDog != null) {
+            watchDog.stop();
         }
 
         GameServerController.getInstance().removeClient(this);

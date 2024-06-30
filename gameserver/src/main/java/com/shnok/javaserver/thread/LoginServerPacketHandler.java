@@ -5,8 +5,8 @@ import com.shnok.javaserver.db.repository.CharacterRepository;
 import com.shnok.javaserver.dto.external.serverpackets.CharSelectionInfoPacket;
 import com.shnok.javaserver.dto.internal.gameserver.*;
 import com.shnok.javaserver.dto.internal.loginserver.*;
-import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.LoginServerFailReason;
+import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.LoginFailReason;
 import com.shnok.javaserver.enums.network.packettypes.internal.LoginServerPacketType;
 import com.shnok.javaserver.model.network.WaitingClient;
@@ -45,9 +45,13 @@ public class LoginServerPacketHandler extends Thread {
     }
 
     public void handle() {
-        log.debug("<--- [LOGIN] Encrypted packet {} : {}", data.length, Arrays.toString(data));
+        if(loginserver.isPrintCryptography()) {
+            log.debug("<--- [LOGIN] Encrypted packet {} : {}", data.length, Arrays.toString(data));
+        }
         loginserver.getBlowfish().decrypt(data, 0, data.length);
-        log.debug("<--- [LOGIN] Decrypted packet {} : {}", data.length, Arrays.toString(data));
+        if(loginserver.isPrintCryptography()) {
+            log.debug("<--- [LOGIN] Decrypted packet {} : {}", data.length, Arrays.toString(data));
+        }
 
         if(!NewCrypt.verifyChecksum(data)) {
             log.warn("Packet's checksum is wrong.");
@@ -56,7 +60,9 @@ public class LoginServerPacketHandler extends Thread {
 
         LoginServerPacketType type = LoginServerPacketType.fromByte(data[0]);
 
-        log.debug("[LOGIN] Received packet: {}", type);
+        if(loginserver.isPrintPacketsIn()) {
+            log.debug("[LOGIN] Received packet: {}", type);
+        }
 
         switch (type) {
             case InitLS:
@@ -81,7 +87,7 @@ public class LoginServerPacketHandler extends Thread {
         InitLSPacket initLSPacket = new InitLSPacket(data);
         byte[] rsaBytes = initLSPacket.getRsaKey();
 
-        log.debug("Received RSA public key {} - {}", rsaBytes.length, Arrays.toString(rsaBytes));
+        log.debug("Received RSA public key [{}]: {}", rsaBytes.length, Arrays.toString(rsaBytes));
 
         RSAPublicKey publicKey;
         try {

@@ -67,6 +67,9 @@ public class LoginServerThread extends Thread {
     private final List<String> hosts;
     private byte[] blowfishKey;
     private final List<WaitingClient> waitingClients;
+    private boolean printCryptography;
+    private boolean printPacketsIn;
+    private boolean printPacketsOut;
 
     private static LoginServerThread instance;
     public static LoginServerThread getInstance() {
@@ -82,6 +85,9 @@ public class LoginServerThread extends Thread {
         port = server.loginServerPort();
         gamePort = server.gameserverPort();
         hostname = server.loginServerHost();
+        printCryptography = server.printCryptography();
+        printPacketsIn = server.printClientPackets();
+        printPacketsOut = server.printServerPackets();
 
         if (hexId.getHexID() == null) {
             hexID = HexUtils.generateHex(16);
@@ -179,17 +185,20 @@ public class LoginServerThread extends Thread {
     }
 
     public boolean sendPacket(SendablePacket packet) {
-        if(server.printServerPackets()) {
+        if(isPrintPacketsOut()) {
             GameServerPacketType packetType = GameServerPacketType.fromByte(packet.getType());
             log.debug("[LOGIN] Sent packet: {}", packetType);
         }
 
         NewCrypt.appendChecksum(packet.getData());
 
-        log.debug("---> [LOGIN] Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
+        if(isPrintCryptography()) {
+            log.debug("---> [LOGIN] Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
+        }
         blowfish.crypt(packet.getData(), 0, packet.getData().length);
-        log.debug("---> [LOGIN] Encrypted packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
-
+        if(isPrintCryptography()) {
+            log.debug("---> [LOGIN] Encrypted packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
+        }
         try {
             synchronized (out) {
                 out.write((byte)(packet.getData().length) & 0xff);

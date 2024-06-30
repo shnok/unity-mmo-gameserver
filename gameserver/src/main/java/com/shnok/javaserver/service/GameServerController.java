@@ -1,6 +1,7 @@
 package com.shnok.javaserver.service;
 
 import com.shnok.javaserver.dto.SendablePacket;
+import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.thread.GameClientThread;
 import lombok.extern.log4j.Log4j2;
 
@@ -40,7 +41,7 @@ public class GameServerController {
     public void broadcast(SendablePacket packet, GameClientThread current) {
         synchronized (clients) {
             for (GameClientThread c : clients) {
-                if (c.authenticated && c != current) {
+                if (c.getGameClientState() == GameClientState.IN_GAME && c != current) {
                     c.sendPacket(packet);
                 }
             }
@@ -51,22 +52,10 @@ public class GameServerController {
    public void broadcast(SendablePacket packet) {
         synchronized (clients) {
             for (GameClientThread c : clients) {
-                if (c.authenticated) {
+                if (c.getGameClientState() == GameClientState.IN_GAME) {
                     c.sendPacket(packet);
                 }
             }
-        }
-    }
-
-    public boolean userExists(String user) {
-        synchronized (clients) {
-            for (GameClientThread c : clients) {
-                if (c.authenticated) {
-                    return c.getAccountName().equals(user);
-                }
-            }
-
-            return false;
         }
     }
 }

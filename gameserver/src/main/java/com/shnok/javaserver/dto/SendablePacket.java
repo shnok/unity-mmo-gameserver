@@ -102,7 +102,7 @@ public abstract class SendablePacket extends Packet {
 
             paddingLength = (byte) (8 - paddingLength);
 
-            log.debug("Packet needs a padding of {} bytes", paddingLength);
+            //log.debug("Packet needs a padding of {} bytes", paddingLength);
 
             for(int i = 0; i < paddingLength; i++) {
                 buffer.add((byte) 0);

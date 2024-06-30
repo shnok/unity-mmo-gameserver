@@ -16,8 +16,10 @@ public class BlowFishKeyPacket extends SendablePacket {
         super(GameServerPacketType.BlowFishKey.getValue());
 
         try {
-            log.debug("Decrypted blowfish key length: {}", blowfishKey.length);
-            log.debug("Decrypted blowfish key: {}", Arrays.toString(blowfishKey));
+            if(server.printCryptography()) {
+                log.debug("Decrypted blowfish key [{}]: {}", blowfishKey.length, Arrays.toString(blowfishKey));
+            }
+
             final Cipher rsaCipher = Cipher.getInstance(server.rsaPaddingMode());
             rsaCipher.init(Cipher.ENCRYPT_MODE, publicKey);
             byte[] encrypted = rsaCipher.doFinal(blowfishKey);
@@ -26,8 +28,9 @@ public class BlowFishKeyPacket extends SendablePacket {
             writeI(encrypted.length);
             writeB(encrypted);
 
-            log.debug("Encrypted blowfish key length: {}", encrypted.length);
-            log.debug("Encrypted blowfish key: {}", Arrays.toString(encrypted));
+            if(server.printCryptography()) {
+                log.debug("Encrypted blowfish key [{}]: {}", encrypted.length, Arrays.toString(encrypted));
+            }
             buildPacket();
         } catch (Exception e) {
             log.error("Error While encrypting blowfish key for transmision (Crypt error): " + e.getMessage(), e);

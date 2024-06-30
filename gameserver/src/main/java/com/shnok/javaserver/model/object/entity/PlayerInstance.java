@@ -3,6 +3,7 @@ package com.shnok.javaserver.model.object.entity;
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.external.serverpackets.UserInfoPacket;
+import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.model.PlayerAppearance;
 import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
@@ -41,7 +42,7 @@ public class PlayerInstance extends Entity {
 
     // Send packet to player
     public boolean sendPacket(SendablePacket packet) {
-        if(gameClient.isClientReady() && gameClient.isAuthenticated()) {
+        if(gameClient.isClientReady() && gameClient.getGameClientState() == GameClientState.IN_GAME) {
             if(gameClient.sendPacket(packet)) {
                 if(packet instanceof UserInfoPacket) {
                     log.debug("[{}] Sending user packet", getGameClient().getCurrentPlayer().getId());

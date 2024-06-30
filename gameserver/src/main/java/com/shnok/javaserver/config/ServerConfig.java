@@ -113,6 +113,8 @@ public interface ServerConfig extends Mutable, Reloadable {
     Boolean printServerPackets();
     @Key("logger.print.client-packets")
     Boolean printClientPackets();
+    @Key("logger.print.cryptography")
+    Boolean printCryptography();
     @Key("logger.print.pathfinder")
     Boolean printPathfinder();
     @Key("logger.print.world-region")

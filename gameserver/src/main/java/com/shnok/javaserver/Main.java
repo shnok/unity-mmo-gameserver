@@ -13,20 +13,20 @@ public class Main {
        runServer(args);
     }
 
-    public static void runServer(String... args)  {
+    public static void runServer(String... args) {
         log.info("Starting application.");
 
         ThreadPoolManagerService.getInstance().initialize();
         Runtime.getRuntime().addShutdownHook(ServerShutdownService.getInstance());
 
-       // ItemTable.getInstance();
+        ItemTable.getInstance();
 
-       // Geodata.getInstance().loadGeodata();
-       // PathFinding.getInstance();
+        Geodata.getInstance().loadGeodata();
+        PathFinding.getInstance();
 
-       WorldManagerService.getInstance().initialize();
-       GameTimeControllerService.getInstance().initialize();
-       // SpawnManagerService.getInstance().initialize();
+        WorldManagerService.getInstance().initialize();
+        GameTimeControllerService.getInstance().initialize();
+        SpawnManagerService.getInstance().initialize();
 
         GameServerListenerService.getInstance().Initialize();
         GameServerListenerService.getInstance().start();
