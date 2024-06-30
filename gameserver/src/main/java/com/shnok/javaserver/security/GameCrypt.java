@@ -2,6 +2,8 @@ package com.shnok.javaserver.security;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public class GameCrypt {
     private final byte[] _inKey = new byte[16];
@@ -13,7 +15,7 @@ public class GameCrypt {
     }
 
     public void decrypt(byte[] raw, final int offset, final int size) {
-
+        System.out.println("Old inkey: " + Arrays.toString(_inKey));
         int temp = 0;
         for (int i = 0; i < size; i++) {
             int temp2 = raw[offset + i] & 0xFF;
@@ -32,9 +34,11 @@ public class GameCrypt {
         _inKey[9] = (byte) ((old >> 0x08) & 0xff);
         _inKey[10] = (byte) ((old >> 0x10) & 0xff);
         _inKey[11] = (byte) ((old >> 0x18) & 0xff);
+        System.out.println("New inkey: " + Arrays.toString(_inKey));
     }
 
     public void encrypt(byte[] raw, final int offset, final int size) {
+        System.out.println("Old outkey: " + Arrays.toString(_outKey));
 
         int temp = 0;
         for (int i = 0; i < size; i++) {
@@ -54,5 +58,6 @@ public class GameCrypt {
         _outKey[9] = (byte) ((old >> 0x08) & 0xff);
         _outKey[10] = (byte) ((old >> 0x10) & 0xff);
         _outKey[11] = (byte) ((old >> 0x18) & 0xff);
+        System.out.println("New outkey: " + Arrays.toString(_outKey));
     }
 }

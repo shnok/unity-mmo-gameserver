@@ -136,7 +136,7 @@ public class GameClientThread extends Thread {
             NewCrypt.appendChecksum(packet.getData());
 
             log.debug("---> [CLIENT] Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
-            LoginServerThread.getInstance().getBlowfish().crypt(packet.getData(), 0, packet.getData().length);
+            gameCrypt.encrypt(packet.getData(), 0, packet.getData().length);
             log.debug("---> [CLIENT] Encrypted packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
         } else {
             log.debug("---> [CLIENT] Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
