@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'com.shnok.javaserver'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'org.apache.logging.log4j:log4j-api:2.21.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.21.0'
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'javolution:javolution:5.5.1'
+    implementation 'com.zaxxer:HikariCP:3.4.5'
+    implementation 'org.hibernate:hibernate-core:5.4.32.Final'
+    implementation 'org.hibernate:hibernate-hikaricp:5.4.32.Final'
+    implementation 'com.h2database:h2:1.4.200'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.11.0'
+    implementation 'org.aeonbits.owner:owner-java8:1.0.12'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+}
+
+application {
+    // Specify the main class for your application
+    mainClassName = 'com.shnok.javaserver.Main'
+}
+
+
+mainClassName="com.shnok.javaserver.Main"
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': 'com.shnok.javaserver.Main'
+    }
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

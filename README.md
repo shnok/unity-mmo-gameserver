@@ -6,7 +6,7 @@
 
 <p>The objective is to make it generic and not only focused on the old mmorpg Lineage2</p>
 
-<p>I use it to handle multiplayer in my other project [l2-unity](https://gitlab.com/shnok/l2-unity).</p>
+I use it to handle multiplayer in my other project [l2-unity](https://gitlab.com/shnok/l2-unity).
 
 ## Current features
 
