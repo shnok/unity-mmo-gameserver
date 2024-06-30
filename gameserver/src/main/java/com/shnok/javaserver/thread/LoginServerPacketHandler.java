@@ -2,11 +2,13 @@ package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.db.entity.DBCharacter;
 import com.shnok.javaserver.db.repository.CharacterRepository;
+import com.shnok.javaserver.dto.external.serverpackets.CharSelectionInfoPacket;
 import com.shnok.javaserver.dto.internal.gameserver.*;
 import com.shnok.javaserver.dto.internal.loginserver.*;
-import com.shnok.javaserver.enums.GameClientState;
+import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.LoginServerFailReason;
-import com.shnok.javaserver.enums.packettypes.internal.LoginServerPacketType;
+import com.shnok.javaserver.enums.network.LoginFailReason;
+import com.shnok.javaserver.enums.network.packettypes.internal.LoginServerPacketType;
 import com.shnok.javaserver.model.network.WaitingClient;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.NewCrypt;
@@ -185,15 +187,15 @@ public class LoginServerPacketHandler extends Thread {
                 PlayerInGamePacket pig = new PlayerInGamePacket(packet.getAccount());
                 loginserver.sendPacket(pig);
                 wcToRemove.gameClient.setGameClientState(GameClientState.AUTHED);
-//                wcToRemove.gameClient.setSessionId(wcToRemove.session);
-//
-//                CharSelectionInfo cl = new CharSelectionInfo(wcToRemove.account, wcToRemove.gameClient.getSessionId().playOkID1);
-//                wcToRemove.gameClient.getConnection().sendPacket(cl);
-//                wcToRemove.gameClient.setCharSelection(cl.getCharInfo());
+                wcToRemove.gameClient.setSessionId(wcToRemove.session);
+
+                CharSelectionInfoPacket cl = new CharSelectionInfoPacket(
+                        wcToRemove.account, wcToRemove.gameClient.getSessionId().playOkID1);
+                wcToRemove.gameClient.sendPacket(cl);
+                wcToRemove.gameClient.setCharSelection(cl.getCharSelect());
             } else {
                 log.warn("Session key is not correct. Closing connection for account {}.", wcToRemove.account);
-                // wcToRemove.gameClient.getConnection().sendPacket(new LoginFail(LoginFail.SYSTEM_ERROR_LOGIN_LATER));
-//                wcToRemove.gameClient.close(new LoginFail(LoginFail.SYSTEM_ERROR_LOGIN_LATER));
+                wcToRemove.gameClient.close(LoginFailReason.REASON_SYSTEM_ERROR_LOGIN_LATER);
                 loginserver.getAccountsInGameServer().remove(wcToRemove.account);
             }
             loginserver.getWaitingClients().remove(wcToRemove);

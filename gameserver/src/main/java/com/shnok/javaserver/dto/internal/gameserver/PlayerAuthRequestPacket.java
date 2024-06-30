@@ -1,7 +1,7 @@
 package com.shnok.javaserver.dto.internal.gameserver;
 
 import com.shnok.javaserver.dto.SendablePacket;
-import com.shnok.javaserver.enums.packettypes.internal.GameServerPacketType;
+import com.shnok.javaserver.enums.network.packettypes.internal.GameServerPacketType;
 import com.shnok.javaserver.model.network.SessionKey;
 
 public class PlayerAuthRequestPacket extends SendablePacket {

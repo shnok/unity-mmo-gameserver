@@ -1,9 +1,8 @@
 package com.shnok.javaserver.thread;
 
-import com.shnok.javaserver.dto.Packet;
 import com.shnok.javaserver.dto.external.clientpackets.*;
 import com.shnok.javaserver.dto.external.serverpackets.*;
-import com.shnok.javaserver.enums.packettypes.external.ClientPacketType;
+import com.shnok.javaserver.enums.network.packettypes.external.ClientPacketType;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.PlayerAction;

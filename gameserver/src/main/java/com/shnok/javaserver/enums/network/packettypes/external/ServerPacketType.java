@@ -1,4 +1,4 @@
-package com.shnok.javaserver.enums.packettypes.external;
+package com.shnok.javaserver.enums.network.packettypes.external;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,24 +6,25 @@ import java.util.Map;
 public enum ServerPacketType {
     Ping((byte)0x00),
     Key((byte)0x01),
-    CharSelectionInfo((byte)0x02),
-    MessagePacket((byte)0x03),
-    SystemMessage((byte)0x04),
-    PlayerInfo((byte)0x05),
-    ObjectPosition((byte)0x06),
-    RemoveObject((byte)0x07),
-    ObjectRotation((byte)0x08),
-    ObjectAnimation((byte)0x09),
-    ApplyDamage((byte)0x0A),
-    NpcInfo((byte)0x0B),
-    ObjectMoveTo((byte)0x0C),
-    UserInfo((byte)0x0D),
-    ObjectMoveDirection((byte)0x0E),
-    GameTimePacket((byte)0x0F),
-    EntitySetTarget((byte)0x10),
-    AutoAttackStart((byte)0x11),
-    AutoAttackStop((byte)0x12),
-    ActionFailed((byte)0x13);
+    LoginFail((byte)0x02),
+    CharSelectionInfo((byte)0x03),
+    MessagePacket((byte)0x04),
+    SystemMessage((byte)0x05),
+    PlayerInfo((byte)0x06),
+    ObjectPosition((byte)0x07),
+    RemoveObject((byte)0x08),
+    ObjectRotation((byte)0x09),
+    ObjectAnimation((byte)0x0A),
+    ApplyDamage((byte)0x0B),
+    NpcInfo((byte)0x0C),
+    ObjectMoveTo((byte)0x0D),
+    UserInfo((byte)0x0E),
+    ObjectMoveDirection((byte)0x0F),
+    GameTimePacket((byte)0x10),
+    EntitySetTarget((byte)0x11),
+    AutoAttackStart((byte)0x12),
+    AutoAttackStop((byte)0x13),
+    ActionFailed((byte)0x14);
 
     private final byte value;
 

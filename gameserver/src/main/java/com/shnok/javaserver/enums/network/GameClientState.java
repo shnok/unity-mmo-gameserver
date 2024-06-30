@@ -1,4 +1,4 @@
-package com.shnok.javaserver.enums;
+package com.shnok.javaserver.enums.network;
 
 public enum GameClientState {
     /** Client has just connected . */

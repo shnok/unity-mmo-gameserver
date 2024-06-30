@@ -5,7 +5,7 @@ import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.internal.gameserver.PlayerAuthRequestPacket;
 import com.shnok.javaserver.dto.internal.gameserver.PlayerLogoutPacket;
 import com.shnok.javaserver.dto.internal.gameserver.ServerStatusPacket;
-import com.shnok.javaserver.enums.packettypes.internal.GameServerPacketType;
+import com.shnok.javaserver.enums.network.packettypes.internal.GameServerPacketType;
 import com.shnok.javaserver.model.network.SessionKey;
 import com.shnok.javaserver.model.network.WaitingClient;
 import com.shnok.javaserver.security.NewCrypt;

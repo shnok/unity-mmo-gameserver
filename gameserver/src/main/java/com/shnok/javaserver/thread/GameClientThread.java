@@ -1,10 +1,13 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.SendablePacket;
+import com.shnok.javaserver.dto.external.serverpackets.LoginFailPacket;
 import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
-import com.shnok.javaserver.enums.GameClientState;
-import com.shnok.javaserver.enums.packettypes.external.ServerPacketType;
+import com.shnok.javaserver.enums.CharSelectInfoPackage;
+import com.shnok.javaserver.enums.network.GameClientState;
+import com.shnok.javaserver.enums.network.LoginFailReason;
+import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;
 import com.shnok.javaserver.model.network.SessionKey;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.BlowFishKeygen;
@@ -24,6 +27,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.shnok.javaserver.config.Configuration.server;
 
@@ -47,7 +51,7 @@ public class GameClientThread extends Thread {
     private GameCrypt gameCrypt;
     private boolean protocolOk;
     private boolean cryptEnabled;
-
+    private List<CharSelectInfoPackage> charSelection = null;
 
     public GameClientThread(Socket con) {
         connection = con;
@@ -124,18 +128,18 @@ public class GameClientThread extends Thread {
         if(server.printServerPackets()) {
             ServerPacketType packetType = ServerPacketType.fromByte(packet.getType());
             if(packetType != ServerPacketType.Ping) {
-                log.debug("[GAME] Sent packet: {}", packetType);
+                log.debug("[CLIENT] Sent packet: {}", packetType);
             }
         }
 
         if(isCryptEnabled()) {
             NewCrypt.appendChecksum(packet.getData());
 
-            log.debug("---> [GAME] Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
+            log.debug("---> [CLIENT] Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
             LoginServerThread.getInstance().getBlowfish().crypt(packet.getData(), 0, packet.getData().length);
-            log.debug("---> [GAME] Encrypted packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
+            log.debug("---> [CLIENT] Encrypted packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
         } else {
-            log.debug("---> [GAME] Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
+            log.debug("---> [CLIENT] Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
         }
 
         try {
@@ -222,5 +226,10 @@ public class GameClientThread extends Thread {
 
         GameServerController.getInstance().removeClient(this);
         this.interrupt();
+    }
+
+    public void close(LoginFailReason failReason) {
+        sendPacket(new LoginFailPacket(failReason));
+        disconnect();
     }
 }

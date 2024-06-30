@@ -1,4 +1,4 @@
-package com.shnok.javaserver.enums.packettypes.external;
+package com.shnok.javaserver.enums.network.packettypes.external;
 
 import java.util.HashMap;
 import java.util.Map;
