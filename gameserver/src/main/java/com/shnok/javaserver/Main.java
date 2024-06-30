@@ -15,13 +15,6 @@ public class Main {
 
     public static void runServer(String... args)  {
         log.info("Starting application.");
-//        try {
-//            //Config.initializeLog4j();
-//            ServerConfig.loadConfig();
-//        } catch (Exception e) {
-//            log.error("Error while loading config file.", e);
-//            return;
-//        }
 
         ThreadPoolManagerService.getInstance().initialize();
         Runtime.getRuntime().addShutdownHook(ServerShutdownService.getInstance());
@@ -32,15 +25,15 @@ public class Main {
        // PathFinding.getInstance();
 
        WorldManagerService.getInstance().initialize();
-       // GameTimeControllerService.getInstance().initialize();
+       GameTimeControllerService.getInstance().initialize();
        // SpawnManagerService.getInstance().initialize();
 
-       // GameServerListenerService.getInstance().Initialize();
-       // GameServerListenerService.getInstance().start();
+        GameServerListenerService.getInstance().Initialize();
+        GameServerListenerService.getInstance().start();
         LoginServerThread.getInstance().start();
         try {
             LoginServerThread.getInstance().join();
-        //    GameServerListenerService.getInstance().join();
+            GameServerListenerService.getInstance().join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

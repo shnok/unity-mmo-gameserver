@@ -1,5 +1,6 @@
 package com.shnok.javaserver.thread;
 
+import com.shnok.javaserver.dto.Packet;
 import com.shnok.javaserver.dto.external.clientpackets.*;
 import com.shnok.javaserver.dto.external.serverpackets.*;
 import com.shnok.javaserver.enums.packettypes.external.ClientPacketType;
@@ -11,6 +12,7 @@ import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
+import com.shnok.javaserver.security.NewCrypt;
 import com.shnok.javaserver.service.GameServerController;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.service.factory.PlayerFactoryService;
@@ -21,6 +23,7 @@ import lombok.extern.log4j.Log4j2;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Random;
 import static com.shnok.javaserver.config.Configuration.server;
 
@@ -40,6 +43,19 @@ public class ClientPacketHandlerThread extends Thread {
     }
 
     public void handle() {
+        if(client.isCryptEnabled()) {
+            log.debug("<--- [CLIENT] Encrypted packet {} : {}", data.length, Arrays.toString(data));
+            System.out.println(Arrays.toString(LoginServerThread.getInstance().getBlowfishKey()));
+            client.getGameCrypt().decrypt(data, 0, data.length);
+
+            if(!NewCrypt.verifyChecksum(data)) {
+                log.warn("Packet's checksum is wrong.");
+                return;
+            }
+        }
+
+        log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
+
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
         if(server.printClientPackets()) {
             if(type != ClientPacketType.Ping) {
@@ -49,6 +65,9 @@ public class ClientPacketHandlerThread extends Thread {
         switch (type) {
             case Ping:
                 onReceiveEcho();
+                break;
+            case ProtocolVersion:
+                onReceiveProtocolVersion();
                 break;
             case AuthLogin:
                 onReceiveAuth();
@@ -100,6 +119,27 @@ public class ClientPacketHandlerThread extends Thread {
         timer.start();
 
         client.setLastEcho(System.currentTimeMillis(), timer);
+    }
+
+    private void onReceiveProtocolVersion() {
+        ProtocolVersionPacket packet = new ProtocolVersionPacket(data);
+
+        if (!server.allowedProtocolVersions().contains(packet.getVersion())) {
+            log.warn("Received wrong protocol version: {}.", packet.getVersion());
+
+            KeyPacket pk = new KeyPacket(client.enableCrypt(), 0);
+            client.sendPacket(pk);
+            client.setProtocolOk(false);
+            client.setCryptEnabled(true);
+            client.disconnect();
+        } else {
+            log.debug("Client protocol version is ok: {}.", packet.getVersion());
+
+            KeyPacket pk = new KeyPacket(client.enableCrypt(), 1);
+            client.sendPacket(pk);
+            client.setProtocolOk(true);
+            client.setCryptEnabled(true);
+        }
     }
 
     private void onReceiveAuth() {

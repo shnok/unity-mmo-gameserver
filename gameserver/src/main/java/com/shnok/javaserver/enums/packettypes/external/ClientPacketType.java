@@ -4,17 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ClientPacketType {
-    Ping((byte)0),
-    AuthLogin((byte)1),
-    SendMessage((byte)2),
-    RequestMove((byte)3),
-    LoadWorld((byte)4),
-    RequestRotate((byte)5),
-    RequestAnim((byte)6),
-    RequestAttack((byte)7),
-    RequestMoveDirection((byte)8),
-    RequestSetTarget((byte)9),
-    RequestAutoAttack((byte)0x0A);
+    Ping((byte)0x00),
+    ProtocolVersion((byte)0x01),
+    AuthLogin((byte)0x02),
+    SendMessage((byte)0x03),
+    RequestMove((byte)0x04),
+    LoadWorld((byte)0x05),
+    RequestRotate((byte)0x06),
+    RequestAnim((byte)0x07),
+    RequestAttack((byte)0x08),
+    RequestMoveDirection((byte)0x09),
+    RequestSetTarget((byte)0x0A),
+    RequestAutoAttack((byte)0x0B);
 
     private final byte value;
 

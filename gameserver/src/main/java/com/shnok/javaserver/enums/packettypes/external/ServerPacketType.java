@@ -4,25 +4,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ServerPacketType {
-    Ping((byte)0),
-    AuthResponse((byte)1),
-    MessagePacket((byte)2),
-    SystemMessage((byte)3),
-    PlayerInfo((byte)4),
-    ObjectPosition((byte)5),
-    RemoveObject((byte)6),
-    ObjectRotation((byte)7),
-    ObjectAnimation((byte)8),
-    ApplyDamage((byte)9),
-    NpcInfo((byte)0x0A),
-    ObjectMoveTo((byte)0x0B),
-    UserInfo((byte)0x0C),
-    ObjectMoveDirection((byte)0x0D),
-    GameTimePacket((byte)0x0E),
-    EntitySetTarget((byte)0x0F),
-    AutoAttackStart((byte)0x10),
-    AutoAttackStop((byte)0x11),
-    ActionFailed((byte)0x12);
+    Ping((byte)0x00),
+    Key((byte)0x01),
+    CharSelectionInfo((byte)0x02),
+    MessagePacket((byte)0x03),
+    SystemMessage((byte)0x04),
+    PlayerInfo((byte)0x05),
+    ObjectPosition((byte)0x06),
+    RemoveObject((byte)0x07),
+    ObjectRotation((byte)0x08),
+    ObjectAnimation((byte)0x09),
+    ApplyDamage((byte)0x0A),
+    NpcInfo((byte)0x0B),
+    ObjectMoveTo((byte)0x0C),
+    UserInfo((byte)0x0D),
+    ObjectMoveDirection((byte)0x0E),
+    GameTimePacket((byte)0x0F),
+    EntitySetTarget((byte)0x10),
+    AutoAttackStart((byte)0x11),
+    AutoAttackStop((byte)0x12),
+    ActionFailed((byte)0x13);
 
     private final byte value;
 

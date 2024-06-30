@@ -43,9 +43,9 @@ public class LoginServerPacketHandler extends Thread {
     }
 
     public void handle() {
-        log.debug("<--- Encrypted packet {} : {}", data.length, Arrays.toString(data));
+        log.debug("<--- [LOGIN] Encrypted packet {} : {}", data.length, Arrays.toString(data));
         loginserver.getBlowfish().decrypt(data, 0, data.length);
-        log.debug("<--- Decrypted packet {} : {}", data.length, Arrays.toString(data));
+        log.debug("<--- [LOGIN] Decrypted packet {} : {}", data.length, Arrays.toString(data));
 
         if(!NewCrypt.verifyChecksum(data)) {
             log.warn("Packet's checksum is wrong.");
@@ -98,7 +98,7 @@ public class LoginServerPacketHandler extends Thread {
         log.info("Updated loginserver blowfish");
 
         loginserver.sendPacket(new AuthRequestPacket(loginserver.getRequestID(), loginserver.isAcceptAlternate(),
-                loginserver.getHexID(), loginserver.getPort(), loginserver.getMaxPlayer(),
+                loginserver.getHexID(), loginserver.getGamePort(), loginserver.getMaxPlayer(),
                 loginserver.getSubnets(), loginserver.getHosts()));
 
     }
@@ -182,8 +182,8 @@ public class LoginServerPacketHandler extends Thread {
         if (wcToRemove != null) {
             if (packet.isAuthed()) {
 
-//                PlayerInGame pig = new PlayerInGame(par.getAccount());
-//                sendPacket(pig);
+                PlayerInGamePacket pig = new PlayerInGamePacket(packet.getAccount());
+                loginserver.sendPacket(pig);
                 wcToRemove.gameClient.setGameClientState(GameClientState.AUTHED);
 //                wcToRemove.gameClient.setSessionId(wcToRemove.session);
 //

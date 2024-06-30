@@ -6,6 +6,8 @@ import org.aeonbits.owner.Config.Sources;
 import org.aeonbits.owner.Mutable;
 import org.aeonbits.owner.Reloadable;
 
+import java.util.Set;
+
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.aeonbits.owner.Config.HotReloadType.ASYNC;
 import static org.aeonbits.owner.Config.LoadType.MERGE;
@@ -32,6 +34,8 @@ public interface ServerConfig extends Mutable, Reloadable {
     Boolean acceptAlternateId();
     @Key("max.online.user")
     Integer maxOnlineUser();
+    @Key("allowed.protocol.versions")
+    Set<Integer> allowedProtocolVersions();
 
     // Security
     @Key("rsa.padding.mode")

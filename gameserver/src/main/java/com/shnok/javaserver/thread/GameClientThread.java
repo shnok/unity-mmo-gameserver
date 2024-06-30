@@ -7,6 +7,9 @@ import com.shnok.javaserver.enums.GameClientState;
 import com.shnok.javaserver.enums.packettypes.external.ServerPacketType;
 import com.shnok.javaserver.model.network.SessionKey;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
+import com.shnok.javaserver.security.BlowFishKeygen;
+import com.shnok.javaserver.security.GameCrypt;
+import com.shnok.javaserver.security.NewCrypt;
 import com.shnok.javaserver.service.GameServerController;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
@@ -20,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 
 import static com.shnok.javaserver.config.Configuration.server;
 
@@ -40,10 +44,15 @@ public class GameClientThread extends Thread {
     private boolean clientReady = false;
     private long lastEcho;
     private Timer watchDog;
+    private GameCrypt gameCrypt;
+    private boolean protocolOk;
+    private boolean cryptEnabled;
+
 
     public GameClientThread(Socket con) {
         connection = con;
         connectionIp = con.getInetAddress().getHostAddress();
+        gameCrypt = new GameCrypt();
 
         try {
             in = connection.getInputStream();
@@ -52,6 +61,12 @@ public class GameClientThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public byte[] enableCrypt() {
+        byte[] key = BlowFishKeygen.getRandomKey();
+        gameCrypt.setKey(key);
+        return key;
     }
 
     @Override
@@ -109,8 +124,18 @@ public class GameClientThread extends Thread {
         if(server.printServerPackets()) {
             ServerPacketType packetType = ServerPacketType.fromByte(packet.getType());
             if(packetType != ServerPacketType.Ping) {
-                log.debug("Sent packet: {}", packetType);
+                log.debug("[GAME] Sent packet: {}", packetType);
             }
+        }
+
+        if(isCryptEnabled()) {
+            NewCrypt.appendChecksum(packet.getData());
+
+            log.debug("---> [GAME] Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
+            LoginServerThread.getInstance().getBlowfish().crypt(packet.getData(), 0, packet.getData().length);
+            log.debug("---> [GAME] Encrypted packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
+        } else {
+            log.debug("---> [GAME] Clear packet {} : {}", packet.getData().length, Arrays.toString(packet.getData()));
         }
 
         try {
