@@ -2,6 +2,7 @@ package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.config.Configuration;
 import com.shnok.javaserver.dto.SendablePacket;
+import com.shnok.javaserver.dto.external.serverpackets.ServerClosePacket;
 import com.shnok.javaserver.dto.internal.gameserver.PlayerAuthRequestPacket;
 import com.shnok.javaserver.dto.internal.gameserver.PlayerLogoutPacket;
 import com.shnok.javaserver.dto.internal.gameserver.ServerStatusPacket;
@@ -353,6 +354,19 @@ public class LoginServerThread extends Thread {
             if (toRemove != null) {
                 waitingClients.remove(toRemove);
             }
+        }
+    }
+
+    /**
+     * Kick player for the given account.
+     * @param account the account
+     */
+    public void kickPlayer(String account) {
+        GameClientThread client = accountsInGameServer.get(account);
+        if (client != null) {
+            log.warn("Kicked by login server: {}", client.getAccountName());
+            client.sendPacket(new ServerClosePacket());
+            client.disconnect();
         }
     }
 }

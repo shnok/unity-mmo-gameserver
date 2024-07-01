@@ -24,7 +24,8 @@ public enum ServerPacketType {
     EntitySetTarget((byte)0x11),
     AutoAttackStart((byte)0x12),
     AutoAttackStop((byte)0x13),
-    ActionFailed((byte)0x14);
+    ActionFailed((byte)0x14),
+    ServerClose((byte)0x15);
 
     private final byte value;
 

@@ -80,6 +80,9 @@ public class LoginServerPacketHandler extends Thread {
             case PlayerAuthResponse:
                 onPlayerAuthResponse();
                 break;
+            case KickPlayer:
+                onKickPlayer();
+                break;
         }
     }
 
@@ -142,13 +145,12 @@ public class LoginServerPacketHandler extends Thread {
 
         loginserver.sendPacket(statusPacket);
 
-        // Share logged in usersAD
+        // Share logged in users
         if(WorldManagerService.getInstance().getAllPlayers().size() > 0) {
             List<String> playerList = new ArrayList<>();
 
             for(PlayerInstance player : WorldManagerService.getInstance().getAllPlayers().values()) {
-                playerList.add(player.getName());
-                //TODO: change to accountname
+                playerList.add(player.getGameClient().getAccountName());
             }
 
             loginserver.sendPacket(new PlayerInGamePacket(playerList));
@@ -206,5 +208,11 @@ public class LoginServerPacketHandler extends Thread {
             }
             loginserver.getWaitingClients().remove(wcToRemove);
         }
+    }
+
+    private void onKickPlayer() {
+        KickPlayerPacket packet = new KickPlayerPacket(data);
+
+        loginserver.kickPlayer(packet.getAccount());
     }
 }
