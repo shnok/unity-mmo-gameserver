@@ -8,7 +8,8 @@ public enum LoginServerPacketType {
     Fail((byte)1),
     AuthResponse((byte) 2),
     RequestCharacters((byte) 4),
-    PlayerAuthResponse((byte)5);
+    PlayerAuthResponse((byte)5),
+    KickPlayer((byte) 6);
 
     private final byte value;
 

@@ -20,18 +20,5 @@ public class Configuration {
     public static String getDefaultPath(String filename) {
         return DEFAULT_PATH + filename;
     }
-
-    public static Path getCustomOrDefaultPath(String filename) {
-        try {
-            URL resource = getClassLoader().getResource(getDefaultPath(filename));
-            if (resource == null) {
-                return Paths.get(getDefaultPath(filename));
-            } else {
-                return Paths.get(resource.toURI());
-            }
-        } catch (URISyntaxException e) {
-            throw new RuntimeException("Error converting URL to URI", e);
-        }
-    }
 }
 

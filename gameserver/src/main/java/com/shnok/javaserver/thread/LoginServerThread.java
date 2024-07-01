@@ -2,6 +2,7 @@ package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.config.Configuration;
 import com.shnok.javaserver.dto.SendablePacket;
+import com.shnok.javaserver.dto.external.serverpackets.ServerClosePacket;
 import com.shnok.javaserver.dto.internal.gameserver.PlayerAuthRequestPacket;
 import com.shnok.javaserver.dto.internal.gameserver.PlayerLogoutPacket;
 import com.shnok.javaserver.dto.internal.gameserver.ServerStatusPacket;
@@ -25,6 +26,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -230,7 +232,7 @@ public class LoginServerThread extends Thread {
      * @param newHexId the hexadecimal ID to store
      */
     public void saveHexId(int serverId, String newHexId) {
-        Path hexIdFilePath = Configuration.getCustomOrDefaultPath(hexId.FILENAME);
+        Path hexIdFilePath = Paths.get(Configuration.getDefaultPath(hexId.FILENAME));
         hexId.setProperty(SERVERID_KEY, String.valueOf(serverId));
         hexId.setProperty(HEXID_KEY, newHexId);
 
@@ -353,6 +355,19 @@ public class LoginServerThread extends Thread {
             if (toRemove != null) {
                 waitingClients.remove(toRemove);
             }
+        }
+    }
+
+    /**
+     * Kick player for the given account.
+     * @param account the account
+     */
+    public void kickPlayer(String account) {
+        GameClientThread client = accountsInGameServer.get(account);
+        if (client != null) {
+            log.warn("Kicked by login server: {}", client.getAccountName());
+            client.sendPacket(new ServerClosePacket());
+            client.disconnect();
         }
     }
 }

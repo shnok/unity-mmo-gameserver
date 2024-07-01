@@ -6,8 +6,11 @@ import com.shnok.javaserver.util.ByteUtils;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -32,10 +35,8 @@ public class GeodataLoader {
     }
 
     private Node[][][] loadFromFile(String path, String mapId) {
-        ClassLoader classLoader = getClass().getClassLoader();
-
         // Read zip file (geodata file container)
-        try (InputStream resourceStream = classLoader.getResourceAsStream(path);
+        try (InputStream resourceStream = Files.newInputStream(Paths.get(path).toFile().toPath());
              ZipInputStream zipStream = new ZipInputStream(resourceStream)) {
             ZipEntry entry;
             while ((entry = zipStream.getNextEntry()) != null) {
