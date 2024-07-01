@@ -5,6 +5,10 @@ import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 
+import java.util.Objects;
+
+import static com.shnok.javaserver.dto.external.serverpackets.PlayerInfoPacket.PAPERDOLL_ORDER;
+
 public class UserInfoPacket extends SendablePacket {
     public UserInfoPacket(PlayerInstance player) {
         super(ServerPacketType.UserInfo.getValue());
@@ -33,13 +37,11 @@ public class UserInfoPacket extends SendablePacket {
         writeB(player.getAppearance().getFace());
         writeB(player.getAppearance().getHairStyle());
         writeB(player.getAppearance().getHairColor());
+
         // Gear
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.lhand));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.rhand));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.chest));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.legs));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.gloves));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.feet));
+        for (byte slot : PAPERDOLL_ORDER) {
+            player.getInventory().getEquippedItemId(Objects.requireNonNull(ItemSlot.getSlot(slot)));
+        }
 
         buildPacket();
     }

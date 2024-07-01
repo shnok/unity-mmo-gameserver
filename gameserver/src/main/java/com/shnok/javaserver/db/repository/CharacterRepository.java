@@ -47,7 +47,9 @@ public class CharacterRepository implements CharacterDao {
     @Override
     public List<DBCharacter> getCharactersForAccount(String account) {
         try (Session session = DbFactory.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT c FROM DBCharacter c WHERE accountName = :accountName", DBCharacter.class)
+            return session.createQuery("SELECT c FROM DBCharacter c WHERE " +
+                            "accountName = :accountName " +
+                            "order by createDate", DBCharacter.class)
                     .setParameter("accountName", account)
                     .getResultList();
         } catch (Exception e) {
@@ -133,6 +135,8 @@ public class CharacterRepository implements CharacterDao {
         dbCharacter.setWit((byte) charTemplate.getWit());
         dbCharacter.setMen((byte) charTemplate.getMen());
         dbCharacter.setMen((byte) charTemplate.getMen());
+        dbCharacter.setExp(0);
+        dbCharacter.setSp(0);
 
         //HP MP CP
         DBLevelUpGain levelUpGain = LvlUpGainRepository.getInstance().
@@ -141,9 +145,9 @@ public class CharacterRepository implements CharacterDao {
         dbCharacter.setMaxHp((int) (levelUpGain.getDefaultHpBase() + levelUpGain.getDefaultHpAdd()));
         dbCharacter.setCurHp(dbCharacter.getMaxHp());
         dbCharacter.setMaxMp((int) (levelUpGain.getDefaultMpBase() + levelUpGain.getDefaultMpAdd()));
-        dbCharacter.setMaxMp(dbCharacter.getMaxMp());
+        dbCharacter.setCurMp(dbCharacter.getMaxMp());
         dbCharacter.setMaxCp((int) (levelUpGain.getDefaultCpAdd() + levelUpGain.getDefaultCpAdd()));
-        dbCharacter.setMaxCp(dbCharacter.getMaxCp());
+        dbCharacter.setCurCp(dbCharacter.getMaxCp());
 
         //Loc
         dbCharacter.setPosX(posX);
@@ -160,6 +164,9 @@ public class CharacterRepository implements CharacterDao {
         dbCharacter.setSex((byte) 1);
         dbCharacter.setColR(charTemplate.getCollisionRadiusFemale());
         dbCharacter.setColH(charTemplate.getCollisionHeightFemale());
+
+        dbCharacter.setCreateDate(System.currentTimeMillis());
+        dbCharacter.setLastLogin(0L);
 
         int insertedId = saveCharacter(dbCharacter);
 

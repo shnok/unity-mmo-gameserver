@@ -1,11 +1,24 @@
 package com.shnok.javaserver.dto.external.serverpackets;
 
 import com.shnok.javaserver.dto.SendablePacket;
+import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 
+import java.util.Objects;
+
 public class PlayerInfoPacket extends SendablePacket {
+
+    public static final byte[] PAPERDOLL_ORDER = new byte[] {
+            ItemSlot.lhand.getValue(),
+            ItemSlot.rhand.getValue(),
+            ItemSlot.chest.getValue(),
+            ItemSlot.legs.getValue(),
+            ItemSlot.gloves.getValue(),
+            ItemSlot.feet.getValue()
+    };
+
     public PlayerInfoPacket(PlayerInstance player) {
         super(ServerPacketType.PlayerInfo.getValue());
 
@@ -45,13 +58,11 @@ public class PlayerInfoPacket extends SendablePacket {
         writeB(player.getAppearance().getFace());
         writeB(player.getAppearance().getHairStyle());
         writeB(player.getAppearance().getHairColor());
+
         // Gear
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.lhand));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.rhand));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.chest));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.legs));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.gloves));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.feet));
+        for (byte slot : PAPERDOLL_ORDER) {
+            player.getInventory().getEquippedItemId(Objects.requireNonNull(ItemSlot.getSlot(slot)));
+        }
 
         buildPacket();
     }

@@ -4,7 +4,7 @@ import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.LoginFailPacket;
 import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
-import com.shnok.javaserver.enums.CharSelectInfoPackage;
+import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.LoginFailReason;
 import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;

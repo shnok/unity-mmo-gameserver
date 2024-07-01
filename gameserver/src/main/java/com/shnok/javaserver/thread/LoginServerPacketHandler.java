@@ -200,7 +200,7 @@ public class LoginServerPacketHandler extends Thread {
                 CharSelectionInfoPacket cl = new CharSelectionInfoPacket(
                         wcToRemove.account, wcToRemove.gameClient.getSessionId().playOkID1);
                 wcToRemove.gameClient.sendPacket(cl);
-                wcToRemove.gameClient.setCharSelection(cl.getCharSelect());
+                wcToRemove.gameClient.setCharSelection(cl.getCharSelectData());
             } else {
                 log.warn("Session key is not correct. Closing connection for account {}.", wcToRemove.account);
                 wcToRemove.gameClient.close(LoginFailReason.REASON_SYSTEM_ERROR_LOGIN_LATER);
