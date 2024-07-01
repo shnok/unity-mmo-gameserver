@@ -26,6 +26,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -231,7 +232,7 @@ public class LoginServerThread extends Thread {
      * @param newHexId the hexadecimal ID to store
      */
     public void saveHexId(int serverId, String newHexId) {
-        Path hexIdFilePath = Configuration.getCustomOrDefaultPath(hexId.FILENAME);
+        Path hexIdFilePath = Paths.get(Configuration.getDefaultPath(hexId.FILENAME));
         hexId.setProperty(SERVERID_KEY, String.valueOf(serverId));
         hexId.setProperty(HEXID_KEY, newHexId);
 
