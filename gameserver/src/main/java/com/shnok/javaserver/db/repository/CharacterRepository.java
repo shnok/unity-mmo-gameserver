@@ -118,7 +118,7 @@ public class CharacterRepository implements CharacterDao {
 
         DBCharacter dbCharacter = new DBCharacter();
         dbCharacter.setTitle("");
-        dbCharacter.setCharName(account);
+        dbCharacter.setCharName(account + random.nextInt(10000));
         dbCharacter.setAccountName(account);
         dbCharacter.setAccessLevel(0);
         dbCharacter.setLevel(1);

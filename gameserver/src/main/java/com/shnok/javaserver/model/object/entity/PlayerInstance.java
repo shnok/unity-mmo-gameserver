@@ -10,7 +10,10 @@ import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
 import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.model.status.Status;
+import com.shnok.javaserver.model.template.NpcTemplate;
 import com.shnok.javaserver.model.template.PlayerTemplate;
+import com.shnok.javaserver.service.SpawnManagerService;
+import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.GameClientThread;
 import lombok.Getter;
 import lombok.Setter;
@@ -123,5 +126,12 @@ public class PlayerInstance extends Entity {
         if (updateInDb) {
             CharacterRepository.getInstance().setCharacterOnlineStatus(getCharId(), isOnline);
         }
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+
+        WorldManagerService.getInstance().removePlayer(this);
     }
 }

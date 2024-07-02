@@ -143,6 +143,7 @@ public class WorldManagerService {
     }
 
     public void removePlayer(PlayerInstance player) {
+        log.debug("Removing player {} from player list.", player.getName());
         allPlayers.remove(player.getCharId());
     }
 

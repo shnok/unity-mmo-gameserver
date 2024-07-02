@@ -203,9 +203,6 @@ public class GameClientThread extends Thread {
                 return;
             }
 
-            /* remove player from world player list */
-            WorldManagerService.getInstance().removePlayer(currentPlayer);
-
             /* remove player from world object list */
 //            WorldManagerService.getInstance().removeObject(currentPlayer);
 
