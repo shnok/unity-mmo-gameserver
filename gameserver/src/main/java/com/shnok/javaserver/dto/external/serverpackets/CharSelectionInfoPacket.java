@@ -3,6 +3,7 @@ package com.shnok.javaserver.dto.external.serverpackets;
 import com.shnok.javaserver.db.entity.DBCharacter;
 import com.shnok.javaserver.db.repository.CharacterRepository;
 import com.shnok.javaserver.dto.SendablePacket;
+import com.shnok.javaserver.enums.ClassId;
 import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;
 import lombok.Getter;
@@ -25,7 +26,7 @@ public class CharSelectionInfoPacket extends SendablePacket {
         writeB((byte) 0x07); //maximum character slots
 
         int autoSelectedCharacterId = -1;
-        long lastAccess = 0L;
+        long lastAccess = -1L;
         for (final CharSelectInfoPackage charInfoPackage : charSelectData) {
             if (charInfoPackage.getDeleteTimer() == 0L) {
                 if (lastAccess < charInfoPackage.getLastAccess()) {
@@ -37,14 +38,13 @@ public class CharSelectionInfoPacket extends SendablePacket {
 
         for (final CharSelectInfoPackage character : charSelectData) {
             writeS(character.getName());
-            writeS(character.getName());
             writeI(character.getObjectId());
             writeS(account);
-            writeI(playOkID1);
             writeI(character.getClanId());
 
             writeB((byte) character.getSex());
             writeB((byte) character.getRace());
+            writeB(ClassId.getById((byte) character.getClassId()).isMage() ? (byte) 0x01 : (byte) 0x00);
             writeB((byte) character.getClassId());
 
             writeF(character.getX());
@@ -77,7 +77,6 @@ public class CharSelectionInfoPacket extends SendablePacket {
 
             writeI(character.getDeleteTimer() > 0 ?
                     (int) ((character.getDeleteTimer() - System.currentTimeMillis()) / 1000) : 0); //remaining before delete
-            writeB((byte) character.getClassId());
             writeB(character.getObjectId() == autoSelectedCharacterId ? (byte) 0x01 : 0); //auto select ?
         }
 
