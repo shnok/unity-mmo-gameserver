@@ -1,5 +1,6 @@
 package com.shnok.javaserver.model.object.entity;
 
+import com.shnok.javaserver.db.repository.CharacterRepository;
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.external.serverpackets.UserInfoPacket;
@@ -24,6 +25,7 @@ public class PlayerInstance extends Entity {
     private PlayerAppearance appearance;
     private GameClientThread gameClient;
     private PlayerInventory inventory;
+    private boolean isOnline = false;
 
     public PlayerInstance(int charId, String name, PlayerTemplate playerTemplate) {
         this.charId = charId;
@@ -104,5 +106,22 @@ public class PlayerInstance extends Entity {
     @Override
     public final PlayerTemplate getTemplate() {
         return (PlayerTemplate) super.getTemplate();
+    }
+
+
+    /**
+     * Set the online Flag to True or False and update the characters table of the database with online status and lastAccess (called when login and logout).
+     * @param isOnline
+     * @param updateInDb
+     */
+    public void setOnlineStatus(boolean isOnline, boolean updateInDb) {
+        if (this.isOnline != isOnline) {
+            this.isOnline = isOnline;
+        }
+
+        // Update the characters table of the database with online status and lastAccess (called when login and logout)
+        if (updateInDb) {
+            CharacterRepository.getInstance().setCharacterOnlineStatus(getCharId(), isOnline);
+        }
     }
 }

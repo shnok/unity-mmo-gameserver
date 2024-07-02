@@ -52,7 +52,7 @@ public class PlayerInfoPacket extends SendablePacket {
         writeB(player.getTemplate().getBaseINT());
         // Appearance
         writeF(player.getTemplate().getCollisionHeight());
-        writeF(player.getTemplate().getCollisionRadius());
+        writeF(player.getTemplate().getCollisionRadius()); //TODO remove (get from system grp files)
         writeB(player.getTemplate().getRace().getValue());
         writeB(player.getAppearance().isSex() ? (byte) 1 : (byte) 0);
         writeB(player.getAppearance().getFace());

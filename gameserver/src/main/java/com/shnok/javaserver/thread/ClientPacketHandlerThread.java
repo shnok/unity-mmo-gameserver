@@ -7,6 +7,7 @@ import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.PlayerAction;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.packettypes.external.ClientPacketType;
+import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.network.SessionKey;
 import com.shnok.javaserver.model.object.GameObject;
@@ -105,6 +106,9 @@ public class ClientPacketHandlerThread extends Thread {
             case RequestAutoAttack:
                 onRequestAutoAttack();
                 break;
+            case CharSelect:
+                onRequestCharSelect();
+                break;
         }
     }
 
@@ -183,22 +187,17 @@ public class ClientPacketHandlerThread extends Thread {
 
     private void onRequestLoadWorld() {
         client.setClientReady(true);
+
         client.setGameClientState(GameClientState.IN_GAME);
 
-        //TODO: Get char based on char select, for now get first char of account
-        PlayerInstance player = PlayerFactoryService.getInstance().getPlayerInstanceByAccount(client.getAccountName());
-
-        player.setGameClient(client);
-
-        client.setCurrentPlayer(player);
-
-        WorldManagerService.getInstance().addPlayer(player);
-
         // Share character with client
-        client.sendPacket(new PlayerInfoPacket(player));
         client.sendPacket(new GameTimePacket());
 
-        // Loads surrounding area
+        // Load and notify surrounding entities
+        Point3D spawnPos = client.getCurrentPlayer().getPosition().getWorldPosition();
+        client.getCurrentPlayer().setPosition(spawnPos);
+
+        //TODO: is it needed?
         client.getCurrentPlayer().getKnownList().forceRecheckSurroundings();
 
         client.authenticate();
@@ -334,5 +333,42 @@ public class ClientPacketHandlerThread extends Thread {
         //ai.setAttackTarget(target);
         ai.setIntention(Intention.INTENTION_ATTACK, target);
         ai.notifyEvent(Event.READY_TO_ACT);
+    }
+
+    private void onRequestCharSelect() {
+        RequestCharSelectPacket packet = new RequestCharSelectPacket(data);
+
+        if(client.getCurrentPlayer() != null) {
+            log.warn("Character already selected for account {}.", client.getAccountName());
+            return;
+        }
+
+        final CharSelectInfoPackage info = client.getCharSelection(packet.getCharSlot());
+        if (info == null) {
+            log.warn("Wrong character slot[{}] selected for account {}.", packet.getCharSlot(), client.getAccountName());
+            return;
+        }
+
+        //TODO check if banned
+        // maybe check for dualbox limitations too...
+
+        log.debug("Character slot {} selected for account {}.", packet.getCharSlot(), client.getAccountName());
+
+        PlayerInstance player = client.loadCharFromDisk(packet.getCharSlot());
+        if (player == null) {
+            return; // handled in L2GameClient
+        }
+        WorldManagerService.getInstance().addPlayer(player);
+
+        player.setGameClient(client);
+        client.setCurrentPlayer(player);
+        player.setOnlineStatus(true, true);
+
+        client.setCharSlot(packet.getCharSlot());
+
+        client.setGameClientState(GameClientState.JOINING);
+
+        PlayerInfoPacket cs = new PlayerInfoPacket(player);
+        client.sendPacket(cs);
     }
 }

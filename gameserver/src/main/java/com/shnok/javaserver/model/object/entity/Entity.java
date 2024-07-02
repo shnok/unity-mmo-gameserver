@@ -174,6 +174,8 @@ public abstract class Entity extends GameObject {
     @Override
     public void destroy() {
         super.destroy();
+
+        getKnownList().removeAllKnownObjects();
     }
 
     @Override

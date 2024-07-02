@@ -83,6 +83,19 @@ public class CharacterRepository implements CharacterDao {
         return id;
     }
 
+    @Override
+    public void setCharacterOnlineStatus(int id, boolean isOnline) {
+        DBCharacter character = getCharacterById(id);
+        if(character != null) {
+            character.setOnline(isOnline);
+            if(isOnline) {
+                character.setOnlineTime(System.currentTimeMillis());
+            }
+
+            saveOrUpdateCharacter(character);
+        }
+    }
+
     public void createRandomCharForAccount(String account) {
         log.info("Creating random character for account {}.", account);
         Random random = new Random();
