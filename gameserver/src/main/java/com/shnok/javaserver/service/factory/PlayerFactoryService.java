@@ -49,6 +49,16 @@ public class PlayerFactoryService {
         return buildPlayerInstance(character);
     }
 
+    public PlayerInstance getPlayerInstanceById(int charId) {
+        DBCharacter character = CharacterRepository.getInstance().getCharacterById(charId);
+
+        if(character == null) {
+            return null;
+        }
+
+        return buildPlayerInstance(character);
+    }
+
     private PlayerInstance buildPlayerInstance(DBCharacter character) {
         PlayerTemplate playerTemplate = new PlayerTemplate(character);
         PlayerInstance player = new PlayerInstance(character.getId(), character.getCharName(), playerTemplate);
@@ -64,7 +74,9 @@ public class PlayerFactoryService {
         player.setAppearance(appearance);
 
         //TODO: Use the character pos or add setting for defined spawn point
-        player.setPosition(VectorUtils.randomPos(
+
+        // Using setWorldposition instead of setPosition so that knownlist wont get updated
+        player.getPosition().setWorldPosition(VectorUtils.randomPos(
                 new Point3D(server.spawnLocationX(), server.spawnLocationY(), server.spawnLocationZ())
                 , 1.5f));
         player.setHeading(character.getHeading());

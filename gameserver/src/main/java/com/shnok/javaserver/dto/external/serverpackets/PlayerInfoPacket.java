@@ -1,11 +1,24 @@
 package com.shnok.javaserver.dto.external.serverpackets;
 
 import com.shnok.javaserver.dto.SendablePacket;
+import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 
+import java.util.Objects;
+
 public class PlayerInfoPacket extends SendablePacket {
+
+    public static final byte[] PAPERDOLL_ORDER = new byte[] {
+            ItemSlot.lhand.getValue(),
+            ItemSlot.rhand.getValue(),
+            ItemSlot.chest.getValue(),
+            ItemSlot.legs.getValue(),
+            ItemSlot.gloves.getValue(),
+            ItemSlot.feet.getValue()
+    };
+
     public PlayerInfoPacket(PlayerInstance player) {
         super(ServerPacketType.PlayerInfo.getValue());
 
@@ -39,19 +52,18 @@ public class PlayerInfoPacket extends SendablePacket {
         writeB(player.getTemplate().getBaseINT());
         // Appearance
         writeF(player.getTemplate().getCollisionHeight());
-        writeF(player.getTemplate().getCollisionRadius());
+        writeF(player.getTemplate().getCollisionRadius()); //TODO remove (get from system grp files)
         writeB(player.getTemplate().getRace().getValue());
         writeB(player.getAppearance().isSex() ? (byte) 1 : (byte) 0);
         writeB(player.getAppearance().getFace());
         writeB(player.getAppearance().getHairStyle());
         writeB(player.getAppearance().getHairColor());
+
         // Gear
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.lhand));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.rhand));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.chest));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.legs));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.gloves));
-        writeI(player.getInventory().getEquippedItemId(ItemSlot.feet));
+        for (byte slot : PAPERDOLL_ORDER) {
+            int itemId = player.getInventory().getEquippedItemId(Objects.requireNonNull(ItemSlot.getSlot(slot)));
+            writeI(itemId);
+        }
 
         buildPacket();
     }

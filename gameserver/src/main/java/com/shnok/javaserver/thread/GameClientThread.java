@@ -4,7 +4,7 @@ import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.LoginFailPacket;
 import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
-import com.shnok.javaserver.enums.CharSelectInfoPackage;
+import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.LoginFailReason;
 import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;
@@ -16,6 +16,7 @@ import com.shnok.javaserver.security.NewCrypt;
 import com.shnok.javaserver.service.GameServerController;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
+import com.shnok.javaserver.service.factory.PlayerFactoryService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -37,7 +38,7 @@ import static com.shnok.javaserver.config.Configuration.server;
 public class GameClientThread extends Thread {
     private GameClientState gameClientState;
     private SessionKey sessionId;
-    private int _charSlot = -1;
+    private int charSlot = -1;
     private final Socket connection;
     private final String connectionIp;
     private InputStream in;
@@ -202,9 +203,6 @@ public class GameClientThread extends Thread {
                 return;
             }
 
-            /* remove player from world player list */
-            WorldManagerService.getInstance().removePlayer(currentPlayer);
-
             /* remove player from world object list */
 //            WorldManagerService.getInstance().removeObject(currentPlayer);
 
@@ -238,8 +236,58 @@ public class GameClientThread extends Thread {
             watchDog.stop();
         }
 
+        if(currentPlayer != null) {
+            currentPlayer.destroy();
+        }
+
         GameServerController.getInstance().removeClient(this);
         this.interrupt();
+    }
+
+    public CharSelectInfoPackage getCharSelection(int charSlot) {
+        if ((charSelection == null) || (charSlot < 0) || (charSlot >= charSelection.size())) {
+            return null;
+        }
+        return charSelection.get(charSlot);
+    }
+
+    public int getObjectIdForSlot(int charSlot) {
+        CharSelectInfoPackage selectInfoPackage = getCharSelection(charSlot);
+        if(selectInfoPackage == null) {
+            return -1;
+        }
+
+        return selectInfoPackage.getObjectId();
+    }
+
+    public PlayerInstance loadCharFromDisk(int charSlot) {
+        final int objId = getObjectIdForSlot(charSlot);
+        if (objId < 0) {
+            return null;
+        }
+
+        PlayerInstance character = WorldManagerService.getInstance().getPlayer(objId);
+        if (character != null) {
+            // exploit prevention, should not happens in normal way
+            log.error("Attempt of double login {}, account {}!", character, getAccountName());
+            if (character.getGameClient() != null) {
+                character.getGameClient().disconnect();
+            } else {
+                character.destroy();
+            }
+            return null;
+        }
+
+        character = PlayerFactoryService.getInstance().getPlayerInstanceById(objId);
+        if (character != null) {
+           // character.setRunning();
+          //  character.standUp();
+            character.setOnlineStatus(false, true);
+        } else {
+            log.error("Could not restore in slot {}!", charSlot);
+        }
+
+        return character;
     }
 
     public void close(LoginFailReason failReason) {

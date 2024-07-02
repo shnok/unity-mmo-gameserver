@@ -11,4 +11,6 @@ public interface CharacterDao {
     public void saveOrUpdateCharacter(DBCharacter character);
 
     int saveCharacter(DBCharacter character);
+
+    void setCharacterOnlineStatus(int id, boolean isOnline);
 }

@@ -119,7 +119,7 @@ public class WorldManagerService {
     }
 
     public void addPlayer(PlayerInstance player) {
-        allPlayers.put(player.getId(), player);
+        allPlayers.put(player.getCharId(), player);
     }
 
     public void addNPC(NpcInstance npc) {
@@ -143,11 +143,12 @@ public class WorldManagerService {
     }
 
     public void removePlayer(PlayerInstance player) {
-        allPlayers.remove(player.getId());
+        log.debug("Removing player {} from player list.", player.getName());
+        allPlayers.remove(player.getCharId());
     }
 
-    public GameObject getPlayer(String name) {
-        return allPlayers.get(name);
+    public PlayerInstance getPlayer(int id) {
+        return allPlayers.get(id);
     }
 
     public FastList<GameObject> getVisibleObjects(GameObject target) {

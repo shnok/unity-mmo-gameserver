@@ -152,10 +152,10 @@ public class DBCharacter {
     private Float colH;
 
     @Column(name = "exp")
-    private long exp;
+    private Integer exp;
 
     @Column(name = "sp")
-    private long sp;
+    private Integer sp;
 
     @Column(name = "karma")
     private Integer karma;
@@ -171,4 +171,7 @@ public class DBCharacter {
 
     @Column(name = "max_weight")
     private Integer maxWeight;
+
+    @Column(name = "create_date")
+    private Long createDate;
 }

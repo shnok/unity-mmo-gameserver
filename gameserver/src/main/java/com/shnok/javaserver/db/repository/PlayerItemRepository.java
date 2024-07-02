@@ -4,6 +4,7 @@ import com.shnok.javaserver.db.DbFactory;
 import com.shnok.javaserver.db.entity.DBPlayerItem;
 import com.shnok.javaserver.db.interfaces.PlayerItemDao;
 import com.shnok.javaserver.enums.ItemLocation;
+import com.shnok.javaserver.enums.item.ItemSlot;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.Session;
 
@@ -96,28 +97,28 @@ public class PlayerItemRepository implements PlayerItemDao {
     public void giveRandomGearToCharacter(int owner) {
         int[] rhand = new int[] { 6, 2370, 89, 5284, 177 };
         int shieldId = 20;
-        int[] legs = new int[] { 1146, 461 };
-        int[] chest = new int[] { 1147, 425 };
+        int[] legs = new int[] { 1147, 461 };
+        int[] chest = new int[] { 1146, 425 };
 
         Random random = new Random();
 
         int rhandId = rhand[random.nextInt(rhand.length)];
-        DBPlayerItem rhandItem = new DBPlayerItem(owner, rhandId, ItemLocation.EQUIPPED, 6);
+        DBPlayerItem rhandItem = new DBPlayerItem(owner, rhandId, ItemLocation.EQUIPPED, ItemSlot.rhand.getValue());
         savePlayerItem(rhandItem);
 
         if(rhandId != 5284 && rhandId != 177) {
             if(random.nextInt(3) == 1) {
-                DBPlayerItem lhandItem = new DBPlayerItem(owner, shieldId, ItemLocation.EQUIPPED, 5);
+                DBPlayerItem lhandItem = new DBPlayerItem(owner, shieldId, ItemLocation.EQUIPPED, ItemSlot.lhand.getValue());
                 savePlayerItem(lhandItem);
             }
         }
 
         int legsId = legs[random.nextInt(legs.length)];
-        DBPlayerItem legsItem = new DBPlayerItem(owner, legsId, ItemLocation.EQUIPPED, 2);
+        DBPlayerItem legsItem = new DBPlayerItem(owner, legsId, ItemLocation.EQUIPPED, ItemSlot.legs.getValue());
         savePlayerItem(legsItem);
 
         int chestId = chest[random.nextInt(chest.length)];
-        DBPlayerItem chestItem = new DBPlayerItem(owner, chestId, ItemLocation.EQUIPPED, 1);
+        DBPlayerItem chestItem = new DBPlayerItem(owner, chestId, ItemLocation.EQUIPPED, ItemSlot.chest.getValue());
         savePlayerItem(chestItem);
     }
 }
