@@ -9,6 +9,7 @@ import com.shnok.javaserver.enums.ClassId;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.Session;
 
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Random;
 
@@ -85,14 +86,34 @@ public class CharacterRepository implements CharacterDao {
 
     @Override
     public void setCharacterOnlineStatus(int id, boolean isOnline) {
-        DBCharacter character = getCharacterById(id);
-        if(character != null) {
-            character.setOnline(isOnline);
+        try (Session session = DbFactory.getSessionFactory().openSession()) {
+            session.beginTransaction();
+
+            Query query;
             if(isOnline) {
-                character.setOnlineTime(System.currentTimeMillis());
+                String hql = "UPDATE DBCharacter SET online = :isOnline, lastLogin = :lastLogin WHERE id = :id";
+                query = session.createQuery(hql);
+                query.setParameter("isOnline", true);
+                query.setParameter("lastLogin", System.currentTimeMillis());
+                query.setParameter("id", id);
+            } else {
+                String hql = "UPDATE DBCharacter SET online = :isOnline WHERE id = :id";
+                query = session.createQuery(hql);
+                query.setParameter("isOnline", false);
+                query.setParameter("id", id);
             }
 
-            saveOrUpdateCharacter(character);
+            int rowsUpdated = query.executeUpdate();
+
+            session.getTransaction().commit();
+
+            if (rowsUpdated > 0) {
+                log.debug("Character ID: " + id + " updated successfully.");
+            } else {
+                log.warn("No character found with ID: " + id);
+            }
+        } catch (Exception e) {
+            log.error("SQL ERROR: {}", e.getMessage(), e);
         }
     }
 

@@ -125,7 +125,6 @@ CREATE TABLE `character`(
     pk_kills INT DEFAULT 0,
     clan_id INT,
     max_weight INT DEFAULT 0,
-    online_time BIGINT DEFAULT 0, 
     last_login BIGINT DEFAULT 0,
     delete_time BIGINT,
 	create_date BIGINT DEFAULT 0 NOT NULL
