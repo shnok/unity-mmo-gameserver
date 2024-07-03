@@ -132,6 +132,7 @@ public class PlayerInstance extends Entity {
     public void destroy() {
         super.destroy();
 
+        setOnlineStatus(false, true);
         WorldManagerService.getInstance().removePlayer(this);
     }
 }

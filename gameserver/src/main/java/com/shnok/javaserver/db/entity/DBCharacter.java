@@ -37,9 +37,6 @@ public class DBCharacter {
     @Column(name = "online")
     private boolean online;
 
-    @Column(name = "online_time")
-    private Long onlineTime;
-
     @Column(name = "char_slot")
     private Byte charSlot;
 
