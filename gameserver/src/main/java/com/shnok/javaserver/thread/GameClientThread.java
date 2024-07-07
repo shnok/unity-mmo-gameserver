@@ -140,29 +140,33 @@ public class GameClientThread extends Thread {
             }
         }
 
+        byte[] data = packet.getData();
+
         if(isCryptEnabled()) {
-            NewCrypt.appendChecksum(packet.getData());
+            data = Arrays.copyOf(packet.getData(), packet.getData().length);
+
+            NewCrypt.appendChecksum(data);
 
             if(printCryptography) {
-                log.debug("---> [CLIENT] Clear packet {} : {}", packet.getData().length,
-                        Arrays.toString(packet.getData()));
+                log.debug("---> [CLIENT] Clear packet {} : {}", data.length,
+                        Arrays.toString(data));
             }
-            gameCrypt.encrypt(packet.getData(), 0, packet.getData().length);
+            gameCrypt.encrypt(data, 0, data.length);
             if(printCryptography) {
-                log.debug("---> [CLIENT] Encrypted packet {} : {}", packet.getData().length,
-                        Arrays.toString(packet.getData()));
+                log.debug("---> [CLIENT] Encrypted packet {} : {}", data.length,
+                        Arrays.toString(data));
             }
         } else if(printCryptography) {
-            log.debug("---> [CLIENT] Clear packet {} : {}", packet.getData().length,
-                    Arrays.toString(packet.getData()));
+            log.debug("---> [CLIENT] Clear packet {} : {}", data.length,
+                    Arrays.toString(data));
         }
 
         try {
             synchronized (out) {
-                out.write((byte)(packet.getData().length) & 0xff);
-                out.write((byte)((packet.getData().length) >> 8) & 0xff);
+                out.write((byte)(data.length) & 0xff);
+                out.write((byte)((data.length) >> 8) & 0xff);
 
-                for (byte b : packet.getData()) {
+                for (byte b : data) {
                     out.write(b & 0xFF);
                 }
                 out.flush();

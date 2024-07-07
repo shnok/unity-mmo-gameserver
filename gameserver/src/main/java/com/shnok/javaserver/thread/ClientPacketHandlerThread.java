@@ -259,11 +259,17 @@ public class ClientPacketHandlerThread extends Thread {
     private void onRequestCharacterMoveDirection() {
         RequestCharacterMoveDirection packet = new RequestCharacterMoveDirection(data);
         if((client.getCurrentPlayer().isAttacking() ||
-                client.getCurrentPlayer().getAi().getIntention() == Intention.INTENTION_ATTACK) && // if player attack animation is playing
+                client.getCurrentPlayer().getAi().getIntention() == Intention.INTENTION_ATTACK)) { // if player attack animation is playing
                 //client.getCurrentPlayer().getAi().getAttackTarget() != null && // if player has an attack target
-                packet.getDirection().getX() != 0 && packet.getDirection().getZ() != 0) { // if direction is not zero
+               //&& packet.getDirection().getX() != 0 && packet.getDirection().getZ() != 0) { // if direction is not zero
             log.warn("[{}] Player moved ({}), stop attacking. ", client.getCurrentPlayer().getId(), packet.getDirection());
             client.getCurrentPlayer().getAi().notifyEvent(Event.CANCEL);
+        }
+
+        if(packet.getDirection().getX() == 0 && packet.getDirection().getZ() == 0) {
+            client.getCurrentPlayer().getAi().setIntention(Intention.INTENTION_IDLE);
+        } else {
+            client.getCurrentPlayer().getAi().setIntention(Intention.INTENTION_MOVE_TO);
         }
 
         // Notify known list

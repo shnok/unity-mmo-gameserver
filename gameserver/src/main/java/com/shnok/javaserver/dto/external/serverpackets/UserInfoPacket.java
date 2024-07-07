@@ -40,7 +40,7 @@ public class UserInfoPacket extends SendablePacket {
 
         // Gear
         for (byte slot : PAPERDOLL_ORDER) {
-            player.getInventory().getEquippedItemId(Objects.requireNonNull(ItemSlot.getSlot(slot)));
+            writeI(player.getInventory().getEquippedItemId(Objects.requireNonNull(ItemSlot.getSlot(slot))));
         }
 
         buildPacket();
