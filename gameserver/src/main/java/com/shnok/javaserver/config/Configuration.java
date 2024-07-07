@@ -15,6 +15,7 @@ public class Configuration {
     public static final String DEFAULT_PATH = "conf/";
 
     public static final ServerConfig server =  ConfigCache.getOrCreate(ServerConfig.class);
+    public static final CharacterConfig character =  ConfigCache.getOrCreate(CharacterConfig.class);
     public static final HexIdConfig hexId =  ConfigCache.getOrCreate(HexIdConfig.class);
 
     public static String getDefaultPath(String filename) {

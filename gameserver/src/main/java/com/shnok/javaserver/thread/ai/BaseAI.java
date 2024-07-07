@@ -246,7 +246,7 @@ public abstract class BaseAI {
             AutoAttackStartPacket packet = new AutoAttackStartPacket(owner.getId());
             owner.broadcastPacket(packet);
 
-            if(owner instanceof PlayerInstance) {
+            if(owner.isPlayer()) {
                 ((PlayerInstance) owner).sendPacket(packet);
             }
             setAutoAttacking(true);
@@ -262,7 +262,7 @@ public abstract class BaseAI {
             // Send a Server->Client packet AutoAttackStop to the actor and all PlayerInstances in its knownPlayers
             AutoAttackStopPacket packet = new AutoAttackStopPacket(owner.getId());
             owner.broadcastPacket(packet);
-            if(owner instanceof PlayerInstance) {
+            if(owner.isPlayer()) {
                 ((PlayerInstance) owner).sendPacket(packet);
             }
             setAutoAttacking(false);

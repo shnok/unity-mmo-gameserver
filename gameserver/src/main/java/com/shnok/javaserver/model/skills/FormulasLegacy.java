@@ -1,10 +1,10 @@
 package com.shnok.javaserver.model.skills;
 
-public class Formulas {
-    private static Formulas _instance;
-    public static Formulas getInstance() {
+public class FormulasLegacy {
+    private static FormulasLegacy _instance;
+    public static FormulasLegacy getInstance() {
         if(_instance == null) {
-            _instance = new Formulas();
+            _instance = new FormulasLegacy();
         }
         return _instance;
     }

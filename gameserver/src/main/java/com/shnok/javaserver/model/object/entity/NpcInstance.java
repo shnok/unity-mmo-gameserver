@@ -30,8 +30,7 @@ public class NpcInstance extends Entity {
     private int rightHandId;
 
     public NpcInstance(int id, NpcTemplate npcTemplate) {
-        super(id);
-        this.template = npcTemplate;
+        super(id, npcTemplate);
 
         this.leftHandId = npcTemplate.lhand;
         this.rightHandId = npcTemplate.rhand;

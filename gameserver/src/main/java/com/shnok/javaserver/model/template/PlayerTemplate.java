@@ -23,6 +23,7 @@ public class PlayerTemplate extends EntityTemplate {
         this.baseCpMax = character.getMaxCp();
         this.baseHpReg = 1.5f;
         this.baseMpReg = 0.9f;
+        this.baseCpReg = 1f;
         this.basePAtk = character.getPAtk();
         this.baseMAtk = character.getMAtk();
         this.basePDef = character.getPDef();

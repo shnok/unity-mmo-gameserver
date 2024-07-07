@@ -10,7 +10,12 @@ import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
-import com.shnok.javaserver.model.skills.Formulas;
+import com.shnok.javaserver.model.skills.FormulasLegacy;
+import com.shnok.javaserver.model.stats.CharStat;
+import com.shnok.javaserver.model.stats.Formulas;
+import com.shnok.javaserver.model.stats.Stats;
+import com.shnok.javaserver.model.stats.Calculator;
+import com.shnok.javaserver.model.stats.functions.AbstractFunction;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.EntityTemplate;
 import com.shnok.javaserver.pathfinding.Geodata;
@@ -26,9 +31,11 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static com.shnok.javaserver.config.Configuration.server;
+import static com.shnok.javaserver.model.stats.Stats.NUM_STATS;
 
 /**
  * This class represents all entities in the world.<BR>
@@ -43,6 +50,14 @@ import static com.shnok.javaserver.config.Configuration.server;
 @Setter
 public abstract class Entity extends GameObject {
     protected boolean canMove = true;
+
+    /** Table of Calculators containing all used calculator */
+    private Calculator[] calculators;
+    private CharStat stat;
+
+    /** Table of calculators containing all standard NPC calculator (ex : ACCURACY_COMBAT, EVASION_RATE) */
+    private static final Calculator[] NPC_STD_CALCULATOR = Formulas.getStdNPCCalculators();
+
     protected MoveData moveData;
     protected BaseAI ai;
     protected EntityTemplate template;
@@ -50,8 +65,18 @@ public abstract class Entity extends GameObject {
     protected boolean moving;
     protected long attackEndTime;
 
-    public Entity(int id) {
+    public Entity(int id, EntityTemplate template) {
         super(id);
+
+        this.template = template;
+
+        initCharStat();
+
+        if (isNpc()) {
+            calculators = NPC_STD_CALCULATOR;
+        } else {
+            calculators = new Calculator[NUM_STATS];
+        }
     }
 
     public void inflictDamage(Entity attacker, int value) {
@@ -124,7 +149,7 @@ public abstract class Entity extends GameObject {
             criticalHit = true;
         }
 
-        if(this instanceof PlayerInstance) {
+        if(this.isPlayer()) {
             damage = 40;
         }
 
@@ -159,10 +184,10 @@ public abstract class Entity extends GameObject {
         return !isAttacking();
     }
 
-    // Return the Attack Speed of the L2Character (delay (in milliseconds) before next attack)
+    // Return the Attack Speed of the Entity (delay (in milliseconds) before next attack)
     public int calculateTimeBetweenAttacks() {
         float atkSpd = getTemplate().getBasePAtkSpd();
-        return Formulas.getInstance().calcPAtkSpd(atkSpd);
+        return FormulasLegacy.getInstance().calcPAtkSpd(atkSpd);
     }
 
     // Returns the Attack cooldown
@@ -480,5 +505,447 @@ public abstract class Entity extends GameObject {
                 log.warn(t);
             }
         }
+    }
+
+    /**
+            * Add a Func to the Calculator set of the Entity.<br>
+	 * <b><u>Concept</u>:</b> A Entity owns a table of Calculators called <b>_calculators</b>.<br>
+	 * Each Calculator (a calculator per state) own a table of Func object.<br>
+	 * A Func object is a mathematical function that permit to calculate the modifier of a state (ex : REGENERATE_HP_RATE...).<br>
+	 * To reduce cache memory use, L2NPCInstances who don't have skills share the same Calculator set called <b>NPC_STD_CALCULATOR</b>.<br>
+            * That's why, if a L2NPCInstance is under a skill/spell effect that modify one of its state, a copy of the NPC_STD_CALCULATOR must be create in its _calculators before adding new Func object.<br>
+            * <b><u>Actions</u>:</b>
+            * <ul>
+	 * <li>If _calculators is linked to NPC_STD_CALCULATOR, create a copy of NPC_STD_CALCULATOR in _calculators</li>
+            * <li>Add the Func object to _calculators</li>
+            * </ul>
+            * @param function The Func object to add to the Calculator corresponding to the state affected
+	 */
+    private final void addStatFunc(AbstractFunction function) {
+        if (function == null) {
+            return;
+        }
+
+        synchronized (this) {
+            // Check if Calculator set is linked to the standard Calculator set of NPC
+            if (calculators == NPC_STD_CALCULATOR) {
+                // Create a copy of the standard NPC Calculator set
+                calculators = new Calculator[NUM_STATS];
+
+                for (int i = 0; i < NUM_STATS; i++) {
+                    if (NPC_STD_CALCULATOR[i] != null) {
+                        calculators[i] = new Calculator(NPC_STD_CALCULATOR[i]);
+                    }
+                }
+            }
+
+            // Select the Calculator of the affected state in the Calculator set
+            int stat = function.getStat().ordinal();
+
+            if (calculators[stat] == null) {
+                calculators[stat] = new Calculator();
+            }
+
+            // Add the Func to the calculator corresponding to the state
+            calculators[stat].addFunc(function);
+        }
+    }
+
+    /**
+     * Add a list of Funcs to the Calculator set of the Entity.<br>
+     * <B><U>Concept</U>:</B><br>
+     * A Entity owns a table of Calculators called <B>_calculators</B>.<br>
+     * Each Calculator (a calculator per state) own a table of Func object.<br>
+     * A Func object is a mathematic function that permit to calculate the modifier of a state (ex : REGENERATE_HP_RATE...).<br>
+     * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method is ONLY for PlayerInstance</B></FONT><br>
+     * <B><U>Example of use</U>:</B>
+     * <ul>
+     * <li>Equip an item from inventory</li>
+     * <li>Learn a new passive skill</li>
+     * <li>Use an active skill</li>
+     * </ul>
+     * @param functions The list of Func objects to add to the Calculator corresponding to the state affected
+     */
+    public final void addStatFuncs(List<AbstractFunction> functions) {
+        if (!(this.isPlayer()) && getKnownList().getKnownPlayers().isEmpty()) {
+            for (AbstractFunction f : functions) {
+                addStatFunc(f);
+            }
+        } else {
+            final List<Stats> modifiedStats = new ArrayList<>();
+            for (AbstractFunction f : functions) {
+                modifiedStats.add(f.getStat());
+                addStatFunc(f);
+            }
+
+            broadcastModifiedStats(modifiedStats);
+        }
+    }
+
+    public final void addStatFuncs(AbstractFunction function) {
+        addStatFuncs(List.of(function));
+    }
+
+    /**
+     * Remove a Func from the Calculator set of the Entity.<br>
+     * <B><U>Concept</U>:</B><br>
+     * A Entity owns a table of Calculators called <B>_calculators</B>.<br>
+     * Each Calculator (a calculator per state) own a table of Func object.<br>
+     * A Func object is a mathematic function that permit to calculate the modifier of a state (ex : REGENERATE_HP_RATE...).<br>
+     * To reduce cache memory use, L2NPCInstances who don't have skills share the same Calculator set called <B>NPC_STD_CALCULATOR</B>.<br>
+     * That's why, if a L2NPCInstance is under a skill/spell effect that modify one of its state, a copy of the NPC_STD_CALCULATOR must be create in its _calculators before addind new Func object.<br>
+     * <B><U>Actions</U>:</B>
+     * <ul>
+     * <li>Remove the Func object from _calculators</li>
+     * <li>If Entity is a L2NPCInstance and _calculators is equal to NPC_STD_CALCULATOR, free cache memory and just create a link on NPC_STD_CALCULATOR in _calculators</li>
+     * </ul>
+     * @param function The Func object to remove from the Calculator corresponding to the state affected
+     */
+    private final void removeStatFunc(AbstractFunction function) {
+        if (function == null) {
+            return;
+        }
+
+        // Select the Calculator of the affected state in the Calculator set
+        int stat = function.getStat().ordinal();
+
+        synchronized (this) {
+            if (calculators[stat] == null) {
+                return;
+            }
+
+            // Remove the Func object from the Calculator
+            calculators[stat].removeFunc(function);
+
+            if (calculators[stat].size() == 0) {
+                calculators[stat] = null;
+            }
+
+            // If possible, free the memory and just create a link on NPC_STD_CALCULATOR
+            if (this.isNpc()) {
+                int i = 0;
+                for (; i < NUM_STATS; i++) {
+                    if (!Calculator.equalsCals(calculators[i], NPC_STD_CALCULATOR[i])) {
+                        break;
+                    }
+                }
+
+                if (i >= NUM_STATS) {
+                    calculators = NPC_STD_CALCULATOR;
+                }
+            }
+        }
+    }
+
+    /**
+     * Remove a list of Funcs from the Calculator set of the PlayerInstance.<br>
+     * <B><U>Concept</U>:</B><br>
+     * A Entity owns a table of Calculators called <B>_calculators</B>.<br>
+     * Each Calculator (a calculator per state) own a table of Func object.<br>
+     * A Func object is a mathematic function that permit to calculate the modifier of a state (ex : REGENERATE_HP_RATE...).<br>
+     * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method is ONLY for PlayerInstance</B></FONT><br>
+     * <B><U>Example of use</U>:</B>
+     * <ul>
+     * <li>Unequip an item from inventory</li>
+     * <li>Stop an active skill</li>
+     * </ul>
+     * @param functions The list of Func objects to add to the Calculator corresponding to the state affected
+     */
+    public final void removeStatFuncs(AbstractFunction[] functions) {
+        if (!(this.isPlayer()) && getKnownList().getKnownPlayers().isEmpty()) {
+            for (AbstractFunction f : functions) {
+                removeStatFunc(f);
+            }
+        } else {
+            final List<Stats> modifiedStats = new ArrayList<>();
+            for (AbstractFunction f : functions) {
+                modifiedStats.add(f.getStat());
+                removeStatFunc(f);
+            }
+
+            broadcastModifiedStats(modifiedStats);
+        }
+    }
+
+    /**
+     * Remove all Func objects with the selected owner from the Calculator set of the Entity.<br>
+     * <B><U>Concept</U>:</B><br>
+     * A Entity owns a table of Calculators called <B>_calculators</B>.<br>
+     * Each Calculator (a calculator per state) own a table of Func object.<br>
+     * A Func object is a mathematic function that permit to calculate the modifier of a state (ex : REGENERATE_HP_RATE...).<br>
+     * To reduce cache memory use, L2NPCInstances who don't have skills share the same Calculator set called <B>NPC_STD_CALCULATOR</B>.<br>
+     * That's why, if a L2NPCInstance is under a skill/spell effect that modify one of its state, a copy of the NPC_STD_CALCULATOR must be create in its _calculators before addind new Func object.<br>
+     * <B><U>Actions</U>:</B>
+     * <ul>
+     * <li>Remove all Func objects of the selected owner from _calculators</li>
+     * <li>If Entity is a L2NPCInstance and _calculators is equal to NPC_STD_CALCULATOR, free cache memory and just create a link on NPC_STD_CALCULATOR in _calculators</li>
+     * </ul>
+     * <B><U>Example of use</U>:</B>
+     * <ul>
+     * <li>Unequip an item from inventory</li>
+     * <li>Stop an active skill</li>
+     * </ul>
+     * @param owner The Object(Skill, Item...) that has created the effect
+     */
+    public final void removeStatsOwner(Object owner) {
+        List<Stats> modifiedStats = null;
+        int i = 0;
+        // Go through the Calculator set
+        synchronized (this) {
+            for (Calculator calc : calculators) {
+                if (calc != null) {
+                    // Delete all Func objects of the selected owner
+                    if (modifiedStats != null) {
+                        modifiedStats.addAll(calc.removeOwner(owner));
+                    } else {
+                        modifiedStats = calc.removeOwner(owner);
+                    }
+
+                    if (calc.size() == 0) {
+                        calculators[i] = null;
+                    }
+                }
+                i++;
+            }
+
+            // If possible, free the memory and just create a link on NPC_STD_CALCULATOR
+            if (this.isNpc()) {
+                i = 0;
+                for (; i < NUM_STATS; i++) {
+                    if (!Calculator.equalsCals(calculators[i], NPC_STD_CALCULATOR[i])) {
+                        break;
+                    }
+                }
+
+                if (i >= NUM_STATS) {
+                    calculators = NPC_STD_CALCULATOR;
+                }
+            }
+
+            broadcastModifiedStats(modifiedStats);
+        }
+    }
+
+    protected void broadcastModifiedStats(List<Stats> stats) {
+        if ((stats == null) || stats.isEmpty()) {
+            return;
+        }
+//
+//        if (isSummon()) {
+//            L2Summon summon = (L2Summon) this;
+//            if (summon.getOwner() != null) {
+//                summon.updateAndBroadcastStatus(1);
+//            }
+//        } else {
+//            boolean broadcastFull = false;
+//            StatusUpdate su = new StatusUpdate(this);
+//
+//            for (Stats stat : stats) {
+//                if (stat == Stats.POWER_ATTACK_SPEED) {
+//                    su.addAttribute(StatusUpdate.ATK_SPD, (int) getPAtkSpd());
+//                } else if (stat == Stats.MAGIC_ATTACK_SPEED) {
+//                    su.addAttribute(StatusUpdate.CAST_SPD, getMAtkSpd());
+//                } else if (stat == Stats.MOVE_SPEED) {
+//                    broadcastFull = true;
+//                }
+//            }
+//
+//            if (isPlayer()) {
+//                if (broadcastFull) {
+//                    getActingPlayer().updateAndBroadcastStatus(2);
+//                } else {
+//                    getActingPlayer().updateAndBroadcastStatus(1);
+//                    if (su.hasAttributes()) {
+//                        broadcastPacket(su);
+//                    }
+//                }
+//                if ((getSummon() != null) && isAffected(EffectFlag.SERVITOR_SHARE)) {
+//                    getSummon().broadcastStatusUpdate();
+//                }
+//            } else if (isNpc()) {
+//                if (broadcastFull) {
+//                    Collection<PlayerInstance> plrs = getKnownList().getKnownPlayers().values();
+//                    for (PlayerInstance player : plrs) {
+//                        if ((player == null) || !isVisibleFor(player)) {
+//                            continue;
+//                        }
+//                        if (getRunSpeed() == 0) {
+//                            player.sendPacket(new ServerObjectInfo((L2Npc) this, player));
+//                        } else {
+//                            player.sendPacket(new AbstractNpcInfo.NpcInfo((L2Npc) this, player));
+//                        }
+//                    }
+//                } else if (su.hasAttributes()) {
+//                    broadcastPacket(su);
+//                }
+//            } else if (su.hasAttributes()) {
+//                broadcastPacket(su);
+//            }
+        }
+
+    /**
+     * Initializes the CharStat class of the L2Object, is overwritten in classes that require a different CharStat Type.<br>
+     * Removes the need for instanceof checks.
+     */
+    public void initCharStat() {
+        stat = new CharStat(this);
+    }
+
+    public final double calcStat(Stats stat, double init) {
+        return getStat().calcStat(stat, init, null, null);
+    }
+
+    // Stat - NEED TO REMOVE ONCE L2CHARSTAT IS COMPLETE
+    public final double calcStat(Stats stat, double init, Entity target, Skill skill) {
+        return getStat().calcStat(stat, init, target, skill);
+    }
+
+    public int getAccuracy() {
+        return getStat().getAccuracy();
+    }
+
+    public final float getAttackSpeedMultiplier() {
+        return getStat().getAttackSpeedMultiplier();
+    }
+
+    public final double getCriticalDmg(Entity target, double init) {
+        return getStat().getCriticalDmg(target, init);
+    }
+
+    public int getCriticalHit(Entity target, Skill skill) {
+        return getStat().getCriticalHit(target, skill);
+    }
+
+    public int getEvasionRate(Entity target) {
+        return getStat().getEvasionRate(target);
+    }
+
+    public final int getMagicalAttackRange(Skill skill) {
+        return getStat().getMagicalAttackRange(skill);
+    }
+
+    public final int getMaxCp() {
+        return getStat().getMaxCp();
+    }
+
+    public final int getMaxRecoverableCp() {
+        return getStat().getMaxRecoverableCp();
+    }
+
+    public double getMAtk(Entity target, Skill skill) {
+        return getStat().getMAtk(target, skill);
+    }
+
+    public int getMAtkSpd() {
+        return getStat().getMAtkSpd();
+    }
+
+    public int getMaxMp() {
+        return getStat().getMaxMp();
+    }
+
+    public int getMaxRecoverableMp() {
+        return getStat().getMaxRecoverableMp();
+    }
+
+    public int getMaxHp() {
+        return (customs().championEnable() && isChampion()) ? getStat().getMaxHp() * customs().getChampionHp() : getStat().getMaxHp();
+    }
+
+    public int getMaxRecoverableHp() {
+        return getStat().getMaxRecoverableHp();
+    }
+
+    public final int getMCriticalHit(Entity target, Skill skill) {
+        return getStat().getMCriticalHit(target, skill);
+    }
+
+    public double getMDef(Entity target, Skill skill) {
+        return getStat().getMDef(target, skill);
+    }
+
+    public double getMReuseRate(Skill skill) {
+        return getStat().getMReuseRate(skill);
+    }
+
+    public double getPAtk(Entity target) {
+        return getStat().getPAtk(target);
+    }
+
+    public double getPAtkSpd() {
+        return getStat().getPAtkSpd();
+    }
+
+    public double getPDef(Entity target) {
+        return getStat().getPDef(target);
+    }
+
+    public final int getPhysicalAttackRange() {
+        return getStat().getPhysicalAttackRange();
+    }
+
+    public double getMovementSpeedMultiplier() {
+        return getStat().getMovementSpeedMultiplier();
+    }
+
+    public double getRunSpeed() {
+        return getStat().getRunSpeed();
+    }
+
+    public double getWalkSpeed() {
+        return getStat().getWalkSpeed();
+    }
+
+    public final double getSwimRunSpeed() {
+        return getStat().getSwimRunSpeed();
+    }
+
+    public final double getSwimWalkSpeed() {
+        return getStat().getSwimWalkSpeed();
+    }
+
+    public double getMoveSpeed() {
+        return getStat().getMoveSpeed();
+    }
+
+    public final int getShldDef() {
+        return getStat().getShldDef();
+    }
+
+    public int getSTR() {
+        return getStat().getSTR();
+    }
+
+    public int getDEX() {
+        return getStat().getDEX();
+    }
+
+    public int getCON() {
+        return getStat().getCON();
+    }
+
+    public int getINT() {
+        return getStat().getINT();
+    }
+
+    public int getWIT() {
+        return getStat().getWIT();
+    }
+
+    public int getMEN() {
+        return getStat().getMEN();
+    }
+
+    // Status - NEED TO REMOVE ONCE L2CHARTATUS IS COMPLETE
+    public void addStatusListener(Entity object) {
+        getStatus().addStatusListener(object);
+    }
+
+    public int getLevel() {
+        return getStat().getLevel();
+    }
+
+    public double getLevelMod() {
+        return ((getLevel() + 89) / 100d);
     }
 }

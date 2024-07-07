@@ -3,6 +3,9 @@ package com.shnok.javaserver.model.object;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.WorldRegion;
 import com.shnok.javaserver.model.knownlist.ObjectKnownList;
+import com.shnok.javaserver.model.object.entity.Entity;
+import com.shnok.javaserver.model.object.entity.NpcInstance;
+import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.model.position.ObjectPosition;
 import com.shnok.javaserver.service.WorldManagerService;
 import lombok.Data;
@@ -100,5 +103,22 @@ public abstract class GameObject {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+
+    public boolean isEntity() {
+        return this instanceof Entity;
+    }
+
+    public boolean isItem() {
+        return this instanceof ItemInstance;
+    }
+
+    public boolean isPlayer() {
+        return this instanceof PlayerInstance;
+    }
+
+    public boolean isNpc() {
+        return this instanceof NpcInstance;
     }
 }

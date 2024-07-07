@@ -15,6 +15,7 @@ public class EntityTemplate {
     public int baseMpMax;
     public float baseHpReg;
     public float baseMpReg;
+    public float baseCpReg;
     public int basePAtk;
     public int baseMAtk;
     public int basePDef;

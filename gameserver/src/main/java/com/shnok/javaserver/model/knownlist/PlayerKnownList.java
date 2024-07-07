@@ -40,9 +40,9 @@ public class PlayerKnownList extends EntityKnownList
             return false;
         }
 
-        if (object instanceof ItemInstance){
+        if (object.isItem()){
 
-        } else if (object instanceof NpcInstance) {
+        } else if (object.isNpc()) {
             if(server.printKnownList()) {
                 log.debug("[{}] New npc [{}] added to known list", getActiveObject().getId(), object.getId());
             }
@@ -51,7 +51,7 @@ public class PlayerKnownList extends EntityKnownList
                 log.debug("[{}] Sharing npc [{}] current action.", getActiveObject().getId(), object.getId());
             }
             ((NpcInstance) object).shareCurrentAction(getActiveChar());
-        } else if (object instanceof PlayerInstance) {
+        } else if (object.isPlayer()) {
             if(server.printKnownList()) {
                 log.debug("[{}] New user added: {} Count: {}", getActiveObject().getId(), object.getId(), getKnownPlayers().size());
             }

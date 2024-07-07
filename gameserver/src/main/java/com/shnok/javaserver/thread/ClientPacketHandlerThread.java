@@ -228,7 +228,7 @@ public class ClientPacketHandlerThread extends Thread {
         if(object == null) {
             log.warn("Trying to attack a null object.");
         }
-        if(!(object instanceof Entity)) {
+        if(!(object.isEntity())) {
             log.warn("Trying to attack a non-entity object.");
             return;
         }

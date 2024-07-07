@@ -28,12 +28,15 @@ public class PlayerInstance extends Entity {
     private PlayerAppearance appearance;
     private GameClientThread gameClient;
     private PlayerInventory inventory;
+    private boolean sitting;
+    private boolean running;
     private boolean isOnline = false;
 
-    public PlayerInstance(int charId, String name, PlayerTemplate playerTemplate) {
+    public PlayerInstance(int id, int charId, String name, PlayerTemplate playerTemplate) {
+        super(id, playerTemplate);
+
         this.charId = charId;
         this.name = name;
-        this.template = playerTemplate;
         this.status = new PlayerStatus(playerTemplate);
     }
 

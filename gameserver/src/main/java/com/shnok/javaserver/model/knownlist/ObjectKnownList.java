@@ -91,7 +91,7 @@ public class ObjectKnownList {
     }
 
     public final synchronized void updateKnownObjects() {
-        if (getActiveObject() instanceof Entity) {
+        if (getActiveObject().isEntity()) {
             findCloseObjects();
             forgetObjects();
             if(server.printKnownList()) {
@@ -101,7 +101,7 @@ public class ObjectKnownList {
     }
 
     private void findCloseObjects() {
-        boolean isPlayer = (getActiveObject() instanceof PlayerInstance);
+        boolean isPlayer = (getActiveObject().isPlayer());
 
         if (isPlayer) {
             Collection<GameObject> objects = WorldManagerService.getInstance().getVisibleObjects(getActiveObject());
@@ -117,13 +117,13 @@ public class ObjectKnownList {
 
                 addKnownObject(object);
 
-                if (object instanceof Entity) {
+                if (object.isEntity()) {
                     object.getKnownList().addKnownObject(getActiveObject());
                     if(server.printKnownList()) {
                         log.debug("[{}] Request add entity to {} knownlist", getActiveObject().getId(), object.getId());
                     }
                 }
-                if (object instanceof PlayerInstance) {
+                if (object .isPlayer()) {
                     object.getKnownList().addKnownObject(getActiveObject());
                     if(server.printKnownList()) {
                         log.debug("[{}] Request add player to {} knownlist", getActiveObject().getId(), object.getId());
