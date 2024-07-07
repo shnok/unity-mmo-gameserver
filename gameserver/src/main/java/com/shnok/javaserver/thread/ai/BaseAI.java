@@ -46,6 +46,9 @@ public abstract class BaseAI {
     =========================
      */
     public void notifyEvent(Event evt) {
+        if(server.printAi()) {
+            log.debug("[AI][{}] New event: {}", getOwner().getId(), evt);
+        }
         notifyEvent(evt, null);
     }
 
