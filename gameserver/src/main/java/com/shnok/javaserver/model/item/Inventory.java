@@ -281,4 +281,8 @@ public abstract class Inventory extends ItemContainer {
     public synchronized ItemInstance unEquipItemInSlot(ItemSlot slot) {
         return setEquipItem(slot, null);
     }
+
+    public boolean isSlotEmpty(ItemSlot slot) {
+        return getEquippedItem(slot) == null;
+    }
 }

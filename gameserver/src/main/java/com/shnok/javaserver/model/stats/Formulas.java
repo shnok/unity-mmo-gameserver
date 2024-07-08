@@ -58,12 +58,12 @@ public final class Formulas {
                     -0.060
             }; // {1.010, -0.060}; for C1
 
-    protected static final double[] WITbonus = new double[MAX_STAT_VALUE];
-    protected static final double[] MENbonus = new double[MAX_STAT_VALUE];
-    protected static final double[] INTbonus = new double[MAX_STAT_VALUE];
-    protected static final double[] STRbonus = new double[MAX_STAT_VALUE];
-    protected static final double[] DEXbonus = new double[MAX_STAT_VALUE];
-    protected static final double[] CONbonus = new double[MAX_STAT_VALUE];
+    public static final double[] WITbonus = new double[MAX_STAT_VALUE];
+    public static final double[] MENbonus = new double[MAX_STAT_VALUE];
+    public static final double[] INTbonus = new double[MAX_STAT_VALUE];
+    public static final double[] STRbonus = new double[MAX_STAT_VALUE];
+    public static final double[] DEXbonus = new double[MAX_STAT_VALUE];
+    public static final double[] CONbonus = new double[MAX_STAT_VALUE];
 
     // These values are 100% matching retail tables, no need to change and no need add
     // calculation into the stat bonus when accessing (not efficient),

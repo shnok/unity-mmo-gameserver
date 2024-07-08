@@ -14,6 +14,8 @@ import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.model.PlayerAppearance;
 import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
+import com.shnok.javaserver.model.stats.Formulas;
+import com.shnok.javaserver.model.stats.PlayerStat;
 import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.NpcTemplate;
@@ -43,6 +45,8 @@ public class PlayerInstance extends Entity {
         this.charId = charId;
         this.name = name;
         this.status = new PlayerStatus(this, playerTemplate);
+
+        Formulas.addFuncsToNewPlayer(this);
     }
 
     @Override
@@ -115,14 +119,34 @@ public class PlayerInstance extends Entity {
         return false;
     }
 
+//    @Override
+//    public final PlayerStatus getStatus() {
+//        return (PlayerStatus) super.getStatus();
+//    }
+//
+//    @Override
+//    public void setStatus(Status status) {
+//        this.status = (PlayerStatus) status;
+//    }
+
     @Override
-    public final PlayerStatus getStatus() {
+    public PlayerStat getStat() {
+        return (PlayerStat) super.getStat();
+    }
+
+    @Override
+    public void initCharStat() {
+        setStat(new PlayerStat(this));
+    }
+
+    @Override
+    public PlayerStatus getStatus() {
         return (PlayerStatus) super.getStatus();
     }
 
     @Override
-    public void setStatus(Status status) {
-        this.status = (PlayerStatus) status;
+    public void initCharStatus() {
+        setStatus(new PlayerStatus(this));
     }
 
     @Override

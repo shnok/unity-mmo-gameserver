@@ -52,20 +52,18 @@ import static com.shnok.javaserver.model.stats.Stats.NUM_STATS;
 @Getter
 @Setter
 public abstract class Entity extends GameObject {
-    protected boolean canMove = true;
-
     /** Table of Calculators containing all used calculator */
     private Calculator[] calculators;
-    private CharStat stat;
-    protected long exceptions = 0L;
 
     /** Table of calculators containing all standard NPC calculator (ex : ACCURACY_COMBAT, EVASION_RATE) */
     private static final Calculator[] NPC_STD_CALCULATOR = Formulas.getStdNPCCalculators();
-
+    private CharStat stat;
+    protected long exceptions = 0L;
     protected MoveData moveData;
     protected BaseAI ai;
     protected EntityTemplate template;
     protected Status status;
+    protected boolean canMove = true;
     protected boolean moving;
     protected boolean running;
     protected long attackEndTime;
@@ -76,6 +74,7 @@ public abstract class Entity extends GameObject {
         this.template = template;
 
         initCharStat();
+        initCharStatus();
 
         if (isNpc()) {
             calculators = NPC_STD_CALCULATOR;
@@ -94,7 +93,17 @@ public abstract class Entity extends GameObject {
         return template;
     }
 
-    public abstract void setStatus(Status status);
+    /**
+     * Initializes the CharStatus class of the L2Object, is overwritten in classes that require a different CharStatus Type.<br>
+     * Removes the need for instanceof checks.
+     */
+    public void initCharStatus() {
+        status = new Status(this);
+    }
+
+    public final void setStatus(Status value) {
+        status = value;
+    }
 
     public abstract boolean canMove();
 
@@ -526,7 +535,7 @@ public abstract class Entity extends GameObject {
             * </ul>
             * @param function The Func object to add to the Calculator corresponding to the state affected
 	 */
-    private final void addStatFunc(AbstractFunction function) {
+    private void addStatFunc(AbstractFunction function) {
         if (function == null) {
             return;
         }

@@ -1,10 +1,8 @@
 package com.shnok.javaserver.enums;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public enum PlayerCondOverride {
     MAX_STATS_VALUE(0, "Overrides maximum states conditions"),
     ITEM_CONDITIONS(1, "Overrides item usage conditions"),

@@ -19,7 +19,7 @@ public class NpcInfoPacket extends SendablePacket {
         writeI(npc.getTemplate().getBasePAtkSpd());
         writeI(npc.getTemplate().getBaseMAtkSpd());
         // Status
-        writeI(npc.getStatus().getLevel());
+        writeI(npc.getLevel());
         writeI(npc.getStatus().getHp());
         writeI(npc.getStatus().getMaxHp());
         buildPacket();

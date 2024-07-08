@@ -50,7 +50,7 @@ public class NpcInstance extends Entity {
             rightHandItem = new ItemInstance(id, ItemTable.getInstance().getItemById(rightHandId));
         }
 
-        this.status = new NpcStatus(npcTemplate.getLevel(), npcTemplate.baseHpMax);
+        this.status = new NpcStatus(this, npcTemplate.baseHpMax);
         this.isStatic = npcTemplate.getNpcClass().contains("NPC");
         this.randomWalk = false;
     }

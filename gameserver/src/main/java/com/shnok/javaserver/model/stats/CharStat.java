@@ -50,6 +50,8 @@ public class CharStat {
         // Launch the calculation
         value = c.calc(_activeChar, target, skill, value);
 
+        System.out.println("Calc stat: [" + stat + "]=" + value);
+
         // avoid some troubles with negative stats (some stats should never be negative)
         if (value <= 0) {
             switch (stat) {

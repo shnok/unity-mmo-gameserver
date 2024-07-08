@@ -52,5 +52,5 @@ public class DBWeapon extends DBItem {
     @Transient
     private float baseAttackRange = 0.733f;
     @Transient
-    private int baseAttackAngle = 120f;
+    private int baseAttackAngle = 120;
 }

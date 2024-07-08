@@ -4,6 +4,7 @@ import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.LoginFailPacket;
 import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
+import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.LoginFailReason;
@@ -195,8 +196,10 @@ public class GameClientThread extends Thread {
 
     void authenticate() {
         log.info("Authenticating new player.");
-        GameServerController.getInstance().broadcast(
-                new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, accountName), this);
+        SystemMessagePacket systemMessagePacket = new SystemMessagePacket(SystemMessageId.S1_ONLINE);
+        systemMessagePacket.addCharName(getCurrentPlayer());
+
+        GameServerController.getInstance().broadcast(systemMessagePacket, this);
     }
 
     void removeSelf() {
@@ -231,8 +234,10 @@ public class GameClientThread extends Thread {
             currentPlayer.getPosition().getWorldRegion().removeVisibleObject(currentPlayer);
 
             /* broadcast log off message to server */
-            GameServerController.getInstance().broadcast(
-                    new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_OFF, accountName), this);
+            SystemMessagePacket systemMessagePacket = new SystemMessagePacket(SystemMessageId.S1_OFFLINE);
+            systemMessagePacket.addCharName(getCurrentPlayer());
+
+            GameServerController.getInstance().broadcast(systemMessagePacket, this);
         }
 
         /* stop watch dog */

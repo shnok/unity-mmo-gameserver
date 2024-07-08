@@ -2,6 +2,7 @@ package com.shnok.javaserver.model.stats.functions.fomulas;
 
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.skills.Skill;
+import com.shnok.javaserver.model.stats.Formulas;
 import com.shnok.javaserver.model.stats.Stats;
 import com.shnok.javaserver.model.stats.functions.AbstractFunction;
 
@@ -19,8 +20,8 @@ public class FuncMAtkCritical extends AbstractFunction {
     @Override
     public double calc(Entity effector, Entity effected, Skill skill, double initVal) {
         // CT2: The magic critical rate has been increased to 10 times.
-        if (!effector.isPlayer() || (effector.getActiveWeaponInstance() != null)) {
-            return initVal * BaseStats.WIT.calcBonus(effector) * 10;
+        if (!effector.isPlayer() || (effector.getActiveWeaponItem() != null)) {
+            return initVal * Formulas.WITbonus[effector.getWIT()] * 10;
         }
         return initVal;
     }

@@ -1,8 +1,10 @@
 package com.shnok.javaserver.model.stats.functions.fomulas;
 
+import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.model.skills.Skill;
+import com.shnok.javaserver.model.stats.Formulas;
 import com.shnok.javaserver.model.stats.Stats;
 import com.shnok.javaserver.model.stats.functions.AbstractFunction;
 
@@ -21,25 +23,24 @@ public class FuncMDefMod extends AbstractFunction {
     public double calc(Entity effector, Entity effected, Skill skill, double initVal) {
         double value = initVal;
         if (effector.isPlayer()) {
-            PlayerInstance p = effector.getActingPlayer();
-            if (!p.getInventory().isPaperdollSlotEmpty(Inventory.PAPERDOLL_LFINGER)) {
-                value -= p.getTemplate().getBaseDefBySlot(p.isTransformed() ? p.getTransformation().getBaseDefBySlot(p, Inventory.PAPERDOLL_LFINGER) : Inventory.PAPERDOLL_LFINGER);
+            PlayerInstance p = (PlayerInstance) effector;
+            if (!p.getInventory().isSlotEmpty(ItemSlot.lfinger)) {
+                value -= 5;
             }
-            if (!p.getInventory().isPaperdollSlotEmpty(Inventory.PAPERDOLL_RFINGER)) {
-                value -= p.getTemplate().getBaseDefBySlot(p.isTransformed() ? p.getTransformation().getBaseDefBySlot(p, Inventory.PAPERDOLL_RFINGER) : Inventory.PAPERDOLL_RFINGER);
+            if (!p.getInventory().isSlotEmpty(ItemSlot.rfinger)) {
+                value -= 5;
             }
-            if (!p.getInventory().isPaperdollSlotEmpty(Inventory.PAPERDOLL_LEAR)) {
-                value -= p.getTemplate().getBaseDefBySlot(p.isTransformed() ? p.getTransformation().getBaseDefBySlot(p, Inventory.PAPERDOLL_LEAR) : Inventory.PAPERDOLL_LEAR);
+            if (!p.getInventory().isSlotEmpty(ItemSlot.lear)) {
+                value -= 9;
             }
-            if (!p.getInventory().isPaperdollSlotEmpty(Inventory.PAPERDOLL_REAR)) {
-                value -= p.getTemplate().getBaseDefBySlot(p.isTransformed() ? p.getTransformation().getBaseDefBySlot(p, Inventory.PAPERDOLL_REAR) : Inventory.PAPERDOLL_REAR);
+            if (!p.getInventory().isSlotEmpty(ItemSlot.rear)) {
+                value -= 9;
             }
-            if (!p.getInventory().isPaperdollSlotEmpty(Inventory.PAPERDOLL_NECK)) {
-                value -= p.getTemplate().getBaseDefBySlot(p.isTransformed() ? p.getTransformation().getBaseDefBySlot(p, Inventory.PAPERDOLL_NECK) : Inventory.PAPERDOLL_NECK);
+            if (!p.getInventory().isSlotEmpty(ItemSlot.neck)) {
+                value -= 13;
             }
-        } else if (effector.isPet() && (effector.getInventory().getPaperdollObjectId(Inventory.PAPERDOLL_NECK) != 0)) {
-            value -= 13;
         }
-        return value * BaseStats.MEN.calcBonus(effector) * effector.getLevelMod();
+
+        return value * Formulas.MENbonus[effector.getMEN()] * effector.getLevelMod();
     }
 }

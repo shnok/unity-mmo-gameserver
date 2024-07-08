@@ -2,6 +2,7 @@ package com.shnok.javaserver.model.stats.functions.fomulas;
 
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.skills.Skill;
+import com.shnok.javaserver.model.stats.Formulas;
 import com.shnok.javaserver.model.stats.Stats;
 import com.shnok.javaserver.model.stats.functions.AbstractFunction;
 
@@ -18,6 +19,6 @@ public class FuncPAtkMod extends AbstractFunction {
 
     @Override
     public double calc(Entity effector, Entity effected, Skill skill, double initVal) {
-        return initVal * BaseStats.STR.calcBonus(effector) * effector.getLevelMod();
+        return initVal * Formulas.STRbonus[effector.getSTR()] * effector.getLevelMod();
     }
 }
