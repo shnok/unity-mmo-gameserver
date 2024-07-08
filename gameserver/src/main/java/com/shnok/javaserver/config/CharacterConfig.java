@@ -31,4 +31,6 @@ public interface CharacterConfig extends Mutable, Reloadable {
     Float cpRegenMultiplier();
     @Key("shield.blocks")
     Boolean shieldBlocks();
+    @Key("shield.perfect.block.rate")
+    Integer shieldPerfectBlockRate();
 }

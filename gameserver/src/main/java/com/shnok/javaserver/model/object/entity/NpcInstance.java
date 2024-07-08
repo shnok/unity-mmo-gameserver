@@ -1,16 +1,21 @@
 package com.shnok.javaserver.model.object.entity;
 
+import com.shnok.javaserver.db.entity.DBArmor;
+import com.shnok.javaserver.db.entity.DBItem;
 import com.shnok.javaserver.db.entity.DBSpawnList;
+import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.external.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
+import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.status.NpcStatus;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.NpcTemplate;
 import com.shnok.javaserver.service.SpawnManagerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
+import com.shnok.javaserver.service.db.ItemTable;
 import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.thread.ai.NpcAI;
 import lombok.Data;
@@ -28,12 +33,22 @@ public class NpcInstance extends Entity {
     private DBSpawnList spawnInfo;
     private int leftHandId;
     private int rightHandId;
+    private ItemInstance leftHandItem;
+    private ItemInstance rightHandItem;
 
     public NpcInstance(int id, NpcTemplate npcTemplate) {
         super(id, npcTemplate);
 
         this.leftHandId = npcTemplate.lhand;
         this.rightHandId = npcTemplate.rhand;
+
+        if(leftHandId != 0) {
+            leftHandItem = new ItemInstance(id, ItemTable.getInstance().getItemById(leftHandId));
+        }
+
+        if(rightHandId != 0) {
+            rightHandItem = new ItemInstance(id, ItemTable.getInstance().getItemById(rightHandId));
+        }
 
         this.status = new NpcStatus(npcTemplate.getLevel(), npcTemplate.baseHpMax);
         this.isStatic = npcTemplate.getNpcClass().contains("NPC");
@@ -132,6 +147,27 @@ public class NpcInstance extends Entity {
         }
 
         return true;
+    }
+
+    @Override
+    public DBWeapon getActiveWeaponItem() {
+        if(rightHandItem != null && rightHandItem.getItem() instanceof DBWeapon) {
+            return (DBWeapon) rightHandItem.getItem();
+        }
+        if(leftHandItem != null && leftHandItem.getItem() instanceof DBWeapon) {
+            return (DBWeapon) leftHandItem.getItem();
+        }
+
+        return null;
+    }
+
+    @Override
+    public DBArmor getSecondaryWeaponItem() {
+        if(leftHandItem != null && leftHandItem.getItem() instanceof DBArmor) {
+            return (DBArmor) leftHandItem.getItem();
+        }
+
+        return null;
     }
 
     /* remove and stop AI */

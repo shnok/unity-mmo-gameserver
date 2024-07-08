@@ -1,5 +1,7 @@
 package com.shnok.javaserver.model.object.entity;
 
+import com.shnok.javaserver.db.entity.DBArmor;
+import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.EntitySetTargetPacket;
 import com.shnok.javaserver.dto.external.serverpackets.ObjectMoveToPacket;
@@ -11,6 +13,7 @@ import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
 import com.shnok.javaserver.model.skills.FormulasLegacy;
+import com.shnok.javaserver.model.skills.Skill;
 import com.shnok.javaserver.model.stats.CharStat;
 import com.shnok.javaserver.model.stats.Formulas;
 import com.shnok.javaserver.model.stats.Stats;
@@ -21,6 +24,7 @@ import com.shnok.javaserver.model.template.EntityTemplate;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.MoveData;
 import com.shnok.javaserver.pathfinding.PathFinding;
+import com.shnok.javaserver.security.Rnd;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
@@ -30,9 +34,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.shnok.javaserver.config.Configuration.server;
 import static com.shnok.javaserver.model.stats.Stats.NUM_STATS;
@@ -583,7 +585,7 @@ public abstract class Entity extends GameObject {
     }
 
     public final void addStatFuncs(AbstractFunction function) {
-        addStatFuncs(List.of(function));
+        addStatFuncs(Collections.singletonList(function));
     }
 
     /**
@@ -849,7 +851,7 @@ public abstract class Entity extends GameObject {
     }
 
     public int getMaxHp() {
-        return (customs().championEnable() && isChampion()) ? getStat().getMaxHp() * customs().getChampionHp() : getStat().getMaxHp();
+        return getStat().getMaxHp();
     }
 
     public int getMaxRecoverableHp() {
@@ -948,4 +950,32 @@ public abstract class Entity extends GameObject {
     public double getLevelMod() {
         return ((getLevel() + 89) / 100d);
     }
+
+    public boolean isInFrontOfTarget() {
+        return false;
+    }
+
+    public boolean isBehindTarget() {
+        return false;
+    }
+
+    public boolean isFacing(Entity attacker, int degreeSide) {
+        return true;
+    }
+
+    public final float getRandomDamageMultiplier() {
+        DBWeapon activeWeapon = getActiveWeaponItem();
+        int random;
+
+        if (activeWeapon != null) {
+            random = activeWeapon.getRndDmg();
+        } else {
+            random = 5 + (int) Math.sqrt(getLevel());
+        }
+
+        return (1 + ((float) Rnd.get(-random, random) / 100));
+    }
+
+    public abstract DBWeapon getActiveWeaponItem();
+    public abstract DBArmor getSecondaryWeaponItem();
 }

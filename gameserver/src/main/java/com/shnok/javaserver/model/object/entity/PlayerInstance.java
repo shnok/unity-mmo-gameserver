@@ -1,10 +1,15 @@
 package com.shnok.javaserver.model.object.entity;
 
+import com.shnok.javaserver.db.entity.DBArmor;
+import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.db.repository.CharacterRepository;
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
+import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.dto.external.serverpackets.UserInfoPacket;
+import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.enums.network.GameClientState;
+import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.model.PlayerAppearance;
 import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
@@ -48,6 +53,16 @@ public class PlayerInstance extends Entity {
         return (PlayerKnownList) super.getKnownList();
     }
 
+    @Override
+    public DBWeapon getActiveWeaponItem() {
+        return inventory.getEquippedWeapon();
+    }
+
+    @Override
+    public DBArmor getSecondaryWeaponItem() {
+        return inventory.getEquippedSecondaryWeapon();
+    }
+
     // Send packet to player
     public boolean sendPacket(SendablePacket packet) {
         if(gameClient.isClientReady() && gameClient.getGameClientState() == GameClientState.IN_GAME) {
@@ -55,6 +70,17 @@ public class PlayerInstance extends Entity {
                 if(packet instanceof UserInfoPacket) {
                     log.debug("[{}] Sending user packet", getGameClient().getCurrentPlayer().getId());
                 }
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean sendPacket(SystemMessageId systemMessageId) {
+        SystemMessagePacket packet = new SystemMessagePacket(systemMessageId);
+        if(gameClient.isClientReady() && gameClient.getGameClientState() == GameClientState.IN_GAME) {
+            if(gameClient.sendPacket(packet)) {
                 return true;
             }
         }

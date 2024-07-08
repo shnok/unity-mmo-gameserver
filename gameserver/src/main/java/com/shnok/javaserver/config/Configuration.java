@@ -14,9 +14,11 @@ import static org.apache.logging.log4j.core.util.Loader.getClassLoader;
 public class Configuration {
     public static final String DEFAULT_PATH = "conf/";
 
+    public static final HexIdConfig hexId =  ConfigCache.getOrCreate(HexIdConfig.class);
     public static final ServerConfig server =  ConfigCache.getOrCreate(ServerConfig.class);
     public static final CharacterConfig character =  ConfigCache.getOrCreate(CharacterConfig.class);
-    public static final HexIdConfig hexId =  ConfigCache.getOrCreate(HexIdConfig.class);
+    public static final NpcConfig npc =  ConfigCache.getOrCreate(NpcConfig.class);
+    public static final RatesConfig rates =  ConfigCache.getOrCreate(RatesConfig.class);
 
     public static String getDefaultPath(String filename) {
         return DEFAULT_PATH + filename;

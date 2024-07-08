@@ -1,15 +1,20 @@
 package com.shnok.javaserver.model.stats;
 
+import com.shnok.javaserver.db.entity.DBItem;
+import com.shnok.javaserver.db.entity.DBWeapon;
+import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
+import com.shnok.javaserver.enums.item.WeaponType;
+import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.model.skills.Skill;
 import com.shnok.javaserver.model.stats.functions.fomulas.*;
+import com.shnok.javaserver.security.Rnd;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Arrays;
 
-import static com.shnok.javaserver.config.Configuration.character;
-import static com.shnok.javaserver.model.stats.Stats.*;
+import static com.shnok.javaserver.config.Configuration.*;
 
 /**
  * Global calculations.
@@ -217,7 +222,7 @@ public final class Formulas {
         }
 
         final boolean isPvP = attacker.isPlayer() && target.isPlayer();
-        double proximityBonus = attacker.isBehindTarget() ? 1.2 : attacker.isInFrontOfTarget() ? 1 : 1.1; // Behind: +20% - Side: +10% (TODO: values are unconfirmed, possibly custom, remove or update when confirmed)
+        double proximityBonus = attacker.isBehindTarget() ? 1.2 : attacker.isInFrontOfTarget() ? 1 : 1.1; // Behind: +20% - Side: +10%
         double damage = attacker.getPAtk(target);
         double ssboost = ss ? 2 : 1;
 
@@ -248,25 +253,22 @@ public final class Formulas {
             damage *= attacker.calcStat(Stats.PVP_PHYSICAL_DMG, 1, null, null);
         }
 
-        damage *= calcAttributeBonus(attacker, target, null);
         if (target.isEntity()) {
-            if ((target.getLevel() >= npc().getMinNPCLevelForDmgPenalty()) && (attacker != null) &&
-                    ((target.getLevel() - attacker.getLevel()) >= 2)) {
+            if (target.getLevel() - attacker.getLevel() >= 2) {
                 int lvlDiff = target.getLevel() - attacker.getLevel() - 1;
 
                 if (crit) {
-                    if (lvlDiff >= npc().getCritDmgPenaltyForLvLDifferences().size()) {
-                        damage *= npc().getCritDmgPenaltyForLvLDifferences().get(
-                                npc().getCritDmgPenaltyForLvLDifferences().size() - 1);
+                    if (lvlDiff >= npc.lvlDifferenceCritDmgPenalty().length) {
+                        damage *= npc.lvlDifferenceCritDmgPenalty()[npc.lvlDifferenceCritDmgPenalty().length - 1];
                     } else {
-                        damage *= npc().getCritDmgPenaltyForLvLDifferences().get(lvlDiff);
+                        damage *= npc.lvlDifferenceCritDmgPenalty()[lvlDiff];
                     }
                 } else {
-                    if (lvlDiff >= npc().getDmgPenaltyForLvLDifferences().size()) {
-                        damage *= npc().getDmgPenaltyForLvLDifferences().get(npc().
-                                getDmgPenaltyForLvLDifferences().size() - 1);
+                    if (lvlDiff >= npc.lvlDifferenceDmgPenalty().length) {
+                        damage *= npc.lvlDifferenceDmgPenalty()[npc.
+                                lvlDifferenceDmgPenalty().length - 1];
                     } else {
-                        damage *= npc().getDmgPenaltyForLvLDifferences().get(lvlDiff);
+                        damage *= npc.lvlDifferenceDmgPenalty()[lvlDiff];
                     }
                 }
             }
@@ -314,7 +316,7 @@ public final class Formulas {
         int chance = (80 + (2 * (attacker.getAccuracy() - target.getEvasionRate(attacker)))) * 10;
 
         // Get additional bonus from the conditions when you are attacking
-        chance *= HitConditionBonusData.getInstance().getConditionBonus(attacker, target);
+        //chance *= HitConditionBonusData.getInstance().getConditionBonus(attacker, target);
 
         chance = Math.max(chance, 200);
         chance = Math.min(chance, 980);
@@ -335,7 +337,7 @@ public final class Formulas {
      */
     public static byte calcShldUse(Entity attacker, Entity target, Skill skill, boolean sendSysMsg) {
         DBItem item = target.getSecondaryWeaponItem();
-        if (!(item instanceof L2Armor) || (((L2Armor) item).getItemType() == ArmorType.SIGIL)) {
+        if (item == null) {
             return 0;
         }
 
@@ -353,22 +355,26 @@ public final class Formulas {
         // if attacker
         // if attacker use bow and target wear shield, shield block rate is multiplied by 1.3 (30%)
         DBWeapon at_weapon = attacker.getActiveWeaponItem();
-        if ((at_weapon != null) && (at_weapon.getItemType() == WeaponType.BOW)) {
+        if ((at_weapon != null) && (at_weapon.getType() == WeaponType.bow)) {
             shldRate *= 1.3;
         }
 
-        if ((shldRate > 0) && ((100 - character().getPerfectShieldBlockRate()) < Rnd.get(100))) {
+        if ((shldRate > 0) && ((100 - character.shieldPerfectBlockRate()) < Rnd.get(100))) {
             shldSuccess = SHIELD_DEFENSE_PERFECT_BLOCK;
         } else if (shldRate > Rnd.get(100)) {
             shldSuccess = SHIELD_DEFENSE_SUCCEED;
         }
 
         if (sendSysMsg && target.isPlayer()) {
-            PlayerInstance enemy = target.getActingPlayer();
+            PlayerInstance enemy = (PlayerInstance) target;
 
             switch (shldSuccess) {
-                case SHIELD_DEFENSE_SUCCEED -> enemy.sendPacket(SystemMessageId.SHIELD_DEFENCE_SUCCESSFULL);
-                case SHIELD_DEFENSE_PERFECT_BLOCK -> enemy.sendPacket(SystemMessageId.YOUR_EXCELLENT_SHIELD_DEFENSE_WAS_A_SUCCESS);
+                case SHIELD_DEFENSE_SUCCEED:
+                    enemy.sendPacket(SystemMessageId.SHIELD_DEFENCE_SUCCESSFULL);
+                    break;
+                case SHIELD_DEFENSE_PERFECT_BLOCK:
+                    enemy.sendPacket(SystemMessageId.YOUR_EXCELLENT_SHIELD_DEFENSE_WAS_A_SUCCESS);
+                    break;
             }
         }
         return shldSuccess;
@@ -379,7 +385,8 @@ public final class Formulas {
     }
 
     public static byte calcShldUse(Entity attacker, Entity target) {
-        return calcShldUse(attacker, target, null, true);
+        return calcShldUse(attacker, target,
+                null, true);
     }
 
     public static double calcLvlBonusMod(Entity attacker, Entity target, Skill skill) {
@@ -389,7 +396,8 @@ public final class Formulas {
         return skillLvlBonusRateMod * lvlMod;
     }
 
-    public static double calcManaDam(Entity attacker, Entity target, Skill skill, byte shld, boolean sps, boolean bss, boolean mcrit, double power) {
+    public static double calcManaDam(Entity attacker, Entity target, Skill skill, byte shld, boolean sps,
+                                     boolean bss, boolean mcrit, double power) {
         // Formula: (SQR(M.Atk)*Power*(Target Max MP/97))/M.Def
         double mAtk = attacker.getMAtk(target, skill);
         double mDef = target.getMDef(attacker, skill);
@@ -409,14 +417,12 @@ public final class Formulas {
         double damage = (Math.sqrt(mAtk) * power * (mp / 97)) / mDef;
 
         if (target.isEntity()) {
-            if ((target.getLevel() >= npc().getMinNPCLevelForDmgPenalty()) && (attacker.getActingPlayer() != null)
-                    && ((target.getLevel() - attacker.getActingPlayer().getLevel()) >= 2)) {
+            if (target.getLevel() - attacker.getLevel() >= 2) {
                 int lvlDiff = target.getLevel() - attacker.getLevel() - 1;
-                if (lvlDiff >= npc().getSkillDmgPenaltyForLvLDifferences().size()) {
-                    damage *= npc().getSkillDmgPenaltyForLvLDifferences().get(
-                            npc().getSkillDmgPenaltyForLvLDifferences().size() - 1);
+                if (lvlDiff >= npc.lvlDifferenceSkillDmgPenalty().length) {
+                    damage *= npc.lvlDifferenceSkillDmgPenalty()[npc.lvlDifferenceSkillDmgPenalty().length - 1];
                 } else {
-                    damage *= npc().getSkillDmgPenaltyForLvLDifferences().get(lvlDiff);
+                    damage *= npc.lvlDifferenceSkillDmgPenalty()[lvlDiff];
                 }
             }
         }
@@ -424,26 +430,62 @@ public final class Formulas {
         // Failure calculation
         if (character.magicFailures() && !calcMagicSuccess(attacker, target, skill)) {
             if (attacker.isPlayer()) {
-                SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.DAMAGE_DECREASED_BECAUSE_C1_RESISTED_C2_MAGIC);
+                SystemMessagePacket sm = SystemMessagePacket.getSystemMessage(
+                        SystemMessageId.DAMAGE_DECREASED_BECAUSE_C1_RESISTED_C2_MAGIC);
                 sm.addCharName(target);
                 sm.addCharName(attacker);
-                attacker.sendPacket(sm);
+                ((PlayerInstance) attacker).sendPacket(sm);
                 damage /= 2;
             }
 
             if (target.isPlayer()) {
-                SystemMessage sm2 = SystemMessage.getSystemMessage(SystemMessageId.C1_WEAKLY_RESISTED_C2_MAGIC);
+                SystemMessagePacket sm2 = SystemMessagePacket.getSystemMessage(
+                        SystemMessageId.C1_WEAKLY_RESISTED_C2_MAGIC);
                 sm2.addCharName(target);
                 sm2.addCharName(attacker);
-                target.sendPacket(sm2);
+                ((PlayerInstance) target).sendPacket(sm2);
             }
         }
 
         if (mcrit) {
             damage *= 3;
-            attacker.sendPacket(SystemMessageId.CRITICAL_HIT_MAGIC);
+            if (attacker.isPlayer()) {
+                ((PlayerInstance) attacker).sendPacket(SystemMessageId.CRITICAL_HIT_MAGIC);
+            }
         }
         return damage;
+    }
+
+    public static boolean calcMagicSuccess(Entity attacker, Entity target, Skill skill) {
+        int lvlDifference = (target.getLevel() - (skill.getMagicLevel() > 0 ? skill.getMagicLevel() : attacker.getLevel()));
+        double lvlModifier = Math.pow(1.3, lvlDifference);
+        double targetModifier = 1.00;
+        if (target.isEntity() &&
+                (attacker != null) &&
+                ((target.getLevel() - attacker.getLevel()) >= 3)) {
+            int lvlDiff = target.getLevel() - attacker.getLevel() - 2;
+            if (lvlDiff >= npc.lvlDifferenceSkillChancePenalty().length) {
+                targetModifier = npc.lvlDifferenceSkillChancePenalty()[npc.lvlDifferenceSkillChancePenalty().length - 1];
+            } else {
+                targetModifier = npc.lvlDifferenceSkillChancePenalty()[lvlDiff];
+            }
+        }
+
+        // general magic resist
+        final double resModifier = target.calcStat(Stats.MAGIC_SUCCESS_RES, 1, null, skill);
+        int rate = 100 - Math.round((float) (lvlModifier * targetModifier * resModifier));
+
+//        if (attacker.isDebug()) {
+//            final StatsSet set = new StatsSet();
+//            set.set("lvlDifference", lvlDifference);
+//            set.set("lvlModifier", lvlModifier);
+//            set.set("resModifier", resModifier);
+//            set.set("targetModifier", targetModifier);
+//            set.set("rate", rate);
+//            Debug.sendSkillDebug(attacker, target, skill, set);
+//        }
+
+        return (Rnd.get(100) < rate);
     }
 
     /**
@@ -465,7 +507,7 @@ public final class Formulas {
      * @return chance for effect to succeed
      */
     public static boolean calcProbability(double baseChance, Entity attacker, Entity target, Skill skill) {
-        return Rnd.get(100) < ((((((skill.getMagicLevel() + baseChance) - target.getLevel()) + 30) - target.getINT()) * calcAttributeBonus(attacker, target, skill)) * calcGeneralTraitBonus(attacker, target, skill.getTraitType(), false));
+        return Rnd.get(100) < ((((skill.getMagicLevel() + baseChance) - target.getLevel()) + 30) - target.getINT());
     }
 
     /**
@@ -475,12 +517,36 @@ public final class Formulas {
      * @return the amount of karma player has loosed.
      */
     public static int calculateKarmaLost(PlayerInstance player, long exp) {
-        double karmaLooseMul = KarmaData.getInstance().getMultiplier(player.getLevel());
+        double karmaLooseMul = calcKarmaLooseMul(player.getLevel());
         if (exp > 0) // Received exp
         {
-            exp /= rates().getRateKarmaLost();
+            exp /= rates.rateKarmaLost();
         }
         return (int) ((Math.abs(exp) / karmaLooseMul) / 30);
+    }
+
+    private static float calcKarmaLooseMul(int level) {
+            if (level < 1 || level > 85) {
+                throw new IllegalArgumentException("Level must be between 1 and 85");
+            }
+
+            if (level <= 10) {
+                return 0.18f * level + 1.5f;
+            } else if (level <= 20) {
+                return 0.275f * level - 0.4f;
+            } else if (level <= 30) {
+                return 0.22f * level + 2.4f;
+            } else if (level <= 40) {
+                return 0.175f * level + 6f;
+            } else if (level <= 50) {
+                return 0.155f * level + 9.3f;
+            } else if (level <= 60) {
+                return 0.165f * level + 11.5f;
+            } else if (level <= 70) {
+                return 0.23f * level + 10.3f;
+            } else {
+                return 0.0015f * level * level + 0.13f * level + 19;
+            }
     }
 
     /**

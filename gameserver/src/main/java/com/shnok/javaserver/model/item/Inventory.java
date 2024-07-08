@@ -1,7 +1,9 @@
 package com.shnok.javaserver.model.item;
 
+import com.shnok.javaserver.db.entity.DBArmor;
 import com.shnok.javaserver.db.entity.DBEtcItem;
 import com.shnok.javaserver.db.entity.DBItem;
+import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.enums.item.EtcItemType;
 import com.shnok.javaserver.enums.item.ItemSlot;
@@ -251,6 +253,29 @@ public abstract class Inventory extends ItemContainer {
         }
 
         super.removeItem(item);
+    }
+
+    public DBWeapon getEquippedWeapon() {
+        ItemInstance item = getEquippedItem(ItemSlot.rhand);
+        if(item != null && item.getItem() instanceof DBWeapon) {
+            return (DBWeapon) item.getItem();
+        }
+
+        item = getEquippedItem(ItemSlot.lhand);
+        if(item != null && item.getItem() instanceof DBWeapon) {
+            return (DBWeapon) item.getItem();
+        }
+
+        return null;
+    }
+
+    public DBArmor getEquippedSecondaryWeapon() {
+        ItemInstance item = getEquippedItem(ItemSlot.lhand);
+        if(item != null && item.getItem() instanceof DBArmor) {
+            return (DBArmor) item.getItem();
+        }
+
+        return null;
     }
 
     public synchronized ItemInstance unEquipItemInSlot(ItemSlot slot) {
