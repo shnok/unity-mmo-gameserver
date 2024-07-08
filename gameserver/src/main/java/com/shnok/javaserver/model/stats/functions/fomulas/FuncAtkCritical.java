@@ -2,7 +2,6 @@ package com.shnok.javaserver.model.stats.functions.fomulas;
 
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.skills.Skill;
-import com.shnok.javaserver.model.stats.BaseStats;
 import com.shnok.javaserver.model.stats.Stats;
 import com.shnok.javaserver.model.stats.functions.AbstractFunction;
 

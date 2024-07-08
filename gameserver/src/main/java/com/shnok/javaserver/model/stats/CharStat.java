@@ -1,7 +1,12 @@
 package com.shnok.javaserver.model.stats;
 
+import com.shnok.javaserver.db.entity.DBWeapon;
+import com.shnok.javaserver.enums.MoveType;
+import com.shnok.javaserver.enums.PlayerCondOverride;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.skills.Skill;
+
+import static com.shnok.javaserver.config.Configuration.character;
 
 public class CharStat {
     private final Entity _activeChar;
@@ -111,8 +116,8 @@ public class CharStat {
      */
     public int getCriticalHit(Entity target, Skill skill) {
         double val = (int) calcStat(Stats.CRITICAL_RATE, _activeChar.getTemplate().getBaseCritRate(), target, skill);
-        if (!_activeChar.canOverrideCond(PcCondOverride.MAX_STATS_VALUE)) {
-            val = Math.min(val, character().getMaxPCritRate());
+        if (!_activeChar.canOverrideCond(PlayerCondOverride.MAX_STATS_VALUE)) {
+            val = Math.min(val, character.getMaxPCritRate());
         }
         return (int) (val + .5);
     }
@@ -138,8 +143,8 @@ public class CharStat {
      */
     public int getEvasionRate(Entity target) {
         int val = (int) Math.round(calcStat(Stats.EVASION_RATE, 0, target, null));
-        if (!_activeChar.canOverrideCond(PcCondOverride.MAX_STATS_VALUE)) {
-            val = Math.min(val, character().getMaxEvasion());
+        if (!_activeChar.canOverrideCond(PlayerCondOverride.MAX_STATS_VALUE)) {
+            val = Math.min(val, character.getMaxEvasion());
         }
         return val;
     }
@@ -163,12 +168,12 @@ public class CharStat {
      * @param skill
      * @return the Magical Attack range (base+modifier) of the Entity.
      */
-    public final int getMagicalAttackRange(Skill skill) {
+    public final float getMagicalAttackRange(Skill skill) {
         if (skill != null) {
             return (int) calcStat(Stats.MAGIC_ATTACK_RANGE, skill.getCastRange(), null, skill);
         }
 
-        return _activeChar.getTemplate().getBaseAttackRange();
+        return _activeChar.getTemplate().getBaseAtkRange();
     }
 
     public int getMaxCp() {
@@ -215,8 +220,8 @@ public class CharStat {
         float bonusSpdAtk = 1;
 
         double val = calcStat(Stats.MAGIC_ATTACK_SPEED, _activeChar.getTemplate().getBaseMAtkSpd() * bonusSpdAtk);
-        if (!_activeChar.canOverrideCond(PcCondOverride.MAX_STATS_VALUE)) {
-            val = Math.min(val, character().getMaxMAtkSpeed());
+        if (!_activeChar.canOverrideCond(PlayerCondOverride.MAX_STATS_VALUE)) {
+            val = Math.min(val, character.getMaxMAtkSpeed());
         }
         return (int) val;
     }
@@ -228,8 +233,8 @@ public class CharStat {
      */
     public final int getMCriticalHit(Entity target, Skill skill) {
         int val = (int) calcStat(Stats.MCRITICAL_RATE, 1, target, skill) * 10;
-        if (!_activeChar.canOverrideCond(PcCondOverride.MAX_STATS_VALUE)) {
-            val = Math.min(val, character().getMaxMCritRate());
+        if (!_activeChar.canOverrideCond(PlayerCondOverride.MAX_STATS_VALUE)) {
+            val = Math.min(val, character.getMaxMCritRate());
         }
         return val;
     }
@@ -369,14 +374,14 @@ public class CharStat {
     /**
      * @return the Physical Attack range (base+modifier) of the Entity.
      */
-    public final int getPhysicalAttackRange() {
+    public final float getPhysicalAttackRange() {
         final DBWeapon weapon = _activeChar.getActiveWeaponItem();
-        int baseAttackRange;
+        float baseAttackRange;
 
         if (weapon != null) {
             baseAttackRange = weapon.getBaseAttackRange();
         } else {
-            baseAttackRange = _activeChar.getTemplate().getBaseAttackRange();
+            baseAttackRange = _activeChar.getTemplate().getBaseAtkRange();
         }
 
         return (int) calcStat(Stats.POWER_ATTACK_RANGE, baseAttackRange, null, null);
@@ -427,6 +432,6 @@ public class CharStat {
      * @return the maximum buff count
      */
     public int getMaxBuffCount() {
-        return (int) calcStat(Stats.ENLARGE_ABNORMAL_SLOT, character().getMaxBuffAmount());
+        return (int) calcStat(Stats.ENLARGE_ABNORMAL_SLOT, character.maxBuffAmount());
     }
 }

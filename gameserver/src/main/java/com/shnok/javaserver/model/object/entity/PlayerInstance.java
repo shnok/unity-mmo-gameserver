@@ -7,6 +7,7 @@ import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.dto.external.serverpackets.UserInfoPacket;
+import com.shnok.javaserver.enums.PlayerCondOverride;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.SystemMessageId;
@@ -34,7 +35,6 @@ public class PlayerInstance extends Entity {
     private GameClientThread gameClient;
     private PlayerInventory inventory;
     private boolean sitting;
-    private boolean running;
     private boolean isOnline = false;
 
     public PlayerInstance(int id, int charId, String name, PlayerTemplate playerTemplate) {
@@ -42,7 +42,7 @@ public class PlayerInstance extends Entity {
 
         this.charId = charId;
         this.name = name;
-        this.status = new PlayerStatus(playerTemplate);
+        this.status = new PlayerStatus(this, playerTemplate);
     }
 
     @Override

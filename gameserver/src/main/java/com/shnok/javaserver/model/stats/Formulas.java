@@ -23,9 +23,80 @@ import static com.shnok.javaserver.config.Configuration.*;
 @Log4j2
 public final class Formulas {
 
-    /** Regeneration Task period. */
     private static final int HP_REGENERATE_PERIOD = 3000; // 3 secs
 
+    public static final int MAX_STAT_VALUE = 100;
+
+    private static final double[] STRCompute = new double[]
+            {
+                    1.036,
+                    34.845
+            }; // {1.016, 28.515}; for C1
+    private static final double[] INTCompute = new double[]
+            {
+                    1.020,
+                    31.375
+            }; // {1.020, 31.375}; for C1
+    private static final double[] DEXCompute = new double[]
+            {
+                    1.009,
+                    19.360
+            }; // {1.009, 19.360}; for C1
+    private static final double[] WITCompute = new double[]
+            {
+                    1.050,
+                    20.000
+            }; // {1.050, 20.000}; for C1
+    private static final double[] CONCompute = new double[]
+            {
+                    1.030,
+                    27.632
+            }; // {1.015, 12.488}; for C1
+    private static final double[] MENCompute = new double[]
+            {
+                    1.010,
+                    -0.060
+            }; // {1.010, -0.060}; for C1
+
+    protected static final double[] WITbonus = new double[MAX_STAT_VALUE];
+    protected static final double[] MENbonus = new double[MAX_STAT_VALUE];
+    protected static final double[] INTbonus = new double[MAX_STAT_VALUE];
+    protected static final double[] STRbonus = new double[MAX_STAT_VALUE];
+    protected static final double[] DEXbonus = new double[MAX_STAT_VALUE];
+    protected static final double[] CONbonus = new double[MAX_STAT_VALUE];
+
+    // These values are 100% matching retail tables, no need to change and no need add
+    // calculation into the stat bonus when accessing (not efficient),
+    // better to have everything precalculated and use values directly (saves CPU)
+    static
+    {
+        for (int i = 0; i < STRbonus.length; i++)
+        {
+            STRbonus[i] = Math.floor((Math.pow(STRCompute[0], i - STRCompute[1]) * 100) + .5d) / 100;
+        }
+        for (int i = 0; i < INTbonus.length; i++)
+        {
+            INTbonus[i] = Math.floor((Math.pow(INTCompute[0], i - INTCompute[1]) * 100) + .5d) / 100;
+        }
+        for (int i = 0; i < DEXbonus.length; i++)
+        {
+            DEXbonus[i] = Math.floor((Math.pow(DEXCompute[0], i - DEXCompute[1]) * 100) + .5d) / 100;
+        }
+        for (int i = 0; i < WITbonus.length; i++)
+        {
+            WITbonus[i] = Math.floor((Math.pow(WITCompute[0], i - WITCompute[1]) * 100) + .5d) / 100;
+        }
+        for (int i = 0; i < CONbonus.length; i++)
+        {
+            CONbonus[i] = Math.floor((Math.pow(CONCompute[0], i - CONCompute[1]) * 100) + .5d) / 100;
+        }
+        for (int i = 0; i < MENbonus.length; i++)
+        {
+            MENbonus[i] = Math.floor((Math.pow(MENCompute[0], i - MENCompute[1]) * 100) + .5d) / 100;
+        }
+    }
+
+    /** Regeneration Task period. */
     public static final byte SHIELD_DEFENSE_FAILED = 0; // no shield defense
     public static final byte SHIELD_DEFENSE_SUCCEED = 1; // normal shield defense
     public static final byte SHIELD_DEFENSE_PERFECT_BLOCK = 2; // perfect block
@@ -126,7 +197,7 @@ public final class Formulas {
      * @return
      */
     public static double calcHpRegen(Entity cha) {
-        double init = (cha.isPlayer()) ? cha.getTemplate().getBaseHpReg(cha.getLevel()) : cha.getTemplate().getBaseHpReg();
+        double init = (cha.isPlayer()) ? ((PlayerInstance) cha).getTemplate().getBaseHpReg(cha.getLevel()) : cha.getTemplate().getBaseHpReg();
         double hpRegenMultiplier = character.hpRegenMultiplier();
         double hpRegenBonus = 0;
 
@@ -143,7 +214,7 @@ public final class Formulas {
             }
 
             // Add CON bonus
-            init *= cha.getLevelMod() * BaseStats.CON.calcBonus(cha);
+            init *= cha.getLevelMod() * CONbonus[cha.getCON()];
         }
 
         return (cha.calcStat(Stats.REGENERATE_HP_RATE, Math.max(1, init), null, null) * hpRegenMultiplier) + hpRegenBonus;
@@ -155,7 +226,7 @@ public final class Formulas {
      * @return
      */
     public static double calcMpRegen(Entity cha) {
-        double init = cha.isPlayer() ? cha.getTemplate().getBaseMpReg(cha.getLevel()) : cha.getTemplate().getBaseMpReg();
+        double init = cha.isPlayer() ? ((PlayerInstance) cha).getTemplate().getBaseMpReg(cha.getLevel()) : cha.getTemplate().getBaseMpReg();
         double mpRegenMultiplier = character.mpRegenMultiplier();
         double mpRegenBonus = 0;
 
@@ -172,7 +243,7 @@ public final class Formulas {
             }
 
             // Add MEN bonus
-            init *= cha.getLevelMod() * BaseStats.MEN.calcBonus(cha);
+            init *= cha.getLevelMod() * MENbonus[cha.getMEN()];
         }
 
         return (cha.calcStat(Stats.REGENERATE_MP_RATE, Math.max(1, init), null, null) * mpRegenMultiplier) + mpRegenBonus;
@@ -185,7 +256,8 @@ public final class Formulas {
      */
     public static double calcCpRegen(PlayerInstance player) {
         // With CON bonus
-        final double init = player.getTemplate().getBaseCpReg(player.getLevel()) * player.getLevelMod() * BaseStats.CON.calcBonus(player);
+        final double init = player.getTemplate().getBaseCpReg(player.getLevel()) * player.getLevelMod() *
+                CONbonus[player.getCON()];
         double cpRegenMultiplier = character.cpRegenMultiplier();
         if (player.isSitting()) {
             cpRegenMultiplier *= 1.5; // Sitting
@@ -299,7 +371,7 @@ public final class Formulas {
      * @return
      */
     public static boolean calcSkillCrit(Entity attacker, Entity target, int criticalChance) {
-        return (BaseStats.STR.calcBonus(attacker) * criticalChance) > (Rnd.nextDouble() * 100);
+        return (STRbonus[attacker.getSTR()] * criticalChance) > (Rnd.nextDouble() * 100);
     }
 
     public static boolean calcMCrit(double mRate) {
@@ -341,7 +413,7 @@ public final class Formulas {
             return 0;
         }
 
-        double shldRate = target.calcStat(Stats.SHIELD_RATE, 0, attacker, null) * BaseStats.DEX.calcBonus(target);
+        double shldRate = target.calcStat(Stats.SHIELD_RATE, 0, attacker, null) * DEXbonus[target.getDEX()];
         if (shldRate <= 1e-6) {
             return 0;
         }
@@ -428,7 +500,7 @@ public final class Formulas {
         }
 
         // Failure calculation
-        if (character.magicFailures() && !calcMagicSuccess(attacker, target, skill)) {
+        if (character.magicResists() && !calcMagicSuccess(attacker, target, skill)) {
             if (attacker.isPlayer()) {
                 SystemMessagePacket sm = SystemMessagePacket.getSystemMessage(
                         SystemMessageId.DAMAGE_DECREASED_BECAUSE_C1_RESISTED_C2_MAGIC);

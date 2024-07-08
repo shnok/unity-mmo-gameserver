@@ -1,6 +1,7 @@
 package com.shnok.javaserver.model.stats;
 
 import com.shnok.javaserver.model.object.entity.Entity;
+import com.shnok.javaserver.model.skills.Skill;
 import com.shnok.javaserver.model.stats.functions.AbstractFunction;
 
 import java.util.ArrayList;
@@ -154,13 +155,13 @@ public final class Calculator {
      * @param initVal the initial value
      * @return the calculated value
      */
-//    public double calc(Entity caster, Entity target, Skill skill, double initVal) {
-//        double value = initVal;
-//        for (AbstractFunction func : _functions) {
-//            value = func.calc(caster, target, skill, value);
-//        }
-//        return value;
-//    }
+    public double calc(Entity caster, Entity target, Skill skill, double initVal) {
+        double value = initVal;
+        for (AbstractFunction func : _functions) {
+            value = func.calc(caster, target, skill, value);
+        }
+        return value;
+    }
 
     /**
      * Get array of all function, dont use for add/remove

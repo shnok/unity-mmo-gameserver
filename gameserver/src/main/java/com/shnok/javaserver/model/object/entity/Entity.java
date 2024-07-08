@@ -9,6 +9,7 @@ import com.shnok.javaserver.dto.external.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
+import com.shnok.javaserver.enums.PlayerCondOverride;
 import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
@@ -56,6 +57,7 @@ public abstract class Entity extends GameObject {
     /** Table of Calculators containing all used calculator */
     private Calculator[] calculators;
     private CharStat stat;
+    protected long exceptions = 0L;
 
     /** Table of calculators containing all standard NPC calculator (ex : ACCURACY_COMBAT, EVASION_RATE) */
     private static final Calculator[] NPC_STD_CALCULATOR = Formulas.getStdNPCCalculators();
@@ -65,6 +67,7 @@ public abstract class Entity extends GameObject {
     protected EntityTemplate template;
     protected Status status;
     protected boolean moving;
+    protected boolean running;
     protected long attackEndTime;
 
     public Entity(int id, EntityTemplate template) {
@@ -822,7 +825,7 @@ public abstract class Entity extends GameObject {
         return getStat().getEvasionRate(target);
     }
 
-    public final int getMagicalAttackRange(Skill skill) {
+    public final float getMagicalAttackRange(Skill skill) {
         return getStat().getMagicalAttackRange(skill);
     }
 
@@ -882,7 +885,7 @@ public abstract class Entity extends GameObject {
         return getStat().getPDef(target);
     }
 
-    public final int getPhysicalAttackRange() {
+    public final float getPhysicalAttackRange() {
         return getStat().getPhysicalAttackRange();
     }
 
@@ -939,7 +942,7 @@ public abstract class Entity extends GameObject {
     }
 
     // Status - NEED TO REMOVE ONCE L2CHARTATUS IS COMPLETE
-    public void addStatusListener(Entity object) {
+    public void addStatusListener(PlayerInstance object) {
         getStatus().addStatusListener(object);
     }
 
@@ -978,4 +981,25 @@ public abstract class Entity extends GameObject {
 
     public abstract DBWeapon getActiveWeaponItem();
     public abstract DBArmor getSecondaryWeaponItem();
+
+
+    public void addOverrideCond(PlayerCondOverride... excs) {
+        for (PlayerCondOverride exc : excs) {
+            exceptions |= exc.getMask();
+        }
+    }
+
+    public void removeOverridedCond(PlayerCondOverride... excs) {
+        for (PlayerCondOverride exc : excs) {
+            exceptions &= ~exc.getMask();
+        }
+    }
+
+    public boolean canOverrideCond(PlayerCondOverride excs) {
+        return (exceptions & excs.getMask()) == excs.getMask();
+    }
+
+    public void setOverrideCond(long masks) {
+        exceptions = masks;
+    }
 }

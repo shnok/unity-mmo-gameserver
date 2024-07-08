@@ -33,4 +33,30 @@ public interface CharacterConfig extends Mutable, Reloadable {
     Boolean shieldBlocks();
     @Key("shield.perfect.block.rate")
     Integer shieldPerfectBlockRate();
+    @Key("max.buff.amount")
+    Integer maxBuffAmount();
+    @Key("max.exp.bonus")
+    Double getMaxExpBonus();
+    @Key("max.sp.bonus")
+    Double getMaxSpBonus();
+    @Key("max.run.speed")
+    Integer getMaxRunSpeed();
+    @Key("max.pcrit.rate")
+    Integer getMaxPCritRate();
+    @Key("max.mcrit.rate")
+    Integer getMaxMCritRate();
+    @Key("max.patk.speed")
+    Integer getMaxPAtkSpeed();
+    @Key("max.matk.speed")
+    Integer getMaxMAtkSpeed();
+    @Key("max.evasion")
+    Integer getMaxEvasion();
+    @Key("min.abnormal.success.rate")
+    Integer getMinAbnormalStateSuccessRate();
+    @Key("max.abnormal.success.rate")
+    Integer getMaxAbnormalStateSuccessRate();
+    @Key("max.player.level")
+    Integer getMaxPlayerLevel();
+    @Key("magic.resists")
+    Boolean magicResists();
 }

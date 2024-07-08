@@ -1,5 +1,6 @@
 package com.shnok.javaserver.model.template;
 
+import com.shnok.javaserver.enums.MoveType;
 import lombok.Data;
 
 @Data
@@ -31,4 +32,12 @@ public class EntityTemplate {
     public float collisionHeight;
 
     public EntityTemplate() {}
+
+    public int getBaseMoveSpeed(MoveType moveType) {
+        if(moveType == MoveType.RUN) {
+            return baseRunSpd;
+        }
+
+        return baseWalkSpd;
+    }
 }

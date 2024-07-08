@@ -1,5 +1,6 @@
 package com.shnok.javaserver.model.conditions;
 
+import com.shnok.javaserver.db.entity.DBItem;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.skills.Skill;
 
