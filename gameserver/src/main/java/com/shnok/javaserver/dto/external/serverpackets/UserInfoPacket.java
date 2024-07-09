@@ -23,10 +23,10 @@ public class UserInfoPacket extends SendablePacket {
         writeF(player.getPosZ());
         // Status
         writeI(player.getLevel());
-        writeI(player.getStatus().getHp());
-        writeI(player.getStatus().getMaxHp());
+        writeI((int) player.getStatus().getCurrentHp());
+        writeI(player.getStat().getMaxHp());
         // Stats
-        writeI(player.getStatus().getMoveSpeed());
+        writeI((int) player.getStat().getMoveSpeed());
         writeI(player.getTemplate().getBasePAtkSpd());
         writeI(player.getTemplate().getBaseMAtkSpd());
         // Appearance

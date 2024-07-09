@@ -3,6 +3,7 @@ package com.shnok.javaserver.model.status;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.model.stats.Formulas;
+import com.shnok.javaserver.security.Rnd;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,8 @@ import java.util.concurrent.Future;
 @Log4j2
 public class Status {
     protected Entity owner;
-    protected int currentHp;
-    protected int currentMp;
+    protected float currentHp;
+    protected float currentMp;
 
     /** Array containing all clients that need to be notified about hp/mp updates of the Entity */
     private Set<PlayerInstance> statusListener;
@@ -87,7 +88,7 @@ public class Status {
     }
 
     // place holder, only PcStatus has CP
-    public void reduceCp(int value) {
+    public void reduceCp(float value) {
     }
 
     /**
@@ -95,15 +96,15 @@ public class Status {
      * @param value
      * @param attacker
      */
-    public void reduceHp(double value, Entity attacker) {
+    public void reduceHp(float value, Entity attacker) {
         reduceHp(value, attacker, true, false, false);
     }
 
-    public void reduceHp(double value, Entity attacker, boolean isHpConsumption) {
+    public void reduceHp(float value, Entity attacker, boolean isHpConsumption) {
         reduceHp(value, attacker, true, false, isHpConsumption);
     }
 
-    public void reduceHp(double value, Entity attacker, boolean awake, boolean isDOT, boolean isHPConsumption) {
+    public void reduceHp(float value, Entity attacker, boolean awake, boolean isDOT, boolean isHPConsumption) {
         if (getOwner().isDead()) {
             return;
         }
@@ -115,9 +116,9 @@ public class Status {
 
         if (attacker != null) {
             final PlayerInstance attackerPlayer = (PlayerInstance) attacker;
-            if (attackerPlayer.isGM() && !attackerPlayer.getAccessLevel().canGiveDamage()) {
-                return;
-            }
+//            if (attackerPlayer.isGM() && !attackerPlayer.getAccessLevel().canGiveDamage()) {
+//                return;
+//            }
         }
 
         if (!isDOT && !isHPConsumption) {
@@ -142,7 +143,7 @@ public class Status {
         }
     }
 
-    public void reduceMp(double value) {
+    public void reduceMp(float value) {
         setCurrentMp(Math.max(getCurrentMp() - value, 0));
     }
 
@@ -188,15 +189,15 @@ public class Status {
     }
 
     // place holder, only PcStatus has CP
-    public double getCurrentCp() {
+    public float getCurrentCp() {
         return 0;
     }
 
     // place holder, only PcStatus has CP
-    public void setCurrentCp(double newCp) {
+    public void setCurrentCp(float newCp) {
     }
     
-    public final void setCurrentHp(double newHp) {
+    public final void setCurrentHp(float newHp) {
         setCurrentHp(newHp, true);
     }
 
@@ -206,10 +207,10 @@ public class Status {
      * @param broadcastPacket if true StatusUpdate packet will be broadcasted.
      * @return @{code true} if hp was changed, @{code false} otherwise.
      */
-    public boolean setCurrentHp(double newHp, boolean broadcastPacket) {
+    public boolean setCurrentHp(float newHp, boolean broadcastPacket) {
         // Get the Max HP of the Entity
-        int lastHpValue = (int) getCurrentHp();
-        final double maxHp = getOwner().getMaxHp();
+        float lastHpValue = getCurrentHp();
+        final float maxHp = getOwner().getMaxHp();
 
         synchronized (this) {
             if (getOwner().isDead()) {
@@ -245,7 +246,7 @@ public class Status {
         return hpWasChanged;
     }
 
-    public final void setCurrentHpMp(double newHp, double newMp) {
+    public final void setCurrentHpMp(float newHp, float newMp) {
         boolean hpOrMpWasChanged = setCurrentHp(newHp, false);
         hpOrMpWasChanged |= setCurrentMp(newMp, false);
         if (hpOrMpWasChanged) {
@@ -253,7 +254,7 @@ public class Status {
         }
     }
     
-    public final void setCurrentMp(double newMp) {
+    public final void setCurrentMp(float newMp) {
         setCurrentMp(newMp, true);
     }
 
@@ -263,7 +264,7 @@ public class Status {
      * @param broadcastPacket if true StatusUpdate packet will be broadcasted.
      * @return @{code true} if mp was changed, @{code false} otherwise.
      */
-    public final boolean setCurrentMp(double newMp, boolean broadcastPacket) {
+    public final boolean setCurrentMp(float newMp, boolean broadcastPacket) {
         // Get the Max MP of the Entity
         int lastMpValue = (int) getCurrentMp();
         final int maxMp = getOwner().getMaxMp();
@@ -279,7 +280,7 @@ public class Status {
                 flagsRegenActive &= ~REGEN_FLAG_MP;
 
                 // Stop the HP/MP/CP Regeneration task
-                if (_flagsRegenActive == 0) {
+                if (flagsRegenActive == 0) {
                     stopHpMpRegeneration();
                 }
             } else {

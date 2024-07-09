@@ -17,13 +17,13 @@ public class FuncAtkEvasion extends AbstractFunction {
     }
 
     @Override
-    public double calc(Entity effector, Entity effected, Skill skill, double initVal) {
+    public float calc(Entity effector, Entity effected, Skill skill, float initVal) {
         final int level = effector.getLevel();
-        double value = initVal;
+        float value = initVal;
         if (effector.isPlayer()) {
             // [Square(DEX)] * 6 + lvl;
             value += (Math.sqrt(effector.getDEX()) * 6) + level;
-            double diff = level - 69;
+            float diff = level - 69;
             if (level >= 78) {
                 diff *= 1.2;
             }

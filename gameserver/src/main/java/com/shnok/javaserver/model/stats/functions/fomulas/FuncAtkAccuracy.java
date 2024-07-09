@@ -17,10 +17,10 @@ public class FuncAtkAccuracy extends AbstractFunction {
     }
 
     @Override
-    public double calc(Entity effector, Entity effected, Skill skill, double initVal) {
+    public float calc(Entity effector, Entity effected, Skill skill, float initVal) {
         final int level = effector.getLevel();
         // [Square(DEX)] * 6 + lvl + weapon hitbonus;
-        double value = initVal + (Math.sqrt(effector.getDEX()) * 6) + level;
+        float value = (float) (initVal + (Math.sqrt(effector.getDEX()) * 6) + level);
         if (level > 77) {
             value += level - 76;
         }

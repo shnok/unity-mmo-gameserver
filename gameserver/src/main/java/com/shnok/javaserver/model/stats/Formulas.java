@@ -27,43 +27,43 @@ public final class Formulas {
 
     public static final int MAX_STAT_VALUE = 100;
 
-    private static final double[] STRCompute = new double[]
+    private static final float[] STRCompute = new float[]
             {
-                    1.036,
-                    34.845
+                    1.036f,
+                    34.845f
             }; // {1.016, 28.515}; for C1
-    private static final double[] INTCompute = new double[]
+    private static final float[] INTCompute = new float[]
             {
-                    1.020,
-                    31.375
+                    1.020f,
+                    31.375f
             }; // {1.020, 31.375}; for C1
-    private static final double[] DEXCompute = new double[]
+    private static final float[] DEXCompute = new float[]
             {
-                    1.009,
-                    19.360
+                    1.009f,
+                    19.360f
             }; // {1.009, 19.360}; for C1
-    private static final double[] WITCompute = new double[]
+    private static final float[] WITCompute = new float[]
             {
-                    1.050,
-                    20.000
+                    1.050f,
+                    20.000f
             }; // {1.050, 20.000}; for C1
-    private static final double[] CONCompute = new double[]
+    private static final float[] CONCompute = new float[]
             {
-                    1.030,
-                    27.632
+                    1.030f,
+                    27.632f
             }; // {1.015, 12.488}; for C1
-    private static final double[] MENCompute = new double[]
+    private static final float[] MENCompute = new float[]
             {
-                    1.010,
-                    -0.060
+                    1.010f,
+                    -0.060f
             }; // {1.010, -0.060}; for C1
 
-    public static final double[] WITbonus = new double[MAX_STAT_VALUE];
-    public static final double[] MENbonus = new double[MAX_STAT_VALUE];
-    public static final double[] INTbonus = new double[MAX_STAT_VALUE];
-    public static final double[] STRbonus = new double[MAX_STAT_VALUE];
-    public static final double[] DEXbonus = new double[MAX_STAT_VALUE];
-    public static final double[] CONbonus = new double[MAX_STAT_VALUE];
+    public static final float[] WITbonus = new float[MAX_STAT_VALUE];
+    public static final float[] MENbonus = new float[MAX_STAT_VALUE];
+    public static final float[] INTbonus = new float[MAX_STAT_VALUE];
+    public static final float[] STRbonus = new float[MAX_STAT_VALUE];
+    public static final float[] DEXbonus = new float[MAX_STAT_VALUE];
+    public static final float[] CONbonus = new float[MAX_STAT_VALUE];
 
     // These values are 100% matching retail tables, no need to change and no need add
     // calculation into the stat bonus when accessing (not efficient),
@@ -72,27 +72,27 @@ public final class Formulas {
     {
         for (int i = 0; i < STRbonus.length; i++)
         {
-            STRbonus[i] = Math.floor((Math.pow(STRCompute[0], i - STRCompute[1]) * 100) + .5d) / 100;
+            STRbonus[i] = (float) (Math.floor((Math.pow(STRCompute[0], i - STRCompute[1]) * 100) + .5d) / 100);
         }
         for (int i = 0; i < INTbonus.length; i++)
         {
-            INTbonus[i] = Math.floor((Math.pow(INTCompute[0], i - INTCompute[1]) * 100) + .5d) / 100;
+            INTbonus[i] = (float) (Math.floor((Math.pow(INTCompute[0], i - INTCompute[1]) * 100) + .5d) / 100);
         }
         for (int i = 0; i < DEXbonus.length; i++)
         {
-            DEXbonus[i] = Math.floor((Math.pow(DEXCompute[0], i - DEXCompute[1]) * 100) + .5d) / 100;
+            DEXbonus[i] = (float) (Math.floor((Math.pow(DEXCompute[0], i - DEXCompute[1]) * 100) + .5d) / 100);
         }
         for (int i = 0; i < WITbonus.length; i++)
         {
-            WITbonus[i] = Math.floor((Math.pow(WITCompute[0], i - WITCompute[1]) * 100) + .5d) / 100;
+            WITbonus[i] = (float) (Math.floor((Math.pow(WITCompute[0], i - WITCompute[1]) * 100) + .5d) / 100);
         }
         for (int i = 0; i < CONbonus.length; i++)
         {
-            CONbonus[i] = Math.floor((Math.pow(CONCompute[0], i - CONCompute[1]) * 100) + .5d) / 100;
+            CONbonus[i] = (float) (Math.floor((Math.pow(CONCompute[0], i - CONCompute[1]) * 100) + .5d) / 100);
         }
         for (int i = 0; i < MENbonus.length; i++)
         {
-            MENbonus[i] = Math.floor((Math.pow(MENCompute[0], i - MENCompute[1]) * 100) + .5d) / 100;
+            MENbonus[i] = (float) (Math.floor((Math.pow(MENCompute[0], i - MENCompute[1]) * 100) + .5d) / 100);
         }
     }
 
@@ -196,10 +196,10 @@ public final class Formulas {
      * @param cha
      * @return
      */
-    public static double calcHpRegen(Entity cha) {
-        double init = (cha.isPlayer()) ? ((PlayerInstance) cha).getTemplate().getBaseHpReg(cha.getLevel()) : cha.getTemplate().getBaseHpReg();
-        double hpRegenMultiplier = character.hpRegenMultiplier();
-        double hpRegenBonus = 0;
+    public static float calcHpRegen(Entity cha) {
+        float init = (cha.isPlayer()) ? ((PlayerInstance) cha).getTemplate().getBaseHpReg(cha.getLevel()) : cha.getTemplate().getBaseHpReg();
+        float hpRegenMultiplier = character.hpRegenMultiplier();
+        float hpRegenBonus = 0;
 
         if ((cha.isPlayer())) {
             PlayerInstance player = (PlayerInstance) cha;
@@ -225,10 +225,10 @@ public final class Formulas {
      * @param cha
      * @return
      */
-    public static double calcMpRegen(Entity cha) {
-        double init = cha.isPlayer() ? ((PlayerInstance) cha).getTemplate().getBaseMpReg(cha.getLevel()) : cha.getTemplate().getBaseMpReg();
-        double mpRegenMultiplier = character.mpRegenMultiplier();
-        double mpRegenBonus = 0;
+    public static float calcMpRegen(Entity cha) {
+        float init = cha.isPlayer() ? ((PlayerInstance) cha).getTemplate().getBaseMpReg(cha.getLevel()) : cha.getTemplate().getBaseMpReg();
+        float mpRegenMultiplier = character.mpRegenMultiplier();
+        float mpRegenBonus = 0;
 
         if ((cha.isPlayer())) {
             PlayerInstance player = (PlayerInstance) cha;
@@ -254,11 +254,11 @@ public final class Formulas {
      * @param player the player
      * @return the CP regeneration rate
      */
-    public static double calcCpRegen(PlayerInstance player) {
+    public static float calcCpRegen(PlayerInstance player) {
         // With CON bonus
-        final double init = player.getTemplate().getBaseCpReg(player.getLevel()) * player.getLevelMod() *
+        final float init = player.getTemplate().getBaseCpReg(player.getLevel()) * player.getLevelMod() *
                 CONbonus[player.getCON()];
-        double cpRegenMultiplier = character.cpRegenMultiplier();
+        float cpRegenMultiplier = character.cpRegenMultiplier();
         if (player.isSitting()) {
             cpRegenMultiplier *= 1.5; // Sitting
         } else if (!player.isMoving()) {
@@ -279,8 +279,8 @@ public final class Formulas {
      * @param ss if weapon item was charged by soulshot
      * @return
      */
-    public static double calcPhysDam(Entity attacker, Entity target, byte shld, boolean crit, boolean ss) {
-        double defence = target.getPDef(attacker);
+    public static float calcPhysDam(Entity attacker, Entity target, byte shld, boolean crit, boolean ss) {
+        float defence = target.getPDef(attacker);
 
         switch (shld) {
             case SHIELD_DEFENSE_SUCCEED:
@@ -294,9 +294,9 @@ public final class Formulas {
         }
 
         final boolean isPvP = attacker.isPlayer() && target.isPlayer();
-        double proximityBonus = attacker.isBehindTarget() ? 1.2 : attacker.isInFrontOfTarget() ? 1 : 1.1; // Behind: +20% - Side: +10%
-        double damage = attacker.getPAtk(target);
-        double ssboost = ss ? 2 : 1;
+        float proximityBonus = attacker.isBehindTarget() ? 1.2f : attacker.isInFrontOfTarget() ? 1 : 1.1f; // Behind: +20% - Side: +10%
+        float damage = attacker.getPAtk(target);
+        float ssboost = ss ? 2 : 1;
 
         if (isPvP) {
             // Defense bonuses in PvP fight
@@ -356,7 +356,7 @@ public final class Formulas {
      * @return
      */
     public static boolean calcCrit(Entity attacker, Entity target) {
-        double rate = attacker.getStat().calcStat(Stats.CRITICAL_RATE_POS,
+        float rate = attacker.getStat().calcStat(Stats.CRITICAL_RATE_POS,
                 attacker.getStat().getCriticalHit(target, null));
         return (target.getStat().calcStat(Stats.DEFENCE_CRITICAL_RATE, rate, null, null)
                 + target.getStat().calcStat(Stats.DEFENCE_CRITICAL_RATE_ADD, 0, null, null)) >
@@ -371,10 +371,10 @@ public final class Formulas {
      * @return
      */
     public static boolean calcSkillCrit(Entity attacker, Entity target, int criticalChance) {
-        return (STRbonus[attacker.getSTR()] * criticalChance) > (Rnd.nextDouble() * 100);
+        return (STRbonus[attacker.getSTR()] * criticalChance) > (Rnd.nextfloat() * 100);
     }
 
-    public static boolean calcMCrit(double mRate) {
+    public static boolean calcMCrit(float mRate) {
         return mRate > Rnd.get(1000);
     }
 
@@ -413,7 +413,7 @@ public final class Formulas {
             return 0;
         }
 
-        double shldRate = target.calcStat(Stats.SHIELD_RATE, 0, attacker, null) * DEXbonus[target.getDEX()];
+        float shldRate = target.calcStat(Stats.SHIELD_RATE, 0, attacker, null) * DEXbonus[target.getDEX()];
         if (shldRate <= 1e-6) {
             return 0;
         }
@@ -461,19 +461,19 @@ public final class Formulas {
                 null, true);
     }
 
-    public static double calcLvlBonusMod(Entity attacker, Entity target, Skill skill) {
+    public static float calcLvlBonusMod(Entity attacker, Entity target, Skill skill) {
         int attackerLvl = skill.getMagicLevel() > 0 ? skill.getMagicLevel() : attacker.getLevel();
-        double skillLvlBonusRateMod = 1 + (skill.getLvlBonusRate() / 100.);
-        double lvlMod = 1 + ((attackerLvl - target.getLevel()) / 100.);
+        float skillLvlBonusRateMod = 1 + (skill.getLvlBonusRate() / 100.f);
+        float lvlMod = 1 + ((attackerLvl - target.getLevel()) / 100.f);
         return skillLvlBonusRateMod * lvlMod;
     }
 
-    public static double calcManaDam(Entity attacker, Entity target, Skill skill, byte shld, boolean sps,
-                                     boolean bss, boolean mcrit, double power) {
+    public static float calcManaDam(Entity attacker, Entity target, Skill skill, byte shld, boolean sps,
+                                     boolean bss, boolean mcrit, float power) {
         // Formula: (SQR(M.Atk)*Power*(Target Max MP/97))/M.Def
-        double mAtk = attacker.getMAtk(target, skill);
-        double mDef = target.getMDef(attacker, skill);
-        double mp = target.getMaxMp();
+        float mAtk = attacker.getMAtk(target, skill);
+        float mDef = target.getMDef(attacker, skill);
+        float mp = target.getMaxMp();
 
         switch (shld) {
             case SHIELD_DEFENSE_SUCCEED:
@@ -486,7 +486,7 @@ public final class Formulas {
         // Bonus Spiritshot
         mAtk *= bss ? 4 : sps ? 2 : 1;
 
-        double damage = (Math.sqrt(mAtk) * power * (mp / 97)) / mDef;
+        float damage = (float) ((Math.sqrt(mAtk) * power * (mp / 97f)) / mDef);
 
         if (target.isEntity()) {
             if (target.getLevel() - attacker.getLevel() >= 2) {
@@ -530,8 +530,8 @@ public final class Formulas {
 
     public static boolean calcMagicSuccess(Entity attacker, Entity target, Skill skill) {
         int lvlDifference = (target.getLevel() - (skill.getMagicLevel() > 0 ? skill.getMagicLevel() : attacker.getLevel()));
-        double lvlModifier = Math.pow(1.3, lvlDifference);
-        double targetModifier = 1.00;
+        float lvlModifier = (float) Math.pow(1.3f, lvlDifference);
+        float targetModifier = 1.00f;
         if (target.isEntity() &&
                 (attacker != null) &&
                 ((target.getLevel() - attacker.getLevel()) >= 3)) {
@@ -544,7 +544,7 @@ public final class Formulas {
         }
 
         // general magic resist
-        final double resModifier = target.calcStat(Stats.MAGIC_SUCCESS_RES, 1, null, skill);
+        final float resModifier = target.calcStat(Stats.MAGIC_SUCCESS_RES, 1, null, skill);
         int rate = 100 - Math.round((float) (lvlModifier * targetModifier * resModifier));
 
 //        if (attacker.isDebug()) {
@@ -578,7 +578,7 @@ public final class Formulas {
      * @param skill
      * @return chance for effect to succeed
      */
-    public static boolean calcProbability(double baseChance, Entity attacker, Entity target, Skill skill) {
+    public static boolean calcProbability(float baseChance, Entity attacker, Entity target, Skill skill) {
         return Rnd.get(100) < ((((skill.getMagicLevel() + baseChance) - target.getLevel()) + 30) - target.getINT());
     }
 
@@ -589,7 +589,7 @@ public final class Formulas {
      * @return the amount of karma player has loosed.
      */
     public static int calculateKarmaLost(PlayerInstance player, long exp) {
-        double karmaLooseMul = calcKarmaLooseMul(player.getLevel());
+        float karmaLooseMul = calcKarmaLooseMul(player.getLevel());
         if (exp > 0) // Received exp
         {
             exp /= rates.rateKarmaLost();

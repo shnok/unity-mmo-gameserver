@@ -232,14 +232,14 @@ public class ClientPacketHandlerThread extends Thread {
             log.warn("Trying to attack a non-entity object.");
             return;
         }
-        if(((Entity)object).getStatus().getHp() <= 0) {
+        if(((Entity)object).getStatus().getCurrentHp() <= 0) {
             log.warn("Trying to attack a dead entity.");
             return;
         }
 
         // ! FOR DEBUG PURPOSE
         int damage = 25;
-        ((Entity) object).inflictDamage(client.getCurrentPlayer(), damage);
+        ((Entity) object).reduceCurrentHp(damage, client.getCurrentPlayer());
         boolean critical = false;
         Random r = new Random();
         if(r.nextInt(2) == 0) {
@@ -249,7 +249,7 @@ public class ClientPacketHandlerThread extends Thread {
         // ! FOR DEBUG PURPOSE
         // Notify known list
         ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                client.getCurrentPlayer().getId(), packet.getTargetId(), damage, ((Entity) object).getStatus().getHp(), critical);
+                client.getCurrentPlayer().getId(), packet.getTargetId(), damage, ((Entity) object).getStatus().getCurrentHp(), critical);
         // Send packet to player's known list
         client.getCurrentPlayer().broadcastPacket(applyDamagePacket);
         // Send packet to player
@@ -274,7 +274,7 @@ public class ClientPacketHandlerThread extends Thread {
 
         // Notify known list
         ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
-                client.getCurrentPlayer().getId(), client.getCurrentPlayer().getStatus().getMoveSpeed(), packet.getDirection());
+                client.getCurrentPlayer().getId(), client.getCurrentPlayer().getStat().getMoveSpeed(), packet.getDirection());
         client.getCurrentPlayer().broadcastPacket(objectDirectionPacket);
 
         // calculate heading

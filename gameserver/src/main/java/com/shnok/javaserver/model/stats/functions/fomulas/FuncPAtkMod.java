@@ -18,7 +18,7 @@ public class FuncPAtkMod extends AbstractFunction {
     }
 
     @Override
-    public double calc(Entity effector, Entity effected, Skill skill, double initVal) {
+    public float calc(Entity effector, Entity effected, Skill skill, float initVal) {
         return initVal * Formulas.STRbonus[effector.getSTR()] * effector.getLevelMod();
     }
 }

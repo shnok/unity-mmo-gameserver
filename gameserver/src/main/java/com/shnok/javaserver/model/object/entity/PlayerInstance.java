@@ -11,6 +11,7 @@ import com.shnok.javaserver.enums.PlayerCondOverride;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.SystemMessageId;
+import com.shnok.javaserver.model.Party;
 import com.shnok.javaserver.model.PlayerAppearance;
 import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
@@ -38,13 +39,15 @@ public class PlayerInstance extends Entity {
     private PlayerInventory inventory;
     private boolean sitting;
     private boolean isOnline = false;
+    private boolean GM = false;
+    private Party party;
 
     public PlayerInstance(int id, int charId, String name, PlayerTemplate playerTemplate) {
         super(id, playerTemplate);
 
         this.charId = charId;
         this.name = name;
-        this.status = new PlayerStatus(this, playerTemplate);
+        this.status = new PlayerStatus(this);
 
         Formulas.addFuncsToNewPlayer(this);
     }
@@ -97,20 +100,10 @@ public class PlayerInstance extends Entity {
     }
 
     @Override
-    public void inflictDamage(Entity attacker, int value) {
-        super.inflictDamage(attacker, value);
-
-        status.setHp(Math.max(status.getHp() - value, 0));
-        if (status.getHp() == 0) {
-            onDeath();
-        }
-    }
-
-    @Override
     public boolean onHitTimer(Entity target, int damage, boolean criticalHit) {
         if(super.onHitTimer(target, damage, criticalHit)) {
             ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                    getId(), target.getId(), damage, target.getStatus().getHp(), criticalHit);
+                    getId(), target.getId(), damage, target.getStatus().getCurrentHp(), criticalHit);
             broadcastPacket(applyDamagePacket);
             sendPacket(applyDamagePacket);
             return true;
@@ -187,5 +180,17 @@ public class PlayerInstance extends Entity {
 
         setOnlineStatus(false, true);
         WorldManagerService.getInstance().removePlayer(this);
+    }
+
+    public float getCurrentCp() {
+        return status.getCurrentCp();
+    }
+
+    public boolean isSitting() {
+        return false;
+    }
+
+    public void standUp() {
+
     }
 }

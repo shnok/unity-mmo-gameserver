@@ -162,7 +162,7 @@ public class NpcAI extends EntityAI implements Runnable {
             movingReason = EntityMovingReason.Walking;
 
             // Update npc move speed to its walking speed
-            npc.getStatus().setMoveSpeed(npc.getTemplate().getBaseWalkSpd());
+            npc.setRunning(false);
             randomWalk();
         }
     }

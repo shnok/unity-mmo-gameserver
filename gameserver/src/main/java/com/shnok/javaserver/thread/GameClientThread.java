@@ -278,7 +278,7 @@ public class GameClientThread extends Thread {
         PlayerInstance character = WorldManagerService.getInstance().getPlayer(objId);
         if (character != null) {
             // exploit prevention, should not happens in normal way
-            log.error("Attempt of double login {}, account {}!", character, getAccountName());
+            log.error("Attempt of float login {}, account {}!", character, getAccountName());
             if (character.getGameClient() != null) {
                 character.getGameClient().disconnect();
             } else {

@@ -17,8 +17,8 @@ public final class Rnd {
         return rnd.directRandom();
     }
 
-    public static double get() {
-        return rnd.nextDouble();
+    public static float get() {
+        return rnd.nextfloat();
     }
 
     public static int get(int n) {
@@ -56,15 +56,15 @@ public final class Rnd {
         rnd.nextBytes(array);
     }
 
-    public static double nextDouble() {
-        return rnd.nextDouble();
+    public static float nextfloat() {
+        return rnd.nextfloat();
     }
 
     public static float nextFloat() {
         return rnd.nextFloat();
     }
 
-    public static double nextGaussian() {
+    public static float nextGaussian() {
         return rnd.nextGaussian();
     }
 
@@ -100,20 +100,20 @@ public final class Rnd {
             return this._random;
         }
 
-        public double get() {
-            return this._random.nextDouble();
+        public float get() {
+            return this._random.nextFloat();
         }
 
         public int get(int n) {
-            return (int) (this._random.nextDouble() * (double) n);
+            return (int) (this._random.nextFloat() * (float) n);
         }
 
         public int get(int min, int max) {
-            return min + (int) (this._random.nextDouble() * (double) (max - min + 1));
+            return min + (int) (this._random.nextFloat() * (float) (max - min + 1));
         }
 
         public long get(long min, long max) {
-            return min + (long) (this._random.nextDouble() * (double) (max - min + 1L));
+            return min + (long) (this._random.nextFloat() * (float) (max - min + 1L));
         }
 
         public boolean nextBoolean() {
@@ -124,16 +124,16 @@ public final class Rnd {
             this._random.nextBytes(array);
         }
 
-        public double nextDouble() {
-            return this._random.nextDouble();
+        public float nextfloat() {
+            return this._random.nextFloat();
         }
 
         public float nextFloat() {
             return this._random.nextFloat();
         }
 
-        public double nextGaussian() {
-            return this._random.nextGaussian();
+        public float nextGaussian() {
+            return (float) this._random.nextGaussian();
         }
 
         public int nextInt() {

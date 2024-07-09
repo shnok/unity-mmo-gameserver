@@ -36,9 +36,9 @@ public interface CharacterConfig extends Mutable, Reloadable {
     @Key("max.buff.amount")
     Integer maxBuffAmount();
     @Key("max.exp.bonus")
-    Double getMaxExpBonus();
+    float getMaxExpBonus();
     @Key("max.sp.bonus")
-    Double getMaxSpBonus();
+    float getMaxSpBonus();
     @Key("max.run.speed")
     Integer getMaxRunSpeed();
     @Key("max.pcrit.rate")

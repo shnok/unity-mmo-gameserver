@@ -9944,9 +9944,9 @@ public final class SystemMessageId {
 
     /**
      * ID: 1708<br>
-     * Message: Double points! You acquired $s1 PC Point(s).
+     * Message: float points! You acquired $s1 PC Point(s).
      */
-    public static final SystemMessageId ACQUIRED_S1_PCPOINT_DOUBLE = new SystemMessageId(1708);
+    public static final SystemMessageId ACQUIRED_S1_PCPOINT_float = new SystemMessageId(1708);
 
     /**
      * ID: 1709<br>

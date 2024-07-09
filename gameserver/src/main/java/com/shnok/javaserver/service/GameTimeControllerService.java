@@ -50,7 +50,7 @@ public class GameTimeControllerService {
         for (Entity e : entities) {
             try {
                 // check if entities doesn't increase in size with empty values
-                if (e.updatePosition(gameTicks) || e.getStatus().getHp() <= 0) {
+                if (e.updatePosition(gameTicks) || e.getStatus().getCurrentHp() <= 0) {
                     movingObjects.remove(e);
                 }
             } catch (NullPointerException ex) {

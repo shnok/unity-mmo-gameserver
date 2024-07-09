@@ -19,8 +19,8 @@ public class FuncPDefMod extends AbstractFunction {
     }
 
     @Override
-    public double calc(Entity effector, Entity effected, Skill skill, double initVal) {
-        double value = initVal;
+    public float calc(Entity effector, Entity effected, Skill skill, float initVal) {
+        float value = initVal;
         if (effector.isPlayer()) {
             final PlayerInstance p = (PlayerInstance) effector;
             if (!p.getInventory().isSlotEmpty(ItemSlot.head)) {

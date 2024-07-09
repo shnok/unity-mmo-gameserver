@@ -50,31 +50,16 @@ public class NpcInstance extends Entity {
             rightHandItem = new ItemInstance(id, ItemTable.getInstance().getItemById(rightHandId));
         }
 
-        this.status = new NpcStatus(this, npcTemplate.baseHpMax);
+        this.status = new NpcStatus(this);
         this.isStatic = npcTemplate.getNpcClass().contains("NPC");
         this.randomWalk = false;
-    }
-
-    @Override
-    public void inflictDamage(Entity attacker, int value) {
-        super.inflictDamage(attacker, value);
-
-        if(isStatic()) {
-            status.setHp(Math.max(status.getHp() - value, 1));
-        } else {
-            status.setHp(Math.max(status.getHp() - value, 0));
-        }
-
-        if (status.getHp() == 0) {
-            onDeath();
-        }
     }
 
     @Override
     public boolean onHitTimer(Entity target, int damage, boolean criticalHit) {
         if(super.onHitTimer(target, damage, criticalHit)) {
             ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                    getId(), target.getId(), damage, target.getStatus().getHp(), criticalHit);
+                    getId(), target.getId(), damage, target.getStatus().getCurrentHp(), criticalHit);
             broadcastPacket(applyDamagePacket);
             return true;
         }
@@ -139,7 +124,7 @@ public class NpcInstance extends Entity {
             case INTENTION_MOVE_TO:
                 sendPacketToPlayer(player, new ObjectMoveToPacket(
                         getId(), moveData.destination,
-                        getStatus().getMoveSpeed(),
+                        getStat().getMoveSpeed(),
                         getAi().getMovingReason() == EntityMovingReason.Walking));
                 break;
             case INTENTION_IDLE:
@@ -199,5 +184,14 @@ public class NpcInstance extends Entity {
 //                     ));
             setAi(ai);
         }
+    }
+
+    public void addAttackerToAttackByList(Entity player) {
+//        if ((player == null) || (player == this) || getAttackByList().contains(player)) {
+//            return;
+//        }
+//
+//        getAttackByList().add(player);
+        //TODO: Hanlde aggro and rewards based on attacklist
     }
 }

@@ -23,15 +23,15 @@ public class VectorUtils {
     }
 
     public static float calcDistance(Point3D from, Point3D to) {
-        double dx = (to.getX() - from.getX());
-        double dy = (to.getY() - from.getY());
-        double dz = (to.getZ() - from.getZ());
+        float dx = (to.getX() - from.getX());
+        float dy = (to.getY() - from.getY());
+        float dz = (to.getZ() - from.getZ());
         return (float) Math.sqrt((dx * dx) + (dz * dz) + (dy * dy));
     }
 
     public static float calcDistance2D(Point3D from, Point3D to) {
-        double dx = (to.getX() - from.getX());
-        double dz = (to.getZ() - from.getZ());
+        float dx = (to.getX() - from.getX());
+        float dz = (to.getZ() - from.getZ());
         return (float) Math.sqrt((dx * dx) + (dz * dz));
     }
 

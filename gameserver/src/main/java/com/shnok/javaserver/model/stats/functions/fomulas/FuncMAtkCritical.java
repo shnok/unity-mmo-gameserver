@@ -18,7 +18,7 @@ public class FuncMAtkCritical extends AbstractFunction {
     }
 
     @Override
-    public double calc(Entity effector, Entity effected, Skill skill, double initVal) {
+    public float calc(Entity effector, Entity effected, Skill skill, float initVal) {
         // CT2: The magic critical rate has been increased to 10 times.
         if (!effector.isPlayer() || (effector.getActiveWeaponItem() != null)) {
             return initVal * Formulas.WITbonus[effector.getWIT()] * 10;

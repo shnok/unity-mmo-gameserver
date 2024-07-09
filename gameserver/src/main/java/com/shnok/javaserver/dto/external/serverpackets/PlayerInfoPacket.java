@@ -32,15 +32,15 @@ public class PlayerInfoPacket extends SendablePacket {
         writeF(player.getPosZ());
         // Status
         writeI(player.getLevel());
-        writeI(player.getStatus().getHp());
-        writeI(player.getStatus().getMaxHp());
-        writeI(player.getStatus().getMp());
-        writeI(player.getStatus().getMaxMp());
-        writeI(player.getStatus().getCp());
-        writeI(player.getStatus().getMaxCp());
+        writeI((int) player.getStatus().getCurrentHp());
+        writeI(player.getStat().getMaxHp());
+        writeI((int) player.getStatus().getCurrentMp());
+        writeI(player.getStat().getMaxMp());
+        writeI((int) player.getStatus().getCurrentCp());
+        writeI(player.getStat().getMaxCp());
         // Stats
         // TODO: calc stats and send the correct values
-        writeI(player.getStatus().getMoveSpeed());
+        writeF(player.getStat().getMoveSpeed());
         writeI(player.getTemplate().getBasePAtkSpd());
         writeI(player.getTemplate().getBaseMAtkSpd());
         writeF(player.getTemplate().getBaseAtkRange());

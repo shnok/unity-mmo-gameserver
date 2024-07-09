@@ -10,6 +10,7 @@ import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.PlayerCondOverride;
+import com.shnok.javaserver.model.WorldRegion;
 import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
@@ -83,11 +84,11 @@ public abstract class Entity extends GameObject {
         }
     }
 
-    public void inflictDamage(Entity attacker, int value) {
-        if(getAi() != null) {
-            getAi().notifyEvent(Event.ATTACKED, attacker);
-        }
-    }
+//    public void inflictDamage(Entity attacker, int value) {
+//        if(getAi() != null) {
+//            getAi().notifyEvent(Event.ATTACKED, attacker);
+//        }
+//    }
 
     public EntityTemplate getTemplate() {
         return template;
@@ -101,14 +102,14 @@ public abstract class Entity extends GameObject {
         status = new Status(this);
     }
 
-    public final void setStatus(Status value) {
+    public void setStatus(Status value) {
         status = value;
     }
 
     public abstract boolean canMove();
 
     public boolean isDead() {
-        return getStatus().getHp() <= 0;
+        return getStatus().getCurrentHp() <= 0;
     }
 
     public void onDeath() {
@@ -185,7 +186,10 @@ public abstract class Entity extends GameObject {
             return false;
         }
 
-        target.inflictDamage(this, damage);
+        target.getAi().notifyEvent(Event.ATTACKED, this);
+
+        //TODO add notifyDamageReceived
+        target.reduceCurrentHp(damage, this);
 
         return true;
     }
@@ -293,7 +297,7 @@ public abstract class Entity extends GameObject {
 
     // calculate how many ticks do we need to move to destination
     public boolean moveToNextRoutePoint() {
-        int speed;
+        float speed;
 
         if(!canMove() || getAi() == null) {
             return false;
@@ -305,13 +309,7 @@ public abstract class Entity extends GameObject {
         }
 
         //TODO add speed calculations, move switch between speeds into AI
-        if(getAi().getMovingReason() == EntityMovingReason.Walking) {
-            speed = getTemplate().getBaseWalkSpd();
-        } else {
-            speed = getTemplate().getBaseRunSpd();
-        }
-
-        getStatus().setMoveSpeed(speed);
+        speed = getStat().getMoveSpeed();
         if (speed <= 0) {
             return false;
         }
@@ -324,7 +322,7 @@ public abstract class Entity extends GameObject {
         }
 
         // calculate how many ticks do we need to move to destination
-        updateMoveData(getStatus().getMoveSpeed() / 52.5f);
+        updateMoveData(speed / 52.5f);
 
         GameTimeControllerService.getInstance().addMovingObject(this);
 
@@ -335,7 +333,7 @@ public abstract class Entity extends GameObject {
         ObjectMoveToPacket packet = new ObjectMoveToPacket(
                 getId(),
                 new Point3D(moveData.destination),
-                getStatus().getMoveSpeed(),
+                getStat().getMoveSpeed(),
                 getAi().getMovingReason() == EntityMovingReason.Walking);
         broadcastPacket(packet);
 
@@ -805,12 +803,12 @@ public abstract class Entity extends GameObject {
         stat = new CharStat(this);
     }
 
-    public final double calcStat(Stats stat, double init) {
+    public final float calcStat(Stats stat, float init) {
         return getStat().calcStat(stat, init, null, null);
     }
 
     // Stat - NEED TO REMOVE ONCE L2CHARSTAT IS COMPLETE
-    public final double calcStat(Stats stat, double init, Entity target, Skill skill) {
+    public final float calcStat(Stats stat, float init, Entity target, Skill skill) {
         return getStat().calcStat(stat, init, target, skill);
     }
 
@@ -822,7 +820,7 @@ public abstract class Entity extends GameObject {
         return getStat().getAttackSpeedMultiplier();
     }
 
-    public final double getCriticalDmg(Entity target, double init) {
+    public final float getCriticalDmg(Entity target, float init) {
         return getStat().getCriticalDmg(target, init);
     }
 
@@ -846,7 +844,7 @@ public abstract class Entity extends GameObject {
         return getStat().getMaxRecoverableCp();
     }
 
-    public double getMAtk(Entity target, Skill skill) {
+    public float getMAtk(Entity target, Skill skill) {
         return getStat().getMAtk(target, skill);
     }
 
@@ -874,23 +872,23 @@ public abstract class Entity extends GameObject {
         return getStat().getMCriticalHit(target, skill);
     }
 
-    public double getMDef(Entity target, Skill skill) {
+    public float getMDef(Entity target, Skill skill) {
         return getStat().getMDef(target, skill);
     }
 
-    public double getMReuseRate(Skill skill) {
+    public float getMReuseRate(Skill skill) {
         return getStat().getMReuseRate(skill);
     }
 
-    public double getPAtk(Entity target) {
+    public float getPAtk(Entity target) {
         return getStat().getPAtk(target);
     }
 
-    public double getPAtkSpd() {
+    public float getPAtkSpd() {
         return getStat().getPAtkSpd();
     }
 
-    public double getPDef(Entity target) {
+    public float getPDef(Entity target) {
         return getStat().getPDef(target);
     }
 
@@ -898,27 +896,27 @@ public abstract class Entity extends GameObject {
         return getStat().getPhysicalAttackRange();
     }
 
-    public double getMovementSpeedMultiplier() {
+    public float getMovementSpeedMultiplier() {
         return getStat().getMovementSpeedMultiplier();
     }
 
-    public double getRunSpeed() {
+    public float getRunSpeed() {
         return getStat().getRunSpeed();
     }
 
-    public double getWalkSpeed() {
+    public float getWalkSpeed() {
         return getStat().getWalkSpeed();
     }
 
-    public final double getSwimRunSpeed() {
+    public final float getSwimRunSpeed() {
         return getStat().getSwimRunSpeed();
     }
 
-    public final double getSwimWalkSpeed() {
+    public final float getSwimWalkSpeed() {
         return getStat().getSwimWalkSpeed();
     }
 
-    public double getMoveSpeed() {
+    public float getMoveSpeed() {
         return getStat().getMoveSpeed();
     }
 
@@ -959,8 +957,8 @@ public abstract class Entity extends GameObject {
         return getStat().getLevel();
     }
 
-    public double getLevelMod() {
-        return ((getLevel() + 89) / 100d);
+    public float getLevelMod() {
+        return ((getLevel() + 89f) / 100f);
     }
 
     public boolean isInFrontOfTarget() {
@@ -991,7 +989,6 @@ public abstract class Entity extends GameObject {
     public abstract DBWeapon getActiveWeaponItem();
     public abstract DBArmor getSecondaryWeaponItem();
 
-
     public void addOverrideCond(PlayerCondOverride... excs) {
         for (PlayerCondOverride exc : excs) {
             exceptions |= exc.getMask();
@@ -1010,5 +1007,101 @@ public abstract class Entity extends GameObject {
 
     public void setOverrideCond(long masks) {
         exceptions = masks;
+    }
+
+    public float getCurrentHp() {
+        return status.getCurrentHp();
+    }
+
+    public void setCurrentHp(int hp) {
+        status.setCurrentHp(hp);
+    }
+
+    /**
+     * Reduce current hp.
+     * @param i the i
+     * @param attacker the attacker
+     */
+    public void reduceCurrentHp(int i, Entity attacker) {
+        reduceCurrentHp(i, attacker, true);
+    }
+
+    /**
+     * Reduce current hp.
+     * @param i the i
+     * @param attacker the attacker
+     * @param awake the awake
+     */
+    public void reduceCurrentHp(int i, Entity attacker, boolean awake) {
+        getStatus().reduceHp(i, attacker, awake);
+    }
+
+    /**
+     * Reduce current mp.
+     * @param i the i
+     */
+    public void reduceCurrentMp(int i) {
+        getStatus().reduceMp(i);
+    }
+
+    public float getCurrentMp() {
+        return getStatus().getCurrentMp();
+    }
+
+    public void setCurrentMp(int mp) {
+        getStatus().setCurrentMp(mp);
+    }
+
+    public float getCurrentCp() {
+        return 0;
+    }
+
+    public boolean isInvul() {
+        return false;
+    }
+
+    public boolean isHpBlocked() {
+        return false;
+    }
+
+    public boolean isStunned() {
+        return false;
+    }
+
+    public boolean isMortal() {
+        return true;
+    }
+
+    public void stopStunning(boolean value) {
+
+    }
+
+    public void stopSkillEffects(boolean awake, int effectId) {
+
+    }
+
+    public void stopEffectsOnDamage(boolean awake) {
+
+    }
+
+    public void abortAttack() {
+
+    }
+
+    public void abortCast() {
+
+    }
+
+    public void doDie(Entity attacker) {
+
+    }
+
+    public void broadcastStatusUpdate() {
+        //TODO broadcast packet
+    }
+
+    public boolean isInActiveRegion() {
+        WorldRegion region = getWorldRegion();
+        return ((region != null));
     }
 }

@@ -36,7 +36,7 @@ public abstract class AbstractFunction {
     /** Function may be disabled by attached condition. */
     private final Condition _applyCond;
     /** The value. */
-    private final double _value;
+    private final float _value;
 
     /**
      * Constructor of Func.
@@ -46,7 +46,7 @@ public abstract class AbstractFunction {
      * @param value the value
      * @param applyCond the apply condition
      */
-    public AbstractFunction(Stats stat, int order, Object owner, double value, Condition applyCond) {
+    public AbstractFunction(Stats stat, int order, Object owner, float value, Condition applyCond) {
         _stat = stat;
         _order = order;
         _funcOwner = owner;
@@ -90,7 +90,7 @@ public abstract class AbstractFunction {
      * Gets the value.
      * @return the value
      */
-    public final double getValue() {
+    public final float getValue() {
         return _value;
     }
 
@@ -102,6 +102,6 @@ public abstract class AbstractFunction {
      * @param initVal the initial value
      * @return the calculated value
      */
-    public abstract double calc(Entity effector, Entity effected, Skill skill, double initVal);
+    public abstract float calc(Entity effector, Entity effected, Skill skill, float initVal);
 }
 

@@ -16,7 +16,7 @@ public class CharStat {
         _activeChar = activeChar;
     }
 
-    public final double calcStat(Stats stat, double init) {
+    public final float calcStat(Stats stat, float init) {
         return calcStat(stat, init, null, null);
     }
 
@@ -33,8 +33,8 @@ public class CharStat {
      * @param skill The L2Skill whose properties will be used in the calculation (ex : Level...)
      * @return
      */
-    public final double calcStat(Stats stat, double initVal, Entity target, Skill skill) {
-        double value = initVal;
+    public final float calcStat(Stats stat, float initVal, Entity target, Skill skill) {
+        float value = initVal;
         if (stat == null) {
             return value;
         }
@@ -71,7 +71,7 @@ public class CharStat {
                 case STAT_MEN:
                 case STAT_STR:
                 case STAT_WIT:
-                    value = 1.0;
+                    value = 1.0f;
             }
         }
         return value;
@@ -107,7 +107,7 @@ public class CharStat {
      * @param init
      * @return the Critical Damage rate (base+modifier) of the Entity.
      */
-    public final double getCriticalDmg(Entity target, double init) {
+    public final float getCriticalDmg(Entity target, float init) {
         return calcStat(Stats.CRITICAL_DAMAGE, init, target, null);
     }
 
@@ -117,7 +117,7 @@ public class CharStat {
      * @return the Critical Hit rate (base+modifier) of the Entity.
      */
     public int getCriticalHit(Entity target, Skill skill) {
-        double val = (int) calcStat(Stats.CRITICAL_RATE, _activeChar.getTemplate().getBaseCritRate(), target, skill);
+        float val = (int) calcStat(Stats.CRITICAL_RATE, _activeChar.getTemplate().getBaseCritRate(), target, skill);
         if (!_activeChar.canOverrideCond(PlayerCondOverride.MAX_STATS_VALUE)) {
             val = Math.min(val, character.getMaxPCritRate());
         }
@@ -209,7 +209,7 @@ public class CharStat {
      * @param skill The L2Skill used against the target
      * @return
      */
-    public double getMAtk(Entity target, Skill skill) {
+    public float getMAtk(Entity target, Skill skill) {
         float bonusAtk = 1;
         // Calculate modifiers Magic Attack
         return calcStat(Stats.MAGIC_ATTACK, _activeChar.getTemplate().getBaseMAtk() * bonusAtk, target, skill);
@@ -221,7 +221,7 @@ public class CharStat {
     public int getMAtkSpd() {
         float bonusSpdAtk = 1;
 
-        double val = calcStat(Stats.MAGIC_ATTACK_SPEED, _activeChar.getTemplate().getBaseMAtkSpd() * bonusSpdAtk);
+        float val = calcStat(Stats.MAGIC_ATTACK_SPEED, _activeChar.getTemplate().getBaseMAtkSpd() * bonusSpdAtk);
         if (!_activeChar.canOverrideCond(PlayerCondOverride.MAX_STATS_VALUE)) {
             val = Math.min(val, character.getMaxMAtkSpeed());
         }
@@ -247,9 +247,9 @@ public class CharStat {
      * @param skill The L2Skill used against the target
      * @return the MDef (base+modifier) of the Entity against a skill in function of abnormal effects in progress.
      */
-    public double getMDef(Entity target, Skill skill) {
+    public float getMDef(Entity target, Skill skill) {
         // Get the base MDef of the Entity
-        double defence = _activeChar.getTemplate().getBaseMDef();
+        float defence = _activeChar.getTemplate().getBaseMDef();
 
         // Calculate modifiers Magic Attack
         return calcStat(Stats.MAGIC_DEFENCE, defence, target, skill);
@@ -262,22 +262,22 @@ public class CharStat {
         return (int) calcStat(Stats.STAT_MEN, _activeChar.getTemplate().getBaseMEN());
     }
 
-    public double getMovementSpeedMultiplier() {
-        double baseSpeed;
+    public float getMovementSpeedMultiplier() {
+        float baseSpeed;
 //        if (_activeChar.isInsideZone(ZoneId.WATER)) {
 //            baseSpeed = getBaseMoveSpeed(_activeChar.isRunning() ? MoveType.FAST_SWIM : MoveType.SLOW_SWIM);
 //        } else {
             baseSpeed = getBaseMoveSpeed(_activeChar.isRunning() ? MoveType.RUN : MoveType.WALK);
 //        }
-        return getMoveSpeed() * (1. / baseSpeed);
+        return getMoveSpeed() * (1.f / baseSpeed);
     }
 
     /**
      * @return the RunSpeed (base+modifier) of the Entity in function of the Armour Expertise Penalty.
      */
-    public double getRunSpeed() {
-//        final double baseRunSpd = _activeChar.isInsideZone(ZoneId.WATER) ? getSwimRunSpeed() : getBaseMoveSpeed(MoveType.RUN);
-        final double baseRunSpd = getBaseMoveSpeed(MoveType.RUN);
+    public float getRunSpeed() {
+//        final float baseRunSpd = _activeChar.isInsideZone(ZoneId.WATER) ? getSwimRunSpeed() : getBaseMoveSpeed(MoveType.RUN);
+        final float baseRunSpd = getBaseMoveSpeed(MoveType.RUN);
         if (baseRunSpd <= 0) {
             return 0;
         }
@@ -288,9 +288,9 @@ public class CharStat {
     /**
      * @return the WalkSpeed (base+modifier) of the Entity.
      */
-    public double getWalkSpeed() {
-//        final double baseWalkSpd = _activeChar.isInsideZone(ZoneId.WATER) ? getSwimWalkSpeed() : getBaseMoveSpeed(MoveType.WALK);
-        final double baseWalkSpd = getBaseMoveSpeed(MoveType.WALK);
+    public float getWalkSpeed() {
+//        final float baseWalkSpd = _activeChar.isInsideZone(ZoneId.WATER) ? getSwimWalkSpeed() : getBaseMoveSpeed(MoveType.WALK);
+        final float baseWalkSpd = getBaseMoveSpeed(MoveType.WALK);
         if (baseWalkSpd <= 0) {
             return 0;
         }
@@ -301,8 +301,8 @@ public class CharStat {
     /**
      * @return the SwimRunSpeed (base+modifier) of the Entity.
      */
-    public double getSwimRunSpeed() {
-        final double baseRunSpd = getBaseMoveSpeed(MoveType.FAST_SWIM);
+    public float getSwimRunSpeed() {
+        final float baseRunSpd = getBaseMoveSpeed(MoveType.FAST_SWIM);
         if (baseRunSpd <= 0) {
             return 0;
         }
@@ -313,8 +313,8 @@ public class CharStat {
     /**
      * @return the SwimWalkSpeed (base+modifier) of the Entity.
      */
-    public double getSwimWalkSpeed() {
-        final double baseWalkSpd = getBaseMoveSpeed(MoveType.SLOW_SWIM);
+    public float getSwimWalkSpeed() {
+        final float baseWalkSpd = getBaseMoveSpeed(MoveType.SLOW_SWIM);
         if (baseWalkSpd <= 0) {
             return 0;
         }
@@ -326,14 +326,14 @@ public class CharStat {
      * @param type movement type
      * @return the base move speed of given movement type.
      */
-    public double getBaseMoveSpeed(MoveType type) {
+    public float getBaseMoveSpeed(MoveType type) {
         return _activeChar.getTemplate().getBaseMoveSpeed(type);
     }
 
     /**
      * @return the RunSpeed (base+modifier) or WalkSpeed (base+modifier) of the Entity in function of the movement type.
      */
-    public double getMoveSpeed() {
+    public float getMoveSpeed() {
 //        if (_activeChar.isInsideZone(ZoneId.WATER)) {
 //            return _activeChar.isRunning() ? getSwimRunSpeed() : getSwimWalkSpeed();
 //        }
@@ -344,7 +344,7 @@ public class CharStat {
      * @param skill
      * @return the MReuse rate (base+modifier) of the Entity.
      */
-    public final double getMReuseRate(Skill skill) {
+    public final float getMReuseRate(Skill skill) {
         return calcStat(Stats.MAGIC_REUSE_RATE, 1, null, skill);
     }
 
@@ -352,7 +352,7 @@ public class CharStat {
      * @param target
      * @return the PAtk (base+modifier) of the Entity.
      */
-    public double getPAtk(Entity target) {
+    public float getPAtk(Entity target) {
         float bonusAtk = 1;
         return calcStat(Stats.POWER_ATTACK, _activeChar.getTemplate().getBasePAtk() * bonusAtk, target, null);
     }
@@ -360,7 +360,7 @@ public class CharStat {
     /**
      * @return the PAtk Speed (base+modifier) of the Entity in function of the Armour Expertise Penalty.
      */
-    public double getPAtkSpd() {
+    public float getPAtkSpd() {
         float bonusAtk = 1;
         return Math.round(calcStat(Stats.POWER_ATTACK_SPEED, _activeChar.getTemplate().getBasePAtkSpd() * bonusAtk, null, null));
     }
@@ -369,7 +369,7 @@ public class CharStat {
      * @param target
      * @return the PDef (base+modifier) of the Entity.
      */
-    public double getPDef(Entity target) {
+    public float getPDef(Entity target) {
         return calcStat(Stats.POWER_DEFENCE, _activeChar.getTemplate().getBasePDef(), target, null);
     }
 
@@ -404,7 +404,7 @@ public class CharStat {
      * @param target
      * @return the weapon reuse modifier.
      */
-    public final double getWeaponReuseModifier(Entity target) {
+    public final float getWeaponReuseModifier(Entity target) {
         return calcStat(Stats.ATK_REUSE, 1, target, null);
     }
 

@@ -155,8 +155,8 @@ public final class Calculator {
      * @param initVal the initial value
      * @return the calculated value
      */
-    public double calc(Entity caster, Entity target, Skill skill, double initVal) {
-        double value = initVal;
+    public float calc(Entity caster, Entity target, Skill skill, float initVal) {
+        float value = initVal;
         for (AbstractFunction func : _functions) {
             value = func.calc(caster, target, skill, value);
         }
