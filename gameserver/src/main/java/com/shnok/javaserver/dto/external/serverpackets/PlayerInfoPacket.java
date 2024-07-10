@@ -40,16 +40,16 @@ public class PlayerInfoPacket extends SendablePacket {
         writeI(player.getStat().getMaxCp());
         // Stats
         // TODO: calc stats and send the correct values
-        writeF(player.getStat().getMoveSpeed());
+        writeI((int) player.getStat().getMoveSpeed());
         writeI(player.getTemplate().getBasePAtkSpd());
         writeI(player.getTemplate().getBaseMAtkSpd());
         writeF(player.getTemplate().getBaseAtkRange());
-        writeB(player.getTemplate().getBaseCON());
-        writeB(player.getTemplate().getBaseDEX());
-        writeB(player.getTemplate().getBaseSTR());
-        writeB(player.getTemplate().getBaseMEN());
-        writeB(player.getTemplate().getBaseWIT());
-        writeB(player.getTemplate().getBaseINT());
+        writeB((byte) player.getTemplate().getBaseCON());
+        writeB((byte) player.getTemplate().getBaseDEX());
+        writeB((byte) player.getTemplate().getBaseSTR());
+        writeB((byte) player.getTemplate().getBaseMEN());
+        writeB((byte) player.getTemplate().getBaseWIT());
+        writeB((byte) player.getTemplate().getBaseINT());
         // Appearance
         writeF(player.getTemplate().getCollisionHeight());
         writeF(player.getTemplate().getCollisionRadius()); //TODO remove (get from system grp files)

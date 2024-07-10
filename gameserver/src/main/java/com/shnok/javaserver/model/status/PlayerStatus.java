@@ -7,9 +7,7 @@ import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.model.stats.Formulas;
 import com.shnok.javaserver.model.stats.PlayerStat;
 import com.shnok.javaserver.model.stats.Stats;
-import com.shnok.javaserver.model.template.PlayerTemplate;
 import com.shnok.javaserver.security.Rnd;
-import com.shnok.javaserver.util.VectorUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -85,7 +83,7 @@ public class PlayerStatus extends Status {
                     ((PlayerInstance) getOwner()).sendPacket(SystemMessageId.MP_BECAME_0_ARCANE_SHIELD_DISAPPEARING);
                     getOwner().stopSkillEffects(true, 1556);
                     value = mpDam - getOwner().getCurrentMp();
-                    getOwner().setCurrentMp(0);
+                    getOwner().setCurrentMp(0, true);
                 } else {
                     getOwner().reduceCurrentMp(mpDam);
                     SystemMessagePacket smsg = SystemMessagePacket.getSystemMessage(SystemMessageId.ARCANE_SHIELD_DECREASED_YOUR_MP_BY_S1_INSTEAD_OF_HP);
@@ -146,12 +144,12 @@ public class PlayerStatus extends Status {
                 smsg.addInt(fullValue);
                 ((PlayerInstance)getOwner()).sendPacket(smsg);
 
-                if ((tDmg > 0) && (attackerPlayer != null)) {
-                    smsg = SystemMessagePacket.getSystemMessage(SystemMessageId.GIVEN_S1_DAMAGE_TO_YOUR_TARGET_AND_S2_DAMAGE_TO_SERVITOR);
-                    smsg.addInt(fullValue);
-                    smsg.addInt(tDmg);
-                    attackerPlayer.sendPacket(smsg);
-                }
+//                if ((tDmg > 0) && (attackerPlayer != null)) {
+//                    smsg = SystemMessagePacket.getSystemMessage(SystemMessageId.GIVEN_S1_DAMAGE_TO_YOUR_TARGET_AND_S2_DAMAGE_TO_SERVITOR);
+//                    smsg.addInt(fullValue);
+//                    smsg.addInt(tDmg);
+//                    attackerPlayer.sendPacket(smsg);
+//                }
             }
         }
 
@@ -182,6 +180,7 @@ public class PlayerStatus extends Status {
     }
 
     public final void setCurrentCp(float newCp, boolean broadcastPacket) {
+        System.out.println("Set current cp: " + newCp);
         // Get the Max CP of the L2Character
         int oldCPValue = (int) getCurrentCp();
         int maxCp = getOwner().getStat().getMaxCp();

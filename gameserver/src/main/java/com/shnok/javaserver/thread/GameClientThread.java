@@ -289,8 +289,8 @@ public class GameClientThread extends Thread {
 
         character = PlayerFactoryService.getInstance().getPlayerInstanceById(objId);
         if (character != null) {
-           // character.setRunning();
-          //  character.standUp();
+            character.setRunning(true);
+            character.standUp();
             character.setOnlineStatus(false, true);
         } else {
             log.error("Could not restore in slot {}!", charSlot);

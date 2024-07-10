@@ -5,6 +5,7 @@ import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.db.repository.CharacterRepository;
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
+import com.shnok.javaserver.dto.external.serverpackets.StatusUpdatePacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.dto.external.serverpackets.UserInfoPacket;
 import com.shnok.javaserver.enums.PlayerCondOverride;
@@ -178,12 +179,19 @@ public class PlayerInstance extends Entity {
     public void destroy() {
         super.destroy();
 
+        stopAllTimers();
         setOnlineStatus(false, true);
         WorldManagerService.getInstance().removePlayer(this);
     }
 
+    @Override
     public float getCurrentCp() {
         return status.getCurrentCp();
+    }
+
+    @Override
+    public void setCurrentCp(int cp, boolean broadcast) {
+        ((PlayerStatus) status).setCurrentCp(cp, broadcast);
     }
 
     public boolean isSitting() {
@@ -192,5 +200,24 @@ public class PlayerInstance extends Entity {
 
     public void standUp() {
 
+    }
+
+    @Override
+    public void broadcastStatusUpdate() {
+        System.out.println("broadcastStatusUpdate");
+        // Send the Server->Client packet StatusUpdate with current HP, MP and CP to this L2PcInstance
+        StatusUpdatePacket su = new StatusUpdatePacket(this);
+        su.addAttribute(StatusUpdatePacket.MAX_HP, getMaxHp());
+        su.addAttribute(StatusUpdatePacket.CUR_HP, (int) getCurrentHp());
+        su.addAttribute(StatusUpdatePacket.MAX_MP, getMaxMp());
+        su.addAttribute(StatusUpdatePacket.CUR_MP, (int) getCurrentMp());
+        su.addAttribute(StatusUpdatePacket.MAX_CP, getMaxCp());
+        su.addAttribute(StatusUpdatePacket.CUR_CP, (int) getCurrentCp());
+        su.build();
+
+        sendPacket(su);
+
+        // Send the Server->Client packet StatusUpdate with current HP and MP to all L2PcInstance that must
+        broadcastPacket(su);
     }
 }

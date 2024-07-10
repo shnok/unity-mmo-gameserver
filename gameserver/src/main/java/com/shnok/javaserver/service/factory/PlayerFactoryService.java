@@ -64,6 +64,10 @@ public class PlayerFactoryService {
         PlayerInstance player = new PlayerInstance(WorldManagerService.getInstance().nextID(),
                 character.getId(), character.getCharName(), playerTemplate);
 
+        player.setCurrentHp(character.getCurHp(), false);
+        player.setCurrentMp(character.getCurMp(), false);
+        player.setCurrentCp(character.getCurCp(), false);
+
         // Player items
         PlayerInventory inventory = getInventoryForPlayer(player);
         player.setInventory(inventory);

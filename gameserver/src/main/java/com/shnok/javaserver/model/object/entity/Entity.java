@@ -68,6 +68,7 @@ public abstract class Entity extends GameObject {
     protected boolean moving;
     protected boolean running;
     protected long attackEndTime;
+    protected boolean dead;
 
     public Entity(int id, EntityTemplate template) {
         super(id);
@@ -107,10 +108,6 @@ public abstract class Entity extends GameObject {
     }
 
     public abstract boolean canMove();
-
-    public boolean isDead() {
-        return getStatus().getCurrentHp() <= 0;
-    }
 
     public void onDeath() {
         log.debug("[{}] Entity died", getId());
@@ -1013,8 +1010,8 @@ public abstract class Entity extends GameObject {
         return status.getCurrentHp();
     }
 
-    public void setCurrentHp(int hp) {
-        status.setCurrentHp(hp);
+    public void setCurrentHp(int hp, boolean broadcast) {
+        status.setCurrentHp(hp, broadcast);
     }
 
     /**
@@ -1048,12 +1045,16 @@ public abstract class Entity extends GameObject {
         return getStatus().getCurrentMp();
     }
 
-    public void setCurrentMp(int mp) {
-        getStatus().setCurrentMp(mp);
+    public void setCurrentMp(int mp, boolean broadcast) {
+        status.setCurrentMp(mp, broadcast);
     }
 
     public float getCurrentCp() {
         return 0;
+    }
+
+    public void setCurrentCp(int cp, boolean broadcast) {
+
     }
 
     public boolean isInvul() {
@@ -1103,5 +1104,9 @@ public abstract class Entity extends GameObject {
     public boolean isInActiveRegion() {
         WorldRegion region = getWorldRegion();
         return ((region != null));
+    }
+
+    public void stopAllTimers() {
+        status.stopHpMpRegeneration();
     }
 }

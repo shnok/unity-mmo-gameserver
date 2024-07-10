@@ -19,6 +19,11 @@ public class FuncMaxHpMul extends AbstractFunction {
 
     @Override
     public float calc(Entity effector, Entity effected, Skill skill, float initVal) {
+        System.out.println("Calc!");
+        System.out.println("initVal: " + initVal);
+        System.out.println("CON: " + effector.getCON());
+        System.out.println("Multiplier: " + Formulas.CONbonus[effector.getCON()]);
+        System.out.println("Result: " + initVal * Formulas.CONbonus[effector.getCON()]);
         return initVal * Formulas.CONbonus[effector.getCON()];
     }
 }

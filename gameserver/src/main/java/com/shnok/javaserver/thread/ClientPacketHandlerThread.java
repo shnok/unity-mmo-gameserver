@@ -224,7 +224,8 @@ public class ClientPacketHandlerThread extends Thread {
     private void onRequestAttack() {
         RequestAttackPacket packet = new RequestAttackPacket(data);
 
-        GameObject object = client.getCurrentPlayer().getKnownList().getKnownObjects().get(packet.getTargetId());
+        //GameObject object = client.getCurrentPlayer().getKnownList().getKnownObjects().get(packet.getTargetId());
+        GameObject object = client.getCurrentPlayer();
         if(object == null) {
             log.warn("Trying to attack a null object.");
         }

@@ -208,6 +208,8 @@ public class Status {
      * @return @{code true} if hp was changed, @{code false} otherwise.
      */
     public boolean setCurrentHp(float newHp, boolean broadcastPacket) {
+        System.out.println("Set current hp: " + newHp);
+
         // Get the Max HP of the Entity
         float lastHpValue = getCurrentHp();
         final float maxHp = getOwner().getMaxHp();
@@ -265,6 +267,8 @@ public class Status {
      * @return @{code true} if mp was changed, @{code false} otherwise.
      */
     public final boolean setCurrentMp(float newMp, boolean broadcastPacket) {
+        System.out.println("Set current mp: " + newMp);
+
         // Get the Max MP of the Entity
         int lastMpValue = (int) getCurrentMp();
         final int maxMp = getOwner().getMaxMp();
