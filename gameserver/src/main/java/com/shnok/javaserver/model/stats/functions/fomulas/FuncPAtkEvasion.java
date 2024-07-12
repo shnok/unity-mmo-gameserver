@@ -5,15 +5,15 @@ import com.shnok.javaserver.model.skills.Skill;
 import com.shnok.javaserver.model.stats.Stats;
 import com.shnok.javaserver.model.stats.functions.AbstractFunction;
 
-public class FuncAtkEvasion extends AbstractFunction {
-    private static final FuncAtkEvasion _fae_instance = new FuncAtkEvasion();
+public class FuncPAtkEvasion extends AbstractFunction {
+    private static final FuncPAtkEvasion _fae_instance = new FuncPAtkEvasion();
 
     public static AbstractFunction getInstance() {
         return _fae_instance;
     }
 
-    private FuncAtkEvasion() {
-        super(Stats.EVASION_RATE, 1, null, 0, null);
+    private FuncPAtkEvasion() {
+        super(Stats.POWER_EVASION_RATE, 1, null, 0, null);
     }
 
     @Override

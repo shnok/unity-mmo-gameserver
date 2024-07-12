@@ -204,7 +204,7 @@ public class PlayerInstance extends Entity {
 
     @Override
     public void broadcastStatusUpdate() {
-        System.out.println("broadcastStatusUpdate");
+        //System.out.println("broadcastStatusUpdate");
         // Send the Server->Client packet StatusUpdate with current HP, MP and CP to this L2PcInstance
         StatusUpdatePacket su = new StatusUpdatePacket(this);
         su.addAttribute(StatusUpdatePacket.MAX_HP, getMaxHp());

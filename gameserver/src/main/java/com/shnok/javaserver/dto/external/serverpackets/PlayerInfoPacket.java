@@ -1,7 +1,6 @@
 package com.shnok.javaserver.dto.external.serverpackets;
 
 import com.shnok.javaserver.dto.SendablePacket;
-import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
@@ -47,9 +46,12 @@ public class PlayerInfoPacket extends SendablePacket {
         writeF(player.getTemplate().getBaseAtkRange());
         writeI((int) player.getPAtk(null));
         writeI((int) player.getPDef(null));
-        writeI(player.getEvasionRate(null));
-        writeI(player.getAccuracy());
+        writeI(player.getPEvasionRate(null));
+        writeI(player.getPAccuracy());
+        writeI(player.getMagicEvasionRate(null));
+        writeI(player.getMagicAccuracy());
         writeI(player.getCriticalHit(null, null));
+        writeI(player.getMCriticalHit(null, null));
         writeI((int) player.getMAtk(null, null));
         writeI((int) player.getMDef(null, null));
 

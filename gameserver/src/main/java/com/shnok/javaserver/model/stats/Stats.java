@@ -53,7 +53,8 @@ public enum Stats {
     PVP_PHYS_SKILL_DEF("pvpPhysSkillsDef"),
 
     // ATTACK & DEFENCE RATES
-    EVASION_RATE("rEvas"),
+    POWER_EVASION_RATE("prEvas"),
+    MAGIC_EVASION_RATE("mrEvas"),
     P_SKILL_EVASION("pSkillEvas"),
     DEFENCE_CRITICAL_RATE("defCritRate"),
     DEFENCE_CRITICAL_RATE_ADD("defCritRateAdd"),
@@ -69,7 +70,8 @@ public enum Stats {
     ATTACK_CANCEL("cancel"),
 
     // ACCURACY & RANGE
-    ACCURACY_COMBAT("accCombat"),
+    POWER_ACCURACY_COMBAT("pAccCombat"),
+    MAGIC_ACCURACY_COMBAT("mAccCombat"),
     POWER_ATTACK_RANGE("pAtkRange"),
     MAGIC_ATTACK_RANGE("mAtkRange"),
     ATTACK_COUNT_MAX("atkCountMax"),

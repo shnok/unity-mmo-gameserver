@@ -809,8 +809,12 @@ public abstract class Entity extends GameObject {
         return getStat().calcStat(stat, init, target, skill);
     }
 
-    public int getAccuracy() {
-        return getStat().getAccuracy();
+    public int getPAccuracy() {
+        return getStat().getPAccuracy();
+    }
+
+    public int getMagicAccuracy() {
+        return getStat().getMAccuracy();
     }
 
     public final float getAttackSpeedMultiplier() {
@@ -825,8 +829,12 @@ public abstract class Entity extends GameObject {
         return getStat().getCriticalHit(target, skill);
     }
 
-    public int getEvasionRate(Entity target) {
-        return getStat().getEvasionRate(target);
+    public int getPEvasionRate(Entity target) {
+        return getStat().getPEvasionRate(target);
+    }
+
+    public int getMagicEvasionRate(Entity target) {
+        return getStat().getMEvasionRate(target);
     }
 
     public final float getMagicalAttackRange(Skill skill) {

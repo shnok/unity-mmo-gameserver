@@ -5,15 +5,15 @@ import com.shnok.javaserver.model.skills.Skill;
 import com.shnok.javaserver.model.stats.Stats;
 import com.shnok.javaserver.model.stats.functions.AbstractFunction;
 
-public class FuncAtkAccuracy extends AbstractFunction {
-    private static final FuncAtkAccuracy _faa_instance = new FuncAtkAccuracy();
+public class FuncPAtkAccuracy extends AbstractFunction {
+    private static final FuncPAtkAccuracy _faa_instance = new FuncPAtkAccuracy();
 
     public static AbstractFunction getInstance() {
         return _faa_instance;
     }
 
-    private FuncAtkAccuracy() {
-        super(Stats.ACCURACY_COMBAT, 1, null, 0, null);
+    private FuncPAtkAccuracy() {
+        super(Stats.POWER_ACCURACY_COMBAT, 1, null, 0, null);
     }
 
     @Override

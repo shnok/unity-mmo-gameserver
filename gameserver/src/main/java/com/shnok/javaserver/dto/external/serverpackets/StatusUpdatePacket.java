@@ -24,18 +24,20 @@ public class StatusUpdatePacket extends SendablePacket {
     public static final int SP = 0x0d;
     public static final int CUR_LOAD = 0x0e;
     public static final int MAX_LOAD = 0x0f;
-
     public static final int P_ATK = 0x11;
     public static final int ATK_SPD = 0x12;
     public static final int P_DEF = 0x13;
-    public static final int EVASION = 0x14;
-    public static final int ACCURACY = 0x15;
-    public static final int CRITICAL = 0x16;
+    public static final int P_EVASION = 0x14;
+    public static final int P_ACCURACY = 0x15;
+    public static final int P_CRITICAL = 0x16;
     public static final int M_ATK = 0x17;
     public static final int CAST_SPD = 0x18;
     public static final int M_DEF = 0x19;
     public static final int PVP_FLAG = 0x1a;
     public static final int KARMA = 0x1b;
+    public static final int M_ACCURACY = 0x1C;
+    public static final int M_EVASION = 0x1D;
+    public static final int M_CRITICAL = 0x1E;
 
     public static final int CUR_CP = 0x21;
     public static final int MAX_CP = 0x22;

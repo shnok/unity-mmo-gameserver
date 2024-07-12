@@ -80,8 +80,15 @@ public class CharStat {
     /**
      * @return the Accuracy (base+modifier) of the Entity in function of the Weapon Expertise Penalty.
      */
-    public int getAccuracy() {
-        return (int) Math.round(calcStat(Stats.ACCURACY_COMBAT, 0, null, null));
+    public int getPAccuracy() {
+        return (int) Math.round(calcStat(Stats.POWER_ACCURACY_COMBAT, 0, null, null));
+    }
+
+    /**
+     * @return the Accuracy (base+modifier) of the Entity in function of the Weapon Expertise Penalty.
+     */
+    public int getMAccuracy() {
+        return (int) Math.round(calcStat(Stats.MAGIC_ACCURACY_COMBAT, 0, null, null));
     }
 
     public Entity getActiveChar() {
@@ -143,8 +150,20 @@ public class CharStat {
      * @param target
      * @return the Attack Evasion rate (base+modifier) of the Entity.
      */
-    public int getEvasionRate(Entity target) {
-        int val = (int) Math.round(calcStat(Stats.EVASION_RATE, 0, target, null));
+    public int getPEvasionRate(Entity target) {
+        int val = (int) Math.round(calcStat(Stats.POWER_EVASION_RATE, 0, target, null));
+        if (!_activeChar.canOverrideCond(PlayerCondOverride.MAX_STATS_VALUE)) {
+            val = Math.min(val, character.getMaxEvasion());
+        }
+        return val;
+    }
+
+    /**
+     * @param target
+     * @return the Attack Evasion rate (base+modifier) of the Entity.
+     */
+    public int getMEvasionRate(Entity target) {
+        int val = (int) Math.round(calcStat(Stats.MAGIC_EVASION_RATE, 0, target, null));
         if (!_activeChar.canOverrideCond(PlayerCondOverride.MAX_STATS_VALUE)) {
             val = Math.min(val, character.getMaxEvasion());
         }

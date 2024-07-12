@@ -6,14 +6,14 @@ import com.shnok.javaserver.model.stats.Formulas;
 import com.shnok.javaserver.model.stats.Stats;
 import com.shnok.javaserver.model.stats.functions.AbstractFunction;
 
-public class FuncAtkCritical extends AbstractFunction {
-    private static final FuncAtkCritical _fac_instance = new FuncAtkCritical();
+public class FuncPAtkCritical extends AbstractFunction {
+    private static final FuncPAtkCritical _fac_instance = new FuncPAtkCritical();
 
     public static AbstractFunction getInstance() {
         return _fac_instance;
     }
 
-    private FuncAtkCritical() {
+    private FuncPAtkCritical() {
         super(Stats.CRITICAL_RATE, 1, null, 0, null);
     }
 

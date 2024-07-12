@@ -142,16 +142,22 @@ public final class Formulas {
         std[Stats.MAGIC_DEFENCE.ordinal()].addFunc(FuncMDefMod.getInstance());
 
         std[Stats.CRITICAL_RATE.ordinal()] = new Calculator();
-        std[Stats.CRITICAL_RATE.ordinal()].addFunc(FuncAtkCritical.getInstance());
+        std[Stats.CRITICAL_RATE.ordinal()].addFunc(FuncPAtkCritical.getInstance());
 
         std[Stats.MCRITICAL_RATE.ordinal()] = new Calculator();
         std[Stats.MCRITICAL_RATE.ordinal()].addFunc(FuncMAtkCritical.getInstance());
 
-        std[Stats.ACCURACY_COMBAT.ordinal()] = new Calculator();
-        std[Stats.ACCURACY_COMBAT.ordinal()].addFunc(FuncAtkAccuracy.getInstance());
+        std[Stats.POWER_ACCURACY_COMBAT.ordinal()] = new Calculator();
+        std[Stats.POWER_ACCURACY_COMBAT.ordinal()].addFunc(FuncPAtkAccuracy.getInstance());
 
-        std[Stats.EVASION_RATE.ordinal()] = new Calculator();
-        std[Stats.EVASION_RATE.ordinal()].addFunc(FuncAtkEvasion.getInstance());
+        std[Stats.POWER_EVASION_RATE.ordinal()] = new Calculator();
+        std[Stats.POWER_EVASION_RATE.ordinal()].addFunc(FuncPAtkEvasion.getInstance());
+
+        std[Stats.MAGIC_ACCURACY_COMBAT.ordinal()] = new Calculator();
+        std[Stats.MAGIC_ACCURACY_COMBAT.ordinal()].addFunc(FuncMAtkAccuracy.getInstance());
+
+        std[Stats.MAGIC_EVASION_RATE.ordinal()] = new Calculator();
+        std[Stats.MAGIC_EVASION_RATE.ordinal()].addFunc(FuncMAtkEvasion.getInstance());
 
         std[Stats.POWER_ATTACK_SPEED.ordinal()] = new Calculator();
         std[Stats.POWER_ATTACK_SPEED.ordinal()].addFunc(FuncPAtkSpeed.getInstance());
@@ -182,10 +188,12 @@ public final class Formulas {
                 FuncMAtkMod.getInstance(), //
                 FuncPDefMod.getInstance(), //
                 FuncMDefMod.getInstance(), //
-                FuncAtkCritical.getInstance(), //
+                FuncPAtkCritical.getInstance(), //
                 FuncMAtkCritical.getInstance(), //
-                FuncAtkAccuracy.getInstance(), //
-                FuncAtkEvasion.getInstance(), //
+                FuncPAtkAccuracy.getInstance(), //
+                FuncPAtkEvasion.getInstance(), //
+                FuncMAtkAccuracy.getInstance(), //
+                FuncMAtkEvasion.getInstance(), //
                 FuncPAtkSpeed.getInstance(), //
                 FuncMAtkSpeed.getInstance(), //
                 FuncMoveSpeed.getInstance()));
@@ -385,7 +393,7 @@ public final class Formulas {
      * @return {@code true} if hit missed (target evaded), {@code false} otherwise.
      */
     public static boolean calcHitMiss(Entity attacker, Entity target) {
-        int chance = (80 + (2 * (attacker.getAccuracy() - target.getEvasionRate(attacker)))) * 10;
+        int chance = (80 + (2 * (attacker.getPAccuracy() - target.getPEvasionRate(attacker)))) * 10;
 
         // Get additional bonus from the conditions when you are attacking
         //chance *= HitConditionBonusData.getInstance().getConditionBonus(attacker, target);
@@ -532,6 +540,8 @@ public final class Formulas {
         int lvlDifference = (target.getLevel() - (skill.getMagicLevel() > 0 ? skill.getMagicLevel() : attacker.getLevel()));
         float lvlModifier = (float) Math.pow(1.3f, lvlDifference);
         float targetModifier = 1.00f;
+        int mAccModifier = 1;
+
         if (target.isEntity() &&
                 (attacker != null) &&
                 ((target.getLevel() - attacker.getLevel()) >= 3)) {
@@ -543,9 +553,23 @@ public final class Formulas {
             }
         }
 
+        // TODO: add Mevasion Maccuracy calculations
+//        final int mAccDiff = attacker.getMagicAccuracy() - target.getMagicEvasionRate();
+//        mAccModifier = 100;
+//        if (mAccDiff > -20) {
+//            mAccModifier = 2;
+//        } else if (mAccDiff > -25) {
+//            mAccModifier = 30;
+//        } else if (mAccDiff > -30) {
+//            mAccModifier = 60;
+//        } else if (mAccDiff > -35) {
+//            mAccModifier = 90;
+//        }
+
+
         // general magic resist
         final float resModifier = target.calcStat(Stats.MAGIC_SUCCESS_RES, 1, null, skill);
-        int rate = 100 - Math.round((float) (lvlModifier * targetModifier * resModifier));
+        int rate = 100 - Math.round((float) (mAccModifier * lvlModifier * targetModifier * resModifier));
 
 //        if (attacker.isDebug()) {
 //            final StatsSet set = new StatsSet();

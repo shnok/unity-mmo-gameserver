@@ -33,6 +33,7 @@ public class PlayerTemplate extends EntityTemplate {
         this.baseMAtk = template.getMAtk();
         this.basePDef = template.getPDef();
         this.baseMDef = template.getMDef();
+        this.baseCritRate = template.getCritical();
         this.basePAtkSpd = template.getPAtkSpd();
         this.baseMAtkSpd = template.getMAtkSpd();
         this.baseAtkRange = 0.733f;
@@ -44,12 +45,10 @@ public class PlayerTemplate extends EntityTemplate {
     }
 
     public float getBaseHpMax(int level) {
-        System.out.println(levelUpGain.getDefaultHpBase());
         level -= getClassId().getBaseLevel();
         float hpmod = levelUpGain.getDefaultHpMod() * level;
         float hpmax = (levelUpGain.getDefaultHpAdd() + hpmod) * level;
         float hpmin = (levelUpGain.getDefaultHpAdd() * level) + hpmod;
-        System.out.println((hpmax + hpmin) / 2 + levelUpGain.getDefaultHpBase());
         return (hpmax + hpmin) / 2 + levelUpGain.getDefaultHpBase();
     }
 
