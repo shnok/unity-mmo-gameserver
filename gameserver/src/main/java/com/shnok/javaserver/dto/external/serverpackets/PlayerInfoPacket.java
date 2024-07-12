@@ -30,6 +30,7 @@ public class PlayerInfoPacket extends SendablePacket {
         writeF(player.getPosX());
         writeF(player.getPosY());
         writeF(player.getPosZ());
+
         // Status
         writeI(player.getLevel());
         writeI((int) player.getStatus().getCurrentHp());
@@ -38,18 +39,41 @@ public class PlayerInfoPacket extends SendablePacket {
         writeI(player.getStat().getMaxMp());
         writeI((int) player.getStatus().getCurrentCp());
         writeI(player.getStat().getMaxCp());
-        // Stats
-        // TODO: calc stats and send the correct values
+
+        // Combat
         writeI((int) player.getStat().getMoveSpeed());
         writeI(player.getTemplate().getBasePAtkSpd());
         writeI(player.getTemplate().getBaseMAtkSpd());
         writeF(player.getTemplate().getBaseAtkRange());
-        writeB((byte) player.getTemplate().getBaseCON());
-        writeB((byte) player.getTemplate().getBaseDEX());
-        writeB((byte) player.getTemplate().getBaseSTR());
-        writeB((byte) player.getTemplate().getBaseMEN());
-        writeB((byte) player.getTemplate().getBaseWIT());
-        writeB((byte) player.getTemplate().getBaseINT());
+        writeI((int) player.getPAtk(null));
+        writeI((int) player.getPDef(null));
+        writeI(player.getEvasionRate(null));
+        writeI(player.getAccuracy());
+        writeI(player.getCriticalHit(null, null));
+        writeI((int) player.getMAtk(null, null));
+        writeI((int) player.getMDef(null, null));
+
+        // Stats
+        writeB((byte) player.getCON());
+        writeB((byte) player.getDEX());
+        writeB((byte) player.getSTR());
+        writeB((byte) player.getMEN());
+        writeB((byte) player.getWIT());
+        writeB((byte) player.getINT());
+
+        writeI(player.getSp());
+        writeI(player.getExp());
+        //TODO: EXP CALCS
+        writeI(10000);
+        writeI(player.getCurrentLoad());
+        writeI(player.getMaxLoad());
+
+        //Social
+        writeI(player.getPkKills());
+        writeI(player.getPvpKills());
+        writeL(player.getPvpFlag());
+        writeI(player.getKarma());
+
         // Appearance
         writeF(player.getTemplate().getCollisionHeight());
         writeF(player.getTemplate().getCollisionRadius()); //TODO remove (get from system grp files)

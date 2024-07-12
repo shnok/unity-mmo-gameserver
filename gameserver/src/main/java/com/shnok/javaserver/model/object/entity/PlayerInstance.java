@@ -220,4 +220,36 @@ public class PlayerInstance extends Entity {
         // Send the Server->Client packet StatusUpdate with current HP and MP to all L2PcInstance that must
         broadcastPacket(su);
     }
+
+    public int getExp() {
+        return 0;
+    }
+
+    public int getSp() {
+        return 0;
+    }
+
+    public int getPvpKills() {
+        return 0;
+    }
+
+    public int getPkKills() {
+        return 0;
+    }
+
+    public int getKarma() {
+        return 0;
+    }
+
+    public long getPvpFlag() {
+        return 0;
+    }
+
+    public int getCurrentLoad() {
+        return 0;
+    }
+
+    public int getMaxLoad() {
+        return 0;
+    }
 }
