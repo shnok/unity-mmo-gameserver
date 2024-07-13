@@ -8,7 +8,6 @@ import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.external.serverpackets.StatusUpdatePacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.dto.external.serverpackets.UserInfoPacket;
-import com.shnok.javaserver.enums.PlayerCondOverride;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.SystemMessageId;
@@ -16,13 +15,11 @@ import com.shnok.javaserver.model.Party;
 import com.shnok.javaserver.model.PlayerAppearance;
 import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
+import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.stats.Formulas;
 import com.shnok.javaserver.model.stats.PlayerStat;
 import com.shnok.javaserver.model.status.PlayerStatus;
-import com.shnok.javaserver.model.status.Status;
-import com.shnok.javaserver.model.template.NpcTemplate;
 import com.shnok.javaserver.model.template.PlayerTemplate;
-import com.shnok.javaserver.service.SpawnManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.GameClientThread;
 import lombok.Getter;
@@ -72,6 +69,7 @@ public class PlayerInstance extends Entity {
     }
 
     // Send packet to player
+    @Override
     public boolean sendPacket(SendablePacket packet) {
         if(gameClient.isClientReady() && gameClient.getGameClientState() == GameClientState.IN_GAME) {
             if(gameClient.sendPacket(packet)) {
@@ -101,12 +99,13 @@ public class PlayerInstance extends Entity {
     }
 
     @Override
-    public boolean onHitTimer(Entity target, int damage, boolean criticalHit) {
-        if(super.onHitTimer(target, damage, criticalHit)) {
+    public boolean onHitTimer(Entity target, int damage, boolean crit, boolean miss, boolean soulshot, boolean shld) {
+        if(super.onHitTimer(target, damage, crit, miss, soulshot, shld)) {
             ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                    getId(), target.getId(), damage, target.getStatus().getCurrentHp(), criticalHit);
+                    getId(), target.getId(), damage, target.getStatus().getCurrentHp(), crit);
             broadcastPacket(applyDamagePacket);
             sendPacket(applyDamagePacket);
+
             return true;
         }
 
@@ -134,6 +133,16 @@ public class PlayerInstance extends Entity {
     }
 
     @Override
+    public ItemInstance getActiveWeaponInstance() {
+        return inventory.getEquippedItem(ItemSlot.rhand);
+    }
+
+    @Override
+    public ItemInstance getSecondaryWeaponInstance() {
+        return inventory.getEquippedItem(ItemSlot.lhand);
+    }
+
+    @Override
     public PlayerStatus getStatus() {
         return (PlayerStatus) super.getStatus();
     }
@@ -149,8 +158,8 @@ public class PlayerInstance extends Entity {
     }
 
     @Override
-    public void onDeath() {
-
+    public void doDie(Entity attacker) {
+        super.doDie(attacker);
     }
 
     @Override
@@ -251,5 +260,50 @@ public class PlayerInstance extends Entity {
 
     public int getMaxLoad() {
         return 0;
+    }
+
+    @Override
+    public void sendDamageMessage(Entity target, int damage, boolean mcrit, boolean pcrit, boolean miss) {
+        // Check if hit is missed
+        if (miss) {
+            if (target.isPlayer()) {
+                SystemMessagePacket sm = SystemMessagePacket.getSystemMessage(SystemMessageId.C1_EVADED_C2_ATTACK);
+                sm.addPcName((PlayerInstance) target);
+                sm.addCharName(this);
+                sm.writeMe();
+                ((PlayerInstance) target).sendPacket(sm);
+            }
+            SystemMessagePacket sm = SystemMessagePacket.getSystemMessage(SystemMessageId.C1_ATTACK_WENT_ASTRAY);
+            sm.addPcName(this);
+            sendPacket(sm);
+            sm.writeMe();
+            return;
+        }
+
+        // Check if hit is critical
+        if (pcrit) {
+            SystemMessagePacket sm = SystemMessagePacket.getSystemMessage(SystemMessageId.C1_HAD_CRITICAL_HIT);
+            sm.addPcName(this);
+            sm.writeMe();
+            sendPacket(sm);
+        }
+
+        if (mcrit) {
+            sendPacket(SystemMessageId.CRITICAL_HIT_MAGIC);
+        }
+
+        final SystemMessagePacket sm;
+
+        if ((target.isInvul() || target.isHpBlocked()) && !target.isNpc()) {
+            sm = SystemMessagePacket.getSystemMessage(SystemMessageId.ATTACK_WAS_BLOCKED);
+        } else {
+            sm = SystemMessagePacket.getSystemMessage(SystemMessageId.C1_DONE_S3_DAMAGE_TO_C2);
+            sm.addPcName(this);
+            sm.addCharName(target);
+            sm.addInt(damage);
+        }
+
+        sm.writeMe();
+        sendPacket(sm);
     }
 }

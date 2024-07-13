@@ -43,8 +43,7 @@ public class SpawnThread implements Runnable {
             }
 
             NpcInstance npc = new NpcInstance(WorldManagerService.getInstance().nextID(), npcTemplate);
-            npc.setPosition(spawnInfo.getSpawnPosition());
-            npc.setHeading(spawnInfo.getHeading());
+            npc.setCurrentHpMp(npc.getMaxHp(), npc.getMaxMp());
 
             if(npc.getTemplate().getType() == NpcType.L2Monster) {
                 npc.setStatic(false);
@@ -54,6 +53,8 @@ public class SpawnThread implements Runnable {
                 npc.setRandomWalk(false);
             }
 
+            npc.setPosition(spawnInfo.getSpawnPosition());
+            npc.setHeading(spawnInfo.getHeading());
             npc.setSpawnInfo(spawnInfo);
 
             if(server.aiKeepAlive()) {

@@ -585,6 +585,46 @@ public final class Formulas {
     }
 
     /**
+     * @param target
+     * @param dmg
+     * @return true in case when ATTACK is canceled due to hit
+     */
+    public static boolean calcAtkBreak(Entity target, double dmg) {
+        if (target.isChanneling()) {
+            return false;
+        }
+
+        float init = 0;
+        if (character.cancelCast() && target.isCasting()) {
+            init = 15;
+        }
+        if (character.cancelBow() && target.isAttacking()) {
+            DBWeapon wpn = target.getActiveWeaponItem();
+            if ((wpn != null) && (wpn.getType() == WeaponType.bow)) {
+                init = 15;
+            }
+        }
+
+        if (target.isInvul() || (init <= 0)) {
+            return false; // No attack break
+        }
+
+        // Chance of break is higher with higher dmg
+        init += Math.sqrt(13 * dmg);
+
+        // Chance is affected by target MEN
+        init -= ((MENbonus[target.getMEN()] * 100) - 100);
+
+        // Calculate all modifiers for ATTACK_CANCEL
+        double rate = target.calcStat(Stats.ATTACK_CANCEL, init, null, null);
+
+        // Adjust the rate to be between 1 and 99
+        rate = Math.max(Math.min(rate, 99), 1);
+
+        return Rnd.get(100) < rate;
+    }
+
+    /**
      * Calculate Probability in following effects:<br>
      * TargetCancel,<br>
      * TargetMeProbability,<br>

@@ -3,17 +3,17 @@ package com.shnok.javaserver.model.object.entity;
 import com.shnok.javaserver.db.entity.DBArmor;
 import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.dto.SendablePacket;
-import com.shnok.javaserver.dto.external.serverpackets.EntitySetTargetPacket;
-import com.shnok.javaserver.dto.external.serverpackets.ObjectMoveToPacket;
-import com.shnok.javaserver.dto.external.serverpackets.ObjectPositionPacket;
+import com.shnok.javaserver.dto.external.serverpackets.*;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.PlayerCondOverride;
+import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.model.WorldRegion;
 import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
+import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.skills.FormulasLegacy;
 import com.shnok.javaserver.model.skills.Skill;
 import com.shnok.javaserver.model.stats.CharStat;
@@ -30,6 +30,8 @@ import com.shnok.javaserver.security.Rnd;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.thread.ai.BaseAI;
+import com.shnok.javaserver.thread.entity.ScheduleHitTask;
+import com.shnok.javaserver.thread.entity.ScheduleNotifyAITask;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -68,6 +70,8 @@ public abstract class Entity extends GameObject {
     protected boolean moving;
     protected boolean running;
     protected long attackEndTime;
+    protected long castEndTime;
+    protected long channelEndTime;
     protected boolean dead;
 
     public Entity(int id, EntityTemplate template) {
@@ -109,14 +113,18 @@ public abstract class Entity extends GameObject {
 
     public abstract boolean canMove();
 
-    public void onDeath() {
+    public void doDie(Entity attacker) {
+        abortCast();
+        stopAllTimers();
+
+        setCanMove(false);
+        setDead(true);
+
         log.debug("[{}] Entity died", getId());
         if (ai != null) {
             ai.notifyEvent(Event.DEAD);
         }
 
-        setCanMove(false);
-        //TODO: stop hp mp regen
         //TODO: give exp?
         //TODO: Share HP
     }
@@ -149,50 +157,207 @@ public abstract class Entity extends GameObject {
         // Start hit task
         doSimpleAttack(target, timeToHit);
 
-        ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleNotifyAITask(Event.READY_TO_ACT), timeAtk + cooldown);
+        ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleNotifyAITask(getAi(), Event.READY_TO_ACT), timeAtk + cooldown);
     }
 
     public void doSimpleAttack(Entity target, int timeToHit) {
         //TODO do damage calculations
         int damage = 1;
-        boolean criticalHit = false;
+        boolean crit = false;
         Random r = new Random();
         if(r.nextInt(6) == 0) {
-            criticalHit = true;
+            crit = true;
         }
+
+        boolean miss = false;
+        boolean soulshot = false;
+        boolean shield = false;
 
         if(this.isPlayer()) {
-            damage = 40;
+            damage = 10;
         }
 
-        getAi().clientStartAutoAttack(target);
+        getAi().clientStartAutoAttack();
 
         log.debug("ouchie?");
-        ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleHitTask(target, damage, criticalHit), timeToHit);
+        ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleHitTask(this, target, damage, crit, miss, soulshot, shield), timeToHit);
     }
 
-    public boolean onHitTimer(Entity target, int damage, boolean criticalHit) {
-        log.debug("ouchie!");
-        //TODO do apply damage
-        //TODO share hit
-        //TODO share hp
-        //TODO if was walking around remove from moving objects
+//    public boolean onHitTimer(Entity target, int damage, boolean criticalHit) {
+//        log.debug("ouchie!");
+//        //TODO do apply damage
+//        //TODO share hit
+//        //TODO share hp
+//        //TODO if was walking around remove from moving objects
+//
+//        if (target == null || target.isDead() || !getKnownList().knowsObject(target)) {
+//            getAi().notifyEvent(Event.CANCEL);
+//            return false;
+//        }
+//
+//        target.getAi().notifyEvent(Event.ATTACKED, this);
+//
+//        //TODO add notifyDamageReceived
+//        target.reduceCurrentHp(damage, this);
+//
+//        return true;
+//    }
 
-        if (target == null || target.isDead() || !getKnownList().knowsObject(target)) {
+    /**
+     * Manage hit process (called by Hit Task).<BR>
+     * <BR>
+     * <B><U> Actions</U> :</B><BR>
+     * <BR>
+     * <li>If the attacker/target is dead or use fake death, notify the AI with EVT_CANCEL and send a Server->Client packet ActionFailed (if attacker is a L2PcInstance)</li> <li>If attack isn't aborted, send a message system (critical hit, missed...) to attacker/target if they are L2PcInstance</li>
+     * <li>If attack isn't aborted and hit isn't missed, reduce HP of the target and calculate reflection damage to reduce HP of attacker if necessary</li> <li>if attack isn't aborted and hit isn't missed, manage attack or cast break of the target (calculating rate, sending message...)</li><BR>
+     * <BR>
+     * @param target The L2Character targeted
+     * @param damage Nb of HP to reduce
+     * @param crit True if hit is critical
+     * @param miss True if hit is missed
+     * @param soulshot True if SoulShot are charged
+     * @param shld True if shield is efficient
+     */
+    public boolean onHitTimer(Entity target, int damage, boolean crit, boolean miss, boolean soulshot, boolean shld) {
+        // If the attacker/target is dead or use fake death, notify the AI with EVT_CANCEL
+        // and send a Server->Client packet ActionFailed (if attacker is a L2PcInstance)
+        if ((target == null)) {
             getAi().notifyEvent(Event.CANCEL);
             return false;
         }
 
-        target.getAi().notifyEvent(Event.ATTACKED, this);
+        if (target.isDead() || (!getKnownList().knowsObject(target))) {
+            // getAI().setIntention(CtrlIntention.AI_INTENTION_ACTIVE, null);
+            getAi().notifyEvent(Event.CANCEL);
 
-        //TODO add notifyDamageReceived
-        target.reduceCurrentHp(damage, this);
+            //TODO Verify action type?
+            sendPacket(new ActionFailedPacket((byte) 0));
+            return false;
+        }
 
-        return true;
+        if (miss) {
+            if (target instanceof PlayerInstance) {
+                SystemMessagePacket sm = new SystemMessagePacket(SystemMessageId.AVOIDED_C1_ATTACK);
+                sm.addPcName((PlayerInstance) target);
+                sm.writeMe();
+                ((PlayerInstance) target).sendPacket(sm);
+            }
+        }
+
+        // If attack isn't aborted, send a message system (critical hit, missed...) to attacker/target if they are L2PcInstance
+        if (!isAttackAborted()) {
+            sendDamageMessage(target, damage, false, crit, miss);
+
+            // If L2Character target is a L2PcInstance, send a system message
+            if (target instanceof PlayerInstance) {
+                PlayerInstance enemy = (PlayerInstance) target;
+
+                // Check if shield is efficient
+                if (shld) {
+                    enemy.sendPacket(new SystemMessagePacket(SystemMessageId.SHIELD_DEFENCE_SUCCESSFULL));
+                    // else if (!miss && damage < 1)
+                    // enemy.sendMessage("You hit the target's armor.");
+                }
+            }
+
+            if (!miss && (damage > 0)) {
+                DBWeapon weapon = getActiveWeaponItem();
+                boolean isBow = ((weapon != null) && weapon.getType().toString().equalsIgnoreCase("Bow"));
+
+                if (!isBow) { // Do not reflect or absorb if weapon is of type bow
+                    // Reduce HP of the target and calculate reflection damage to reduce HP of attacker if necessary
+                    double reflectPercent = target.getStat().calcStat(Stats.REFLECT_DAMAGE_PERCENT, 0, null, null);
+
+                    if (reflectPercent > 0) {
+                        int reflectedDamage = (int) ((reflectPercent / 100.) * damage);
+                        damage -= reflectedDamage;
+
+                        if (reflectedDamage > target.getMaxHp()) {
+                            reflectedDamage = target.getMaxHp();
+                        }
+
+                        getStatus().reduceHp(reflectedDamage, target, true);
+                    }
+
+                    // Absorb HP from the damage inflicted
+                    double absorbPercent = getStat().calcStat(Stats.ABSORB_DAMAGE_PERCENT, 0, null, null);
+
+                    if (absorbPercent > 0) {
+                        int maxCanAbsorb = (int) (getMaxHp() - getCurrentHp());
+                        int absorbDamage = (int) ((absorbPercent / 100.) * damage);
+
+                        if (absorbDamage > maxCanAbsorb) {
+                            absorbDamage = maxCanAbsorb; // Can't absord more than max hp
+                        }
+
+                        if (absorbDamage > 0) {
+                            setCurrentHp(getCurrentHp() + absorbDamage, true);
+                        }
+                    }
+                }
+
+                target.reduceCurrentHp(damage, this);
+
+                // Notify AI with EVT_ATTACKED
+                target.getAi().notifyEvent(Event.ATTACKED, this);
+
+                getAi().clientStartAutoAttack();
+
+                // Manage attack or cast break of the target (calculating rate, sending message...)
+                if (Formulas.calcAtkBreak(target, damage)) {
+                    target.breakAttack();
+                    target.breakCast();
+                }
+            }
+
+            return true;
+        }
+
+        getAi().notifyEvent(Event.CANCEL);
+
+        return false;
+    }
+
+    public void breakAttack() {
+        attackEndTime = -1;
+    }
+
+    public void breakCast() {
+        castEndTime = -1;
+    }
+
+    /**
+     * Return True if the L2Character has aborted its attack.<BR>
+     * <BR>
+     * @return true, if is attack aborted
+     */
+    public final boolean isAttackAborted() {
+        return attackEndTime <= 0;
+    }
+
+    /**
+     * Add Exp and Sp to the L2Character.<BR>
+     * <BR>
+     * <B><U> Overriden in </U> :</B><BR>
+     * <BR>
+     * <li>L2PcInstance</li> <li>L2PetInstance</li><BR>
+     * <BR>
+     * @param addToExp the add to exp
+     * @param addToSp the add to sp
+     */
+    public void addExpAndSp(long addToExp, int addToSp)
+    {
+        // Dummy method (overridden by players and pets)
     }
 
     public boolean isAttacking() {
         return attackEndTime > GameTimeControllerService.getInstance().getGameTicks();
+    }
+    public boolean isCasting() {
+        return castEndTime > GameTimeControllerService.getInstance().getGameTicks();
+    }
+    public boolean isChanneling() {
+        return channelEndTime > GameTimeControllerService.getInstance().getGameTicks();
     }
 
     public boolean canAttack() {
@@ -458,61 +623,20 @@ public abstract class Entity extends GameObject {
         }
     }
 
-    // Task to destroy object based on delay
-    protected static class ScheduleDestroyTask implements Runnable {
-        private final Entity entity;
-
-        public ScheduleDestroyTask(Entity entity){
-            this.entity = entity;
-        }
-
-        @Override
-        public void run() {
-            log.debug("Execute schedule destroy object");
-            if (entity != null) {
-                entity.destroy();
-            }
-        }
-    }
-
-    // Task to apply damage based on delay
-    private class ScheduleHitTask implements Runnable {
-        private final Entity hitTarget;
-        private final int damage;
-        private final boolean criticalHit;
-
-        public ScheduleHitTask(Entity hitTarget, int damage, boolean criticalHit) {
-            this.hitTarget = hitTarget;
-            this.damage = damage;
-            this.criticalHit = criticalHit;
-        }
-
-        @Override
-        public void run() {
-            try {
-                onHitTimer(hitTarget, damage, criticalHit);
-            } catch (Throwable e) {
-                log.error(e);
-            }
-        }
-    }
-
-    // Task to notify AI based on delay
-    public class ScheduleNotifyAITask implements Runnable {
-
-        private final Event event;
-
-        public ScheduleNotifyAITask(Event event) {
-            this.event = event;
-        }
-
-        @Override
-        public void run() {
-            try {
-                getAi().notifyEvent(event, null);
-            } catch (Throwable t) {
-                log.warn(t);
-            }
+    /**
+     * Send system message about damage.
+     * @param target
+     * @param damage
+     * @param mcrit
+     * @param pcrit
+     * @param miss
+     */
+    public void sendDamageMessage(Entity target, int damage, boolean mcrit, boolean pcrit, boolean miss) {
+        if (miss && target.isPlayer()) {
+            SystemMessagePacket sm = SystemMessagePacket.getSystemMessage(SystemMessageId.C1_EVADED_C2_ATTACK);
+            sm.addPcName((PlayerInstance) target);
+            sm.addCharName(this);
+            target.sendPacket(sm);
         }
     }
 
@@ -991,6 +1115,28 @@ public abstract class Entity extends GameObject {
         return (1 + ((float) Rnd.get(-random, random) / 100));
     }
 
+    /**
+     * Return the active weapon instance (always equiped in the right hand).<BR>
+     * <BR>
+     * <B><U> Overriden in </U> :</B><BR>
+     * <BR>
+     * <li>L2PcInstance</li><BR>
+     * <BR>
+     * @return the active weapon instance
+     */
+    public abstract ItemInstance getActiveWeaponInstance();
+
+    /**
+     * Return the secondary weapon instance (always equiped in the left hand).<BR>
+     * <BR>
+     * <B><U> Overriden in </U> :</B><BR>
+     * <BR>
+     * <li>L2PcInstance</li><BR>
+     * <BR>
+     * @return the secondary weapon instance
+     */
+    public abstract ItemInstance getSecondaryWeaponInstance();
+
     public abstract DBWeapon getActiveWeaponItem();
     public abstract DBArmor getSecondaryWeaponItem();
 
@@ -1018,7 +1164,11 @@ public abstract class Entity extends GameObject {
         return status.getCurrentHp();
     }
 
-    public void setCurrentHp(int hp, boolean broadcast) {
+    public void setCurrentHpMp(float newHp, float newMp) {
+        status.setCurrentHpMp(newHp, newMp);
+    }
+
+    public void setCurrentHp(float hp, boolean broadcast) {
         status.setCurrentHp(hp, broadcast);
     }
 
@@ -1101,10 +1251,6 @@ public abstract class Entity extends GameObject {
 
     }
 
-    public void doDie(Entity attacker) {
-
-    }
-
     public void broadcastStatusUpdate() {
         //TODO broadcast packet
     }
@@ -1116,5 +1262,13 @@ public abstract class Entity extends GameObject {
 
     public void stopAllTimers() {
         status.stopHpMpRegeneration();
+    }
+
+    /**
+     * Not Implemented.<BR>
+     */
+    public boolean sendPacket(SendablePacket packet) {
+        // default implementation
+        return true;
     }
 }

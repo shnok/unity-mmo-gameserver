@@ -1,7 +1,6 @@
 package com.shnok.javaserver.model.object.entity;
 
 import com.shnok.javaserver.db.entity.DBArmor;
-import com.shnok.javaserver.db.entity.DBItem;
 import com.shnok.javaserver.db.entity.DBSpawnList;
 import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
@@ -18,6 +17,7 @@ import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.service.db.ItemTable;
 import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.thread.ai.NpcAI;
+import com.shnok.javaserver.thread.entity.ScheduleDestroyTask;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
@@ -56,10 +56,10 @@ public class NpcInstance extends Entity {
     }
 
     @Override
-    public boolean onHitTimer(Entity target, int damage, boolean criticalHit) {
-        if(super.onHitTimer(target, damage, criticalHit)) {
+    public boolean onHitTimer(Entity target, int damage, boolean crit, boolean miss, boolean soulshot, boolean shld) {
+        if(super.onHitTimer(target, damage, crit, miss, soulshot, shld)) {
             ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                    getId(), target.getId(), damage, target.getStatus().getCurrentHp(), criticalHit);
+                    getId(), target.getId(), damage, target.getStatus().getCurrentHp(), crit);
             broadcastPacket(applyDamagePacket);
             return true;
         }
@@ -86,8 +86,8 @@ public class NpcInstance extends Entity {
     }
 
     @Override
-    public void onDeath() {
-        super.onDeath();
+    public void doDie(Entity attacker) {
+        super.doDie(attacker);
 
         // Tell client that entity died
         //TODO Tell client that entity died
@@ -132,6 +132,16 @@ public class NpcInstance extends Entity {
         }
 
         return true;
+    }
+
+    @Override
+    public ItemInstance getActiveWeaponInstance() {
+        return getRightHandItem();
+    }
+
+    @Override
+    public ItemInstance getSecondaryWeaponInstance() {
+        return getLeftHandItem();
     }
 
     @Override

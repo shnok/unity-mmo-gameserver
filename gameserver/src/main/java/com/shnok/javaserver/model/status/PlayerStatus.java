@@ -180,7 +180,7 @@ public class PlayerStatus extends Status {
     }
 
     public final void setCurrentCp(float newCp, boolean broadcastPacket) {
-        System.out.println("Set current cp: " + newCp);
+        //System.out.println("Set current cp: " + newCp);
         // Get the Max CP of the L2Character
         int oldCPValue = (int) getCurrentCp();
         int maxCp = getOwner().getStat().getMaxCp();

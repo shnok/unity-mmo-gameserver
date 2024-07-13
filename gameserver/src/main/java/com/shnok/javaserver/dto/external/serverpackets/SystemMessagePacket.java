@@ -50,8 +50,12 @@ public class SystemMessagePacket extends SendablePacket {
         public int[] getIntArrayValue() {
             return (int[]) _value;
         }
+
+        public float[] getFloatArrayValue() {
+            return (float[]) _value;
+        }
     }
-    
+
     // 15 exists in goddess of destruction but also may works in h5 needs to be verified!
     // private static final byte TYPE_CLASS_ID = 15;
     // id 14 unknown
@@ -92,7 +96,13 @@ public class SystemMessagePacket extends SendablePacket {
         }
         
         _smId = smId;
-        _params = smId.getParams() > 0 ? new SMParam[smId.getParams()] : EMPTY_PARAM_ARRAY;
+
+        if(smId.getParams() > 0) {
+            _params = new SMParam[smId.getParams()];
+        } else {
+            _params = EMPTY_PARAM_ARRAY;
+            writeMe();
+        }
     }
 
     public final int getId() {
@@ -212,7 +222,7 @@ public class SystemMessagePacket extends SendablePacket {
         append(new SMParam(TYPE_INSTANCE_NAME, type));
     }
 
-    protected final void writeMe() {
+    public final void writeMe() {
         writeI(getId());
         writeB((byte) _params.length);
 
@@ -246,13 +256,15 @@ public class SystemMessagePacket extends SendablePacket {
                     writeI(array[1]); // SkillLevel
                     break;
                 case TYPE_ZONE_NAME:
-                    final int[] array2 = param.getIntArrayValue();
-                    writeI(array2[0]); // x
-                    writeI(array2[1]); // y
-                    writeI(array2[2]); // z
+                    final float[] array2 = param.getFloatArrayValue();
+                    writeF(array2[0]); // x
+                    writeF(array2[1]); // y
+                    writeF(array2[2]); // z
                     break;
             }
         }
+
+        buildPacket();
     }
 
 
@@ -279,5 +291,4 @@ public class SystemMessagePacket extends SendablePacket {
 
         return sm;
     }
-
 }

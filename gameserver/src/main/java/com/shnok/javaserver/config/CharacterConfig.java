@@ -59,4 +59,8 @@ public interface CharacterConfig extends Mutable, Reloadable {
     Integer getMaxPlayerLevel();
     @Key("magic.resists")
     Boolean magicResists();
+    @Key("cancel.bow")
+    Boolean cancelBow();
+    @Key("cancel.cast")
+    Boolean cancelCast();
 }

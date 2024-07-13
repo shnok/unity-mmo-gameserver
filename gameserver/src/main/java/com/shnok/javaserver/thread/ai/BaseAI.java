@@ -238,7 +238,7 @@ public abstract class BaseAI {
     }
 
     // Start the auto attack client side
-    public void clientStartAutoAttack(Entity target) {
+    public void clientStartAutoAttack() {
         if (!isAutoAttacking()) {
             log.debug("[AI] Client start auto attack");
 
