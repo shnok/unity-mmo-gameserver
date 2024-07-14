@@ -19,6 +19,14 @@ public class FuncPAtkCritical extends AbstractFunction {
 
     @Override
     public float calc(Entity effector, Entity effected, Skill skill, float initVal) {
+        System.out.println("FuncPAtkCritical INIT VAL: " + initVal);
+        System.out.println("FuncPAtkCritical getValue: " + getValue());
+        System.out.println("FuncPAtkCritical VAL BONUS MULTIPLIER: " + Formulas.DEXbonus[effector.getDEX()]);
+
+        if ((effector.isPlayer()) && (effector.getActiveWeaponInstance() == null)) {
+            return initVal;
+        }
+
         return initVal * Formulas.DEXbonus[effector.getDEX()] * 10;
     }
 }

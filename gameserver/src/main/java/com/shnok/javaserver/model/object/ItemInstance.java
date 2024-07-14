@@ -1,13 +1,20 @@
 package com.shnok.javaserver.model.object;
 
+import com.shnok.javaserver.db.entity.DBArmor;
 import com.shnok.javaserver.db.entity.DBEtcItem;
 import com.shnok.javaserver.db.entity.DBItem;
+import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.enums.item.ConsumeType;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
+import com.shnok.javaserver.model.stats.functions.AbstractFunction;
+import com.shnok.javaserver.model.stats.functions.items.ItemStatConverter;
+import javolution.util.FastList;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,16 +31,24 @@ public class ItemInstance extends GameObject {
     // slot where item is stored
     private int slot;
     private boolean stackable;
+    private List<AbstractFunction> statFuncs;
 
     public ItemInstance(int ownerId, DBItem item) {
         this.itemId = item.getId();
         this.ownerId = ownerId; //TODO check if better to use charId instead of entity id
         this.item = item;
         this.stackable = false;
+        this.statFuncs = new FastList<>();
+
+        System.out.println("statFuncs" + statFuncs.size());
 
         if(item instanceof DBEtcItem) {
             ConsumeType consumeType = ((DBEtcItem) item).getConsumeType();
             stackable = consumeType == ConsumeType.stackable || consumeType == ConsumeType.asset;
+        } else if(item instanceof DBArmor) {
+            statFuncs = ItemStatConverter.parseArmor((DBArmor) item);
+        } else if(item instanceof DBWeapon) {
+            statFuncs = ItemStatConverter.parseWeapon((DBWeapon) item);
         }
     }
 

@@ -8,12 +8,10 @@ import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import static com.shnok.javaserver.config.Configuration.server;
 
 public class PlayerInventory extends Inventory {
-    private final PlayerInstance owner;
     private ItemInstance money;
 
     public PlayerInventory(PlayerInstance owner) {
-        super();
-        this.owner = owner;
+        super(owner);
     }
 
     public ItemInstance getMoneyInstance() {

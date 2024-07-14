@@ -387,7 +387,7 @@ public abstract class Entity extends MovableObject {
 
     // Return the Attack Speed of the Entity (delay (in milliseconds) before next attack)
     public int calculateTimeBetweenAttacks() {
-        float atkSpd = getTemplate().getBasePAtkSpd();
+        float atkSpd = getPAtkSpd();
         return FormulasLegacy.getInstance().calcPAtkSpd(atkSpd);
     }
 
@@ -679,9 +679,11 @@ public abstract class Entity extends MovableObject {
     }
 
     protected void broadcastModifiedStats(List<Stats> stats) {
+        System.out.println("BROADCAST MODIFIED STATS!");
         if ((stats == null) || stats.isEmpty()) {
             return;
         }
+
 
 //        boolean broadcastFull = false;
 //        StatusUpdatePacket su = new StatusUpdatePacket(this);

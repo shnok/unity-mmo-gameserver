@@ -19,6 +19,8 @@ public class FuncPAtkSpeed extends AbstractFunction {
 
     @Override
     public float calc(Entity effector, Entity effected, Skill skill, float initVal) {
+        System.out.println("ATK SPEED: " + getValue());
+        System.out.println("ATK SPEED: " + initVal);
         return initVal * Formulas.DEXbonus[effector.getDEX()];
     }
 }

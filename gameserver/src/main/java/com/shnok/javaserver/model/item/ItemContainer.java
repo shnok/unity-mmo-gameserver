@@ -16,8 +16,10 @@ import static com.shnok.javaserver.config.Configuration.server;
 @Log4j2
 public abstract class ItemContainer {
     protected final List<ItemInstance> items;
+    protected final Entity owner;
 
-    public ItemContainer() {
+    public ItemContainer(Entity owner) {
+        this.owner = owner;
         items = new FastList<>();
     }
 

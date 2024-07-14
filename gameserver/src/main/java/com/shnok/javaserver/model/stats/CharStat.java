@@ -50,7 +50,7 @@ public class CharStat {
         // Launch the calculation
         value = c.calc(_activeChar, target, skill, value);
 
-        //System.out.println("Calc stat: [" + stat + "]=" + value);
+        System.out.println("Calc stat: [" + stat + "]=" + value);
 
         // avoid some troubles with negative stats (some stats should never be negative)
         if (value <= 0) {
@@ -405,7 +405,7 @@ public class CharStat {
             baseAttackRange = _activeChar.getTemplate().getBaseAtkRange();
         }
 
-        return (int) calcStat(Stats.POWER_ATTACK_RANGE, baseAttackRange, null, null);
+        return calcStat(Stats.POWER_ATTACK_RANGE, baseAttackRange, null, null);
     }
 
     public int getPhysicalAttackAngle() {

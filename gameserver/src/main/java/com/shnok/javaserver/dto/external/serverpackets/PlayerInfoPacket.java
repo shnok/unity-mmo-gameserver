@@ -40,10 +40,10 @@ public class PlayerInfoPacket extends SendablePacket {
         writeI(player.getStat().getMaxCp());
 
         // Combat
-        writeI((int) player.getStat().getMoveSpeed());
-        writeI(player.getTemplate().getBasePAtkSpd());
-        writeI(player.getTemplate().getBaseMAtkSpd());
-        writeF(player.getTemplate().getBaseAtkRange());
+        writeI((int) player.getMoveSpeed());
+        writeI((int) player.getPAtkSpd());
+        writeI((int) player.getMAtkSpd());
+        writeF(player.getPhysicalAttackRange());
         writeI((int) player.getPAtk(null));
         writeI((int) player.getPDef(null));
         writeI(player.getPEvasionRate(null));

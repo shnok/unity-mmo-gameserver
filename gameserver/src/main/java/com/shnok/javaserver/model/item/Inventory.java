@@ -7,21 +7,43 @@ import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.enums.item.EtcItemType;
 import com.shnok.javaserver.enums.item.ItemSlot;
+import com.shnok.javaserver.model.item.listeners.GearListener;
+import com.shnok.javaserver.model.item.listeners.StatsListener;
 import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
+import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
 @Log4j2
 public abstract class Inventory extends ItemContainer {
-    private final ItemInstance[] equipped;
+    private final ItemInstance[] gear;
+    private final List<GearListener> gearListeners;
     protected int totalWeight;
 
-    protected Inventory() {
-        super();
-        equipped = new ItemInstance[15];
+    protected Inventory(Entity owner) {
+        super(owner);
+        gear = new ItemInstance[15];
+        gearListeners = new FastList<>();
+        addGearListener(new StatsListener(getOwner()));
+    }
+
+    /**
+     * Adds new inventory's gear listener
+     * @param listener
+     */
+    public synchronized void addGearListener(GearListener listener) {
+        gearListeners.add(listener);
+    }
+
+    /**
+     * Removes a gear listener
+     * @param listener
+     */
+    public synchronized void removeGearListener(GearListener listener) {
+        gearListeners.remove(listener);
     }
 
     public void setEquippedItems(List<DBItem> itemData) {}
@@ -72,7 +94,7 @@ public abstract class Inventory extends ItemContainer {
                 break;
             }
             case rhand: {
-                if (equipped[ItemSlot.lrhand.getValue()] != null) {
+                if (gear[ItemSlot.lrhand.getValue()] != null) {
                     setEquipItem(ItemSlot.lrhand, null);
                     setEquipItem(ItemSlot.lhand, null);
                     setEquipItem(ItemSlot.rhand, null);
@@ -86,9 +108,9 @@ public abstract class Inventory extends ItemContainer {
             case lear:
             case rear:
             case earring: {
-                if (equipped[ItemSlot.lear.getValue()] == null) {
+                if (gear[ItemSlot.lear.getValue()] == null) {
                     setEquipItem(ItemSlot.lear, item);
-                } else if (equipped[ItemSlot.rear.getValue()] == null) {
+                } else if (gear[ItemSlot.rear.getValue()] == null) {
                     setEquipItem(ItemSlot.rear, item);
                 } else {
                     setEquipItem(ItemSlot.lear, null);
@@ -100,9 +122,9 @@ public abstract class Inventory extends ItemContainer {
             case lfinger:
             case rfinger:
             case ring: {
-                if (equipped[ItemSlot.lfinger.getValue()] == null) {
+                if (gear[ItemSlot.lfinger.getValue()] == null) {
                     setEquipItem(ItemSlot.lfinger, item);
-                } else if (equipped[ItemSlot.rfinger.getValue()] == null) {
+                } else if (gear[ItemSlot.rfinger.getValue()] == null) {
                     setEquipItem(ItemSlot.rfinger, item);
                 } else {
                     setEquipItem(ItemSlot.lfinger, null);
@@ -151,36 +173,48 @@ public abstract class Inventory extends ItemContainer {
     }
 
     public ItemInstance getEquippedItem(ItemSlot slot) {
-        return equipped[slot.getValue()];
+        return gear[slot.getValue()];
     }
 
     public int getEquippedItemId(ItemSlot slot) {
-        if(equipped[slot.getValue()] != null) {
-            return equipped[slot.getValue()].getItemId();
+        if(gear[slot.getValue()] != null) {
+            return gear[slot.getValue()].getItemId();
         }
 
         return 0;
     }
 
     public ItemInstance setEquipItem(ItemSlot slot, ItemInstance item) {
-        ItemInstance old = equipped[slot.getValue()];
+        ItemInstance old = gear[slot.getValue()];
         if (old != item) {
             if (old != null) {
-                equipped[slot.getValue()] = null;
+                gear[slot.getValue()] = null;
                 // Put old item from equipment slot to base location
                 old.setLocation(getBaseLocation());
                 //TODO: Unequip old item
                 //TODO: notify player
                 //TODO: update db
+                for (GearListener listener : gearListeners) {
+                    if (listener == null) {
+                        continue;
+                    }
+                    listener.notifyUnequipped(slot.getValue(), old);
+                }
             }
             // Add new item in slot of equipment
             if (item != null) {
-                equipped[slot.getValue()] = item;
+                gear[slot.getValue()] = item;
                 item.setLocation(getEquipLocation(), slot.getValue());
 
                 log.debug("[{}] Equipped {} int slot {}", getOwner().getId(), item.getItemId(), slot);
                 //TODO: notify player
                 //TODO: update db
+                for (GearListener listener : gearListeners) {
+                    if (listener == null) {
+                        continue;
+                    }
+                    listener.notifyEquipped(slot.getValue(), item);
+                }
             }
         }
         return old;
@@ -246,8 +280,8 @@ public abstract class Inventory extends ItemContainer {
     @Override
     protected void removeItem(ItemInstance item) {
         // unequip item if equiped
-        for (byte i = 0; i < equipped.length; i++) {
-            if (equipped[i] == item) {
+        for (byte i = 0; i < gear.length; i++) {
+            if (gear[i] == item) {
                 unEquipItemInSlot(ItemSlot.getSlot(i));
             }
         }
