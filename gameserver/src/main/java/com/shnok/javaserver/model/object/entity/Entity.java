@@ -4,43 +4,37 @@ import com.shnok.javaserver.db.entity.DBArmor;
 import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.*;
-import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
+import com.shnok.javaserver.enums.PlayerAction;
 import com.shnok.javaserver.enums.PlayerCondOverride;
 import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.model.WorldRegion;
-import com.shnok.javaserver.model.object.GameObject;
-import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.EntityKnownList;
 import com.shnok.javaserver.model.object.ItemInstance;
+import com.shnok.javaserver.model.object.MovableObject;
 import com.shnok.javaserver.model.skills.FormulasLegacy;
 import com.shnok.javaserver.model.skills.Skill;
+import com.shnok.javaserver.model.stats.Calculator;
 import com.shnok.javaserver.model.stats.CharStat;
 import com.shnok.javaserver.model.stats.Formulas;
 import com.shnok.javaserver.model.stats.Stats;
-import com.shnok.javaserver.model.stats.Calculator;
 import com.shnok.javaserver.model.stats.functions.AbstractFunction;
 import com.shnok.javaserver.model.status.Status;
 import com.shnok.javaserver.model.template.EntityTemplate;
-import com.shnok.javaserver.pathfinding.Geodata;
-import com.shnok.javaserver.pathfinding.MoveData;
-import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.security.Rnd;
 import com.shnok.javaserver.service.GameTimeControllerService;
 import com.shnok.javaserver.service.ThreadPoolManagerService;
-import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.thread.entity.ScheduleHitTask;
 import com.shnok.javaserver.thread.entity.ScheduleNotifyAITask;
-import com.shnok.javaserver.util.VectorUtils;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import static com.shnok.javaserver.config.Configuration.server;
 import static com.shnok.javaserver.model.stats.Stats.NUM_STATS;
 
 /**
@@ -50,25 +44,17 @@ import static com.shnok.javaserver.model.stats.Stats.NUM_STATS;
  * <BR>
  */
 
-@NoArgsConstructor
 @Log4j2
 @Getter
 @Setter
-public abstract class Entity extends GameObject {
+public abstract class Entity extends MovableObject {
     /** Table of Calculators containing all used calculator */
     private Calculator[] calculators;
 
     /** Table of calculators containing all standard NPC calculator (ex : ACCURACY_COMBAT, EVASION_RATE) */
     private static final Calculator[] NPC_STD_CALCULATOR = Formulas.getStdNPCCalculators();
-    private CharStat stat;
     protected long exceptions = 0L;
-    protected MoveData moveData;
-    protected BaseAI ai;
-    protected EntityTemplate template;
     protected Status status;
-    protected boolean canMove = true;
-    protected boolean moving;
-    protected boolean running;
     protected long attackEndTime;
     protected long castEndTime;
     protected long channelEndTime;
@@ -89,12 +75,6 @@ public abstract class Entity extends GameObject {
         }
     }
 
-//    public void inflictDamage(Entity attacker, int value) {
-//        if(getAi() != null) {
-//            getAi().notifyEvent(Event.ATTACKED, attacker);
-//        }
-//    }
-
     public EntityTemplate getTemplate() {
         return template;
     }
@@ -111,9 +91,8 @@ public abstract class Entity extends GameObject {
         status = value;
     }
 
-    public abstract boolean canMove();
-
     public void doDie(Entity attacker) {
+        abortAttack();
         abortCast();
         stopAllTimers();
 
@@ -124,16 +103,14 @@ public abstract class Entity extends GameObject {
         if (ai != null) {
             ai.notifyEvent(Event.DEAD);
         }
-
-        //TODO: give exp?
-        //TODO: Share HP
     }
 
     public void doAttack(Entity target) {
         // Extra target verification at each loop
         if (target == null || target.isDead() || !getKnownList().knowsObject(target)
-                || getAi().getIntention() != Intention.INTENTION_ATTACK) {
+                || getAi().getIntention() != Intention.INTENTION_ATTACK || isDead()) {
             getAi().notifyEvent(Event.CANCEL);
+            sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
             return;
         }
 
@@ -142,66 +119,99 @@ public abstract class Entity extends GameObject {
             return;
         }
 
+        getAi().clientStartAutoAttack();
+
         // Get the Attack Speed of the npc (delay (in milliseconds) before next attack)
         int timeAtk = calculateTimeBetweenAttacks();
-        log.debug("AtkSpd: {} Attack duration: {}ms", getTemplate().getBasePAtkSpd(), timeAtk);
         // the hit is calculated to happen halfway to the animation
         int timeToHit = timeAtk / 2;
-
         int cooldown = calculateCooldown();
 
         attackEndTime = GameTimeControllerService.getInstance().getGameTicks();
         attackEndTime += (timeAtk / GameTimeControllerService.getInstance().getTickDurationMs());
         attackEndTime -= 1;
 
+        //TODO handle soulshots
+//        ApplyDamagePacket attack = new ApplyDamagePacket(this, target, isChargedShot(ShotType.SOULSHOTS),
+//                (weaponItem != null) ? weaponItem.getItemGradeSPlus().getId() : 0);
+        ApplyDamagePacket attack = new ApplyDamagePacket(this.getId(), false, (byte) 0);
+
+        //TODO update heading server side
+        //setHeading(VectorUtils.calculateHeadingFrom(this, target));
+
         // Start hit task
-        doSimpleAttack(target, timeToHit);
+        boolean hit;
+        DBWeapon weaponItem = getActiveWeaponItem();
+        //TODO use functions according to weapon type
+        hit = doAttackHitSimple(attack, target, timeToHit);
 
-        ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleNotifyAITask(getAi(), Event.READY_TO_ACT), timeAtk + cooldown);
-    }
+        log.debug("AtkSpd: {} Attack duration: {}ms", getTemplate().getBasePAtkSpd(), timeAtk);
 
-    public void doSimpleAttack(Entity target, int timeToHit) {
-        //TODO do damage calculations
-        int damage = 1;
-        boolean crit = false;
-        Random r = new Random();
-        if(r.nextInt(6) == 0) {
-            crit = true;
+        if(!hit) {
+            abortAttack();
+        } else {
+            // charge soulshot
         }
 
-        boolean miss = false;
-        boolean soulshot = false;
-        boolean shield = false;
-
-        if(this.isPlayer()) {
-            damage = 10;
-        }
-
-        getAi().clientStartAutoAttack();
-
-        log.debug("ouchie?");
-        ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleHitTask(this, target, damage, crit, miss, soulshot, shield), timeToHit);
+        ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleNotifyAITask(getAi(), Event.READY_TO_ACT),
+                timeAtk + cooldown);
     }
 
-//    public boolean onHitTimer(Entity target, int damage, boolean criticalHit) {
-//        log.debug("ouchie!");
-//        //TODO do apply damage
-//        //TODO share hit
-//        //TODO share hp
-//        //TODO if was walking around remove from moving objects
-//
-//        if (target == null || target.isDead() || !getKnownList().knowsObject(target)) {
-//            getAi().notifyEvent(Event.CANCEL);
-//            return false;
-//        }
-//
-//        target.getAi().notifyEvent(Event.ATTACKED, this);
-//
-//        //TODO add notifyDamageReceived
-//        target.reduceCurrentHp(damage, this);
-//
-//        return true;
-//    }
+    /**
+     * Launch a simple attack.<br>
+     * <B><U>Actions</U>:</B>
+     * <ul>
+     * <li>Calculate if hit is missed or not</li>
+     * <li>If hit isn't missed, calculate if shield defense is efficient</li>
+     * <li>If hit isn't missed, calculate if hit is critical</li>
+     * <li>If hit isn't missed, calculate physical damages</li>
+     * <li>Create a new hit task with Medium priority<qa/li>
+     * <li>Add this hit to the Server-Client packet Attack</li>
+     * </ul>
+     * @param attack Server->Client packet Attack in which the hit will be added
+     * @param target The L2Character targeted
+     * @param sAtk
+     * @return True if the hit isn't missed
+     */
+    private boolean doAttackHitSimple(ApplyDamagePacket attack, Entity target, int sAtk) {
+        return doAttackHitSimple(attack, target, 100, sAtk);
+    }
+
+    private boolean doAttackHitSimple(ApplyDamagePacket attack, Entity target, double attackpercent, int sAtk) {
+        int damage1 = 0;
+        byte shld1 = 0;
+        boolean crit1 = false;
+
+        // Calculate if hit is missed or not
+        boolean miss1 = Formulas.calcHitMiss(this, target);
+
+        // Check if hit isn't missed
+        if (!miss1) {
+            // Calculate if shield defense is efficient
+            shld1 = Formulas.calcShldUse(this, target);
+
+            // Calculate if hit is critical
+            crit1 = Formulas.calcCrit(this, target);
+
+            // Calculate physical damages
+            damage1 = (int) Formulas.calcPhysDam(this, target, shld1, crit1, attack.hasSoulshot());
+
+            if (attackpercent != 100) {
+                damage1 = (int) ((damage1 * attackpercent) / 100);
+            }
+        }
+
+        // Create a new hit task with Medium priority
+        ThreadPoolManagerService.getInstance().scheduleAi(
+                new ScheduleHitTask(attack, this, target, damage1, crit1, miss1, attack.hasSoulshot(), shld1), sAtk);
+        //ThreadPoolManager.getInstance().scheduleAi(new HitTask(this, target, damage1, crit1, miss1, attack.hasSoulshot(), shld1), sAtk);
+
+        // Add this hit to the Server-Client packet Attack
+        attack.addHit(target, damage1, miss1, crit1, shld1);
+
+        // Return true if hit isn't missed
+        return !miss1;
+    }
 
     /**
      * Manage hit process (called by Hit Task).<BR>
@@ -218,7 +228,7 @@ public abstract class Entity extends GameObject {
      * @param soulshot True if SoulShot are charged
      * @param shld True if shield is efficient
      */
-    public boolean onHitTimer(Entity target, int damage, boolean crit, boolean miss, boolean soulshot, boolean shld) {
+    public boolean onHitTimer(ApplyDamagePacket attack, Entity target, int damage, boolean crit, boolean miss, boolean soulshot, byte shld) {
         // If the attacker/target is dead or use fake death, notify the AI with EVT_CANCEL
         // and send a Server->Client packet ActionFailed (if attacker is a L2PcInstance)
         if ((target == null)) {
@@ -238,7 +248,12 @@ public abstract class Entity extends GameObject {
         if (miss) {
             if (target instanceof PlayerInstance) {
                 SystemMessagePacket sm = new SystemMessagePacket(SystemMessageId.AVOIDED_C1_ATTACK);
-                sm.addPcName((PlayerInstance) target);
+                if(isPlayer()) {
+                    sm.addPcName((PlayerInstance) target);
+                } else {
+                    sm.addString(((NpcInstance) this).getTemplate().getName());
+                }
+
                 sm.writeMe();
                 ((PlayerInstance) target).sendPacket(sm);
             }
@@ -248,12 +263,18 @@ public abstract class Entity extends GameObject {
         if (!isAttackAborted()) {
             sendDamageMessage(target, damage, false, crit, miss);
 
+            if (attack.hasHits()) {
+                attack.writeMe();
+                sendPacket(attack);
+                broadcastPacket(attack);
+            }
+
             // If L2Character target is a L2PcInstance, send a system message
             if (target instanceof PlayerInstance) {
                 PlayerInstance enemy = (PlayerInstance) target;
 
                 // Check if shield is efficient
-                if (shld) {
+                if (shld > 0) {
                     enemy.sendPacket(new SystemMessagePacket(SystemMessageId.SHIELD_DEFENCE_SUCCESSFULL));
                     // else if (!miss && damage < 1)
                     // enemy.sendMessage("You hit the target's armor.");
@@ -264,7 +285,8 @@ public abstract class Entity extends GameObject {
                 DBWeapon weapon = getActiveWeaponItem();
                 boolean isBow = ((weapon != null) && weapon.getType().toString().equalsIgnoreCase("Bow"));
 
-                if (!isBow) { // Do not reflect or absorb if weapon is of type bow
+                if (!isBow) {
+                    // Do not reflect or absorb if weapon is of type bow
                     // Reduce HP of the target and calculate reflection damage to reduce HP of attacker if necessary
                     double reflectPercent = target.getStat().calcStat(Stats.REFLECT_DAMAGE_PERCENT, 0, null, null);
 
@@ -296,12 +318,11 @@ public abstract class Entity extends GameObject {
                     }
                 }
 
-                target.reduceCurrentHp(damage, this);
+                target.reduceCurrentHp(damage, this, null);
 
                 // Notify AI with EVT_ATTACKED
                 target.getAi().notifyEvent(Event.ATTACKED, this);
 
-                getAi().clientStartAutoAttack();
 
                 // Manage attack or cast break of the target (calculating rate, sending message...)
                 if (Formulas.calcAtkBreak(target, damage)) {
@@ -391,211 +412,8 @@ public abstract class Entity extends GameObject {
         return ((EntityKnownList) super.getKnownList());
     }
 
+
     @Override
-    public void setPosition(Point3D position) {
-        super.setPosition(position);
-
-        // Update known list
-        float distanceDelta = VectorUtils.calcDistance(
-                getPosition().getWorldPosition(), getPosition().getLastWorldPosition());
-
-
-        // Share position after delta is higher than 2 nodes
-        if(distanceDelta >= server.geodataNodeSize() * 2) {
-            // Share new position to known list
-            broadcastPacket(new ObjectPositionPacket(getId(), position));
-            getKnownList().forceRecheckSurroundings();
-            getPosition().setLastWorldPosition(getPosition().getWorldPosition());
-        }
-    }
-
-    public boolean moveTo(Point3D destination) {
-        return moveTo(destination, 0);
-    }
-
-    public boolean moveTo(Point3D destination, float stopAtRange) {
-        //System.out.println("AI find path: " + x + "," + y + "," + z);
-        if (!isOnGeoData()) {
-            log.debug("[{}] Not on geodata", getId());
-            return false;
-        }
-
-        if(!canMove) {
-            return false;
-        }
-
-        moveData = new MoveData();
-
-        /* find path using pathfinder */
-        if (moveData.path == null || moveData.path.size() == 0) {
-            if(server.geodataPathFinderEnabled()) {
-
-                moveData.path = PathFinding.getInstance().findPath(getPosition().getWorldPosition(), destination, stopAtRange);
-                if(server.printPathfinder()) {
-                    log.debug("[{}] Found path length: {}", getId(), moveData.path.size());
-                }
-            } else {
-                moveData.path =  new ArrayList<>();
-                moveData.path.add(new Point3D(destination));
-            }
-        }
-
-        /* check if path was found */
-        if (moveData.path == null || moveData.path.size() == 0) {
-            return false;
-        }
-
-        if(server.printPathfinder()) {
-            log.debug("[{}] Move to {} reason {}", getId(),destination, getAi().getMovingReason());
-        }
-
-        if(moveToNextRoutePoint()) {
-            moving = true;
-            return true;
-        }
-
-        return false;
-    }
-
-    // calculate how many ticks do we need to move to destination
-    public boolean moveToNextRoutePoint() {
-        float speed;
-
-        if(!canMove() || getAi() == null) {
-            return false;
-        }
-
-        // safety
-        if (moveData == null || moveData.path == null || moveData.path.size() == 0) {
-            return false;
-        }
-
-        //TODO add speed calculations, move switch between speeds into AI
-        speed = getStat().getMoveSpeed();
-        if (speed <= 0) {
-            return false;
-        }
-
-        /* cancel the move action if not on geodata */
-        if (!isOnGeoData()) {
-            //TODO run straight to target
-            moveData = null;
-            return false;
-        }
-
-        // calculate how many ticks do we need to move to destination
-        updateMoveData(speed / 52.5f);
-
-        GameTimeControllerService.getInstance().addMovingObject(this);
-
-        // calculate heading
-        getPosition().setHeading(VectorUtils.calculateMoveDirectionAngle(getPos(), moveData.destination));
-
-        // send destination to known players
-        ObjectMoveToPacket packet = new ObjectMoveToPacket(
-                getId(),
-                new Point3D(moveData.destination),
-                getStat().getMoveSpeed(),
-                getAi().getMovingReason() == EntityMovingReason.Walking);
-        broadcastPacket(packet);
-
-        return true;
-    }
-
-    // calculate how many ticks do we need to move to destination
-    private void updateMoveData(float moveSpeed) {
-        Point3D destination = new Point3D(moveData.path.get(0));
-        float distance = VectorUtils.calcDistance2D(getPos(), destination); // Ensure this is 2D distance
-        Point3D delta = new Point3D(destination.getX() - getPosX(),
-                destination.getY() - getPosY(),
-                destination.getZ() - getPosZ());
-        Point3D deltaT = new Point3D(delta.getX() / distance,
-                delta.getY() / distance,
-                delta.getZ() / distance);
-
-        float ticksPerSecond = GameTimeControllerService.getInstance().getTicksPerSecond();
-        // calculate the number of ticks between the current position and the destination
-        moveData.ticksToMove = 1 + (int) ((ticksPerSecond * distance) / moveSpeed);
-
-        // calculate the distance to travel for each tick
-        moveData.xSpeedTicks = (deltaT.getX() * moveSpeed) / ticksPerSecond;
-        moveData.ySpeedTicks = (deltaT.getY() * moveSpeed) / ticksPerSecond;
-        moveData.zSpeedTicks = (deltaT.getZ() * moveSpeed) / ticksPerSecond;
-
-        moveData.startPosition = new Point3D(getPos());
-        moveData.destination = destination;
-        moveData.moveStartTime = GameTimeControllerService.getInstance().getGameTicks();
-        moveData.path.remove(0);
-    }
-
-    // Update entity position based on server ticks and move data
-    public boolean updatePosition(long gameTicks) {
-        if (moveData == null) {
-            return true;  // No movement if moveData is null
-        }
-
-        if (moveData.moveTimestamp == gameTicks) {
-            return false; // Prevent multiple updates in the same tick
-        }
-
-        // Calculate the time elapsed since starting the move
-        long elapsed = gameTicks - moveData.moveStartTime;
-
-        // Linear interpolate entity position between start and destination
-        Point3D lerpPosition = VectorUtils.lerpPosition(
-                moveData.startPosition,
-                moveData.destination,
-                (float) elapsed / moveData.ticksToMove);
-        setPosition(lerpPosition);
-
-        // Check if entity has target and is in range of attack
-        if(getAi().getAttackTarget() != null) {
-            // Check on a 2D plane to avoid offsets caused by geodata nodes Y
-            float distanceToTarget = VectorUtils.calcDistance2D(getAi().getAttackTarget().getPos(), getPos());
-            log.debug("Updating position... Distance to target: {}", distanceToTarget);
-
-            if(distanceToTarget <= getTemplate().getBaseAtkRange()) {
-                if (ai != null) {
-                    ai.notifyEvent(Event.ARRIVED);
-                }
-
-                return true;
-            }
-        }
-
-        // Move to next path node
-        if (elapsed >= moveData.ticksToMove) {
-            moveData.moveTimestamp = gameTicks;
-
-            if (moveData.path.size() > 0) {
-                moveToNextRoutePoint();
-                return false;
-            }
-
-            if (ai != null) {
-                ai.notifyEvent(Event.ARRIVED);
-            }
-
-            if(server.printPathfinder()) {
-                log.debug("[{}] Reached move data destination.", getId());
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean isOnGeoData() {
-        try {
-            Geodata.getInstance().getNodeAt(getPos());
-            return true;
-        } catch (Exception e) {
-//            log.debug("[{}] Not at a valid position: {}", getId(), getPos());
-            return false;
-        }
-    }
-
     public void broadcastPacket(SendablePacket packet) {
         for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {
             sendPacketToPlayer(player, packet);
@@ -636,6 +454,7 @@ public abstract class Entity extends GameObject {
             SystemMessagePacket sm = SystemMessagePacket.getSystemMessage(SystemMessageId.C1_EVADED_C2_ATTACK);
             sm.addPcName((PlayerInstance) target);
             sm.addCharName(this);
+            sm.writeMe();
             target.sendPacket(sm);
         }
     }
@@ -863,58 +682,22 @@ public abstract class Entity extends GameObject {
         if ((stats == null) || stats.isEmpty()) {
             return;
         }
+
+//        boolean broadcastFull = false;
+//        StatusUpdatePacket su = new StatusUpdatePacket(this);
 //
-//        if (isSummon()) {
-//            L2Summon summon = (L2Summon) this;
-//            if (summon.getOwner() != null) {
-//                summon.updateAndBroadcastStatus(1);
+//        for (Stats stat : stats) {
+//            if (stat == Stats.POWER_ATTACK_SPEED) {
+//                su.addAttribute(StatusUpdatePacket.ATK_SPD, (int) getPAtkSpd());
+//            } else if (stat == Stats.MAGIC_ATTACK_SPEED) {
+//                su.addAttribute(StatusUpdatePacket.CAST_SPD, getMAtkSpd());
+//            } else if (stat == Stats.MOVE_SPEED) {
+//                broadcastFull = true;
 //            }
-//        } else {
-//            boolean broadcastFull = false;
-//            StatusUpdate su = new StatusUpdate(this);
-//
-//            for (Stats stat : stats) {
-//                if (stat == Stats.POWER_ATTACK_SPEED) {
-//                    su.addAttribute(StatusUpdate.ATK_SPD, (int) getPAtkSpd());
-//                } else if (stat == Stats.MAGIC_ATTACK_SPEED) {
-//                    su.addAttribute(StatusUpdate.CAST_SPD, getMAtkSpd());
-//                } else if (stat == Stats.MOVE_SPEED) {
-//                    broadcastFull = true;
-//                }
-//            }
-//
-//            if (isPlayer()) {
-//                if (broadcastFull) {
-//                    getActingPlayer().updateAndBroadcastStatus(2);
-//                } else {
-//                    getActingPlayer().updateAndBroadcastStatus(1);
-//                    if (su.hasAttributes()) {
-//                        broadcastPacket(su);
-//                    }
-//                }
-//                if ((getSummon() != null) && isAffected(EffectFlag.SERVITOR_SHARE)) {
-//                    getSummon().broadcastStatusUpdate();
-//                }
-//            } else if (isNpc()) {
-//                if (broadcastFull) {
-//                    Collection<PlayerInstance> plrs = getKnownList().getKnownPlayers().values();
-//                    for (PlayerInstance player : plrs) {
-//                        if ((player == null) || !isVisibleFor(player)) {
-//                            continue;
-//                        }
-//                        if (getRunSpeed() == 0) {
-//                            player.sendPacket(new ServerObjectInfo((L2Npc) this, player));
-//                        } else {
-//                            player.sendPacket(new AbstractNpcInfo.NpcInfo((L2Npc) this, player));
-//                        }
-//                    }
-//                } else if (su.hasAttributes()) {
-//                    broadcastPacket(su);
-//                }
-//            } else if (su.hasAttributes()) {
-//                broadcastPacket(su);
-//            }
-        }
+//        }
+
+        //TODO: Verify if usefull
+    }
 
     /**
      * Initializes the CharStat class of the L2Object, is overwritten in classes that require a different CharStat Type.<br>
@@ -1172,23 +955,16 @@ public abstract class Entity extends GameObject {
         status.setCurrentHp(hp, broadcast);
     }
 
-    /**
-     * Reduce current hp.
-     * @param i the i
-     * @param attacker the attacker
-     */
-    public void reduceCurrentHp(int i, Entity attacker) {
-        reduceCurrentHp(i, attacker, true);
+    public void reduceCurrentHp(float damage, Entity attacker, Skill skill) {
+        reduceCurrentHp(damage, attacker, true, false, skill);
     }
 
-    /**
-     * Reduce current hp.
-     * @param i the i
-     * @param attacker the attacker
-     * @param awake the awake
-     */
-    public void reduceCurrentHp(int i, Entity attacker, boolean awake) {
-        getStatus().reduceHp(i, attacker, awake);
+    public void reduceCurrentHpByDOT(float damage, Entity attacker, Skill skill) {
+        reduceCurrentHp(damage, attacker, !skill.isToggle(), true, skill);
+    }
+
+    public void reduceCurrentHp(float damage, Entity attacker, boolean awake, boolean isDOT, Skill skill) {
+        getStatus().reduceHp(damage, attacker, awake, isDOT, false);
     }
 
     /**
@@ -1244,7 +1020,10 @@ public abstract class Entity extends GameObject {
     }
 
     public void abortAttack() {
-
+        if (isAttacking()) {
+            attackEndTime = -1;
+            sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
+        }
     }
 
     public void abortCast() {
@@ -1262,13 +1041,5 @@ public abstract class Entity extends GameObject {
 
     public void stopAllTimers() {
         status.stopHpMpRegeneration();
-    }
-
-    /**
-     * Not Implemented.<BR>
-     */
-    public boolean sendPacket(SendablePacket packet) {
-        // default implementation
-        return true;
     }
 }

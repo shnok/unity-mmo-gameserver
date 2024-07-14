@@ -3,9 +3,12 @@ package com.shnok.javaserver.model.object.entity;
 import com.shnok.javaserver.db.entity.DBArmor;
 import com.shnok.javaserver.db.entity.DBSpawnList;
 import com.shnok.javaserver.db.entity.DBWeapon;
+import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.dto.external.serverpackets.ObjectMoveToPacket;
+import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
+import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
 import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.status.NpcStatus;
@@ -56,11 +59,8 @@ public class NpcInstance extends Entity {
     }
 
     @Override
-    public boolean onHitTimer(Entity target, int damage, boolean crit, boolean miss, boolean soulshot, boolean shld) {
-        if(super.onHitTimer(target, damage, crit, miss, soulshot, shld)) {
-            ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                    getId(), target.getId(), damage, target.getStatus().getCurrentHp(), crit);
-            broadcastPacket(applyDamagePacket);
+    public boolean onHitTimer(ApplyDamagePacket attack, Entity target, int damage, boolean crit, boolean miss, boolean soulshot, byte shld) {
+        if(super.onHitTimer(attack, target, damage, crit, miss, soulshot, shld)) {
             return true;
         }
 
@@ -86,11 +86,25 @@ public class NpcInstance extends Entity {
     }
 
     @Override
+    public boolean sendPacket(SendablePacket packet) {
+        return true;
+    }
+
+    @Override
     public void doDie(Entity attacker) {
         super.doDie(attacker);
 
         // Tell client that entity died
         //TODO Tell client that entity died
+
+        SystemMessagePacket sm = new SystemMessagePacket(SystemMessageId.YOU_EARNED_S1_EXP_AND_S2_SP);
+        sm.addInt(0);
+        sm.addInt(0);
+        sm.writeMe();
+
+        attacker.sendPacket(sm);
+        //TODO: give exp?
+        //TODO: Share HP
 
         // Destroy the gameobject after 5 seconds
         ThreadPoolManagerService.getInstance().scheduleDestroyObject(new ScheduleDestroyTask(this), 5000);

@@ -85,7 +85,6 @@ public class EntityAI extends BaseAI {
             }
             notifyEvent(Event.CANCEL);
             setAttackTarget(entity);
-            System.out.println(intention);
         } else if(attackTarget == null || attackTarget.isDead()) {
             if(server.printAi()) {
                 log.warn("[AI][{}] Attack target is null or dead", owner.getId());

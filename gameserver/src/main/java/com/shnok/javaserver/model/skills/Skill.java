@@ -10,4 +10,5 @@ public class Skill {
     private float lvlBonusRate;
     private int magicLevel;
     private float castRange;
+    private boolean toggle;
 }

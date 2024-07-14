@@ -1,6 +1,7 @@
 package com.shnok.javaserver.thread.entity;
 
 
+import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
 import com.shnok.javaserver.model.object.entity.Entity;
 import lombok.extern.log4j.Log4j2;
 
@@ -12,11 +13,12 @@ public class ScheduleHitTask implements Runnable {
     private final int damage;
     private final boolean criticalHit;
     private final boolean miss;
-    private final boolean shield;
+    private final byte shield;
     private final boolean soulshot;
+    private final ApplyDamagePacket attack;
 
-    public ScheduleHitTask(Entity attacker, Entity hitTarget, int damage, boolean criticalHit,
-                           boolean miss, boolean soulshot, boolean shield) {
+    public ScheduleHitTask(ApplyDamagePacket attack, Entity attacker, Entity hitTarget, int damage, boolean criticalHit,
+                           boolean miss, boolean soulshot, byte shield) {
         this.attacker = attacker;
         this.hitTarget = hitTarget;
         this.damage = damage;
@@ -24,14 +26,16 @@ public class ScheduleHitTask implements Runnable {
         this.miss = miss;
         this.shield = shield;
         this.soulshot = soulshot;
+        this.attack = attack;
     }
 
     @Override
     public void run() {
         try {
-            attacker.onHitTimer(hitTarget, damage, criticalHit, miss, soulshot, shield);
+            attacker.onHitTimer(attack, hitTarget, damage, criticalHit, miss, soulshot, shield);
         } catch (Throwable e) {
             log.error(e);
+            e.printStackTrace();
         }
     }
 }

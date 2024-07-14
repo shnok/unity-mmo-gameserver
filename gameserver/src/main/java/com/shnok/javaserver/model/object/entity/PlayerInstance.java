@@ -16,6 +16,7 @@ import com.shnok.javaserver.model.PlayerAppearance;
 import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
 import com.shnok.javaserver.model.object.ItemInstance;
+import com.shnok.javaserver.model.skills.Skill;
 import com.shnok.javaserver.model.stats.Formulas;
 import com.shnok.javaserver.model.stats.PlayerStat;
 import com.shnok.javaserver.model.status.PlayerStatus;
@@ -99,28 +100,13 @@ public class PlayerInstance extends Entity {
     }
 
     @Override
-    public boolean onHitTimer(Entity target, int damage, boolean crit, boolean miss, boolean soulshot, boolean shld) {
-        if(super.onHitTimer(target, damage, crit, miss, soulshot, shld)) {
-            ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                    getId(), target.getId(), damage, target.getStatus().getCurrentHp(), crit);
-            broadcastPacket(applyDamagePacket);
-            sendPacket(applyDamagePacket);
-
+    public boolean onHitTimer(ApplyDamagePacket attack, Entity target, int damage, boolean crit, boolean miss, boolean soulshot, byte shld) {
+        if(super.onHitTimer(attack, target, damage, crit, miss, soulshot, shld)) {
             return true;
         }
 
         return false;
     }
-
-//    @Override
-//    public final PlayerStatus getStatus() {
-//        return (PlayerStatus) super.getStatus();
-//    }
-//
-//    @Override
-//    public void setStatus(Status status) {
-//        this.status = (PlayerStatus) status;
-//    }
 
     @Override
     public PlayerStat getStat() {
@@ -150,6 +136,11 @@ public class PlayerInstance extends Entity {
     @Override
     public void initCharStatus() {
         setStatus(new PlayerStatus(this));
+    }
+
+    @Override
+    public void reduceCurrentHp(float value, Entity attacker, boolean awake, boolean isDOT, Skill skill) {
+        getStatus().reduceHp(value, attacker, awake, isDOT, false, false);
     }
 
     @Override

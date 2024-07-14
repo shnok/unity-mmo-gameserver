@@ -140,6 +140,9 @@ public class NpcAI extends EntityAI implements Runnable {
             GameTimeControllerService.getInstance().removeMovingObject(owner);
         }
 
+        setMovingReason(EntityMovingReason.Running);
+        getOwner().setRunning(true);
+
         setIntention(Intention.INTENTION_ATTACK, attackTarget);
     }
 

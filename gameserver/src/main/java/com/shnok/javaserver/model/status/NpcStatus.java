@@ -3,8 +3,6 @@ package com.shnok.javaserver.model.status;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.NpcInstance;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @ToString

@@ -92,7 +92,7 @@ public class Status {
     }
 
     /**
-     * Reduce the current HP of the Entity and launch the doDie Task if necessary.
+     * Reduce the current HP of the L2Character and launch the doDie Task if necessary.
      * @param value
      * @param attacker
      */
@@ -132,8 +132,8 @@ public class Status {
             setCurrentHp(Math.max(getCurrentHp() - value, 0));
         }
 
-        if ((getOwner().getCurrentHp() < 0.5) && getOwner().isMortal()) // Die
-        {
+        // Die
+        if ((getOwner().getCurrentHp() < 0.5) && getOwner().isMortal())  {
             getOwner().abortAttack();
             getOwner().abortCast();
 

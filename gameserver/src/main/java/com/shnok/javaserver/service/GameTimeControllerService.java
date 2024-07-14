@@ -1,6 +1,7 @@
 package com.shnok.javaserver.service;
 
 import com.shnok.javaserver.model.object.entity.Entity;
+import com.shnok.javaserver.model.object.MovableObject;
 import com.shnok.javaserver.util.TimeUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,7 @@ import static com.shnok.javaserver.config.Configuration.server;
 public class GameTimeControllerService {
     public int ticksPerSecond;
     private int tickDurationMs;
-    private List<Entity> movingObjects;
+    private List<MovableObject> movingObjects;
     public long gameTicks;
     private long gameStartTime;
     private float gameTime;
@@ -60,7 +61,7 @@ public class GameTimeControllerService {
         }
     }
 
-    public synchronized void addMovingObject(Entity e) {
+    public synchronized void addMovingObject(MovableObject e) {
         if (e == null) {
             return;
         }
@@ -69,7 +70,7 @@ public class GameTimeControllerService {
         }
     }
 
-    public synchronized void removeMovingObject(Entity e) {
+    public synchronized void removeMovingObject(MovableObject e) {
         if (e == null) {
             return;
         }
