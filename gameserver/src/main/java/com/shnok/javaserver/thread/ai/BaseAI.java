@@ -225,7 +225,7 @@ public abstract class BaseAI {
         // Calculate movement data for a move to location action and add the actor to movingObjects of GameTimeController
         // TODO: add range
         log.warn("Follow! Current distance: {} Attack distance: {} Speed: {}",
-                VectorUtils.calcDistance2D(owner.getPos(), entity.getPos()), distance, entity.getStatus().getMoveSpeed());
+                VectorUtils.calcDistance2D(owner.getPos(), entity.getPos()), distance, entity.getStat().getMoveSpeed());
         owner.moveTo(new Point3D(entity.getPos()), distance);
 
         if (!owner.isMoving()) {
@@ -238,7 +238,7 @@ public abstract class BaseAI {
     }
 
     // Start the auto attack client side
-    public void clientStartAutoAttack(Entity target) {
+    public void clientStartAutoAttack() {
         if (!isAutoAttacking()) {
             log.debug("[AI] Client start auto attack");
 
@@ -246,7 +246,7 @@ public abstract class BaseAI {
             AutoAttackStartPacket packet = new AutoAttackStartPacket(owner.getId());
             owner.broadcastPacket(packet);
 
-            if(owner instanceof PlayerInstance) {
+            if(owner.isPlayer()) {
                 ((PlayerInstance) owner).sendPacket(packet);
             }
             setAutoAttacking(true);
@@ -262,7 +262,7 @@ public abstract class BaseAI {
             // Send a Server->Client packet AutoAttackStop to the actor and all PlayerInstances in its knownPlayers
             AutoAttackStopPacket packet = new AutoAttackStopPacket(owner.getId());
             owner.broadcastPacket(packet);
-            if(owner instanceof PlayerInstance) {
+            if(owner.isPlayer()) {
                 ((PlayerInstance) owner).sendPacket(packet);
             }
             setAutoAttacking(false);

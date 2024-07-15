@@ -83,6 +83,7 @@ public class PlayerAI extends EntityAI {
     protected void onEvtCancel() {
         if(getIntention() == Intention.INTENTION_ATTACK) {
             clientStopAutoAttack();
+            setIntention(Intention.INTENTION_IDLE);
         }
     }
 }

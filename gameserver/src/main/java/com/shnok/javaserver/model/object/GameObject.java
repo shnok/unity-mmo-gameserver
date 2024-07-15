@@ -3,10 +3,15 @@ package com.shnok.javaserver.model.object;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.WorldRegion;
 import com.shnok.javaserver.model.knownlist.ObjectKnownList;
+import com.shnok.javaserver.model.object.entity.Entity;
+import com.shnok.javaserver.model.object.entity.NpcInstance;
+import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.model.position.ObjectPosition;
 import com.shnok.javaserver.service.WorldManagerService;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Objects;
@@ -17,9 +22,10 @@ import java.util.Objects;
  * Such as : static object, player, npc, item... <BR>
  * <BR>
  */
-@Data
 @NoArgsConstructor
 @Log4j2
+@Getter
+@Setter
 public abstract class GameObject {
     protected int id;
     protected int model;
@@ -100,5 +106,22 @@ public abstract class GameObject {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+
+    public boolean isEntity() {
+        return this instanceof Entity;
+    }
+
+    public boolean isItem() {
+        return this instanceof ItemInstance;
+    }
+
+    public boolean isPlayer() {
+        return this instanceof PlayerInstance;
+    }
+
+    public boolean isNpc() {
+        return this instanceof NpcInstance;
     }
 }

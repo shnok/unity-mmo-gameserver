@@ -34,7 +34,7 @@ public class NpcKnownList extends EntityKnownList
             return false;
         }
 
-        if (object instanceof PlayerInstance) {
+        if (object.isPlayer()) {
             if(getKnownPlayers().size() == 1 && !getActiveChar().isStatic() && !server.aiKeepAlive()) {
                 getActiveChar().refreshAI();
             }
@@ -50,7 +50,7 @@ public class NpcKnownList extends EntityKnownList
             return false;
         }
 
-        if (object instanceof PlayerInstance) {
+        if (object.isPlayer()) {
             if (!server.aiKeepAlive()) {
                 if (getKnownPlayers().size() == 0) {
                     getActiveChar().stopAndRemoveAI();
@@ -77,7 +77,7 @@ public class NpcKnownList extends EntityKnownList
 
     @Override
     public int getDistanceToWatchObject(GameObject object) {
-        if (object instanceof PlayerInstance) {
+        if (object.isPlayer()) {
             return 60;
         }
         return 30;

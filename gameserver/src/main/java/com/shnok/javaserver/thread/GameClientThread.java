@@ -4,6 +4,7 @@ import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.LoginFailPacket;
 import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
+import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.LoginFailReason;
@@ -195,8 +196,12 @@ public class GameClientThread extends Thread {
 
     void authenticate() {
         log.info("Authenticating new player.");
-        GameServerController.getInstance().broadcast(
-                new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_IN, accountName), this);
+        SystemMessagePacket systemMessagePacket = new SystemMessagePacket(SystemMessageId.S1_ONLINE);
+        systemMessagePacket.addString(getCurrentPlayer().getName());
+        systemMessagePacket.writeMe();
+
+        sendPacket(systemMessagePacket);
+        GameServerController.getInstance().broadcast(systemMessagePacket, this);
     }
 
     void removeSelf() {
@@ -231,8 +236,11 @@ public class GameClientThread extends Thread {
             currentPlayer.getPosition().getWorldRegion().removeVisibleObject(currentPlayer);
 
             /* broadcast log off message to server */
-            GameServerController.getInstance().broadcast(
-                    new SystemMessagePacket(SystemMessagePacket.MessageType.USER_LOGGED_OFF, accountName), this);
+            SystemMessagePacket systemMessagePacket = new SystemMessagePacket(SystemMessageId.S1_OFFLINE);
+            systemMessagePacket.addString(getCurrentPlayer().getName());
+            systemMessagePacket.writeMe();
+
+            GameServerController.getInstance().broadcast(systemMessagePacket, this);
         }
 
         /* stop watch dog */
@@ -273,7 +281,7 @@ public class GameClientThread extends Thread {
         PlayerInstance character = WorldManagerService.getInstance().getPlayer(objId);
         if (character != null) {
             // exploit prevention, should not happens in normal way
-            log.error("Attempt of double login {}, account {}!", character, getAccountName());
+            log.error("Attempt of float login {}, account {}!", character, getAccountName());
             if (character.getGameClient() != null) {
                 character.getGameClient().disconnect();
             } else {
@@ -284,8 +292,8 @@ public class GameClientThread extends Thread {
 
         character = PlayerFactoryService.getInstance().getPlayerInstanceById(objId);
         if (character != null) {
-           // character.setRunning();
-          //  character.standUp();
+            character.setRunning(true);
+            character.standUp();
             character.setOnlineStatus(false, true);
         } else {
             log.error("Could not restore in slot {}!", charSlot);

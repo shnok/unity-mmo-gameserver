@@ -34,7 +34,7 @@ public class EntityKnownList extends ObjectKnownList  {
         if (!super.addKnownObject(object, silent)) {
             return false;
         }
-        if (object instanceof PlayerInstance) {
+        if (object.isPlayer()) {
             getKnownPlayers().put(object.getId(), (PlayerInstance) object);
             if (server.printKnownList()) {
                 log.debug("[{}] Adding known player: {}", getActiveObject().getId(), object.getId());
@@ -66,7 +66,7 @@ public class EntityKnownList extends ObjectKnownList  {
             return false;
         }
 
-        if (object instanceof PlayerInstance) {
+        if (object.isPlayer()) {
             getKnownPlayers().remove(object.getId());
             if(server.printKnownList()) {
                 log.debug("[{}] Removing known player: {}", getActiveObject().getId(), object.getId());
@@ -107,7 +107,7 @@ public class EntityKnownList extends ObjectKnownList  {
         FastList<Entity> result = new FastList<>();
 
         for (GameObject obj : getKnownObjects().values()) {
-            if ((obj != null) && (obj instanceof Entity)) {
+            if ((obj != null) && (obj.isEntity())) {
                 result.add((Entity) obj);
             }
         }
@@ -119,11 +119,11 @@ public class EntityKnownList extends ObjectKnownList  {
         FastList<Entity> result = new FastList<>();
 
         for (GameObject obj : getKnownObjects().values()) {
-            if (obj instanceof PlayerInstance) {
+            if (obj.isPlayer()) {
                 if (VectorUtils.checkIfInRange((int) radius, getActiveChar(), obj)) {
                     result.add((PlayerInstance) obj);
                 }
-            } else if (obj instanceof NpcInstance) {
+            } else if (obj.isNpc()) {
                 if (VectorUtils.checkIfInRange((int) radius, getActiveChar(), obj)) {
                     result.add((NpcInstance) obj);
                 }

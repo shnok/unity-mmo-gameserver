@@ -174,7 +174,7 @@ public class CharacterRepository implements CharacterDao {
 
         //HP MP CP
         DBLevelUpGain levelUpGain = LvlUpGainRepository.getInstance().
-                getCharacterByClassId(charTemplate.getClassId());
+                getLevelUpGainByClassId(charTemplate.getClassId());
 
         dbCharacter.setMaxHp((int) (levelUpGain.getDefaultHpBase() + levelUpGain.getDefaultHpAdd()));
         dbCharacter.setCurHp(dbCharacter.getMaxHp());
