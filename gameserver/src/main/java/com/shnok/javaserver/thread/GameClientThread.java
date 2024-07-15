@@ -197,7 +197,8 @@ public class GameClientThread extends Thread {
     void authenticate() {
         log.info("Authenticating new player.");
         SystemMessagePacket systemMessagePacket = new SystemMessagePacket(SystemMessageId.S1_ONLINE);
-        systemMessagePacket.addCharName(getCurrentPlayer());
+        systemMessagePacket.addString(getCurrentPlayer().getName());
+        systemMessagePacket.writeMe();
 
         GameServerController.getInstance().broadcast(systemMessagePacket, this);
     }
@@ -235,7 +236,8 @@ public class GameClientThread extends Thread {
 
             /* broadcast log off message to server */
             SystemMessagePacket systemMessagePacket = new SystemMessagePacket(SystemMessageId.S1_OFFLINE);
-            systemMessagePacket.addCharName(getCurrentPlayer());
+            systemMessagePacket.addString(getCurrentPlayer().getName());
+            systemMessagePacket.writeMe();
 
             GameServerController.getInstance().broadcast(systemMessagePacket, this);
         }

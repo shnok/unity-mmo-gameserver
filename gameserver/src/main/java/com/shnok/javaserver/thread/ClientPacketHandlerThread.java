@@ -261,7 +261,16 @@ public class ClientPacketHandlerThread extends Thread {
         RequestCharacterMoveDirection packet = new RequestCharacterMoveDirection(data);
         if(client.getCurrentPlayer().isAnimationLocked()) { // if player attack animation is playing
             log.warn("[{}] Player tried to move but is animation locked.", client.getCurrentPlayer().getId());
+
             client.getCurrentPlayer().sendPacket(new ActionFailedPacket(PlayerAction.Move.getValue()));
+
+            // Stop the player movement
+            ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
+                    client.getCurrentPlayer().getId(), client.getCurrentPlayer().getStat().getMoveSpeed(),
+                    new Point3D(0, packet.getDirection().getY(), 0));
+
+            client.getCurrentPlayer().broadcastPacket(objectDirectionPacket);
+
             return;
         }
 
