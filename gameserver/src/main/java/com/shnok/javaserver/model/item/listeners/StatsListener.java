@@ -19,9 +19,6 @@ public class StatsListener implements GearListener {
 
     @Override
     public void notifyEquipped(int slot, ItemInstance item) {
-        System.out.println(item);
-        System.out.println(item.getStatFuncs());
-        System.out.println(owner);
         getOwner().addStatFuncs(item.getStatFuncs());
     }
 }

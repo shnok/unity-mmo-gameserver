@@ -4,10 +4,12 @@ import com.shnok.javaserver.db.entity.DBArmor;
 import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.model.stats.Stats;
 import com.shnok.javaserver.model.stats.functions.AbstractFunction;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 public class ItemStatConverter {
 
     public static List<AbstractFunction> parseArmor(DBArmor armor) {
@@ -24,15 +26,13 @@ public class ItemStatConverter {
             functions.add(new FuncItemStatAdd(Stats.POWER_DEFENCE, 3, null, armor.getPDef(), null));
         }
 
-        System.out.println("PARSING ARMOR FUNCS: " + functions.size());
+        log.debug("Equipped armor has {} stat function(s).", functions.size());
 
         return functions;
     }
 
     public static List<AbstractFunction> parseWeapon(DBWeapon weapon) {
         List<AbstractFunction> functions = new ArrayList<>();
-
-        System.out.println("PARSING WEAPON FUNCS: " + functions.size());
 
         if(weapon.getPAtk() != 0) {
             functions.add(new FuncItemStatSet(Stats.POWER_ATTACK, 0, null, weapon.getPAtk(), null));
@@ -69,6 +69,8 @@ public class ItemStatConverter {
         if(weapon.getCritical() != 0) {
             functions.add(new FuncItemStatSet(Stats.CRITICAL_RATE, 0, null, weapon.getCritical(), null));
         }
+
+        log.debug("Equipped weapon has {} stat function(s).", functions.size());
 
         return functions;
     }

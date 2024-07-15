@@ -112,7 +112,6 @@ public abstract class Entity extends MovableObject {
                 || getAi().getIntention() != Intention.INTENTION_ATTACK || isDead()) {
             getAi().notifyEvent(Event.CANCEL);
             sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
-            System.out.println("YES");
             return;
         }
 
@@ -380,16 +379,10 @@ public abstract class Entity extends MovableObject {
     }
 
     public boolean isAttacking() {
-        System.out.println("IS ATTACKING ?");
-        System.out.println(attackHitTime);
-        System.out.println(GameTimeControllerService.getInstance().getGameTicks());
         return attackEndTime > GameTimeControllerService.getInstance().getGameTicks();
     }
 
     public boolean isAnimationLocked() {
-        System.out.println("IS ANIMATION LOCKED ?");
-        System.out.println(attackHitTime);
-        System.out.println(GameTimeControllerService.getInstance().getGameTicks());
         return attackHitTime > GameTimeControllerService.getInstance().getGameTicks();
     }
 
@@ -1044,7 +1037,6 @@ public abstract class Entity extends MovableObject {
         if (isAttacking()) {
             attackEndTime = -1;
             attackHitTime = -1;
-            System.out.println("YES2");
             getAi().notifyEvent(Event.CANCEL);
             sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
         }

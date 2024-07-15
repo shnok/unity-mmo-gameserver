@@ -20,14 +20,16 @@ import java.util.List;
 @Log4j2
 public abstract class Inventory extends ItemContainer {
     private final ItemInstance[] gear;
-    private final List<GearListener> gearListeners;
+    private List<GearListener> gearListeners;
     protected int totalWeight;
 
     protected Inventory(Entity owner) {
         super(owner);
         gear = new ItemInstance[15];
-        gearListeners = new FastList<>();
-        addGearListener(new StatsListener(getOwner()));
+        if(owner.isPlayer()) {
+            gearListeners = new FastList<>();
+            addGearListener(new StatsListener(getOwner()));
+        }
     }
 
     /**
@@ -194,11 +196,13 @@ public abstract class Inventory extends ItemContainer {
                 //TODO: Unequip old item
                 //TODO: notify player
                 //TODO: update db
-                for (GearListener listener : gearListeners) {
-                    if (listener == null) {
-                        continue;
+                if(owner.isPlayer()) {
+                    for (GearListener listener : gearListeners) {
+                        if (listener == null) {
+                            continue;
+                        }
+                        listener.notifyUnequipped(slot.getValue(), old);
                     }
-                    listener.notifyUnequipped(slot.getValue(), old);
                 }
             }
             // Add new item in slot of equipment
@@ -209,11 +213,13 @@ public abstract class Inventory extends ItemContainer {
                 log.debug("[{}] Equipped {} int slot {}", getOwner().getId(), item.getItemId(), slot);
                 //TODO: notify player
                 //TODO: update db
-                for (GearListener listener : gearListeners) {
-                    if (listener == null) {
-                        continue;
+                if(owner.isPlayer()) {
+                    for (GearListener listener : gearListeners) {
+                        if (listener == null) {
+                            continue;
+                        }
+                        listener.notifyEquipped(slot.getValue(), item);
                     }
-                    listener.notifyEquipped(slot.getValue(), item);
                 }
             }
         }
