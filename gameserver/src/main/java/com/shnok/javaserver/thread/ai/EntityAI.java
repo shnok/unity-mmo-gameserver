@@ -83,7 +83,7 @@ public class EntityAI extends BaseAI {
             if(server.printAi()) {
                 log.debug("[AI][{}] Entity is attacking a new target", owner.getId());
             }
-            notifyEvent(Event.CANCEL);
+            //notifyEvent(Event.CANCEL);
             setAttackTarget(entity);
         } else if(attackTarget == null || attackTarget.isDead()) {
             if(server.printAi()) {

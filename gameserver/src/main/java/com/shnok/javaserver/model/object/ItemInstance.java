@@ -40,8 +40,6 @@ public class ItemInstance extends GameObject {
         this.stackable = false;
         this.statFuncs = new FastList<>();
 
-        System.out.println("statFuncs" + statFuncs.size());
-
         if(item instanceof DBEtcItem) {
             ConsumeType consumeType = ((DBEtcItem) item).getConsumeType();
             stackable = consumeType == ConsumeType.stackable || consumeType == ConsumeType.asset;

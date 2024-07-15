@@ -56,6 +56,7 @@ public abstract class Entity extends MovableObject {
     protected long exceptions = 0L;
     protected Status status;
     protected long attackEndTime;
+    protected long attackHitTime;
     protected long castEndTime;
     protected long channelEndTime;
     protected boolean dead;
@@ -111,6 +112,7 @@ public abstract class Entity extends MovableObject {
                 || getAi().getIntention() != Intention.INTENTION_ATTACK || isDead()) {
             getAi().notifyEvent(Event.CANCEL);
             sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
+            System.out.println("YES");
             return;
         }
 
@@ -131,7 +133,11 @@ public abstract class Entity extends MovableObject {
         attackEndTime += (timeAtk / GameTimeControllerService.getInstance().getTickDurationMs());
         attackEndTime -= 1;
 
-        //TODO handle soulshots
+        attackHitTime = GameTimeControllerService.getInstance().getGameTicks();
+        attackHitTime += (timeAtk / 2 / GameTimeControllerService.getInstance().getTickDurationMs());
+        attackHitTime -= 1;
+
+         //TODO handle soulshots
 //        ApplyDamagePacket attack = new ApplyDamagePacket(this, target, isChargedShot(ShotType.SOULSHOTS),
 //                (weaponItem != null) ? weaponItem.getItemGradeSPlus().getId() : 0);
         ApplyDamagePacket attack = new ApplyDamagePacket(this.getId(), false, (byte) 0);
@@ -148,7 +154,7 @@ public abstract class Entity extends MovableObject {
         log.debug("AtkSpd: {} Attack duration: {}ms", getTemplate().getBasePAtkSpd(), timeAtk);
 
         if(!hit) {
-            abortAttack();
+            //abortAttack();
         } else {
             // charge soulshot
         }
@@ -241,7 +247,7 @@ public abstract class Entity extends MovableObject {
             getAi().notifyEvent(Event.CANCEL);
 
             //TODO Verify action type?
-            sendPacket(new ActionFailedPacket((byte) 0));
+            sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
             return false;
         }
 
@@ -321,8 +327,9 @@ public abstract class Entity extends MovableObject {
                 target.reduceCurrentHp(damage, this, null);
 
                 // Notify AI with EVT_ATTACKED
-                target.getAi().notifyEvent(Event.ATTACKED, this);
-
+                if(target.getAi() != null) {
+                    target.getAi().notifyEvent(Event.ATTACKED, this);
+                }
 
                 // Manage attack or cast break of the target (calculating rate, sending message...)
                 if (Formulas.calcAtkBreak(target, damage)) {
@@ -341,6 +348,7 @@ public abstract class Entity extends MovableObject {
 
     public void breakAttack() {
         attackEndTime = -1;
+        attackHitTime = -1;
     }
 
     public void breakCast() {
@@ -372,8 +380,19 @@ public abstract class Entity extends MovableObject {
     }
 
     public boolean isAttacking() {
+        System.out.println("IS ATTACKING ?");
+        System.out.println(attackHitTime);
+        System.out.println(GameTimeControllerService.getInstance().getGameTicks());
         return attackEndTime > GameTimeControllerService.getInstance().getGameTicks();
     }
+
+    public boolean isAnimationLocked() {
+        System.out.println("IS ANIMATION LOCKED ?");
+        System.out.println(attackHitTime);
+        System.out.println(GameTimeControllerService.getInstance().getGameTicks());
+        return attackHitTime > GameTimeControllerService.getInstance().getGameTicks();
+    }
+
     public boolean isCasting() {
         return castEndTime > GameTimeControllerService.getInstance().getGameTicks();
     }
@@ -1024,6 +1043,9 @@ public abstract class Entity extends MovableObject {
     public void abortAttack() {
         if (isAttacking()) {
             attackEndTime = -1;
+            attackHitTime = -1;
+            System.out.println("YES2");
+            getAi().notifyEvent(Event.CANCEL);
             sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
         }
     }

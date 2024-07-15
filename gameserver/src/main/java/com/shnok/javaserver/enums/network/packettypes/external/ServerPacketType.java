@@ -26,7 +26,8 @@ public enum ServerPacketType {
     AutoAttackStop((byte)0x13),
     ActionFailed((byte)0x14),
     ServerClose((byte)0x15),
-    StatusUpdate((byte)0x16);
+    StatusUpdate((byte)0x16),
+    ActionAllowed((byte)0x17);
 
     private final byte value;
 

@@ -22,10 +22,10 @@ public class FuncItemStatSet extends AbstractFunction {
 
     @Override
     public float calc(Entity effector, Entity effected, Skill skill, float initVal) {
-        if(getStat() == Stats.CRITICAL_RATE) {
-            System.out.println("FuncItemStatSet INIT VAL: " + initVal);
-            System.out.println("FuncItemStatSet getValue: " + getValue());
-        }
+//        if(getStat() == Stats.CRITICAL_RATE) {
+//            System.out.println("FuncItemStatSet INIT VAL: " + initVal);
+//            System.out.println("FuncItemStatSet getValue: " + getValue());
+//        }
 
         return getValue();
     }

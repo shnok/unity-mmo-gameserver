@@ -266,8 +266,8 @@ public class PlayerInstance extends Entity {
             }
             SystemMessagePacket sm = SystemMessagePacket.getSystemMessage(SystemMessageId.C1_ATTACK_WENT_ASTRAY);
             sm.addPcName(this);
-            sendPacket(sm);
             sm.writeMe();
+            sendPacket(sm);
             return;
         }
 
