@@ -200,6 +200,7 @@ public class GameClientThread extends Thread {
         systemMessagePacket.addString(getCurrentPlayer().getName());
         systemMessagePacket.writeMe();
 
+        sendPacket(systemMessagePacket);
         GameServerController.getInstance().broadcast(systemMessagePacket, this);
     }
 
