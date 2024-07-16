@@ -8,6 +8,7 @@ import java.util.concurrent.*;
 public class ThreadPoolManagerService {
     private ScheduledThreadPoolExecutor spawnThreadPool;
     private ScheduledThreadPoolExecutor aiThreadPool;
+    private ScheduledThreadPoolExecutor effectsThreadPool;
     private ThreadPoolExecutor packetsThreadPool;
     private ThreadPoolExecutor generalThreadPool;
     private boolean shutdown = false;
@@ -24,6 +25,7 @@ public class ThreadPoolManagerService {
         log.info("Initializing thread pool manager service.");
         spawnThreadPool = new ScheduledThreadPoolExecutor(5);
         aiThreadPool = new ScheduledThreadPoolExecutor(100);
+        effectsThreadPool = new ScheduledThreadPoolExecutor(100);
         packetsThreadPool = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
         generalThreadPool = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
     }
@@ -73,6 +75,33 @@ public class ThreadPoolManagerService {
         } catch (RejectedExecutionException e) {
             return null;
         }
+    }
+
+    /**
+     * Schedules an effect task to be executed at fixed rate.
+     * @param r the task to execute
+     * @param initialDelay the initial delay in the given time unit
+     * @param period the period between executions in the given time unit
+     * @param unit the time unit of the initialDelay and period parameters
+     * @return a ScheduledFuture representing pending completion of the task, and whose get() method will throw an exception upon cancellation
+     */
+    public ScheduledFuture<?> scheduleEffectAtFixedRate(Runnable r, long initialDelay, long period, TimeUnit unit) {
+        try {
+            return effectsThreadPool.scheduleAtFixedRate(r, initialDelay, period, unit);
+        } catch (RejectedExecutionException e) {
+            return null; /* shutdown, ignore */
+        }
+    }
+
+    /**
+     * Schedules an effect task to be executed at fixed rate.
+     * @param r the task to execute
+     * @param initialDelay the initial delay in milliseconds
+     * @param period the period between executions in milliseconds
+     * @return a ScheduledFuture representing pending completion of the task, and whose get() method will throw an exception upon cancellation
+     */
+    public ScheduledFuture<?> scheduleEffectAtFixedRate(Runnable r, long initialDelay, long period) {
+        return scheduleEffectAtFixedRate(r, initialDelay, period, TimeUnit.MILLISECONDS);
     }
 
     public void handlePacket(Thread cph) {

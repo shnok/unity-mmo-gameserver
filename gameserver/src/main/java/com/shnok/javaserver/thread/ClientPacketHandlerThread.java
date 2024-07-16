@@ -222,47 +222,66 @@ public class ClientPacketHandlerThread extends Thread {
     }
 
     private void onRequestAttack() {
-        RequestAttackPacket packet = new RequestAttackPacket(data);
-
-        GameObject object = client.getCurrentPlayer().getKnownList().getKnownObjects().get(packet.getTargetId());
-        if(object == null) {
-            log.warn("Trying to attack a null object.");
-        }
-        if(!(object instanceof Entity)) {
-            log.warn("Trying to attack a non-entity object.");
-            return;
-        }
-        if(((Entity)object).getStatus().getHp() <= 0) {
-            log.warn("Trying to attack a dead entity.");
-            return;
-        }
-
-        // ! FOR DEBUG PURPOSE
-        int damage = 25;
-        ((Entity) object).inflictDamage(client.getCurrentPlayer(), damage);
-        boolean critical = false;
-        Random r = new Random();
-        if(r.nextInt(2) == 0) {
-            critical = true;
-        }
-
-        // ! FOR DEBUG PURPOSE
-        // Notify known list
-        ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
-                client.getCurrentPlayer().getId(), packet.getTargetId(), damage, ((Entity) object).getStatus().getHp(), critical);
-        // Send packet to player's known list
-        client.getCurrentPlayer().broadcastPacket(applyDamagePacket);
-        // Send packet to player
-        client.sendPacket(applyDamagePacket);
+//        RequestAttackPacket packet = new RequestAttackPacket(data);
+//
+//        //GameObject object = client.getCurrentPlayer().getKnownList().getKnownObjects().get(packet.getTargetId());
+//        GameObject object = client.getCurrentPlayer();
+//        if(object == null) {
+//            log.warn("Trying to attack a null object.");
+//        }
+//        if(!(object.isEntity())) {
+//            log.warn("Trying to attack a non-entity object.");
+//            return;
+//        }
+//        if(((Entity)object).getStatus().getCurrentHp() <= 0) {
+//            log.warn("Trying to attack a dead entity.");
+//            return;
+//        }
+//
+//        // ! FOR DEBUG PURPOSE
+//        int damage = 25;
+//        ((Entity) object).reduceCurrentHp(damage, client.getCurrentPlayer());
+//        boolean critical = false;
+//        Random r = new Random();
+//        if(r.nextInt(2) == 0) {
+//            critical = true;
+//        }
+//
+//        // ! FOR DEBUG PURPOSE
+//        // Notify known list
+//        ApplyDamagePacket applyDamagePacket = new ApplyDamagePacket(
+//                client.getCurrentPlayer().getId(), packet.getTargetId(), damage, ((Entity) object).getStatus().getCurrentHp(), critical);
+//        // Send packet to player's known list
+//        client.getCurrentPlayer().broadcastPacket(applyDamagePacket);
+//        // Send packet to player
+//        client.sendPacket(applyDamagePacket);
     }
 
     private void onRequestCharacterMoveDirection() {
         RequestCharacterMoveDirection packet = new RequestCharacterMoveDirection(data);
+        if(client.getCurrentPlayer().isAnimationLocked()) { // if player attack animation is playing
+            log.warn("[{}] Player tried to move but is animation locked.", client.getCurrentPlayer().getId());
+
+            client.getCurrentPlayer().sendPacket(new ActionFailedPacket(PlayerAction.Move.getValue()));
+
+            // Stop the player movement
+            ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
+                    client.getCurrentPlayer().getId(), client.getCurrentPlayer().getStat().getMoveSpeed(),
+                    new Point3D(0, packet.getDirection().getY(), 0));
+
+            client.getCurrentPlayer().broadcastPacket(objectDirectionPacket);
+
+            return;
+        }
+
         if((client.getCurrentPlayer().isAttacking() ||
-                client.getCurrentPlayer().getAi().getIntention() == Intention.INTENTION_ATTACK)) { // if player attack animation is playing
+                client.getCurrentPlayer().getAi().getIntention() == Intention.INTENTION_ATTACK)) { // if player is attacking
                 //client.getCurrentPlayer().getAi().getAttackTarget() != null && // if player has an attack target
                //&& packet.getDirection().getX() != 0 && packet.getDirection().getZ() != 0) { // if direction is not zero
             log.warn("[{}] Player moved ({}), stop attacking. ", client.getCurrentPlayer().getId(), packet.getDirection());
+
+            client.getCurrentPlayer().sendPacket(new ActionAllowedPacket(PlayerAction.Move.getValue()));
+
             client.getCurrentPlayer().getAi().notifyEvent(Event.CANCEL);
         }
 
@@ -274,7 +293,7 @@ public class ClientPacketHandlerThread extends Thread {
 
         // Notify known list
         ObjectDirectionPacket objectDirectionPacket = new ObjectDirectionPacket(
-                client.getCurrentPlayer().getId(), client.getCurrentPlayer().getStatus().getMoveSpeed(), packet.getDirection());
+                client.getCurrentPlayer().getId(), client.getCurrentPlayer().getStat().getMoveSpeed(), packet.getDirection());
         client.getCurrentPlayer().broadcastPacket(objectDirectionPacket);
 
         // calculate heading

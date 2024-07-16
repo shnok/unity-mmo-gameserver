@@ -1,7 +1,6 @@
 package com.shnok.javaserver.dto.external.serverpackets;
 
 import com.shnok.javaserver.dto.SendablePacket;
-import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
@@ -30,26 +29,53 @@ public class PlayerInfoPacket extends SendablePacket {
         writeF(player.getPosX());
         writeF(player.getPosY());
         writeF(player.getPosZ());
+
         // Status
-        writeI(player.getStatus().getLevel());
-        writeI(player.getStatus().getHp());
-        writeI(player.getStatus().getMaxHp());
-        writeI(player.getStatus().getMp());
-        writeI(player.getStatus().getMaxMp());
-        writeI(player.getStatus().getCp());
-        writeI(player.getStatus().getMaxCp());
+        writeI(player.getLevel());
+        writeI((int) player.getStatus().getCurrentHp());
+        writeI(player.getStat().getMaxHp());
+        writeI((int) player.getStatus().getCurrentMp());
+        writeI(player.getStat().getMaxMp());
+        writeI((int) player.getStatus().getCurrentCp());
+        writeI(player.getStat().getMaxCp());
+
+        // Combat
+        writeI((int) player.getMoveSpeed());
+        writeI((int) player.getPAtkSpd());
+        writeI((int) player.getMAtkSpd());
+        writeF(player.getPhysicalAttackRange());
+        writeI((int) player.getPAtk(null));
+        writeI((int) player.getPDef(null));
+        writeI(player.getPEvasionRate(null));
+        writeI(player.getPAccuracy());
+        writeI(player.getMagicEvasionRate(null));
+        writeI(player.getMagicAccuracy());
+        writeI(player.getCriticalHit(null, null));
+        writeI(player.getMCriticalHit(null, null));
+        writeI((int) player.getMAtk(null, null));
+        writeI((int) player.getMDef(null, null));
+
         // Stats
-        // TODO: calc stats and send the correct values
-        writeI(player.getStatus().getMoveSpeed());
-        writeI(player.getTemplate().getBasePAtkSpd());
-        writeI(player.getTemplate().getBaseMAtkSpd());
-        writeF(player.getTemplate().getBaseAtkRange());
-        writeB(player.getTemplate().getBaseCON());
-        writeB(player.getTemplate().getBaseDEX());
-        writeB(player.getTemplate().getBaseSTR());
-        writeB(player.getTemplate().getBaseMEN());
-        writeB(player.getTemplate().getBaseWIT());
-        writeB(player.getTemplate().getBaseINT());
+        writeB((byte) player.getCON());
+        writeB((byte) player.getDEX());
+        writeB((byte) player.getSTR());
+        writeB((byte) player.getMEN());
+        writeB((byte) player.getWIT());
+        writeB((byte) player.getINT());
+
+        writeI(player.getSp());
+        writeI(player.getExp());
+        //TODO: EXP CALCS
+        writeI(10000);
+        writeI(player.getCurrentLoad());
+        writeI(player.getMaxLoad());
+
+        //Social
+        writeI(player.getPkKills());
+        writeI(player.getPvpKills());
+        writeL(player.getPvpFlag());
+        writeI(player.getKarma());
+
         // Appearance
         writeF(player.getTemplate().getCollisionHeight());
         writeF(player.getTemplate().getCollisionRadius()); //TODO remove (get from system grp files)

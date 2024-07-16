@@ -36,6 +36,8 @@ public interface ServerConfig extends Mutable, Reloadable {
     Integer maxOnlineUser();
     @Key("allowed.protocol.versions")
     Set<Integer> allowedProtocolVersions();
+    @Key("datapack.root.folder")
+    String datapackRoot();
 
     // Security
     @Key("rsa.padding.mode")

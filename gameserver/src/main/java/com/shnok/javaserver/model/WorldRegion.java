@@ -34,7 +34,7 @@ public class WorldRegion {
         }
         visibleObjects.add(object);
 
-        if (object instanceof PlayerInstance)
+        if (object.isPlayer())
         {
             allPlayers.add((PlayerInstance) object);
         }
@@ -57,7 +57,7 @@ public class WorldRegion {
             visible.getKnownList().forceRecheckSurroundings();
         });
 
-        if (object instanceof PlayerInstance) {
+        if (object.isPlayer()) {
             allPlayers.remove((PlayerInstance) object);
         }
     }
