@@ -27,7 +27,9 @@ public enum ServerPacketType {
     ActionFailed((byte)0x14),
     ServerClose((byte)0x15),
     StatusUpdate((byte)0x16),
-    ActionAllowed((byte)0x17);
+    ActionAllowed((byte)0x17),
+    InventoryItemList((byte)0x18),
+    InventoryUpdate((byte)0x19);
 
     private final byte value;
 

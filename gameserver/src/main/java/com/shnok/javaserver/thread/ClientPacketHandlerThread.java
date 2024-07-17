@@ -10,13 +10,11 @@ import com.shnok.javaserver.enums.network.packettypes.external.ClientPacketType;
 import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.network.SessionKey;
-import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.NewCrypt;
 import com.shnok.javaserver.service.GameServerController;
 import com.shnok.javaserver.service.WorldManagerService;
-import com.shnok.javaserver.service.factory.PlayerFactoryService;
 import com.shnok.javaserver.thread.ai.PlayerAI;
 import com.shnok.javaserver.util.VectorUtils;
 import lombok.extern.log4j.Log4j2;
@@ -25,7 +23,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
-import java.util.Random;
 
 import static com.shnok.javaserver.config.Configuration.server;
 
@@ -108,6 +105,12 @@ public class ClientPacketHandlerThread extends Thread {
                 break;
             case CharSelect:
                 onRequestCharSelect();
+                break;
+            case RequestInventoryOpen:
+                onRequestInventoryOpen();
+                break;
+            case RequestInventoryUpdateOrder:
+                onRequestInventoryUpdateOrder();
                 break;
         }
     }
@@ -395,5 +398,13 @@ public class ClientPacketHandlerThread extends Thread {
 
         PlayerInfoPacket cs = new PlayerInfoPacket(player);
         client.sendPacket(cs);
+    }
+
+    private void onRequestInventoryUpdateOrder() {
+        //TODO: Implement
+    }
+
+    private void onRequestInventoryOpen() {
+        //TODO: Implement
     }
 }
