@@ -100,19 +100,24 @@ public class PlayerFactoryService {
         List<DBItem> equippedData = ItemTable.getInstance().getPlayerItemData(equipped);
         log.debug("Player {} has {} equipped item(s).", player.getId(), equippedData.size());
 
-        for (DBItem item: equippedData) {
-            ItemInstance itemInstance = new ItemInstance(player.getId(), item);
-            itemInstance.setLocation(ItemLocation.EQUIPPED);
+        for(int i = 0; i < equipped.size(); i++) {
+            ItemInstance itemInstance = new ItemInstance(player.getId(), equippedData.get(i), 1,
+                    equipped.get(i).getSlot());
+            itemInstance.setLocation(ItemLocation.EQUIPPED, equipped.get(i).getSlot());
+            itemInstance.setId(WorldManagerService.getInstance().nextID());
             playerInventory.addItem(itemInstance);
         }
+
         // Load inventory
         List<DBPlayerItem> inventory = PlayerItemRepository.getInstance().getInventoryItemsForUser(player.getCharId());
         List<DBItem> inventoryData = ItemTable.getInstance().getPlayerItemData(inventory);
         log.debug("Player {} has {} item(s) in his inventory.", player.getId(), inventoryData.size());
 
-        for (DBItem item: inventoryData) {
-            ItemInstance itemInstance = new ItemInstance(player.getId(), item);
-            itemInstance.setLocation(ItemLocation.INVENTORY);
+        for(int i = 0; i < inventory.size(); i++) {
+            ItemInstance itemInstance = new ItemInstance(player.getId(), inventoryData.get(i),
+                    inventory.get(i).getCount(), inventory.get(i).getSlot());
+            itemInstance.setLocation(ItemLocation.INVENTORY, inventory.get(i).getSlot());
+            itemInstance.setId(WorldManagerService.getInstance().nextID());
             playerInventory.addItem(itemInstance);
         }
 

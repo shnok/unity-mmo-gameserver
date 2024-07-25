@@ -23,7 +23,8 @@ public enum Material {
     scale_of_dragon((byte) 19),
     dyestuff((byte) 20),
     cobweb((byte) 21),
-    seed((byte) 22);
+    seed((byte) 22),
+    cotton((byte) 23);
 
     private final byte value;
 

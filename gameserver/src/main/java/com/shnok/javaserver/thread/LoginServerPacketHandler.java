@@ -167,7 +167,7 @@ public class LoginServerPacketHandler extends Thread {
         log.info("Account {} have {} character(s).", account, characters.size());
 
         if(characters.size() == 0 && server.createRandomCharacter()) {
-            for(int i = 0; i < 7; i ++) {
+            for(int i = 0; i < 3; i ++) {
                 CharacterRepository.getInstance().createRandomCharForAccount(account);
             }
 

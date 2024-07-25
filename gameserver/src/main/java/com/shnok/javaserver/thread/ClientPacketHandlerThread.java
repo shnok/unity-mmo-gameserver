@@ -2,6 +2,7 @@ package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.external.clientpackets.*;
 import com.shnok.javaserver.dto.external.serverpackets.*;
+import com.shnok.javaserver.dto.external.serverpackets.item.InventoryItemListPacket;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.PlayerAction;
@@ -10,6 +11,7 @@ import com.shnok.javaserver.enums.network.packettypes.external.ClientPacketType;
 import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.network.SessionKey;
+import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.NewCrypt;
@@ -23,6 +25,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.shnok.javaserver.config.Configuration.server;
 
@@ -204,6 +207,10 @@ public class ClientPacketHandlerThread extends Thread {
         client.getCurrentPlayer().getKnownList().forceRecheckSurroundings();
 
         client.authenticate();
+
+        //TODO: REMOVE
+        InventoryItemListPacket packet = new InventoryItemListPacket(client.getCurrentPlayer(), true);
+        client.sendPacket(packet);
     }
 
     private void onRequestCharacterRotate() {

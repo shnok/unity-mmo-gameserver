@@ -9,7 +9,7 @@ public class ItemInfo {
     private int objectId;
     private DBItem item;
     private int enchant;
-    private long count;
+    private int count;
     private int price;
     private byte equipped;
     private byte category;

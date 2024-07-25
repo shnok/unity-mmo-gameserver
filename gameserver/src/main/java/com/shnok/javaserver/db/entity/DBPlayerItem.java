@@ -1,6 +1,7 @@
 package com.shnok.javaserver.db.entity;
 
 import com.shnok.javaserver.enums.ItemLocation;
+import com.shnok.javaserver.enums.item.ItemSlot;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,7 +44,18 @@ public class DBPlayerItem {
     @Column(name = "price_buy")
     private int priceBuy;
 
-    public DBPlayerItem(int ownerId, int itemId, ItemLocation location, int slot) {
+    public DBPlayerItem(int ownerId, int itemId, ItemLocation location, ItemSlot slot) {
+        this.ownerId = ownerId;
+        this.itemId = itemId;
+        this.location = location;
+        this.slot = slot.getValue();
+
+        priceBuy = 0;
+        priceSell = 0;
+        count = 1;
+    }
+
+    public DBPlayerItem(int ownerId, int itemId, ItemLocation location, int slot, int count) {
         this.ownerId = ownerId;
         this.itemId = itemId;
         this.location = location;
@@ -51,6 +63,6 @@ public class DBPlayerItem {
 
         priceBuy = 0;
         priceSell = 0;
-        count = 1;
+        this.count = count;
     }
 }

@@ -49,7 +49,25 @@ public class ItemInstance extends GameObject {
         this.item = item;
         this.stackable = false;
         this.statFuncs = new FastList<>();
+        this.count = 1;
+        this.slot = 0;
 
+        SetCategory(item);
+    }
+
+    public ItemInstance(int ownerId, DBItem item, int count, int slot) {
+        this.itemId = item.getId();
+        this.ownerId = ownerId; //TODO check if better to use charId instead of entity id
+        this.item = item;
+        this.stackable = false;
+        this.statFuncs = new FastList<>();
+        this.count = count;
+        this.slot = slot;
+
+        SetCategory(item);
+    }
+
+    private void SetCategory(DBItem item) {
         if(item instanceof DBEtcItem) {
             ConsumeType consumeType = ((DBEtcItem) item).getConsumeType();
             stackable = consumeType == ConsumeType.stackable || consumeType == ConsumeType.asset;
