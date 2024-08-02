@@ -205,5 +205,6 @@ public class CharacterRepository implements CharacterDao {
         int insertedId = saveCharacter(dbCharacter);
 
         PlayerItemRepository.getInstance().giveRandomGearToCharacter(insertedId);
+        PlayerItemRepository.getInstance().giveRandomItemsToPlayer(insertedId);
     }
 }

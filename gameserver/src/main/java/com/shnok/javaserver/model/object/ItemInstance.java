@@ -5,7 +5,7 @@ import com.shnok.javaserver.db.entity.DBEtcItem;
 import com.shnok.javaserver.db.entity.DBItem;
 import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.enums.ItemLocation;
-import com.shnok.javaserver.enums.item.ConsumeType;
+import com.shnok.javaserver.enums.item.*;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.model.stats.functions.AbstractFunction;
 import com.shnok.javaserver.model.stats.functions.items.ItemStatConverter;
@@ -16,10 +16,18 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
+import static com.shnok.javaserver.config.Configuration.server;
+
 @Getter
 @Setter
 @Log4j2
 public class ItemInstance extends GameObject {
+    public static final int UNCHANGED = 0;
+    public static final int ADDED = 1;
+    public static final int REMOVED = 3;
+    public static final int MODIFIED = 2;
+
+    private ItemCategory itemCategory;
     private int ownerId;
     // id of the item in db
     private int itemId;
@@ -31,6 +39,8 @@ public class ItemInstance extends GameObject {
     // slot where item is stored
     private int slot;
     private boolean stackable;
+    private int enchantLevel;
+    private int lastChange;
     private List<AbstractFunction> statFuncs;
 
     public ItemInstance(int ownerId, DBItem item) {
@@ -39,15 +49,50 @@ public class ItemInstance extends GameObject {
         this.item = item;
         this.stackable = false;
         this.statFuncs = new FastList<>();
+        this.count = 1;
+        this.slot = 0;
 
+        SetCategory(item);
+    }
+
+    public ItemInstance(int ownerId, DBItem item, int count, int slot) {
+        this.itemId = item.getId();
+        this.ownerId = ownerId; //TODO check if better to use charId instead of entity id
+        this.item = item;
+        this.stackable = false;
+        this.statFuncs = new FastList<>();
+        this.count = count;
+        this.slot = slot;
+
+        SetCategory(item);
+    }
+
+    private void SetCategory(DBItem item) {
         if(item instanceof DBEtcItem) {
             ConsumeType consumeType = ((DBEtcItem) item).getConsumeType();
             stackable = consumeType == ConsumeType.stackable || consumeType == ConsumeType.asset;
+            if(item.getId() == server.itemMoneyId()) {
+                this.itemCategory = ItemCategory.adena;
+            } else if(item.getType() == EtcItemType.quest){
+                this.itemCategory = ItemCategory.quest_item;
+            } else {
+                this.itemCategory = ItemCategory.item;
+            }
         } else if(item instanceof DBArmor) {
             statFuncs = ItemStatConverter.parseArmor((DBArmor) item);
+            if(item.getBodyPart().getValue() >= 9 && item.getBodyPart().getValue() <= 17) {
+                this.itemCategory = ItemCategory.jewel;
+            } else {
+                this.itemCategory = ItemCategory.shield_armor;
+            }
         } else if(item instanceof DBWeapon) {
             statFuncs = ItemStatConverter.parseWeapon((DBWeapon) item);
+            this.itemCategory = ItemCategory.weapon;
         }
+    }
+
+    public boolean isQuestItem() {
+        return itemCategory == ItemCategory.quest_item;
     }
 
     // Sets the location of the item
