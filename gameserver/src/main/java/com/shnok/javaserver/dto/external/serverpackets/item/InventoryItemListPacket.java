@@ -1,7 +1,6 @@
 package com.shnok.javaserver.dto.external.serverpackets.item;
 
 import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;
-import com.shnok.javaserver.enums.network.packettypes.internal.GameServerPacketType;
 import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import lombok.Getter;

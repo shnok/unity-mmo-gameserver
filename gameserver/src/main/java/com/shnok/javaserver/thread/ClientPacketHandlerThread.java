@@ -209,8 +209,6 @@ public class ClientPacketHandlerThread extends Thread {
         client.authenticate();
 
         //TODO: REMOVE
-        InventoryItemListPacket packet = new InventoryItemListPacket(client.getCurrentPlayer(), true);
-        client.sendPacket(packet);
     }
 
     private void onRequestCharacterRotate() {
@@ -407,11 +405,13 @@ public class ClientPacketHandlerThread extends Thread {
         client.sendPacket(cs);
     }
 
+    private void onRequestInventoryOpen() {
+        InventoryItemListPacket packet = new InventoryItemListPacket(client.getCurrentPlayer(), true);
+        client.sendPacket(packet);
+    }
+
     private void onRequestInventoryUpdateOrder() {
         //TODO: Implement
     }
 
-    private void onRequestInventoryOpen() {
-        //TODO: Implement
-    }
 }
