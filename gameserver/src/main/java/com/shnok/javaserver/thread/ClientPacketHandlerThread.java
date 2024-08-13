@@ -1,12 +1,17 @@
 package com.shnok.javaserver.thread;
 
+import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.dto.external.clientpackets.*;
 import com.shnok.javaserver.dto.external.serverpackets.*;
 import com.shnok.javaserver.dto.external.serverpackets.item.InventoryItemListPacket;
+import com.shnok.javaserver.dto.external.serverpackets.item.InventoryUpdatePacket;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.PlayerAction;
+import com.shnok.javaserver.enums.item.ItemSlot;
+import com.shnok.javaserver.enums.item.WeaponType;
 import com.shnok.javaserver.enums.network.GameClientState;
+import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.enums.network.packettypes.external.ClientPacketType;
 import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.model.Point3D;
@@ -115,6 +120,10 @@ public class ClientPacketHandlerThread extends Thread {
             case RequestInventoryUpdateOrder:
                 onRequestInventoryUpdateOrder();
                 break;
+            case UseItem:
+                onUseItem();
+            case RequestUnEquipItem:
+                onRequestUnEquipItem();
         }
     }
 
@@ -414,4 +423,100 @@ public class ClientPacketHandlerThread extends Thread {
         //TODO: Implement
     }
 
+    private void onUseItem() {
+        UseItemPacket packet = new UseItemPacket(data);
+
+        PlayerInstance player = client.getCurrentPlayer();
+        if (player == null) {
+            return;
+        }
+
+        ItemInstance item = player.getInventory().getItemByObjectId(packet.getItemObjectId());
+        if (item == null) {
+            return;
+        }
+
+        int itemId = item.getItemId();
+
+        if (player.isDead()) {
+            SystemMessagePacket sm = new SystemMessagePacket(SystemMessageId.S1_CANNOT_BE_USED);
+            sm.addItemName(itemId);
+            sm.writeMe();
+
+            player.sendPacket(sm);
+            return;
+        }
+
+        log.debug("[ITEM][{}] Use item {}", player.getId(), itemId);
+
+        if (item.isEquipable()) {
+            // No unequipping/equipping while the player is in special conditions
+            if (player.isStunned() || player.isSleeping() || player.isParalyzed() || player.isAlikeDead()) {
+                player.sendMessage("Your status does not allow you to do that.");
+                return;
+            }
+
+            ItemSlot bodyPart = item.getItem().getBodyPart();
+            // Prevent player to remove the weapon on special conditions
+            if ((player.isAttacking() || player.isCasting()) && ((bodyPart == ItemSlot.lrhand) ||
+                    (bodyPart == ItemSlot.lhand) || (bodyPart == ItemSlot.rhand))) {
+                return;
+            }
+
+            // Equip or unEquip
+            ItemInstance[] items = null;
+            boolean isEquipped = item.isEquipped();
+            SystemMessagePacket sm = null;
+
+            //TODO: Update soulshots
+//            ItemInstance old = player.getInventory().getEquippedItem(ItemSlot.lrhand);
+//            if (old == null) {
+//                old = player.getInventory().getEquippedItem(ItemSlot.rhand);
+//                activeChar.checkSSMatch(item, old);
+//            }
+
+            if (isEquipped) {
+                if (item.getEnchantLevel() > 0) {
+                    sm = new SystemMessagePacket(SystemMessageId.EQUIPMENT_S1_S2_REMOVED);
+                    sm.addInt(item.getEnchantLevel());
+                    sm.addItemName(itemId);
+                } else {
+                    sm = new SystemMessagePacket(SystemMessageId.S1_DISARMED);
+                    sm.addItemName(itemId);
+                }
+                sm.writeMe();
+                player.sendPacket(sm);
+
+                items = player.getInventory().unEquipItemInSlotAndRecord(ItemSlot.getSlot((byte) item.getSlot()));
+            } else {
+                if (item.getEnchantLevel() > 0) {
+                    sm = new SystemMessagePacket(SystemMessageId.S1_S2_EQUIPPED);
+                    sm.addInt(item.getEnchantLevel());
+                    sm.addItemName(itemId);
+                } else {
+                    sm = new SystemMessagePacket(SystemMessageId.S1_EQUIPPED);
+                    sm.addItemName(itemId);
+                }
+                sm.writeMe();
+                player.sendPacket(sm);
+                items = player.getInventory().equipItemAndRecord(item);
+            }
+
+            //TODO: Update grade penalty
+            //activeChar.refreshExpertisePenalty();
+
+            InventoryUpdatePacket iu = new InventoryUpdatePacket(Arrays.asList(items));
+            player.sendPacket(iu);
+
+            player.abortAttack();
+            //player.broadcastUserInfo();
+        } else {
+            //TODO: Handle use other items
+            log.warn("No item handler registered for item ID {}.", item.getItemId());
+        }
+    }
+
+    private void onRequestUnEquipItem() {
+
+    }
 }

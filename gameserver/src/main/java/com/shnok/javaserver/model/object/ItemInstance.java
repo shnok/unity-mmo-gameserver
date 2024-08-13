@@ -127,6 +127,11 @@ public class ItemInstance extends GameObject {
         return (location == ItemLocation.EQUIPPED);
     }
 
+    public boolean isEquipable() {
+        return itemCategory == ItemCategory.shield_armor || itemCategory == ItemCategory.weapon
+                || itemCategory == ItemCategory.jewel;
+    }
+
     public void setOwnerId(int newOwner, PlayerInstance creator) {
         log.debug("[{}] New item owner: {}. Actor: {}", getId(), newOwner, creator);
         setOwnerId(newOwner);

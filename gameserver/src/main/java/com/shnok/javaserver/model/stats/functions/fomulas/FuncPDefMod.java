@@ -23,19 +23,19 @@ public class FuncPDefMod extends AbstractFunction {
         float value = initVal;
         if (effector.isPlayer()) {
             final PlayerInstance p = (PlayerInstance) effector;
-            if (!p.getInventory().isSlotEmpty(ItemSlot.head)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.head)) {
                 value -= 12;
             }
-            if (!p.getInventory().isSlotEmpty(ItemSlot.chest)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.chest)) {
                 value -= ((p.getTemplate().getClassId().isMage()) ? 15 : 31);
             }
-            if (!p.getInventory().isSlotEmpty(ItemSlot.legs)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.legs)) {
                 value -= ((p.getTemplate().getClassId().isMage()) ? 8 : 18);
             }
-            if (!p.getInventory().isSlotEmpty(ItemSlot.gloves)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.gloves)) {
                 value -= 8;
             }
-            if (!p.getInventory().isSlotEmpty(ItemSlot.feet)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.feet)) {
                 value -= 7;
             }
         }

@@ -1058,4 +1058,18 @@ public abstract class Entity extends MovableObject {
     public void stopAllTimers() {
         status.stopHpMpRegeneration();
     }
+
+    //layer.isStunned() || player.isSleeping() || player.isParalyzed() || player.isAlikeDead()
+
+    public boolean isSleeping() {
+        return false;
+    }
+
+    public boolean isParalyzed() {
+        return false;
+    }
+
+    public boolean isAlikeDead() {
+        return false;
+    }
 }
