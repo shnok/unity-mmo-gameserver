@@ -506,6 +506,7 @@ public class ClientPacketHandlerThread extends Thread {
             //activeChar.refreshExpertisePenalty();
 
             InventoryUpdatePacket iu = new InventoryUpdatePacket(Arrays.asList(items));
+            iu.writeMe();
             player.sendPacket(iu);
 
             player.abortAttack();

@@ -13,15 +13,18 @@ import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import javolution.util.FastList;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
+@Getter
 @Log4j2
 public abstract class Inventory extends ItemContainer {
     private final ItemInstance[] gear;
     private List<GearListener> gearListeners;
     protected int totalWeight;
+    private int inventorySize = 80;
 
     protected Inventory(Entity owner) {
         super(owner);
@@ -210,7 +213,9 @@ public abstract class Inventory extends ItemContainer {
                 gear[slot.getValue()] = null;
                 // Put old item from equipment slot to base location
                 old.setLocation(getBaseLocation());
+                old.setSlot(findNextAvailableSlot(getInventorySize()));
                 old.setLastChange(ItemInstance.MODIFIED);
+                log.debug("[ITEM][{}] UnEquipped {}. New slot: {}.", getOwner().getId(), old.getItemId(), old.getSlot());
                 //TODO: update db
                 if(owner.isPlayer()) {
                     for (GearListener listener : gearListeners) {
@@ -226,7 +231,7 @@ public abstract class Inventory extends ItemContainer {
                 gear[slot.getValue()] = item;
                 item.setLocation(getEquipLocation(), slot.getValue());
                 item.setLastChange(ItemInstance.MODIFIED);
-                log.debug("[ITEM][{}] Equipped {} in slot {}", getOwner().getId(), item.getItemId(), slot);
+                log.debug("[ITEM][{}] Equipped {} in slot {}.", getOwner().getId(), item.getItemId(), slot);
                 //TODO: update db
                 if(owner.isPlayer()) {
                     for (GearListener listener : gearListeners) {
