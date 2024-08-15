@@ -177,6 +177,7 @@ INSERT INTO `ARMOR` VALUES
  ('115','Earring of Wisdom','rear','false','none','150','gold','none','0','-1','0','16','0','3510','0','true','true','true','true','0','0'),
  ('116','Magic Ring','rfinger','false','none','150','gold','none','0','-1','0','7','0','33','0','true','true','true','true','0','0'),
  ('117','Ring of Mana','rfinger','true','none','150','silver','b','0','-1','0','34','0','404000','53','true','true','true','true','0','0'),
+ ('118','Necklace of Magic','neck','false','none','150','silver','none','0','-1','0','15','0','66','0','true','true','true','true','0','0'),
  ('425','Apprentice''s Tunic','chest','false','magic','2150','cloth','none','0','-1','17','0','19','26','0','false','false','true','false','0','0'),
  ('461','Apprentice''s Stockings','legs','false','magic','1100','cloth','none','0','-1','10','0','10','6','0','false','false','true','false','0','0'),
  ('1146','Squire''s Shirt','chest','false','light','3301','cloth','none','0','-1','33','0','0','26','0','false','false','true','false','0','0'),

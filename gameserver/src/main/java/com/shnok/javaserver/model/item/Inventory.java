@@ -110,17 +110,12 @@ public abstract class Inventory extends ItemContainer {
                     }
                 }
 
-                setEquipItem(ItemSlot.lhand, null);
                 setEquipItem(ItemSlot.lhand, item);
                 break;
             }
             case rhand: {
                 if (gear[ItemSlot.lrhand.getValue()] != null) {
                     setEquipItem(ItemSlot.lrhand, null);
-                    setEquipItem(ItemSlot.lhand, null);
-                    setEquipItem(ItemSlot.rhand, null);
-                } else {
-                    setEquipItem(ItemSlot.rhand, null);
                 }
 
                 setEquipItem(ItemSlot.rhand, item);
@@ -134,7 +129,6 @@ public abstract class Inventory extends ItemContainer {
                 } else if (gear[ItemSlot.rear.getValue()] == null) {
                     setEquipItem(ItemSlot.rear, item);
                 } else {
-                    setEquipItem(ItemSlot.lear, null);
                     setEquipItem(ItemSlot.lear, item);
                 }
 
@@ -148,17 +142,15 @@ public abstract class Inventory extends ItemContainer {
                 } else if (gear[ItemSlot.rfinger.getValue()] == null) {
                     setEquipItem(ItemSlot.rfinger, item);
                 } else {
-                    setEquipItem(ItemSlot.lfinger, null);
                     setEquipItem(ItemSlot.lfinger, item);
                 }
 
                 break;
             }
             case neck:
-                setEquipItem(ItemSlot.lfinger, item);
+                setEquipItem(ItemSlot.neck, item);
                 break;
             case fullarmor:
-                setEquipItem(ItemSlot.chest, null);
                 setEquipItem(ItemSlot.legs, null);
                 setEquipItem(ItemSlot.chest, item);
                 break;
@@ -172,7 +164,6 @@ public abstract class Inventory extends ItemContainer {
                     setEquipItem(ItemSlot.chest, null);
                 }
 
-                setEquipItem(ItemSlot.legs, null);
                 setEquipItem(ItemSlot.legs, item);
                 break;
             }
@@ -213,9 +204,19 @@ public abstract class Inventory extends ItemContainer {
                 gear[slot.getValue()] = null;
                 // Put old item from equipment slot to base location
                 old.setLocation(getBaseLocation());
+
+                // Find the next available slot
                 old.setSlot(findNextAvailableSlot(getInventorySize()));
+                // If old item slot was lower than current slot
+                if(item != null) {
+                    if(old.getSlot() > item.getSlot()) {
+                        old.setSlot(item.getSlot());
+                    }
+                }
+
                 old.setLastChange(ItemInstance.MODIFIED);
                 log.debug("[ITEM][{}] UnEquipped {}. New slot: {}.", getOwner().getId(), old.getItemId(), old.getSlot());
+
                 //TODO: update db
                 if(owner.isPlayer()) {
                     for (GearListener listener : gearListeners) {
