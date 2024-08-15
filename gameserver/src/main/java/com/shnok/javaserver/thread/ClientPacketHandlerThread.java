@@ -1,7 +1,8 @@
 package com.shnok.javaserver.thread;
 
-import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.dto.external.clientpackets.*;
+import com.shnok.javaserver.dto.external.clientpackets.item.RequestUnEquipItemPacket;
+import com.shnok.javaserver.dto.external.clientpackets.item.UseItemPacket;
 import com.shnok.javaserver.dto.external.serverpackets.*;
 import com.shnok.javaserver.dto.external.serverpackets.item.InventoryItemListPacket;
 import com.shnok.javaserver.dto.external.serverpackets.item.InventoryUpdatePacket;
@@ -9,7 +10,6 @@ import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.PlayerAction;
 import com.shnok.javaserver.enums.item.ItemSlot;
-import com.shnok.javaserver.enums.item.WeaponType;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.enums.network.packettypes.external.ClientPacketType;
@@ -29,8 +29,9 @@ import lombok.extern.log4j.Log4j2;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Objects;
 
 import static com.shnok.javaserver.config.Configuration.server;
 
@@ -122,8 +123,10 @@ public class ClientPacketHandlerThread extends Thread {
                 break;
             case UseItem:
                 onUseItem();
+                break;
             case RequestUnEquipItem:
                 onRequestUnEquipItem();
+                break;
         }
     }
 
@@ -510,6 +513,7 @@ public class ClientPacketHandlerThread extends Thread {
             player.sendPacket(iu);
 
             player.abortAttack();
+            //TODO: Share appearance/atkspd update
             //player.broadcastUserInfo();
         } else {
             //TODO: Handle use other items
@@ -518,6 +522,52 @@ public class ClientPacketHandlerThread extends Thread {
     }
 
     private void onRequestUnEquipItem() {
+        RequestUnEquipItemPacket packet = new RequestUnEquipItemPacket(data);
+        PlayerInstance player = client.getCurrentPlayer();
+        if (player == null) {
+            return;
+        }
 
+        ItemSlot slot = Objects.requireNonNull(ItemSlot.getSlot((byte) packet.getSlot()));
+
+        log.debug("[ITEM][{}] UnEquip item from slot {}", player.getId(), slot);
+
+        // Prevent player from unequipping items in special conditions
+        if (player.isStunned() || player.isSleeping() || player.isParalyzed() || player.isAlikeDead()) {
+            player.sendMessage("Your status does not allow you to do that.");
+            return;
+        }
+
+        if (player.isAttacking() || player.isCasting()) {
+            return;
+        }
+
+        ItemInstance[] unequiped = player.getInventory().unEquipItemInSlotAndRecord(slot);
+
+        // show the update in the inventory
+        InventoryUpdatePacket iu = new InventoryUpdatePacket(Arrays.asList(unequiped));
+        iu.writeMe();
+        player.sendPacket(iu);
+
+        //TODO: Update soulshots
+
+        player.abortAttack();
+        //TODO: Share appearance/atkspd update
+        //player.broadcastUserInfo();
+
+        // this can be 0 if the user pressed the right mousebutton twice very fast
+        if (unequiped.length > 0) {
+            SystemMessagePacket sm = null;
+            if (unequiped[0].getEnchantLevel() > 0) {
+                sm = new SystemMessagePacket(SystemMessageId.EQUIPMENT_S1_S2_REMOVED);
+                sm.addInt(unequiped[0].getEnchantLevel());
+                sm.addItemName(unequiped[0].getItemId());
+            } else {
+                sm = new SystemMessagePacket(SystemMessageId.S1_DISARMED);
+                sm.addItemName(unequiped[0].getItemId());
+            }
+            sm.writeMe();
+            player.sendPacket(sm);
+        }
     }
 }

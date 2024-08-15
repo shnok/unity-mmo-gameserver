@@ -1,4 +1,4 @@
-package com.shnok.javaserver.dto.external.clientpackets;
+package com.shnok.javaserver.dto.external.clientpackets.item;
 
 import com.shnok.javaserver.dto.ReceivablePacket;
 import lombok.Getter;
