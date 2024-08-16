@@ -4,9 +4,11 @@ import com.shnok.javaserver.enums.ItemLocation;
 import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
+import lombok.extern.log4j.Log4j2;
 
 import static com.shnok.javaserver.config.Configuration.server;
 
+@Log4j2
 public class PlayerInventory extends Inventory {
     private ItemInstance money;
 

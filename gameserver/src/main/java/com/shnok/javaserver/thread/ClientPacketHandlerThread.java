@@ -1,6 +1,7 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.external.clientpackets.*;
+import com.shnok.javaserver.dto.external.clientpackets.item.RequestInventoryUpdateOrderPacket;
 import com.shnok.javaserver.dto.external.clientpackets.item.RequestUnEquipItemPacket;
 import com.shnok.javaserver.dto.external.clientpackets.item.UseItemPacket;
 import com.shnok.javaserver.dto.external.serverpackets.*;
@@ -29,8 +30,8 @@ import lombok.extern.log4j.Log4j2;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static com.shnok.javaserver.config.Configuration.server;
@@ -419,11 +420,28 @@ public class ClientPacketHandlerThread extends Thread {
 
     private void onRequestInventoryOpen() {
         InventoryItemListPacket packet = new InventoryItemListPacket(client.getCurrentPlayer(), true);
+        client.getCurrentPlayer().getInventory().getUpdatedItems();
         client.sendPacket(packet);
     }
 
     private void onRequestInventoryUpdateOrder() {
-        //TODO: Implement
+        RequestInventoryUpdateOrderPacket packet = new RequestInventoryUpdateOrderPacket(data);
+        PlayerInstance player = client.getCurrentPlayer();
+        if (player == null) {
+            return;
+        }
+
+        packet.getOrderList().forEach((inventoryOrder -> {
+            player.getInventory().moveItemAndRecord(inventoryOrder.getObjectID(), inventoryOrder.getOrder());
+        }));
+
+        List<ItemInstance> items = player.getInventory().getUpdatedItems();
+
+        InventoryUpdatePacket iu = new InventoryUpdatePacket(items);
+        iu.writeMe();
+        player.sendPacket(iu);
+
+        player.getInventory().resetAndApplyUpdatedItems();
     }
 
     private void onUseItem() {
@@ -467,7 +485,6 @@ public class ClientPacketHandlerThread extends Thread {
             }
 
             // Equip or unEquip
-            ItemInstance[] items = null;
             boolean isEquipped = item.isEquipped();
             SystemMessagePacket sm = null;
 
@@ -490,7 +507,7 @@ public class ClientPacketHandlerThread extends Thread {
                 sm.writeMe();
                 player.sendPacket(sm);
 
-                items = player.getInventory().unEquipItemInSlotAndRecord(ItemSlot.getSlot((byte) item.getSlot()));
+                player.getInventory().unEquipItemInSlotAndRecord(ItemSlot.getSlot((byte) item.getSlot()));
             } else {
                 if (item.getEnchantLevel() > 0) {
                     sm = new SystemMessagePacket(SystemMessageId.S1_S2_EQUIPPED);
@@ -502,15 +519,19 @@ public class ClientPacketHandlerThread extends Thread {
                 }
                 sm.writeMe();
                 player.sendPacket(sm);
-                items = player.getInventory().equipItemAndRecord(item);
+                player.getInventory().equipItemAndRecord(item);
             }
 
             //TODO: Update grade penalty
             //activeChar.refreshExpertisePenalty();
 
-            InventoryUpdatePacket iu = new InventoryUpdatePacket(Arrays.asList(items));
+            List<ItemInstance> items = player.getInventory().getUpdatedItems();
+
+            InventoryUpdatePacket iu = new InventoryUpdatePacket(items);
             iu.writeMe();
             player.sendPacket(iu);
+
+            player.getInventory().resetAndApplyUpdatedItems();
 
             player.abortAttack();
             //TODO: Share appearance/atkspd update
@@ -542,12 +563,15 @@ public class ClientPacketHandlerThread extends Thread {
             return;
         }
 
-        ItemInstance[] unequiped = player.getInventory().unEquipItemInSlotAndRecord(slot);
+        player.getInventory().unEquipItemInSlotAndRecord(slot);
 
         // show the update in the inventory
-        InventoryUpdatePacket iu = new InventoryUpdatePacket(Arrays.asList(unequiped));
+        List<ItemInstance> items = player.getInventory().getUpdatedItems();
+        InventoryUpdatePacket iu = new InventoryUpdatePacket(items);
         iu.writeMe();
         player.sendPacket(iu);
+
+        player.getInventory().resetAndApplyUpdatedItems();
 
         //TODO: Update soulshots
 
@@ -556,15 +580,15 @@ public class ClientPacketHandlerThread extends Thread {
         //player.broadcastUserInfo();
 
         // this can be 0 if the user pressed the right mousebutton twice very fast
-        if (unequiped.length > 0) {
+        if (!items.isEmpty()) {
             SystemMessagePacket sm = null;
-            if (unequiped[0].getEnchantLevel() > 0) {
+            if (items.get(0).getEnchantLevel() > 0) {
                 sm = new SystemMessagePacket(SystemMessageId.EQUIPMENT_S1_S2_REMOVED);
-                sm.addInt(unequiped[0].getEnchantLevel());
-                sm.addItemName(unequiped[0].getItemId());
+                sm.addInt(items.get(0).getEnchantLevel());
+                sm.addItemName(items.get(0).getItemId());
             } else {
                 sm = new SystemMessagePacket(SystemMessageId.S1_DISARMED);
-                sm.addItemName(unequiped[0].getItemId());
+                sm.addItemName(items.get(0).getItemId());
             }
             sm.writeMe();
             player.sendPacket(sm);

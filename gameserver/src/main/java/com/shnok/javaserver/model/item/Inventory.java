@@ -55,21 +55,8 @@ public abstract class Inventory extends ItemContainer {
 
     protected abstract ItemLocation getEquipLocation();
 
-    /**
-     * Equips item and returns list of alterations
-     * @param item : L2ItemInstance corresponding to the item
-     * @return L2ItemInstance[] : list of alterations
-     */
-    public ItemInstance[] equipItemAndRecord(ItemInstance item) {
-        Inventory.ChangeRecorder recorder = newRecorder();
-
-        try {
-            equipItem(item);
-        } finally {
-            removeGearListener(recorder);
-        }
-
-        return recorder.getChangedItems();
+    public void equipItemAndRecord(ItemInstance item) {
+        equipItem(item);
     }
 
     public synchronized void equipItem(ItemInstance item) {
@@ -339,31 +326,12 @@ public abstract class Inventory extends ItemContainer {
         return null;
     }
 
-    /**
-     * Returns the instance of new ChangeRecorder
-     * @return ChangeRecorder
-     */
-    public ChangeRecorder newRecorder() {
-        return new ChangeRecorder(this);
-    }
-
-    /**
-     * Unequips item in body slot and returns alterations.
-     * @param slot : int designating the slot of the paperdoll
-     * @return L2ItemInstance[] : list of changes
-     */
-    public synchronized ItemInstance[] unEquipItemInSlotAndRecord(ItemSlot slot) {
-        Inventory.ChangeRecorder recorder = newRecorder();
-        try {
-            unEquipItemInSlot(slot);
-            //TODO: Update grade penalty
-//            if (getOwner() != null) {
-//                ((PlayerInstance) getOwner()).refreshExpertisePenalty();
-//            }
-        } finally {
-            removeGearListener(recorder);
-        }
-        return recorder.getChangedItems();
+    public synchronized void unEquipItemInSlotAndRecord(ItemSlot slot) {
+        unEquipItemInSlot(slot);
+        //TODO: Update grade penalty
+//        if (getOwner() != null) {
+//            ((PlayerInstance) getOwner()).refreshExpertisePenalty();
+//        }
     }
 
     public synchronized ItemInstance unEquipItemInSlot(ItemSlot slot) {
@@ -374,50 +342,45 @@ public abstract class Inventory extends ItemContainer {
         return getEquippedItem(slot) != null;
     }
 
-    /**
-     * Recorder of alterations in inventory
-     */
-    public static final class ChangeRecorder implements GearListener
-    {
-        private final Inventory inventory;
-        private final List<ItemInstance> changed;
+    public void moveItemAndRecord(int objectId, int slot) {
+        moveItem(objectId, slot);
+    }
 
-        /**
-         * Constructor of the ChangeRecorder
-         * @param inventory
-         */
-        ChangeRecorder(Inventory inventory) {
-            this.inventory = inventory;
-            changed = new FastList<>();
-            inventory.addGearListener(this);
+    public synchronized void moveItem(int objectId, int slot) {
+        ItemInstance item = getItemByObjectId(objectId);
+        if(item != null) {
+            moveItem(item, slot);
+        } else {
+            log.warn("[ITEM][{}] Trying to move an unkown item with id {}.", owner.getId(), objectId);
+        }
+    }
+
+    public synchronized void moveItem(ItemInstance item, int slot) {
+        if(item.isEquipped()) {
+            log.warn("[ITEM][{}] Trying to move an equipped item.", owner.getId());
+            return;
         }
 
-        /**
-         * Add alteration in inventory when item equiped
-         */
-        @Override
-        public void notifyEquipped(int slot, ItemInstance item) {
-            if (!changed.contains(item)) {
-                changed.add(item);
+        item.setLastChange(ItemInstance.MODIFIED);
+        item.setSlot(slot);
+    }
+
+    public synchronized List<ItemInstance> getUpdatedItems() {
+        List<ItemInstance> changedItems = new FastList<>();
+        items.forEach(item -> {
+            if(item.getLastChange() == ItemInstance.MODIFIED) {
+                changedItems.add(item);
             }
-        }
+        });
 
-        /**
-         * Add alteration in inventory when item unequiped
-         */
-        @Override
-        public void notifyUnequipped(int slot, ItemInstance item) {
-            if (!changed.contains(item)) {
-                changed.add(item);
+        return changedItems;
+    }
+
+    public synchronized void resetAndApplyUpdatedItems() {
+        items.forEach(item -> {
+            if(item.getLastChange() != ItemInstance.UNCHANGED) {
+                item.setLastChange(ItemInstance.UNCHANGED);
             }
-        }
-
-        /**
-         * Returns alterations in inventory
-         * @return L2ItemInstance[] : array of alterated items
-         */
-        public ItemInstance[] getChangedItems() {
-            return changed.toArray(new ItemInstance[changed.size()]);
-        }
+        });
     }
 }
