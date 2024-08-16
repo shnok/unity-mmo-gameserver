@@ -2,6 +2,7 @@ package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.LoginFailPacket;
+import com.shnok.javaserver.dto.external.serverpackets.MessagePacket;
 import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.enums.network.SystemMessageId;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,9 +60,10 @@ public class GameClientThread extends Thread {
     private boolean printPacketsIn;
     private boolean printPacketsOut;
 
-    public GameClientThread(Socket con) {
+    public GameClientThread(Socket con) throws SocketException {
         connection = con;
         connectionIp = con.getInetAddress().getHostAddress();
+        connection.setReceiveBufferSize(1024 * 64);
         gameCrypt = new GameCrypt();
         connectionTimeoutMs = server.serverConnectionTimeoutMs();
         printCryptography = server.printCryptography();
