@@ -12,7 +12,8 @@ public class RequestInventoryUpdateOrderPacket extends ReceivablePacket {
     /** client limit */
     private static final int LIMIT = 125;
 
-    private static class InventoryOrder {
+    @Getter
+    public static class InventoryOrder {
         int order;
         int objectID;
 

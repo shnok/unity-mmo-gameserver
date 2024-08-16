@@ -13,15 +13,18 @@ import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import javolution.util.FastList;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
+@Getter
 @Log4j2
 public abstract class Inventory extends ItemContainer {
     private final ItemInstance[] gear;
     private List<GearListener> gearListeners;
     protected int totalWeight;
+    private int inventorySize = 80;
 
     protected Inventory(Entity owner) {
         super(owner);
@@ -52,8 +55,11 @@ public abstract class Inventory extends ItemContainer {
 
     protected abstract ItemLocation getEquipLocation();
 
-    public synchronized void equipItem(ItemInstance item) {
+    public void equipItemAndRecord(ItemInstance item) {
+        equipItem(item);
+    }
 
+    public synchronized void equipItem(ItemInstance item) {
         ItemSlot targetSlot = ItemSlot.none;
         DBItem itemData = item.getItem();
         if(itemData instanceof DBEtcItem) {
@@ -66,7 +72,6 @@ public abstract class Inventory extends ItemContainer {
         } else {
             targetSlot = itemData.getBodyPart();
         }
-
 
         switch (targetSlot) {
             case lrhand: {
@@ -83,7 +88,8 @@ public abstract class Inventory extends ItemContainer {
                 break;
             }
             case lhand: {
-                if (!(item.getItem() instanceof DBEtcItem) || (item.getItem().getType() != EtcItemType.arrow)) {
+                if (!(item.getItem() instanceof DBEtcItem) ||
+                        (item.getItem().getType() != EtcItemType.arrow)) {
                     ItemInstance old1 = setEquipItem(ItemSlot.lrhand, null);
 
                     if (old1 != null) {
@@ -91,17 +97,12 @@ public abstract class Inventory extends ItemContainer {
                     }
                 }
 
-                setEquipItem(ItemSlot.lhand, null);
                 setEquipItem(ItemSlot.lhand, item);
                 break;
             }
             case rhand: {
                 if (gear[ItemSlot.lrhand.getValue()] != null) {
                     setEquipItem(ItemSlot.lrhand, null);
-                    setEquipItem(ItemSlot.lhand, null);
-                    setEquipItem(ItemSlot.rhand, null);
-                } else {
-                    setEquipItem(ItemSlot.rhand, null);
                 }
 
                 setEquipItem(ItemSlot.rhand, item);
@@ -115,7 +116,6 @@ public abstract class Inventory extends ItemContainer {
                 } else if (gear[ItemSlot.rear.getValue()] == null) {
                     setEquipItem(ItemSlot.rear, item);
                 } else {
-                    setEquipItem(ItemSlot.lear, null);
                     setEquipItem(ItemSlot.lear, item);
                 }
 
@@ -129,17 +129,15 @@ public abstract class Inventory extends ItemContainer {
                 } else if (gear[ItemSlot.rfinger.getValue()] == null) {
                     setEquipItem(ItemSlot.rfinger, item);
                 } else {
-                    setEquipItem(ItemSlot.lfinger, null);
                     setEquipItem(ItemSlot.lfinger, item);
                 }
 
                 break;
             }
             case neck:
-                setEquipItem(ItemSlot.lfinger, item);
+                setEquipItem(ItemSlot.neck, item);
                 break;
             case fullarmor:
-                setEquipItem(ItemSlot.chest, null);
                 setEquipItem(ItemSlot.legs, null);
                 setEquipItem(ItemSlot.chest, item);
                 break;
@@ -153,7 +151,6 @@ public abstract class Inventory extends ItemContainer {
                     setEquipItem(ItemSlot.chest, null);
                 }
 
-                setEquipItem(ItemSlot.legs, null);
                 setEquipItem(ItemSlot.legs, item);
                 break;
             }
@@ -186,6 +183,7 @@ public abstract class Inventory extends ItemContainer {
         return 0;
     }
 
+
     public ItemInstance setEquipItem(ItemSlot slot, ItemInstance item) {
         ItemInstance old = gear[slot.getValue()];
         if (old != item) {
@@ -193,8 +191,19 @@ public abstract class Inventory extends ItemContainer {
                 gear[slot.getValue()] = null;
                 // Put old item from equipment slot to base location
                 old.setLocation(getBaseLocation());
-                //TODO: Unequip old item
-                //TODO: notify player
+
+                // Find the next available slot
+                old.setSlot(findNextAvailableSlot(getInventorySize()));
+                // If old item slot was lower than current slot
+                if(item != null) {
+                    if(old.getSlot() > item.getSlot()) {
+                        old.setSlot(item.getSlot());
+                    }
+                }
+
+                old.setLastChange(ItemInstance.MODIFIED);
+                log.debug("[ITEM][{}] UnEquipped {}. New slot: {}.", getOwner().getId(), old.getItemId(), old.getSlot());
+
                 //TODO: update db
                 if(owner.isPlayer()) {
                     for (GearListener listener : gearListeners) {
@@ -209,9 +218,8 @@ public abstract class Inventory extends ItemContainer {
             if (item != null) {
                 gear[slot.getValue()] = item;
                 item.setLocation(getEquipLocation(), slot.getValue());
-
-                log.debug("[{}] Equipped {} int slot {}", getOwner().getId(), item.getItemId(), slot);
-                //TODO: notify player
+                item.setLastChange(ItemInstance.MODIFIED);
+                log.debug("[ITEM][{}] Equipped {} in slot {}.", getOwner().getId(), item.getItemId(), slot);
                 //TODO: update db
                 if(owner.isPlayer()) {
                     for (GearListener listener : gearListeners) {
@@ -318,11 +326,61 @@ public abstract class Inventory extends ItemContainer {
         return null;
     }
 
+    public synchronized void unEquipItemInSlotAndRecord(ItemSlot slot) {
+        unEquipItemInSlot(slot);
+        //TODO: Update grade penalty
+//        if (getOwner() != null) {
+//            ((PlayerInstance) getOwner()).refreshExpertisePenalty();
+//        }
+    }
+
     public synchronized ItemInstance unEquipItemInSlot(ItemSlot slot) {
         return setEquipItem(slot, null);
     }
 
-    public boolean isSlotEmpty(ItemSlot slot) {
-        return getEquippedItem(slot) == null;
+    public boolean isSlotUsed(ItemSlot slot) {
+        return getEquippedItem(slot) != null;
+    }
+
+    public void moveItemAndRecord(int objectId, int slot) {
+        moveItem(objectId, slot);
+    }
+
+    public synchronized void moveItem(int objectId, int slot) {
+        ItemInstance item = getItemByObjectId(objectId);
+        if(item != null) {
+            moveItem(item, slot);
+        } else {
+            log.warn("[ITEM][{}] Trying to move an unkown item with id {}.", owner.getId(), objectId);
+        }
+    }
+
+    public synchronized void moveItem(ItemInstance item, int slot) {
+        if(item.isEquipped()) {
+            log.warn("[ITEM][{}] Trying to move an equipped item.", owner.getId());
+            return;
+        }
+
+        item.setLastChange(ItemInstance.MODIFIED);
+        item.setSlot(slot);
+    }
+
+    public synchronized List<ItemInstance> getUpdatedItems() {
+        List<ItemInstance> changedItems = new FastList<>();
+        items.forEach(item -> {
+            if(item.getLastChange() == ItemInstance.MODIFIED) {
+                changedItems.add(item);
+            }
+        });
+
+        return changedItems;
+    }
+
+    public synchronized void resetAndApplyUpdatedItems() {
+        items.forEach(item -> {
+            if(item.getLastChange() != ItemInstance.UNCHANGED) {
+                item.setLastChange(ItemInstance.UNCHANGED);
+            }
+        });
     }
 }

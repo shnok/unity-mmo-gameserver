@@ -24,19 +24,19 @@ public class FuncMDefMod extends AbstractFunction {
         float value = initVal;
         if (effector.isPlayer()) {
             PlayerInstance p = (PlayerInstance) effector;
-            if (!p.getInventory().isSlotEmpty(ItemSlot.lfinger)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.lfinger)) {
                 value -= 5;
             }
-            if (!p.getInventory().isSlotEmpty(ItemSlot.rfinger)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.rfinger)) {
                 value -= 5;
             }
-            if (!p.getInventory().isSlotEmpty(ItemSlot.lear)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.lear)) {
                 value -= 9;
             }
-            if (!p.getInventory().isSlotEmpty(ItemSlot.rear)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.rear)) {
                 value -= 9;
             }
-            if (!p.getInventory().isSlotEmpty(ItemSlot.neck)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.neck)) {
                 value -= 13;
             }
         }

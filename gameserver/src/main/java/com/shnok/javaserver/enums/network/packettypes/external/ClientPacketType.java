@@ -18,7 +18,9 @@ public enum ClientPacketType {
     RequestAutoAttack((byte)0x0B),
     CharSelect((byte) 0x0C),
     RequestInventoryOpen((byte) 0x0D),
-    RequestInventoryUpdateOrder((byte) 0x0E);
+    RequestInventoryUpdateOrder((byte) 0x0E),
+    UseItem((byte) 0x0F),
+    RequestUnEquipItem((byte) 0x10);
 
     private final byte value;
 

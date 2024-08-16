@@ -262,4 +262,26 @@ public abstract class ItemContainer {
 
         return count;
     }
+
+    public synchronized int findNextAvailableSlot(int containerSize) {
+        boolean[] slots = new boolean[containerSize];
+
+        // Mark occupied slots
+        for (ItemInstance item : items) {
+            if(item.isEquipped()) {
+                continue;
+            }
+
+            slots[item.getSlot()] = true;
+        }
+
+        // Find the first available slot
+        for (int i = 0; i < containerSize; i++) {
+            if (!slots[i]) {
+                return i;
+            }
+        }
+
+        return -1; // No available slot found
+    }
 }

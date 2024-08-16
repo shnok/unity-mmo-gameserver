@@ -4,6 +4,8 @@ import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.model.item.ItemInfo;
 import com.shnok.javaserver.model.object.ItemInstance;
 
+import java.util.List;
+
 public abstract class AbstractItemPacket extends SendablePacket {
     public AbstractItemPacket(byte type) {
         super(type);

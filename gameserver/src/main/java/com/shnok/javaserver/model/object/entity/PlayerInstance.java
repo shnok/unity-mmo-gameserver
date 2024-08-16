@@ -31,6 +31,7 @@ import lombok.extern.log4j.Log4j2;
 @Getter
 @Setter
 public class PlayerInstance extends Entity {
+    @Getter
     private final String name;
     private final int charId; // char id in the database
     private PlayerAppearance appearance;
@@ -93,10 +94,6 @@ public class PlayerInstance extends Entity {
         }
 
         return false;
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override
@@ -296,5 +293,10 @@ public class PlayerInstance extends Entity {
 
         sm.writeMe();
         sendPacket(sm);
+    }
+
+    public void sendMessage(String message) {
+        SystemMessagePacket packet = SystemMessagePacket.sendString(message);
+        sendPacket(packet);
     }
 }
