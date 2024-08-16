@@ -6,6 +6,7 @@ import com.shnok.javaserver.thread.GameClientThread;
 import lombok.extern.log4j.Log4j2;
 
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class GameServerController {
 
     private final List<GameClientThread> clients = new ArrayList<>();
 
-    public void addClient(Socket socket) {
+    public void addClient(Socket socket) throws SocketException {
         GameClientThread client = new GameClientThread(socket);
         client.start();
         clients.add(client);
