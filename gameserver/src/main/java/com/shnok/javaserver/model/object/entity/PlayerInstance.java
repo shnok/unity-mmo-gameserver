@@ -297,6 +297,27 @@ public class PlayerInstance extends Entity {
         sendPacket(packet);
     }
 
+    /**
+     * Update Stats of the L2PcInstance client side by sending Server->Client packet UserInfo/StatusUpdate to this L2PcInstance and CharInfo/StatusUpdate to all L2PcInstance in its _KnownPlayers (broadcast).
+     * @param broadcastType the broadcast type
+     */
+    public void updateAndBroadcastStatus(int broadcastType) {
+        //refreshOverloaded();
+        //refreshExpertisePenalty();
+
+        if(gameClient == null || !gameClient.isClientReady()) {
+            return;
+        }
+
+        // Send a Server->Client packet UserInfo to this L2PcInstance and CharInfo to all L2PcInstance in its _KnownPlayers (broadcast)
+        if (broadcastType == 1) {
+            sendPacket(new PlayerInfoPacket(this));
+        }
+        if (broadcastType == 2) {
+            broadcastUserInfo();
+        }
+    }
+
     public void broadcastUserInfo() {
         // Share player info to client
         sendPacket(new PlayerInfoPacket(this));

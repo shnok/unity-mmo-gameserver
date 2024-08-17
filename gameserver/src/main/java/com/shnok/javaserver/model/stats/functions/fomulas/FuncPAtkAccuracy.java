@@ -13,7 +13,7 @@ public class FuncPAtkAccuracy extends AbstractFunction {
     }
 
     private FuncPAtkAccuracy() {
-        super(Stats.POWER_ACCURACY_COMBAT, 1, null, 0, null);
+        super(Stats.POWER_ACCURACY_COMBAT, 0x10, null, 0, null);
     }
 
     @Override

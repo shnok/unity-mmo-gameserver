@@ -22,6 +22,8 @@ public class FuncItemStatAdd extends AbstractFunction {
 
     @Override
     public float calc(Entity effector, Entity effected, Skill skill, float initVal) {
+//        if(getStat() == Stats.POWER_DEFENCE)
+//            System.out.println("FuncItemStatAdd" + " - " + getStat() + " - InitVal:" + initVal + " - GetValue:" + getValue() + " - Calculated:" + initVal + getValue());
         return initVal + getValue();
     }
 }

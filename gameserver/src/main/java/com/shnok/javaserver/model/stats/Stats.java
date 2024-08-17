@@ -172,7 +172,14 @@ public enum Stats {
     REDUCE_DEATH_PENALTY_BY_RAID("reduceDeathPenaltyByRaid"),
 
     // Fishing
-    FISHING_EXPERTISE("fishingExpertise");
+    FISHING_EXPERTISE("fishingExpertise"),
+
+    // Run speed,
+    // walk & escape speed are calculated proportionally,
+    // magic speed is a buff
+    RUN_SPEED("runSpd"),
+    WALK_SPEED("walkSpd");
+
 
     public static final int NUM_STATS = values().length;
 

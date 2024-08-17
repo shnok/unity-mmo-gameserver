@@ -14,7 +14,7 @@ public class FuncMAtkMod extends AbstractFunction {
     }
 
     private FuncMAtkMod() {
-        super(Stats.MAGIC_ATTACK, 1, null, 0, null);
+        super(Stats.MAGIC_ATTACK, 0x20, null, 0, null);
     }
 
     @Override

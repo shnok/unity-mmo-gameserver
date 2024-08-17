@@ -4,6 +4,7 @@ import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.model.skills.Skill;
+import com.shnok.javaserver.model.stats.Formulas;
 import com.shnok.javaserver.model.stats.Stats;
 import com.shnok.javaserver.model.stats.functions.AbstractFunction;
 
@@ -15,7 +16,7 @@ public class FuncPDefMod extends AbstractFunction {
     }
 
     private FuncPDefMod() {
-        super(Stats.POWER_DEFENCE, 1, null, 0, null);
+        super(Stats.POWER_DEFENCE, 0x20, null, 0, null);
     }
 
     @Override
@@ -39,6 +40,11 @@ public class FuncPDefMod extends AbstractFunction {
                 value -= 7;
             }
         }
+
+//        if(getStat() == Stats.POWER_DEFENCE)
+//            System.out.println("FuncPdefMod" + " - " + getStat() + " - InitVal:" + initVal + " - GetValue:" + getValue() + " - Calculated:" +
+//                    value * effector.getLevelMod());
+
         return value * effector.getLevelMod();
     }
 }
