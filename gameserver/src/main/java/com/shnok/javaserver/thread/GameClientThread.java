@@ -2,14 +2,13 @@ package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.LoginFailPacket;
-import com.shnok.javaserver.dto.external.serverpackets.MessagePacket;
 import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
-import com.shnok.javaserver.enums.network.SystemMessageId;
-import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.LoginFailReason;
+import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;
+import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.model.network.SessionKey;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.BlowFishKeygen;
@@ -115,6 +114,18 @@ public class GameClientThread extends Thread {
                     receivedBytes = receivedBytes + newBytes;
                 }
 
+                if(isCryptEnabled()) {
+                    if(isPrintCryptography()) {
+                        log.debug("<--- [CLIENT] Encrypted packet {} : {}", data.length, Arrays.toString(data));
+                    }
+                    getGameCrypt().decrypt(data, 0, data.length);
+                    if(isPrintCryptography()) {
+                        log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
+                    }
+                } else if(isPrintCryptography()) {
+                    log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
+                }
+
                 handlePacket(data);
             }
         } catch (Exception e) {
@@ -146,23 +157,21 @@ public class GameClientThread extends Thread {
 
         byte[] data = packet.getData();
 
+        if(printCryptography) {
+            log.debug("---> [CLIENT] Clear packet {} : {}", data.length,
+                    Arrays.toString(data));
+        }
+
         if(isCryptEnabled()) {
             data = Arrays.copyOf(packet.getData(), packet.getData().length);
 
             NewCrypt.appendChecksum(data);
 
-            if(printCryptography) {
-                log.debug("---> [CLIENT] Clear packet {} : {}", data.length,
-                        Arrays.toString(data));
-            }
             gameCrypt.encrypt(data, 0, data.length);
             if(printCryptography) {
                 log.debug("---> [CLIENT] Encrypted packet {} : {}", data.length,
                         Arrays.toString(data));
             }
-        } else if(printCryptography) {
-            log.debug("---> [CLIENT] Clear packet {} : {}", data.length,
-                    Arrays.toString(data));
         }
 
         try {

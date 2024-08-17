@@ -30,7 +30,6 @@ import lombok.extern.log4j.Log4j2;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,22 +52,11 @@ public class ClientPacketHandlerThread extends Thread {
 
     public void handle() {
         if(client.isCryptEnabled()) {
-            if(client.isPrintCryptography()) {
-                log.debug("<--- [CLIENT] Encrypted packet {} : {}", data.length, Arrays.toString(data));
-            }
-            client.getGameCrypt().decrypt(data, 0, data.length);
-            if(client.isPrintCryptography()) {
-                log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
-            }
-
             if(!NewCrypt.verifyChecksum(data)) {
                 log.warn("Packet's checksum is wrong.");
                 return;
             }
-        } else if(client.isPrintCryptography()) {
-            log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
         }
-
 
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
         if(client.isPrintPacketsIn()) {
