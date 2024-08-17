@@ -201,6 +201,8 @@ public abstract class ItemContainer {
             refreshWeight();
         }
 
+        item.setCount(0);
+
         return item;
     }
 

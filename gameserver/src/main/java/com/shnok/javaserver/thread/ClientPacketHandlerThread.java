@@ -1,6 +1,7 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.external.clientpackets.*;
+import com.shnok.javaserver.dto.external.clientpackets.item.RequestDestroyItemPacket;
 import com.shnok.javaserver.dto.external.clientpackets.item.RequestInventoryUpdateOrderPacket;
 import com.shnok.javaserver.dto.external.clientpackets.item.RequestUnEquipItemPacket;
 import com.shnok.javaserver.dto.external.clientpackets.item.UseItemPacket;
@@ -25,11 +26,13 @@ import com.shnok.javaserver.service.GameServerController;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.ai.PlayerAI;
 import com.shnok.javaserver.util.VectorUtils;
+import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,6 +67,7 @@ public class ClientPacketHandlerThread extends Thread {
                 log.debug("[CLIENT] Received packet: {}", type);
             }
         }
+
         switch (type) {
             case Ping:
                 onReceiveEcho();
@@ -115,6 +119,12 @@ public class ClientPacketHandlerThread extends Thread {
                 break;
             case RequestUnEquipItem:
                 onRequestUnEquipItem();
+                break;
+            case RequestDestroyItem:
+                onRequestDestroyItem();
+                break;
+            case RequestDropItem:
+                onRequestDropItem();
                 break;
         }
     }
@@ -522,7 +532,6 @@ public class ClientPacketHandlerThread extends Thread {
             player.getInventory().resetAndApplyUpdatedItems();
 
             player.abortAttack();
-            //TODO: Share appearance/atkspd update
             player.broadcastUserInfo();
         } else {
             //TODO: Handle use other items
@@ -580,5 +589,112 @@ public class ClientPacketHandlerThread extends Thread {
             sm.writeMe();
             player.sendPacket(sm);
         }
+    }
+
+    private void onRequestDestroyItem() {
+        RequestDestroyItemPacket packet = new RequestDestroyItemPacket(data);
+
+        PlayerInstance player = client.getCurrentPlayer();
+        if (player == null) {
+            return;
+        }
+
+        int count = packet.getCount();
+        int objectId = packet.getItemObjectId();
+
+        if (count <= 0) {
+            if (count < 0) {
+                log.info("[MALICIOUS][ITEM][{}] Count < 0", player.getId());
+            }
+            return;
+        }
+
+//        if (activeChar.getPrivateStoreType() != 0)
+//        {
+//            activeChar.sendPacket(new SystemMessagePacket(SystemMessageId.CANNOT_TRADE_DISCARD_DROP_ITEM_WHILE_IN_SHOPMODE));
+//            return;
+//        }
+
+        ItemInstance itemToRemove = player.getInventory().getItemByObjectId(objectId);
+        // if we cant find requested item, its actualy a cheat!
+        if (itemToRemove == null) {
+            return;
+        }
+
+        // Cannot discard item that the skill is consumming
+        if (player.isCasting()) {
+            player.sendPacket(new SystemMessagePacket(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
+        }
+
+        int itemId = itemToRemove.getItemId();
+        if (!itemToRemove.getItem().isDestroyable()) {
+            player.sendPacket(new SystemMessagePacket(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
+            return;
+        }
+
+        if (!itemToRemove.isStackable() && (count > 1)) {
+            log.info("[MALICIOUS][ITEM][{}] Count > 1 but item is not stackable! < 0", player.getId());
+            return;
+        }
+
+        if (count > itemToRemove.getCount()) {
+            count = itemToRemove.getCount();
+        }
+
+        // Unequip the item if needed
+        if (itemToRemove.isEquipped()) {
+            if (player.isStunned() || player.isSleeping() || player.isParalyzed() || player.isAlikeDead()) {
+                player.sendMessage("Your status does not allow you to do that.");
+                return;
+            }
+
+            if (player.isAttacking() || player.isCasting()) {
+                return;
+            }
+
+            player.getInventory().unEquipItemInSlotAndRecord(ItemSlot.getSlot(itemToRemove.getSlot()));
+
+            // show the update in the inventory
+            List<ItemInstance> items = player.getInventory().getUpdatedItems();
+            InventoryUpdatePacket iu = new InventoryUpdatePacket(items);
+            iu.writeMe();
+            player.sendPacket(iu);
+
+            player.getInventory().resetAndApplyUpdatedItems();
+
+            //TODO: Update soulshots
+
+            player.abortAttack();
+            player.broadcastUserInfo();
+        }
+
+        // Destroy the item from inventory
+        ItemInstance removedItem = player.getInventory().destroyItem(objectId, count, player);
+        if (removedItem == null) {
+            return;
+        }
+
+        // Share the item update
+        InventoryUpdatePacket iu = new InventoryUpdatePacket(new FastList<>());
+        if (removedItem.getCount() == 0) {
+            iu.addRemovedItem(removedItem);
+        } else {
+            iu.addModifiedItem(removedItem);
+        }
+        iu.writeMe();
+        player.sendPacket(iu);
+
+        // Share new weight
+        StatusUpdatePacket su = new StatusUpdatePacket(player);
+        su.addAttribute(StatusUpdatePacket.CUR_LOAD, player.getCurrentLoad());
+        su.build();
+        player.sendPacket(su);
+
+        // Remove object from pool
+        WorldManagerService.getInstance().removeObject(removedItem);
+    }
+
+    private void onRequestDropItem() {
+
     }
 }
