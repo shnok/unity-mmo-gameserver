@@ -4,11 +4,11 @@ import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.LoginFailPacket;
 import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
-import com.shnok.javaserver.enums.network.SystemMessageId;
-import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.LoginFailReason;
+import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;
+import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.model.network.SessionKey;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.BlowFishKeygen;
@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,9 +59,10 @@ public class GameClientThread extends Thread {
     private boolean printPacketsIn;
     private boolean printPacketsOut;
 
-    public GameClientThread(Socket con) {
+    public GameClientThread(Socket con) throws SocketException {
         connection = con;
         connectionIp = con.getInetAddress().getHostAddress();
+        connection.setReceiveBufferSize(1024 * 64);
         gameCrypt = new GameCrypt();
         connectionTimeoutMs = server.serverConnectionTimeoutMs();
         printCryptography = server.printCryptography();
@@ -112,6 +114,18 @@ public class GameClientThread extends Thread {
                     receivedBytes = receivedBytes + newBytes;
                 }
 
+                if(isCryptEnabled()) {
+                    if(isPrintCryptography()) {
+                        log.debug("<--- [CLIENT] Encrypted packet {} : {}", data.length, Arrays.toString(data));
+                    }
+                    getGameCrypt().decrypt(data, 0, data.length);
+                    if(isPrintCryptography()) {
+                        log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
+                    }
+                } else if(isPrintCryptography()) {
+                    log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
+                }
+
                 handlePacket(data);
             }
         } catch (Exception e) {
@@ -143,23 +157,21 @@ public class GameClientThread extends Thread {
 
         byte[] data = packet.getData();
 
+        if(printCryptography) {
+            log.debug("---> [CLIENT] Clear packet {} : {}", data.length,
+                    Arrays.toString(data));
+        }
+
         if(isCryptEnabled()) {
             data = Arrays.copyOf(packet.getData(), packet.getData().length);
 
             NewCrypt.appendChecksum(data);
 
-            if(printCryptography) {
-                log.debug("---> [CLIENT] Clear packet {} : {}", data.length,
-                        Arrays.toString(data));
-            }
             gameCrypt.encrypt(data, 0, data.length);
             if(printCryptography) {
                 log.debug("---> [CLIENT] Encrypted packet {} : {}", data.length,
                         Arrays.toString(data));
             }
-        } else if(printCryptography) {
-            log.debug("---> [CLIENT] Clear packet {} : {}", data.length,
-                    Arrays.toString(data));
         }
 
         try {
