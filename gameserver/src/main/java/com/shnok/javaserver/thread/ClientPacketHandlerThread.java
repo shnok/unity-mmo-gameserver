@@ -523,7 +523,7 @@ public class ClientPacketHandlerThread extends Thread {
 
             player.abortAttack();
             //TODO: Share appearance/atkspd update
-            //player.broadcastUserInfo();
+            player.broadcastUserInfo();
         } else {
             //TODO: Handle use other items
             log.warn("No item handler registered for item ID {}.", item.getItemId());
@@ -564,8 +564,7 @@ public class ClientPacketHandlerThread extends Thread {
         //TODO: Update soulshots
 
         player.abortAttack();
-        //TODO: Share appearance/atkspd update
-        //player.broadcastUserInfo();
+        player.broadcastUserInfo();
 
         // this can be 0 if the user pressed the right mousebutton twice very fast
         if (!items.isEmpty()) {

@@ -4,10 +4,7 @@ import com.shnok.javaserver.db.entity.DBArmor;
 import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.db.repository.CharacterRepository;
 import com.shnok.javaserver.dto.SendablePacket;
-import com.shnok.javaserver.dto.external.serverpackets.ApplyDamagePacket;
-import com.shnok.javaserver.dto.external.serverpackets.StatusUpdatePacket;
-import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
-import com.shnok.javaserver.dto.external.serverpackets.UserInfoPacket;
+import com.shnok.javaserver.dto.external.serverpackets.*;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.SystemMessageId;
@@ -298,5 +295,12 @@ public class PlayerInstance extends Entity {
     public void sendMessage(String message) {
         SystemMessagePacket packet = SystemMessagePacket.sendString(message);
         sendPacket(packet);
+    }
+
+    public void broadcastUserInfo() {
+        // Share player info to client
+        sendPacket(new PlayerInfoPacket(this));
+        // Share user info to knownlist
+        broadcastPacket(new UserInfoPacket(this));
     }
 }
