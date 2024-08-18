@@ -13,7 +13,7 @@ public class FuncPAtkEvasion extends AbstractFunction {
     }
 
     private FuncPAtkEvasion() {
-        super(Stats.POWER_EVASION_RATE, 1, null, 0, null);
+        super(Stats.POWER_EVASION_RATE, 0x10, null, 0, null);
     }
 
     @Override

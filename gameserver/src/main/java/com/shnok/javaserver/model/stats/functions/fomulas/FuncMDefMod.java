@@ -16,7 +16,7 @@ public class FuncMDefMod extends AbstractFunction {
     }
 
     private FuncMDefMod() {
-        super(Stats.MAGIC_DEFENCE, 1, null, 0, null);
+        super(Stats.MAGIC_DEFENCE, 0x20, null, 0, null);
     }
 
     @Override
@@ -40,6 +40,10 @@ public class FuncMDefMod extends AbstractFunction {
                 value -= 13;
             }
         }
+
+//        if(getStat() == Stats.MAGIC_DEFENCE)
+//            System.out.println("FuncMdefMod" + " - " + getStat() + " - InitVal:" + initVal + " - GetValue:" + getValue() + " - Calculated:" +
+//                    value * Formulas.MENbonus[effector.getMEN()] * effector.getLevelMod());
 
         return value * Formulas.MENbonus[effector.getMEN()] * effector.getLevelMod();
     }

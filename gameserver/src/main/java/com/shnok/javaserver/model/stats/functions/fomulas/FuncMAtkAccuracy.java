@@ -29,7 +29,7 @@ public class FuncMAtkAccuracy extends AbstractFunction {
     }
 
     private FuncMAtkAccuracy() {
-        super(Stats.MAGIC_ACCURACY_COMBAT, 1, null, 0, null);
+        super(Stats.MAGIC_ACCURACY_COMBAT, 0x10, null, 0, null);
     }
 
     @Override

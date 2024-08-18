@@ -79,14 +79,14 @@ public class ItemInstance extends GameObject {
                 this.itemCategory = ItemCategory.item;
             }
         } else if(item instanceof DBArmor) {
-            statFuncs = ItemStatConverter.parseArmor((DBArmor) item);
+            statFuncs = ItemStatConverter.parseArmor(this);
             if(item.getBodyPart().getValue() >= 9 && item.getBodyPart().getValue() <= 17) {
                 this.itemCategory = ItemCategory.jewel;
             } else {
                 this.itemCategory = ItemCategory.shield_armor;
             }
         } else if(item instanceof DBWeapon) {
-            statFuncs = ItemStatConverter.parseWeapon((DBWeapon) item);
+            statFuncs = ItemStatConverter.parseWeapon(this);
             this.itemCategory = ItemCategory.weapon;
         }
     }
