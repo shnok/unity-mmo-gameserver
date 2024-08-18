@@ -14,7 +14,7 @@ public class FuncMoveSpeed extends AbstractFunction {
     }
 
     private FuncMoveSpeed() {
-        super(Stats.MOVE_SPEED, 1, null, 0, null);
+        super(Stats.MOVE_SPEED, 0x30, null, 0, null);
     }
 
     @Override

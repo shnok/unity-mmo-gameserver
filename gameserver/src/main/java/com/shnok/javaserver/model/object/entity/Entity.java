@@ -692,25 +692,78 @@ public abstract class Entity extends MovableObject {
 
     protected void broadcastModifiedStats(List<Stats> stats) {
         System.out.println("BROADCAST MODIFIED STATS!");
-        if ((stats == null) || stats.isEmpty()) {
-            return;
+        boolean broadcastFull = false;
+        boolean otherStats = false;
+        StatusUpdatePacket su = null;
+
+        for (Stats stat : stats) {
+            if (stat == Stats.POWER_ATTACK_SPEED) {
+                if (su == null) {
+                    su = new StatusUpdatePacket(this);
+                }
+                su.addAttribute(StatusUpdatePacket.ATK_SPD, (int) getPAtkSpd());
+            } else if (stat == Stats.MAGIC_ATTACK_SPEED) {
+                if (su == null) {
+                    su = new StatusUpdatePacket(this);
+                }
+                su.addAttribute(StatusUpdatePacket.CAST_SPD, getMAtkSpd());
+            }
+            // else if (stat==Stats.MAX_HP) // TODO: self only and add more stats...
+            // {
+            // if (su == null) su = new StatusUpdate(getObjectId());
+            // su.addAttribute(StatusUpdate.MAX_HP, getMaxHp());
+            // }
+            else if (stat == Stats.MAX_CP) {
+                if (this instanceof PlayerInstance) {
+                    if (su == null) {
+                        su = new StatusUpdatePacket(this);
+                    }
+                    su.addAttribute(StatusUpdatePacket.MAX_CP, getMaxCp());
+                }
+            }
+            // else if (stat==Stats.MAX_MP)
+            // {
+            // if (su == null) su = new StatusUpdate(getObjectId());
+            // su.addAttribute(StatusUpdate.MAX_MP, getMaxMp());
+            // }
+            else if (stat == Stats.RUN_SPEED) {
+                broadcastFull = true;
+            } else {
+                otherStats = true;
+            }
         }
 
-
-//        boolean broadcastFull = false;
-//        StatusUpdatePacket su = new StatusUpdatePacket(this);
-//
-//        for (Stats stat : stats) {
-//            if (stat == Stats.POWER_ATTACK_SPEED) {
-//                su.addAttribute(StatusUpdatePacket.ATK_SPD, (int) getPAtkSpd());
-//            } else if (stat == Stats.MAGIC_ATTACK_SPEED) {
-//                su.addAttribute(StatusUpdatePacket.CAST_SPD, getMAtkSpd());
-//            } else if (stat == Stats.MOVE_SPEED) {
-//                broadcastFull = true;
-//            }
-//        }
-
-        //TODO: Verify if usefull
+        if (this instanceof PlayerInstance) {
+            if (broadcastFull) {
+                ((PlayerInstance) this).updateAndBroadcastStatus(2);
+            } else {
+                if (otherStats) {
+                    ((PlayerInstance) this).updateAndBroadcastStatus(1);
+                    if (su != null) {
+                        for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {
+                            try {
+                                player.sendPacket(su);
+                            } catch (NullPointerException e) {
+                            }
+                        }
+                    }
+                } else if (su != null) {
+                    broadcastPacket(su);
+                }
+            }
+        } else if (this instanceof NpcInstance) {
+            if (broadcastFull) {
+                for (PlayerInstance player : getKnownList().getKnownPlayers().values()) {
+                    if (player != null) {
+                        player.sendPacket(new NpcInfoPacket((NpcInstance) this));
+                    }
+                }
+            } else if (su != null) {
+                broadcastPacket(su);
+            }
+        } else if (su != null) {
+            broadcastPacket(su);
+        }
     }
 
     /**
@@ -1057,5 +1110,19 @@ public abstract class Entity extends MovableObject {
 
     public void stopAllTimers() {
         status.stopHpMpRegeneration();
+    }
+
+    //layer.isStunned() || player.isSleeping() || player.isParalyzed() || player.isAlikeDead()
+
+    public boolean isSleeping() {
+        return false;
+    }
+
+    public boolean isParalyzed() {
+        return false;
+    }
+
+    public boolean isAlikeDead() {
+        return false;
     }
 }

@@ -16,7 +16,7 @@ public class FuncMDefMod extends AbstractFunction {
     }
 
     private FuncMDefMod() {
-        super(Stats.MAGIC_DEFENCE, 1, null, 0, null);
+        super(Stats.MAGIC_DEFENCE, 0x20, null, 0, null);
     }
 
     @Override
@@ -24,22 +24,26 @@ public class FuncMDefMod extends AbstractFunction {
         float value = initVal;
         if (effector.isPlayer()) {
             PlayerInstance p = (PlayerInstance) effector;
-            if (!p.getInventory().isSlotEmpty(ItemSlot.lfinger)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.lfinger)) {
                 value -= 5;
             }
-            if (!p.getInventory().isSlotEmpty(ItemSlot.rfinger)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.rfinger)) {
                 value -= 5;
             }
-            if (!p.getInventory().isSlotEmpty(ItemSlot.lear)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.lear)) {
                 value -= 9;
             }
-            if (!p.getInventory().isSlotEmpty(ItemSlot.rear)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.rear)) {
                 value -= 9;
             }
-            if (!p.getInventory().isSlotEmpty(ItemSlot.neck)) {
+            if (p.getInventory().isSlotUsed(ItemSlot.neck)) {
                 value -= 13;
             }
         }
+
+//        if(getStat() == Stats.MAGIC_DEFENCE)
+//            System.out.println("FuncMdefMod" + " - " + getStat() + " - InitVal:" + initVal + " - GetValue:" + getValue() + " - Calculated:" +
+//                    value * Formulas.MENbonus[effector.getMEN()] * effector.getLevelMod());
 
         return value * Formulas.MENbonus[effector.getMEN()] * effector.getLevelMod();
     }

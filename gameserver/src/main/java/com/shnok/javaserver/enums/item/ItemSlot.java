@@ -30,7 +30,7 @@ public enum ItemSlot {
         return value;
     }
 
-    public static ItemSlot getSlot(byte value) {
+    public static ItemSlot getSlot(int value) {
         for (ItemSlot slot : ItemSlot.values()) {
             if (slot.getValue() == value) {
                 return slot;

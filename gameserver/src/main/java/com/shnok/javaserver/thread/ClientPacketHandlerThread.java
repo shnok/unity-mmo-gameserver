@@ -1,31 +1,40 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.external.clientpackets.*;
+import com.shnok.javaserver.dto.external.clientpackets.item.RequestDestroyItemPacket;
+import com.shnok.javaserver.dto.external.clientpackets.item.RequestInventoryUpdateOrderPacket;
+import com.shnok.javaserver.dto.external.clientpackets.item.RequestUnEquipItemPacket;
+import com.shnok.javaserver.dto.external.clientpackets.item.UseItemPacket;
 import com.shnok.javaserver.dto.external.serverpackets.*;
+import com.shnok.javaserver.dto.external.serverpackets.item.InventoryItemListPacket;
+import com.shnok.javaserver.dto.external.serverpackets.item.InventoryUpdatePacket;
 import com.shnok.javaserver.enums.Event;
 import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.PlayerAction;
+import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.enums.network.GameClientState;
+import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.enums.network.packettypes.external.ClientPacketType;
 import com.shnok.javaserver.model.CharSelectInfoPackage;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.network.SessionKey;
-import com.shnok.javaserver.model.object.GameObject;
+import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.NewCrypt;
 import com.shnok.javaserver.service.GameServerController;
 import com.shnok.javaserver.service.WorldManagerService;
-import com.shnok.javaserver.service.factory.PlayerFactoryService;
 import com.shnok.javaserver.thread.ai.PlayerAI;
 import com.shnok.javaserver.util.VectorUtils;
+import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import static com.shnok.javaserver.config.Configuration.server;
 
@@ -46,22 +55,11 @@ public class ClientPacketHandlerThread extends Thread {
 
     public void handle() {
         if(client.isCryptEnabled()) {
-            if(client.isPrintCryptography()) {
-                log.debug("<--- [CLIENT] Encrypted packet {} : {}", data.length, Arrays.toString(data));
-            }
-            client.getGameCrypt().decrypt(data, 0, data.length);
-            if(client.isPrintCryptography()) {
-                log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
-            }
-
             if(!NewCrypt.verifyChecksum(data)) {
                 log.warn("Packet's checksum is wrong.");
                 return;
             }
-        } else if(client.isPrintCryptography()) {
-            log.debug("<--- [CLIENT] Decrypted packet {} : {}", data.length, Arrays.toString(data));
         }
-
 
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
         if(client.isPrintPacketsIn()) {
@@ -69,6 +67,7 @@ public class ClientPacketHandlerThread extends Thread {
                 log.debug("[CLIENT] Received packet: {}", type);
             }
         }
+
         switch (type) {
             case Ping:
                 onReceiveEcho();
@@ -108,6 +107,24 @@ public class ClientPacketHandlerThread extends Thread {
                 break;
             case CharSelect:
                 onRequestCharSelect();
+                break;
+            case RequestInventoryOpen:
+                onRequestInventoryOpen();
+                break;
+            case RequestInventoryUpdateOrder:
+                onRequestInventoryUpdateOrder();
+                break;
+            case UseItem:
+                onUseItem();
+                break;
+            case RequestUnEquipItem:
+                onRequestUnEquipItem();
+                break;
+            case RequestDestroyItem:
+                onRequestDestroyItem();
+                break;
+            case RequestDropItem:
+                onRequestDropItem();
                 break;
         }
     }
@@ -201,6 +218,8 @@ public class ClientPacketHandlerThread extends Thread {
         client.getCurrentPlayer().getKnownList().forceRecheckSurroundings();
 
         client.authenticate();
+
+        //TODO: REMOVE
     }
 
     private void onRequestCharacterRotate() {
@@ -395,5 +414,287 @@ public class ClientPacketHandlerThread extends Thread {
 
         PlayerInfoPacket cs = new PlayerInfoPacket(player);
         client.sendPacket(cs);
+    }
+
+    private void onRequestInventoryOpen() {
+        InventoryItemListPacket packet = new InventoryItemListPacket(client.getCurrentPlayer(), true);
+        client.getCurrentPlayer().getInventory().getUpdatedItems();
+        client.sendPacket(packet);
+    }
+
+    private void onRequestInventoryUpdateOrder() {
+        RequestInventoryUpdateOrderPacket packet = new RequestInventoryUpdateOrderPacket(data);
+        PlayerInstance player = client.getCurrentPlayer();
+        if (player == null) {
+            return;
+        }
+
+        packet.getOrderList().forEach((inventoryOrder -> {
+            player.getInventory().moveItemAndRecord(inventoryOrder.getObjectID(), inventoryOrder.getOrder());
+        }));
+
+        List<ItemInstance> items = player.getInventory().getUpdatedItems();
+
+        InventoryUpdatePacket iu = new InventoryUpdatePacket(items);
+        iu.writeMe();
+        player.sendPacket(iu);
+
+        player.getInventory().resetAndApplyUpdatedItems();
+    }
+
+    private void onUseItem() {
+        UseItemPacket packet = new UseItemPacket(data);
+
+        PlayerInstance player = client.getCurrentPlayer();
+        if (player == null) {
+            return;
+        }
+
+        ItemInstance item = player.getInventory().getItemByObjectId(packet.getItemObjectId());
+        if (item == null) {
+            return;
+        }
+
+        int itemId = item.getItemId();
+
+        if (player.isDead()) {
+            SystemMessagePacket sm = new SystemMessagePacket(SystemMessageId.S1_CANNOT_BE_USED);
+            sm.addItemName(itemId);
+            sm.writeMe();
+
+            player.sendPacket(sm);
+            return;
+        }
+
+        log.debug("[ITEM][{}] Use item {}", player.getId(), itemId);
+
+        if (item.isEquipable()) {
+            // No unequipping/equipping while the player is in special conditions
+            if (player.isStunned() || player.isSleeping() || player.isParalyzed() || player.isAlikeDead()) {
+                player.sendMessage("Your status does not allow you to do that.");
+                return;
+            }
+
+            ItemSlot bodyPart = item.getItem().getBodyPart();
+            // Prevent player to remove the weapon on special conditions
+            if ((player.isAttacking() || player.isCasting()) && ((bodyPart == ItemSlot.lrhand) ||
+                    (bodyPart == ItemSlot.lhand) || (bodyPart == ItemSlot.rhand))) {
+                return;
+            }
+
+            // Equip or unEquip
+            boolean isEquipped = item.isEquipped();
+            SystemMessagePacket sm = null;
+
+            //TODO: Update soulshots
+//            ItemInstance old = player.getInventory().getEquippedItem(ItemSlot.lrhand);
+//            if (old == null) {
+//                old = player.getInventory().getEquippedItem(ItemSlot.rhand);
+//                activeChar.checkSSMatch(item, old);
+//            }
+
+            if (isEquipped) {
+                if (item.getEnchantLevel() > 0) {
+                    sm = new SystemMessagePacket(SystemMessageId.EQUIPMENT_S1_S2_REMOVED);
+                    sm.addInt(item.getEnchantLevel());
+                    sm.addItemName(itemId);
+                } else {
+                    sm = new SystemMessagePacket(SystemMessageId.S1_DISARMED);
+                    sm.addItemName(itemId);
+                }
+                sm.writeMe();
+                player.sendPacket(sm);
+
+                player.getInventory().unEquipItemInSlotAndRecord(ItemSlot.getSlot((byte) item.getSlot()));
+            } else {
+                if (item.getEnchantLevel() > 0) {
+                    sm = new SystemMessagePacket(SystemMessageId.S1_S2_EQUIPPED);
+                    sm.addInt(item.getEnchantLevel());
+                    sm.addItemName(itemId);
+                } else {
+                    sm = new SystemMessagePacket(SystemMessageId.S1_EQUIPPED);
+                    sm.addItemName(itemId);
+                }
+                sm.writeMe();
+                player.sendPacket(sm);
+                player.getInventory().equipItemAndRecord(item);
+            }
+
+            //TODO: Update grade penalty
+            //activeChar.refreshExpertisePenalty();
+
+            List<ItemInstance> items = player.getInventory().getUpdatedItems();
+
+            InventoryUpdatePacket iu = new InventoryUpdatePacket(items);
+            iu.writeMe();
+            player.sendPacket(iu);
+
+            player.getInventory().resetAndApplyUpdatedItems();
+
+            player.abortAttack();
+            player.broadcastUserInfo();
+        } else {
+            //TODO: Handle use other items
+            log.warn("No item handler registered for item ID {}.", item.getItemId());
+        }
+    }
+
+    private void onRequestUnEquipItem() {
+        RequestUnEquipItemPacket packet = new RequestUnEquipItemPacket(data);
+        PlayerInstance player = client.getCurrentPlayer();
+        if (player == null) {
+            return;
+        }
+
+        ItemSlot slot = Objects.requireNonNull(ItemSlot.getSlot((byte) packet.getSlot()));
+
+        log.debug("[ITEM][{}] UnEquip item from slot {}", player.getId(), slot);
+
+        // Prevent player from unequipping items in special conditions
+        if (player.isStunned() || player.isSleeping() || player.isParalyzed() || player.isAlikeDead()) {
+            player.sendMessage("Your status does not allow you to do that.");
+            return;
+        }
+
+        if (player.isAttacking() || player.isCasting()) {
+            return;
+        }
+
+        player.getInventory().unEquipItemInSlotAndRecord(slot);
+
+        // show the update in the inventory
+        List<ItemInstance> items = player.getInventory().getUpdatedItems();
+        InventoryUpdatePacket iu = new InventoryUpdatePacket(items);
+        iu.writeMe();
+        player.sendPacket(iu);
+
+        player.getInventory().resetAndApplyUpdatedItems();
+
+        //TODO: Update soulshots
+
+        player.abortAttack();
+        player.broadcastUserInfo();
+
+        // this can be 0 if the user pressed the right mousebutton twice very fast
+        if (!items.isEmpty()) {
+            SystemMessagePacket sm = null;
+            if (items.get(0).getEnchantLevel() > 0) {
+                sm = new SystemMessagePacket(SystemMessageId.EQUIPMENT_S1_S2_REMOVED);
+                sm.addInt(items.get(0).getEnchantLevel());
+                sm.addItemName(items.get(0).getItemId());
+            } else {
+                sm = new SystemMessagePacket(SystemMessageId.S1_DISARMED);
+                sm.addItemName(items.get(0).getItemId());
+            }
+            sm.writeMe();
+            player.sendPacket(sm);
+        }
+    }
+
+    private void onRequestDestroyItem() {
+        RequestDestroyItemPacket packet = new RequestDestroyItemPacket(data);
+
+        PlayerInstance player = client.getCurrentPlayer();
+        if (player == null) {
+            return;
+        }
+
+        int count = packet.getCount();
+        int objectId = packet.getItemObjectId();
+
+        if (count <= 0) {
+            if (count < 0) {
+                log.info("[MALICIOUS][ITEM][{}] Count < 0", player.getId());
+            }
+            return;
+        }
+
+//        if (activeChar.getPrivateStoreType() != 0)
+//        {
+//            activeChar.sendPacket(new SystemMessagePacket(SystemMessageId.CANNOT_TRADE_DISCARD_DROP_ITEM_WHILE_IN_SHOPMODE));
+//            return;
+//        }
+
+        ItemInstance itemToRemove = player.getInventory().getItemByObjectId(objectId);
+        // if we cant find requested item, its actualy a cheat!
+        if (itemToRemove == null) {
+            return;
+        }
+
+        // Cannot discard item that the skill is consumming
+        if (player.isCasting()) {
+            player.sendPacket(new SystemMessagePacket(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
+        }
+
+        int itemId = itemToRemove.getItemId();
+        if (!itemToRemove.getItem().isDestroyable()) {
+            player.sendPacket(new SystemMessagePacket(SystemMessageId.CANNOT_DISCARD_THIS_ITEM));
+            return;
+        }
+
+        if (!itemToRemove.isStackable() && (count > 1)) {
+            log.info("[MALICIOUS][ITEM][{}] Count > 1 but item is not stackable! < 0", player.getId());
+            return;
+        }
+
+        if (count > itemToRemove.getCount()) {
+            count = itemToRemove.getCount();
+        }
+
+        // Unequip the item if needed
+        if (itemToRemove.isEquipped()) {
+            if (player.isStunned() || player.isSleeping() || player.isParalyzed() || player.isAlikeDead()) {
+                player.sendMessage("Your status does not allow you to do that.");
+                return;
+            }
+
+            if (player.isAttacking() || player.isCasting()) {
+                return;
+            }
+
+            player.getInventory().unEquipItemInSlotAndRecord(ItemSlot.getSlot(itemToRemove.getSlot()));
+
+            // show the update in the inventory
+            List<ItemInstance> items = player.getInventory().getUpdatedItems();
+            InventoryUpdatePacket iu = new InventoryUpdatePacket(items);
+            iu.writeMe();
+            player.sendPacket(iu);
+
+            player.getInventory().resetAndApplyUpdatedItems();
+
+            //TODO: Update soulshots
+
+            player.abortAttack();
+            player.broadcastUserInfo();
+        }
+
+        // Destroy the item from inventory
+        ItemInstance removedItem = player.getInventory().destroyItem(objectId, count, player);
+        if (removedItem == null) {
+            return;
+        }
+
+        // Share the item update
+        InventoryUpdatePacket iu = new InventoryUpdatePacket(new FastList<>());
+        if (removedItem.getCount() == 0) {
+            iu.addRemovedItem(removedItem);
+        } else {
+            iu.addModifiedItem(removedItem);
+        }
+        iu.writeMe();
+        player.sendPacket(iu);
+
+        // Share new weight
+        StatusUpdatePacket su = new StatusUpdatePacket(player);
+        su.addAttribute(StatusUpdatePacket.CUR_LOAD, player.getCurrentLoad());
+        su.build();
+        player.sendPacket(su);
+
+        // Remove object from pool
+        WorldManagerService.getInstance().removeObject(removedItem);
+    }
+
+    private void onRequestDropItem() {
+
     }
 }

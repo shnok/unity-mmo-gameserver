@@ -103,22 +103,41 @@ public class PlayerItemRepository implements PlayerItemDao {
         Random random = new Random();
 
         int rhandId = rhand[random.nextInt(rhand.length)];
-        DBPlayerItem rhandItem = new DBPlayerItem(owner, rhandId, ItemLocation.EQUIPPED, ItemSlot.rhand.getValue());
+        DBPlayerItem rhandItem = new DBPlayerItem(owner, rhandId, ItemLocation.EQUIPPED, ItemSlot.rhand);
         savePlayerItem(rhandItem);
 
         if(rhandId != 5284 && rhandId != 177) {
             if(random.nextInt(3) == 1) {
-                DBPlayerItem lhandItem = new DBPlayerItem(owner, shieldId, ItemLocation.EQUIPPED, ItemSlot.lhand.getValue());
+                DBPlayerItem lhandItem = new DBPlayerItem(owner, shieldId, ItemLocation.EQUIPPED, ItemSlot.lhand);
                 savePlayerItem(lhandItem);
             }
         }
 
         int legsId = legs[random.nextInt(legs.length)];
-        DBPlayerItem legsItem = new DBPlayerItem(owner, legsId, ItemLocation.EQUIPPED, ItemSlot.legs.getValue());
+        DBPlayerItem legsItem = new DBPlayerItem(owner, legsId, ItemLocation.EQUIPPED, ItemSlot.legs);
         savePlayerItem(legsItem);
 
         int chestId = chest[random.nextInt(chest.length)];
-        DBPlayerItem chestItem = new DBPlayerItem(owner, chestId, ItemLocation.EQUIPPED, ItemSlot.chest.getValue());
+        DBPlayerItem chestItem = new DBPlayerItem(owner, chestId, ItemLocation.EQUIPPED, ItemSlot.chest);
         savePlayerItem(chestItem);
+    }
+
+    public void giveRandomItemsToPlayer(int owner) {
+        Random random = new Random();
+
+        DBPlayerItem adena = new DBPlayerItem(owner, 57, ItemLocation.INVENTORY, 0, random.nextInt(1000000));
+        savePlayerItem(adena);
+
+        DBPlayerItem item2 = new DBPlayerItem(owner, 1835, ItemLocation.INVENTORY, 2, random.nextInt(1000));
+        savePlayerItem(item2);
+        DBPlayerItem item3 = new DBPlayerItem(owner, 3947, ItemLocation.INVENTORY, 3, random.nextInt(1000));
+        savePlayerItem(item3);
+        DBPlayerItem item4 = new DBPlayerItem(owner, 2509, ItemLocation.INVENTORY, 10, random.nextInt(1000));
+        savePlayerItem(item4);
+        DBPlayerItem item5 = new DBPlayerItem(owner, 736, ItemLocation.INVENTORY, 20, random.nextInt(1000));
+        savePlayerItem(item5);
+
+        DBPlayerItem weapon1 = new DBPlayerItem(owner, 2370, ItemLocation.INVENTORY, ItemSlot.lhand);
+        savePlayerItem(weapon1);
     }
 }

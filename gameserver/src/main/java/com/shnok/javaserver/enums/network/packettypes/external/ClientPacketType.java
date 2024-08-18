@@ -16,7 +16,13 @@ public enum ClientPacketType {
     RequestMoveDirection((byte)0x09),
     RequestSetTarget((byte)0x0A),
     RequestAutoAttack((byte)0x0B),
-    CharSelect((byte) 0x0C);
+    CharSelect((byte) 0x0C),
+    RequestInventoryOpen((byte) 0x0D),
+    RequestInventoryUpdateOrder((byte) 0x0E),
+    UseItem((byte) 0x0F),
+    RequestUnEquipItem((byte) 0x10),
+    RequestDestroyItem((byte) 0x11),
+    RequestDropItem((byte) 0x12);
 
     private final byte value;
 

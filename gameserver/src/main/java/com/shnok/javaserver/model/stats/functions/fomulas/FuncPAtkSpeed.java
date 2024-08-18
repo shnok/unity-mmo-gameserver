@@ -14,7 +14,7 @@ public class FuncPAtkSpeed extends AbstractFunction {
     }
 
     private FuncPAtkSpeed() {
-        super(Stats.POWER_ATTACK_SPEED, 1, null, 0, null);
+        super(Stats.POWER_ATTACK_SPEED, 0x20, null, 0, null);
     }
 
     @Override

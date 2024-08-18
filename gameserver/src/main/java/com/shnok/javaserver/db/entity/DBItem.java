@@ -1,6 +1,7 @@
 package com.shnok.javaserver.db.entity;
 
 import com.shnok.javaserver.enums.item.Grade;
+import com.shnok.javaserver.enums.item.ItemCategory;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.enums.item.Material;
 import lombok.Getter;

@@ -113,21 +113,75 @@ INSERT INTO CHAR_TEMPLATE (CLASSID,CLASSNAME,RACEID,STR,CON,DEX,"_INT",WIT,MEN,P
 -- 
 -- Dumping data for table `ARMOR`
 -- 
-INSERT INTO `etcitem` VALUES ('17', 'Wooden Arrow', 'false', 'arrow', '6', 'stackable', 'wood', 'none', '-1', '2', '0', 'true', 'true', 'true', 'true', 'wooden_arrow', '2');
-INSERT INTO `etcitem` VALUES ('57', 'Adena', 'false', 'none', '0', 'asset', 'gold', 'none', '-1', '1', '0', 'true', 'true', 'true', 'true', 'adena', '2');
-INSERT INTO `etcitem` VALUES ('65', 'Red Potion', 'false', 'potion', '80', 'stackable', 'liquid', 'none', '-1', '40', '0', 'true', 'true', 'true', 'true', 'red_potion', '2');
-INSERT INTO `etcitem` VALUES ('1835', 'Soulshot: No Grade', 'false', 'shot', '4', 'stackable', 'paper', 'none', '-1', '7', '0', 'true', 'true', 'true', 'true', 'soulshot_none', '2');
-INSERT INTO `etcitem` VALUES ('2509', 'Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '15', '0', 'true', 'true', 'true', 'true', 'spiritshot_none', '2');
-INSERT INTO `etcitem` VALUES ('3947', 'Blessed Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '35', '0', 'true', 'true', 'true', 'true', 'blessed_spiritshot_none', '2');
+INSERT INTO `etcitem` VALUES ('17', 'Wooden Arrow', 'false', 'arrow', '6', 'stackable', 'wood', 'none', '-1', '2', '0', 'true', 'true', 'true', 'true', 'wooden_arrow', 'arrow', '2');
+INSERT INTO `etcitem` VALUES ('57', 'Adena', 'false', 'none', '0', 'asset', 'gold', 'none', '-1', '1', '0', 'true', 'true', 'true', 'true', 'adena', 'none', '2');
+INSERT INTO `etcitem` VALUES ('65', 'Red Potion', 'false', 'potion', '80', 'stackable', 'liquid', 'none', '-1', '40', '0', 'true', 'true', 'true', 'true', 'red_potion', 'potion', '2');
+INSERT INTO `etcitem` VALUES ('734', 'Haste Potion', 'false', 'potion', '20', 'stackable', 'liquid', 'none', '-1', '1200', '0', 'true', 'true', 'true', 'true', 'quick_step_potion', 'potion', '2');
+INSERT INTO `etcitem` VALUES ('735', 'Potion of Alacrity', 'false', 'potion', '20', 'stackable', 'liquid', 'none', '-1', '2400', '0', 'true', 'true', 'true', 'true', 'swift_attack_potion', 'potion', '2');
+INSERT INTO `etcitem` VALUES ('736', 'Scroll of Escape', 'false', 'scroll', '120', 'stackable', 'paper', 'none', '-1', '400', '0', 'true', 'true', 'true', 'true', 'scroll_of_escape', 'scroll', '2');
+INSERT INTO `etcitem` VALUES ('737', 'Scroll of Resurrection', 	'false', 'scroll', 	'120', 	'stackable', 'paper', 'none', '-1', '2000', '0', 'true', 'true', 'true', 'true', 'scroll_of_resurrection', 'scroll', '2');
+INSERT INTO `etcitem` VALUES ('1835', 'Soulshot: No Grade', 'false', 'shot', '4', 'stackable', 'paper', 'none', '-1', '7', '0', 'true', 'true', 'true', 'true', 'soulshot_none', 'none', '2');
+INSERT INTO `etcitem` VALUES ('2509', 'Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '15', '0', 'true', 'true', 'true', 'true', 'spiritshot_none', 'none', '2');
+INSERT INTO `etcitem` VALUES ('3947', 'Blessed Spiritshot: No Grade', 'false', 'shot', '5', 'stackable', 'paper', 'none', '-1', '35', '0', 'true', 'true', 'true', 'true', 'blessed_spiritshot_none', 'none', '2');
  
 -- 
 -- Dumping data for table `ARMOR`
 -- 
 INSERT INTO `ARMOR` VALUES 
- ('425','Apprentice''s Tunic','chest','false','magic','2150','cloth','none','0','-1','17','0','19','26','0','false','false','true','false'),
- ('461','Apprentice''s Stockings','legs','false','magic','1100','cloth','none','0','-1','10','0','10','6','0','false','false','true','false'),
- ('1146','Squire''s Shirt','chest','false','light','3301','cloth','none','0','-1','33','0','0','26','0','false','false','true','false'),
- ('1147','Squire''s Pants','legs','false','light','1750','cloth','none','0','-1','20','0','0','6','0','false','false','true','false');
+ ('21','Shirt','chest','false','light','4830','cloth','none','0','-1','36','0','0','147','0','true','true','true','true','0','0'),
+ ('22','Leather Shirt','chest','false','light','4830','leather','none','0','-1','43','0','0','2430','0','true','true','true','true','0','0'),
+ ('23','Wooden Breastplate','chest','false','light','4820','wood','none','0','-1','47','0','0','7960','0','true','true','true','true','0','0'),
+ ('24','Bone Breastplate','chest','false','light','4770','bone','none','0','-1','50','0','0','20300','0','true','true','true','true','0','0'),
+ ('25','Piece Bone Breastplate','chest','false','heavy','8970','bone','none','0','-1','62','0','0','31800','0','true','true','true','true','0','0'),
+ ('26','Bronze Breastplate','chest','false','heavy','8920','bronze','none','0','-1','68','0','0','49200','0','true','true','true','true','0','0'),
+ ('27','Hard Leather Shirt','chest','false','light','4720','leather','none','0','-1','53','0','0','36900','0','true','true','true','true','0','0'),
+ ('28','Pants','legs','false','light','1740','cloth','none','0','-1','22','0','0','92','0','true','true','true','true','0','0'),
+ ('29','Leather Pants','legs','false','light','1730','leather','none','0','-1','27','0','0','1520','0','true','true','true','true','0','0'),
+ ('30','Hard Leather Pants','legs','false','light','1700','leather','none','0','-1','29','0','0','4970','0','true','true','true','true','0','0'),
+ ('31','Bone Gaiters','legs','false','light','1680','bone','none','0','-1','32','0','0','12700','0','true','true','true','true','0','0'),
+ ('32','Piece Bone Gaiters','legs','false','heavy','4020','bone','none','0','-1','39','0','0','19900','0','true','true','true','true','0','0'),
+ ('33','Hard Leather Gaiters','legs','false','light','1610','leather','none','0','-1','33','0','0','23000','0','true','true','true','true','0','0'),
+ ('34','Bronze Gaiters','legs','false','heavy','3960','bronze','none','0','-1','43','0','0','30700','0','true','true','true','true','0','0'),
+ ('35','Cloth Shoes','feet','false','none','1320','cloth','none','0','-1','9','0','0','37','0','true','true','true','true','0','0'),
+ ('36','Leather Sandals','feet','false','none','1320','leather','none','0','-1','9','0','0','37','0','true','true','true','true','0','0'),
+ ('37','Leather Shoes','feet','false','none','1320','leather','none','0','-1','13','0','0','2650','0','true','true','true','true','0','0'),
+ ('38','Low Boots','feet','false','none','1320','leather','none','0','-1','15','0','0','6770','0','true','true','true','true','0','0'),
+ ('39','Boots','feet','false','none','1310','cloth','none','0','-1','17','0','0','12300','0','true','true','true','true','0','0'),
+ ('40','Leather Boots','feet','true','none','1300','leather','d','0','-1','19','0','0','20900','38','true','true','true','true','0','0'),
+ ('41','Cloth Cap','head','false','none','660','cloth','none','0','-1','13','0','0','55','0','true','true','true','true','0','0'),
+ ('42','Leather Cap','head','false','none','660','leather','none','0','-1','16','0','0','911','0','true','true','true','true','0','0'),
+ ('43','Wooden Helmet','head','false','none','660','wood','none','0','-1','19','0','0','3980','0','true','true','true','true','0','0'),
+ ('44','Leather Helmet','head','false','none','650','leather','none','0','-1','23','0','0','10200','0','true','true','true','true','0','0'),
+ ('45','Bone Helmet','head','true','none','640','bone','d','0','-1','29','0','0','31300','56','true','true','true','true','0','0'),
+ ('46','Bronze Helmet','head','true','none','630','bronze','d','0','-1','33','0','0','50000','90','true','true','true','true','0','0'),
+ ('47','Helmet','head','true','none','640','fine_steel','d','0','-1','37','0','0','76200','138','true','true','true','true','0','0'),
+ ('48','Short Gloves','gloves','false','none','660','cloth','none','0','-1','9','0','0','37','0','true','true','true','true','0','0'),
+ ('49','Gloves','gloves','false','none','660','cloth','none','0','-1','13','0','0','2650','0','true','true','true','true','0','0'),
+ ('50','Leather Gloves','gloves','false','none','650','leather','none','0','-1','15','0','0','6770','0','true','true','true','true','0','0'),
+ ('51','Bracer','gloves','false','none','650','leather','none','0','-1','17','0','0','12300','0','true','true','true','true','0','0'),
+ ('52','Hemp Cloak','underwear','false','none','260','cloth','none','0','-1','2','0','0','37','0','true','true','true','true','0','0'),
+ ('53','Cotton Cloak','underwear','false','none','250','cloth','none','0','-1','3','0','0','607','0','true','true','true','true','0','0'),
+ ('54','Silk Cloak','underwear','false','none','250','cloth','none','0','-1','4','0','0','2650','0','true','true','true','true','0','0'),
+ ('55','Cotton Undergarment','underwear','false','none','170','cotton','none','0','-1','4','0','0','18','0','true','true','true','true','0','0'),
+ ('56','Wool Undergarment','underwear','false','none','170','wood','none','0','-1','5','0','0','304','0','true','true','true','true','0','0'),
+ ('58','Mithril Breastplate','chest','true','heavy','8670','mithril','d','0','-1','95','0','0','183000','332','true','true','true','true','0','0'),
+ ('59','Mithril Gaiters','legs','true','heavy','3830','mithril','d','0','-1','61','0','0','127000','230','true','true','true','true','0','0'),
+ ('60','Composite Armor','fullarmor','true','heavy','10980','fine_steel','c','0','-1','224','0','0','1440000','576','true','true','true','true','0','0'),
+ ('61','Mithril Gloves','gloves','true','none','630','mithril','d','0','-1','29','0','0','97800','177','true','true','true','true','0','0'),
+ ('62','Mithril Boots','feet','true','none','1230','leather','c','0','-1','32','0','0','126000','50','true','true','true','true','0','0'),
+ ('63','Gauntlets','gloves','true','none','640','cloth','d','0','-1','24','0','0','50800','92','true','true','true','true','0','0'),
+ ('64','Composite Boots','feet','true','none','1220','fine_steel','c','0','-1','36','0','0','245000','98','true','true','true','true','0','0'),
+ ('112','Apprentice''s Earring','rear','false','none','150','silver','none','0','-1','0','11','0','49','0','true','true','true','true','0','0'),
+ ('113','Mystic''s Earring','rear','false','none','150','silver','none','0','-1','0','13','0','811','0','true','true','true','true','0','0'),
+ ('114','Earring of Strength','rear','false','none','150','gold','none','0','-1','0','16','0','3510','0','true','true','true','true','0','0'),
+ ('115','Earring of Wisdom','rear','false','none','150','gold','none','0','-1','0','16','0','3510','0','true','true','true','true','0','0'),
+ ('116','Magic Ring','rfinger','false','none','150','gold','none','0','-1','0','7','0','33','0','true','true','true','true','0','0'),
+ ('117','Ring of Mana','rfinger','true','none','150','silver','b','0','-1','0','34','0','404000','53','true','true','true','true','0','0'),
+ ('118','Necklace of Magic','neck','false','none','150','silver','none','0','-1','0','15','0','66','0','true','true','true','true','0','0'),
+ ('425','Apprentice''s Tunic','chest','false','magic','2150','cloth','none','0','-1','17','0','19','26','0','false','false','true','false','0','0'),
+ ('461','Apprentice''s Stockings','legs','false','magic','1100','cloth','none','0','-1','10','0','10','6','0','false','false','true','false','0','0'),
+ ('1146','Squire''s Shirt','chest','false','light','3301','cloth','none','0','-1','33','0','0','26','0','false','false','true','false','0','0'),
+ ('1147','Squire''s Pants','legs','false','light','1750','cloth','none','0','-1','20','0','0','6','0','false','false','true','false','0','0');
  
 -- 
 -- Dumping data for table `LVLUPGAIN`
@@ -228,25 +282,25 @@ INSERT INTO `LVLUPGAIN` VALUES ('118', '3293.2', '69.62', '0.37', '2634.5', '55.
 -- 
 
 INSERT INTO `weapon` VALUES 
- ('1','Short Sword','rhand','false','1600','1','1','steel','none','8','10','sword','8','0.00000','0','0','0','379','0','6','-1','768','0','true','true','true','true'),
- ('2','Long Sword','rhand','false','1560','2','2','fine_steel','none','24','10','sword','8','0.00000','0','0','0','379','0','17','-1','136000','0','true','true','true','true'),
- ('3','Broadsword','rhand','false','1590','1','1','steel','none','11','10','sword','8','0.00000','0','0','0','379','0','9','-1','12500','0','true','true','true','true'),
- ('4','Club','rhand','false','1870','1','1','wood','none','8','20','blunt','4','4.00000','0','0','0','379','0','6','-1','768','0','true','true','true','true'),
- ('5','Mace','rhand','false','1880','1','1','steel','none','11','20','blunt','4','4.00000','0','0','0','379','0','9','-1','12500','0','true','true','true','true'),
- ('6','Apprentice''s Wand','rhand','false','1350','1','1','steel','none','5','20','blunt','4','4.00000','0','0','0','379','0','7','-1','138','0','false','false','true','false'),
- ('7','Apprentice''s Rod','rhand','false','1330','1','1','wood','none','6','20','blunt','4','4.00000','0','0','0','379','0','8','-1','768','0','true','true','true','true'),
- ('10','Dagger','rhand','false','1160','1','1','steel','none','5','5','dagger','12','-3.00000','0','0','0','433','0','5','-1','138','0','false','false','true','false'),
- ('14','Bow','lrhand','false','1930','1','1','wood','none','23','5','bow','12','-3.00000','0','0','0','293','1','9','-1','12500','0','true','true','true','true'),
- ('20','Buckler','lhand','false','1410','0','0','wood','none','0','0','none','0','0.00000','-8','67','20','0','0','0','-1','2780','0','true','true','true','true'),
- ('102','Round Shield','lhand','false','1390','0','0','steel','none','0','0','none','0','0.00000','-8','79','20','0','0','0','-1','7110','0','true','true','true','true'),
- ('89','Big Hammer','rhand','true','1710','2','2','fine_steel','c','107','20','blunt','4','4.00000','0','0','0','379','0','61','-1','2290000','916','true','true','true','true'),
- ('129','Sword of Revolution','rhand','true','1450','3','3','fine_steel','d','79','10','sword','8','0.00000','0','0','0','379','0','47','-1','1400000','2545','true','true','true','true'),
- ('177','Mage Staff','lrhand','false','1050','2','2','wood','none','30','20','bigblunt','4','4.00000','0','0','0','325','0','28','-1','244000','0','true','true','true','true'),
- ('156','Hand Axe','rhand','true','1820','2','2','steel','d','40','20','blunt','4','4.00000','0','0','0','379','0','26','-1','409000','743','true','true','true','true'),
- ('275','Long Bow','lrhand','true','1830','6','2','steel','d','114','5','bow','12','-3.00000','0','0','0','227','4','35','-1','644000','1170','true','true','true','true'),
- ('2369','Squire''s Sword','rhand','false','1600','1','1','steel','none','6','10','sword','8','0.00000','0','0','0','379','0','5','-1','138','0','false','false','true','false'),
- ('2370','Guild Member''s Club','rhand','false','1910','1','1','wood','none','6','20','blunt','4','4.00000','0','0','0','379','0','5','-1','138','0','false','false','true','false'),
- ('5284','Zweihander','lrhand','false','1530','2','2','bronze','none','38','10','bigsword','8','0.00000','0','0','0','325','0','21','-1','244000','0','true','true','true','true');
+ ('1','Short Sword','rhand','false','1600','1','1','steel','none','8','10','sword','8','0.00000','0','0','0','379','0','6','-1','768','0','true','true','true','true', 0, 0),
+ ('2','Long Sword','rhand','false','1560','2','2','fine_steel','none','24','10','sword','8','0.00000','0','0','0','379','0','17','-1','136000','0','true','true','true','true', 0, 0),
+ ('3','Broadsword','rhand','false','1590','1','1','steel','none','11','10','sword','8','0.00000','0','0','0','379','0','9','-1','12500','0','true','true','true','true', 0, 0),
+ ('4','Club','rhand','false','1870','1','1','wood','none','8','20','blunt','4','4.00000','0','0','0','379','0','6','-1','768','0','true','true','true','true', 0, 0),
+ ('5','Mace','rhand','false','1880','1','1','steel','none','11','20','blunt','4','4.00000','0','0','0','379','0','9','-1','12500','0','true','true','true','true', 0, 0),
+ ('6','Apprentice''s Wand','rhand','false','1350','1','1','steel','none','5','20','blunt','4','4.00000','0','0','0','379','0','7','-1','138','0','false','false','true','false', 0, 0),
+ ('7','Apprentice''s Rod','rhand','false','1330','1','1','wood','none','6','20','blunt','4','4.00000','0','0','0','379','0','8','-1','768','0','true','true','true','true', 0, 0),
+ ('10','Dagger','rhand','false','1160','1','1','steel','none','5','5','dagger','12','-3.00000','0','0','0','433','0','5','-1','138','0','false','false','true','false', 0, 0),
+ ('14','Bow','lrhand','false','1930','1','1','wood','none','23','5','bow','12','-3.00000','0','0','0','293','1','9','-1','12500','0','true','true','true','true', 0, 0),
+ ('20','Buckler','lhand','false','1410','0','0','wood','none','0','0','none','0','0.00000','-8','67','20','0','0','0','-1','2780','0','true','true','true','true', 0, 0),
+ ('102','Round Shield','lhand','false','1390','0','0','steel','none','0','0','none','0','0.00000','-8','79','20','0','0','0','-1','7110','0','true','true','true','true', 0, 0),
+ ('89','Big Hammer','rhand','true','1710','2','2','fine_steel','c','107','20','blunt','4','4.00000','0','0','0','379','0','61','-1','2290000','916','true','true','true','true', 0, 0),
+ ('129','Sword of Revolution','rhand','true','1450','3','3','fine_steel','d','79','10','sword','8','0.00000','0','0','0','379','0','47','-1','1400000','2545','true','true','true','true', 0, 0),
+ ('177','Mage Staff','lrhand','false','1050','2','2','wood','none','30','20','bigblunt','4','4.00000','0','0','0','325','0','28','-1','244000','0','true','true','true','true', 0, 0),
+ ('156','Hand Axe','rhand','true','1820','2','2','steel','d','40','20','blunt','4','4.00000','0','0','0','379','0','26','-1','409000','743','true','true','true','true', 0, 0),
+ ('275','Long Bow','lrhand','true','1830','6','2','steel','d','114','5','bow','12','-3.00000','0','0','0','227','4','35','-1','644000','1170','true','true','true','true', 0, 0),
+ ('2369','Squire''s Sword','rhand','false','1600','1','1','steel','none','6','10','sword','8','0.00000','0','0','0','379','0','5','-1','138','0','false','false','true','false', 0, 0),
+ ('2370','Guild Member''s Club','rhand','false','1910','1','1','wood','none','6','20','blunt','4','4.00000','0','0','0','379','0','5','-1','138','0','false','false','true','false', 0, 0),
+ ('5284','Zweihander','lrhand','false','1530','2','2','bronze','none','38','10','bigsword','8','0.00000','0','0','0','325','0','21','-1','244000','0','true','true','true','true', 0, 0);
  
  
  -- 

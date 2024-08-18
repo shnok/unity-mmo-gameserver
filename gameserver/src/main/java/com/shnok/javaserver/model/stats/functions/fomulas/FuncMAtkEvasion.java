@@ -43,7 +43,7 @@ public class FuncMAtkEvasion extends AbstractFunction {
     }
 
     private FuncMAtkEvasion() {
-        super(Stats.MAGIC_EVASION_RATE, 1, null, 0, null);
+        super(Stats.MAGIC_EVASION_RATE, 0x10, null, 0, null);
     }
 
     @Override
