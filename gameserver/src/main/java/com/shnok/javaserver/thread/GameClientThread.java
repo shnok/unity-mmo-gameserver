@@ -206,7 +206,7 @@ public class GameClientThread extends Thread {
         this.watchDog = watchDog;
     }
 
-    void authenticate() {
+    public void authenticate() {
         log.info("Authenticating new player.");
         SystemMessagePacket systemMessagePacket = new SystemMessagePacket(SystemMessageId.S1_ONLINE);
         systemMessagePacket.addString(getCurrentPlayer().getName());

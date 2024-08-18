@@ -44,4 +44,6 @@ public abstract class ReceivablePacket extends Packet {
 
         return new String(data, 0, strLen, StandardCharsets.UTF_8);
     }
+
+    public abstract void handlePacket();
 }
