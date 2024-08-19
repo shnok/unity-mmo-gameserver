@@ -1,10 +1,7 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.external.clientpackets.*;
-import com.shnok.javaserver.dto.external.clientpackets.authentication.AuthLoginPacket;
-import com.shnok.javaserver.dto.external.clientpackets.authentication.ProtocolVersionPacket;
-import com.shnok.javaserver.dto.external.clientpackets.authentication.RequestCharSelectPacket;
-import com.shnok.javaserver.dto.external.clientpackets.authentication.RequestLoadWorldPacket;
+import com.shnok.javaserver.dto.external.clientpackets.authentication.*;
 import com.shnok.javaserver.dto.external.clientpackets.item.*;
 import com.shnok.javaserver.dto.external.serverpackets.authentication.PingPacket;
 import com.shnok.javaserver.enums.network.packettypes.external.ClientPacketType;
@@ -203,7 +200,7 @@ public class ClientPacketHandlerThread extends Thread {
     }
 
     private void onRequestDisconnect() {
-
+        DisconnectPacket packet = new DisconnectPacket(client);
     }
 
     private void onRequestRestart() {

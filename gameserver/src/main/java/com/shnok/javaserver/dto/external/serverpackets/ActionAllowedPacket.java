@@ -1,4 +1,4 @@
-package com.shnok.javaserver.dto.external.serverpackets.authentication;
+package com.shnok.javaserver.dto.external.serverpackets;
 
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.enums.network.packettypes.external.ServerPacketType;

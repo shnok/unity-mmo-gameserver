@@ -43,7 +43,7 @@ public class RequestRestartPacket extends ClientPacket {
         player.setGameClient(null);
 
         // removing player from the world
-        player.deleteMe();
+        player.destroy();
         //L2GameClient.saveCharToDisk(client.getActiveChar());
 
         client.setCurrentPlayer(null);

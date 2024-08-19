@@ -327,14 +327,6 @@ public class PlayerInstance extends Entity {
         broadcastPacket(new UserInfoPacket(this));
     }
 
-    public void deleteMe() {
-        // Free up memory
-        destroy();
-
-        // Close the connection with the client
-        closeNetConnection();
-    }
-
     /**
      * Close the active connection with the client.
      */

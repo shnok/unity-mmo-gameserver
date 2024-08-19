@@ -12,8 +12,8 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class DisconnectPacket extends ClientPacket {
 
-    public DisconnectPacket(GameClientThread client, byte[] data) {
-        super(client, data);
+    public DisconnectPacket(GameClientThread client) {
+        super(client, new byte[1]);
 
         handlePacket();
     }
@@ -37,7 +37,8 @@ public class DisconnectPacket extends ClientPacket {
             return;
         }
 
-        player.deleteMe();
+        // Close the connection with the client
+        player.closeNetConnection();
         //notifyFriends(player);
     }
 }

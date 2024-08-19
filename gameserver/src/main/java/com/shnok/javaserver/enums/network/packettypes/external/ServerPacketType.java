@@ -30,8 +30,8 @@ public enum ServerPacketType {
     ActionAllowed((byte)0x17),
     InventoryItemList((byte)0x18),
     InventoryUpdate((byte)0x19),
-    LeaveWorld((byte)0x20),
-    RestartResponse((byte)0x21);
+    LeaveWorld((byte)0x1A),
+    RestartResponse((byte)0x1B);
 
     private final byte value;
 
