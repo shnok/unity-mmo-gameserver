@@ -71,7 +71,7 @@ public class PlayerInstance extends Entity {
     // Send packet to player
     @Override
     public boolean sendPacket(SendablePacket packet) {
-        if(gameClient.isClientReady() && gameClient.getGameClientState() == GameClientState.IN_GAME) {
+        if(gameClient != null && gameClient.isClientReady() && gameClient.getGameClientState() == GameClientState.IN_GAME) {
             if(gameClient.sendPacket(packet)) {
                 if(packet instanceof UserInfoPacket) {
                     log.debug("[{}] Sending user packet", getGameClient().getCurrentPlayer().getId());

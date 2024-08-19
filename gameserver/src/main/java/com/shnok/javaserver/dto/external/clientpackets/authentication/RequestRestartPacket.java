@@ -15,8 +15,8 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class RequestRestartPacket extends ClientPacket {
 
-    public RequestRestartPacket(GameClientThread client, byte[] data) {
-        super(client, data);
+    public RequestRestartPacket(GameClientThread client) {
+        super(client, new byte[1]);
 
         handlePacket();
     }
@@ -44,6 +44,8 @@ public class RequestRestartPacket extends ClientPacket {
 
         // removing player from the world
         player.destroy();
+
+        //TODO: Update DB
         //L2GameClient.saveCharToDisk(client.getActiveChar());
 
         client.setCurrentPlayer(null);
@@ -52,11 +54,11 @@ public class RequestRestartPacket extends ClientPacket {
         client.setGameClientState(GameClientState.AUTHED);
 
         RestartResponsePacket response = new RestartResponsePacket();
-        player.sendPacket(response);
+        client.sendPacket(response);
 
         // send char list
         CharSelectionInfoPacket cl = new CharSelectionInfoPacket(client.getAccountName(), client.getSessionId().playOkID1);
-        player.sendPacket(cl);
+        client.sendPacket(cl);
 
         client.setCharSelection(cl.getCharSelectData());
     }

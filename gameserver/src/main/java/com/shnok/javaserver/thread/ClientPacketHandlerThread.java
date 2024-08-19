@@ -204,6 +204,6 @@ public class ClientPacketHandlerThread extends Thread {
     }
 
     private void onRequestRestart() {
-
+        RequestRestartPacket packet = new RequestRestartPacket(client);
     }
 }
