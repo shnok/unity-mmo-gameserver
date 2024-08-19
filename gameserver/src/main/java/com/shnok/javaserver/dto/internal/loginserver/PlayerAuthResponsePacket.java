@@ -1,6 +1,6 @@
 package com.shnok.javaserver.dto.internal.loginserver;
 
-import com.shnok.javaserver.dto.external.serverpackets.CharSelectionInfoPacket;
+import com.shnok.javaserver.dto.external.serverpackets.authentication.CharSelectionInfoPacket;
 import com.shnok.javaserver.dto.internal.LoginServerPacket;
 import com.shnok.javaserver.dto.internal.gameserver.PlayerInGamePacket;
 import com.shnok.javaserver.enums.network.GameClientState;

@@ -1,7 +1,7 @@
 package com.shnok.javaserver.dto.external.clientpackets;
 
 import com.shnok.javaserver.dto.external.ClientPacket;
-import com.shnok.javaserver.dto.external.serverpackets.ActionAllowedPacket;
+import com.shnok.javaserver.dto.external.serverpackets.authentication.ActionAllowedPacket;
 import com.shnok.javaserver.dto.external.serverpackets.ActionFailedPacket;
 import com.shnok.javaserver.dto.external.serverpackets.ObjectDirectionPacket;
 import com.shnok.javaserver.enums.Event;

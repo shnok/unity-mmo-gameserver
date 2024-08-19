@@ -1,7 +1,7 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.SendablePacket;
-import com.shnok.javaserver.dto.external.serverpackets.LoginFailPacket;
+import com.shnok.javaserver.dto.external.serverpackets.authentication.LoginFailPacket;
 import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.enums.network.GameClientState;
@@ -316,6 +316,11 @@ public class GameClientThread extends Thread {
 
     public void close(LoginFailReason failReason) {
         sendPacket(new LoginFailPacket(failReason));
+        disconnect();
+    }
+
+    public void close(SendablePacket packet) {
+        sendPacket(packet);
         disconnect();
     }
 }

@@ -5,6 +5,7 @@ import com.shnok.javaserver.db.entity.DBWeapon;
 import com.shnok.javaserver.db.repository.CharacterRepository;
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.*;
+import com.shnok.javaserver.dto.external.serverpackets.authentication.LeaveWorldPacket;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.SystemMessageId;
@@ -173,6 +174,7 @@ public class PlayerInstance extends Entity {
     public void destroy() {
         super.destroy();
 
+        getInventory().destroy();
         stopAllTimers();
         setOnlineStatus(false, true);
         WorldManagerService.getInstance().removePlayer(this);
@@ -323,5 +325,22 @@ public class PlayerInstance extends Entity {
         sendPacket(new PlayerInfoPacket(this));
         // Share user info to knownlist
         broadcastPacket(new UserInfoPacket(this));
+    }
+
+    public void deleteMe() {
+        // Free up memory
+        destroy();
+
+        // Close the connection with the client
+        closeNetConnection();
+    }
+
+    /**
+     * Close the active connection with the client.
+     */
+    public void closeNetConnection() {
+        if (gameClient != null) {
+            gameClient.close(new LeaveWorldPacket());
+        }
     }
 }
