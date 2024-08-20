@@ -1,7 +1,7 @@
-package com.shnok.javaserver.dto.external.clientpackets;
+package com.shnok.javaserver.dto.external.clientpackets.authentication;
 
 import com.shnok.javaserver.dto.external.ClientPacket;
-import com.shnok.javaserver.dto.external.serverpackets.KeyPacket;
+import com.shnok.javaserver.dto.external.serverpackets.authentication.KeyPacket;
 import com.shnok.javaserver.thread.GameClientThread;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;

@@ -1,4 +1,4 @@
-package com.shnok.javaserver.dto.external.serverpackets;
+package com.shnok.javaserver.dto.external.serverpackets.authentication;
 
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.enums.network.LoginFailReason;

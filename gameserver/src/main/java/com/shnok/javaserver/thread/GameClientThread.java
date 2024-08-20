@@ -1,7 +1,7 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.SendablePacket;
-import com.shnok.javaserver.dto.external.serverpackets.LoginFailPacket;
+import com.shnok.javaserver.dto.external.serverpackets.authentication.LoginFailPacket;
 import com.shnok.javaserver.dto.external.serverpackets.RemoveObjectPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.enums.network.GameClientState;
@@ -132,15 +132,13 @@ public class GameClientThread extends Thread {
             log.error("Exception while reading packets.");
         } finally {
             log.info("User {} disconnected", connectionIp);
-            disconnect();
+            removeSelf();
         }
     }
 
     public void disconnect() {
         try {
             //TODO: Save user state
-            LoginServerThread.getInstance().sendLogout(getAccountName());
-            removeSelf();
             connection.close();
         } catch (IOException e) {
             log.error("Error while closing connection.", e);
@@ -217,6 +215,8 @@ public class GameClientThread extends Thread {
     }
 
     void removeSelf() {
+        LoginServerThread.getInstance().sendLogout(getAccountName());
+
         if (getGameClientState() == GameClientState.IN_GAME) {
             setGameClientState(GameClientState.AUTHED);
 
@@ -316,6 +316,11 @@ public class GameClientThread extends Thread {
 
     public void close(LoginFailReason failReason) {
         sendPacket(new LoginFailPacket(failReason));
+        disconnect();
+    }
+
+    public void close(SendablePacket packet) {
+        sendPacket(packet);
         disconnect();
     }
 }

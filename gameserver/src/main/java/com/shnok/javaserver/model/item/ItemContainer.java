@@ -2,9 +2,11 @@ package com.shnok.javaserver.model.item;
 
 import com.shnok.javaserver.db.entity.DBItem;
 import com.shnok.javaserver.enums.ItemLocation;
+import com.shnok.javaserver.model.object.GameObject;
 import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.object.entity.Entity;
 import com.shnok.javaserver.model.object.entity.PlayerInstance;
+import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.service.db.ItemTable;
 import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
@@ -285,5 +287,25 @@ public abstract class ItemContainer {
         }
 
         return -1; // No available slot found
+    }
+
+    /**
+     * Delete item object from world
+     */
+    public void destroy() {
+        try {
+            updateDatabase();
+        } catch (Throwable t) {
+            log.error("deletedMe()", t);
+        }
+
+        List<GameObject> copy = new FastList<>(items);
+        items.clear();
+
+        WorldManagerService.getInstance().removeObjects(copy);
+    }
+
+    public void updateDatabase() {
+        //TODO: DB update functions
     }
 }

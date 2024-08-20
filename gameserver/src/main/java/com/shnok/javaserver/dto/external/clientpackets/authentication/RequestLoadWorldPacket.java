@@ -1,7 +1,7 @@
-package com.shnok.javaserver.dto.external.clientpackets;
+package com.shnok.javaserver.dto.external.clientpackets.authentication;
 
 import com.shnok.javaserver.dto.external.ClientPacket;
-import com.shnok.javaserver.dto.external.serverpackets.GameTimePacket;
+import com.shnok.javaserver.dto.external.serverpackets.authentication.GameTimePacket;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.thread.GameClientThread;

@@ -1,4 +1,4 @@
-package com.shnok.javaserver.dto.external.clientpackets;
+package com.shnok.javaserver.dto.external.clientpackets.authentication;
 
 import com.shnok.javaserver.dto.external.ClientPacket;
 import com.shnok.javaserver.model.network.SessionKey;

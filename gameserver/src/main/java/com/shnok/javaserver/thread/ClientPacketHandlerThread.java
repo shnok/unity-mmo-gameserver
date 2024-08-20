@@ -1,39 +1,16 @@
 package com.shnok.javaserver.thread;
 
 import com.shnok.javaserver.dto.external.clientpackets.*;
+import com.shnok.javaserver.dto.external.clientpackets.authentication.*;
 import com.shnok.javaserver.dto.external.clientpackets.item.*;
-import com.shnok.javaserver.dto.external.serverpackets.*;
-import com.shnok.javaserver.dto.external.serverpackets.item.InventoryItemListPacket;
-import com.shnok.javaserver.dto.external.serverpackets.item.InventoryUpdatePacket;
-import com.shnok.javaserver.enums.Event;
-import com.shnok.javaserver.enums.Intention;
-import com.shnok.javaserver.enums.PlayerAction;
-import com.shnok.javaserver.enums.item.ItemSlot;
-import com.shnok.javaserver.enums.network.GameClientState;
-import com.shnok.javaserver.enums.network.SystemMessageId;
+import com.shnok.javaserver.dto.external.serverpackets.authentication.PingPacket;
 import com.shnok.javaserver.enums.network.packettypes.external.ClientPacketType;
-import com.shnok.javaserver.model.CharSelectInfoPackage;
-import com.shnok.javaserver.model.Point3D;
-import com.shnok.javaserver.model.network.SessionKey;
-import com.shnok.javaserver.model.object.ItemInstance;
-import com.shnok.javaserver.model.object.entity.Entity;
-import com.shnok.javaserver.model.object.entity.PlayerInstance;
 import com.shnok.javaserver.security.NewCrypt;
-import com.shnok.javaserver.service.GameServerController;
-import com.shnok.javaserver.service.WorldManagerService;
-import com.shnok.javaserver.thread.ai.PlayerAI;
-import com.shnok.javaserver.util.VectorUtils;
-import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import static com.shnok.javaserver.config.Configuration.server;
 
 @Log4j2
 public class ClientPacketHandlerThread extends Thread {
@@ -122,6 +99,12 @@ public class ClientPacketHandlerThread extends Thread {
                 break;
             case RequestDropItem:
                 onRequestDropItem();
+                break;
+            case RequestDisconnect:
+                onRequestDisconnect();
+                break;
+            case RequestRestart:
+                onRequestRestart();
                 break;
         }
     }
@@ -214,5 +197,13 @@ public class ClientPacketHandlerThread extends Thread {
 
     private void onRequestDropItem() {
 
+    }
+
+    private void onRequestDisconnect() {
+        DisconnectPacket packet = new DisconnectPacket(client);
+    }
+
+    private void onRequestRestart() {
+        RequestRestartPacket packet = new RequestRestartPacket(client);
     }
 }
