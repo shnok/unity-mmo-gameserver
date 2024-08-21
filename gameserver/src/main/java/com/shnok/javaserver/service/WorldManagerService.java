@@ -10,6 +10,7 @@ import javolution.util.FastList;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -234,5 +235,9 @@ public class WorldManagerService {
 
     public int getIDFactory() {
         return idFactory.get();
+    }
+
+    public void removeObjects(List<GameObject> objects) {
+        objects.forEach(this::removeObject);
     }
 }

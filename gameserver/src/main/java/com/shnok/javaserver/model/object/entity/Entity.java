@@ -413,6 +413,7 @@ public abstract class Entity extends MovableObject {
     public void destroy() {
         super.destroy();
 
+        getAi().clearTarget();
         getKnownList().removeAllKnownObjects();
     }
 

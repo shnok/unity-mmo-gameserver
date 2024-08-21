@@ -29,7 +29,7 @@ public class Main {
         WorldManagerService.getInstance().initialize();
         GameTimeControllerService.getInstance().initialize();
         SpawnManagerService.getInstance().initialize();
-
+        AttackStanceManagerService.getInstance();
         GameServerListenerService.getInstance().Initialize();
         GameServerListenerService.getInstance().start();
         LoginServerThread.getInstance().start();
