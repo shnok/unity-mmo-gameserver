@@ -62,17 +62,17 @@ public class PlayerShortcuts {
         if ((old == null) || (owner == null)) {
             return;
         }
-        deleteShortCutFromDb(old);
-        if (old.getType() == ShortcutType.ITEM) {
-            ItemInstance item = owner.getInventory().getItemByObjectId(old.getId());
 
-            //TODO: Handle soulshots
+        deleteShortCutFromDb(old);
+        //TODO: Handle soulshots
+//        if (old.getType() == ShortcutType.ITEM) {
+//            ItemInstance item = owner.getInventory().getItemByObjectId(old.getId());
 //            if ((item != null) && (item.getItem().getType() == EtcItemType.SHOT)) {
 //                if (_owner.removeAutoSoulShot(item.getId())) {
 //                    _owner.sendPacket(new ExAutoSoulShot(item.getId(), 0));
 //                }
 //            }
-        }
+//        }
 
         owner.sendPacket(new ShortcutInitPacket(owner));
         //TODO: Handle soulshots
