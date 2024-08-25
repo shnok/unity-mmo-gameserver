@@ -8,6 +8,9 @@ public interface CharacterDao {
     public DBCharacter getRandomCharacter();
     public DBCharacter getCharacterById(int id);
     public List<DBCharacter> getCharactersForAccount(String account);
+
+    List<DBCharacter> getAllCharacters();
+
     public void saveOrUpdateCharacter(DBCharacter character);
 
     int saveCharacter(DBCharacter character);

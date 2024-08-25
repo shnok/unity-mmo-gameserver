@@ -22,6 +22,17 @@ public class PlayerItemRepository implements PlayerItemDao {
     }
 
     @Override
+    public List<DBPlayerItem> getAllPlayerItems() {
+        try (Session session = DbFactory.getSessionFactory().openSession()) {
+            return session.createQuery("SELECT i FROM DBPlayerItem i", DBPlayerItem.class)
+                    .getResultList();
+        } catch (Exception e) {
+            log.error("SQL ERROR: {}", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    @Override
     public List<DBPlayerItem> getAllItemsForUser(int id) {
         try (Session session = DbFactory.getSessionFactory().openSession()) {
             return session.createQuery("SELECT i FROM DBPlayerItem i WHERE owner_id=:owner_id", DBPlayerItem.class)

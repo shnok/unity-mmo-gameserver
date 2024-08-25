@@ -39,7 +39,6 @@ public class WorldManagerService {
     private Map<Integer, PlayerInstance> allPlayers;
     private Map<Integer, NpcInstance> allNPCs;
     private Map<Integer, GameObject> allObjects;
-    private AtomicInteger idFactory;
 
     public static WorldManagerService getInstance() {
         if (instance == null) {
@@ -53,7 +52,6 @@ public class WorldManagerService {
         allPlayers = new ConcurrentHashMap<>();
         allNPCs = new ConcurrentHashMap<>();
         allObjects = new ConcurrentHashMap<>();
-        idFactory = new AtomicInteger(0);
         initRegions();
     }
 
@@ -223,18 +221,6 @@ public class WorldManagerService {
         }
 
         return result;
-    }
-
-    public int nextID() {
-        return idFactory.getAndIncrement();
-    }
-
-    public void incrementID() {
-        idFactory.incrementAndGet();
-    }
-
-    public int getIDFactory() {
-        return idFactory.get();
     }
 
     public void removeObjects(List<GameObject> objects) {
