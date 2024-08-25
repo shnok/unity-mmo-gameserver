@@ -39,9 +39,9 @@ public class PlayerShortcuts {
     public synchronized void registerShortCut(Shortcut shortcut) {
         // Verify shortcut
         if (shortcut.getType() == ShortcutType.ITEM) {
-            final ItemInstance item = owner.getInventory().getItemByItemId(shortcut.getId());
+            final ItemInstance item = owner.getInventory().getItemByObjectId(shortcut.getId());
             if (item == null) {
-                log.warn("[SHORTCUT][{}] Can't find item with ID {} in inventory.", owner.getId(), shortcut.getId());
+                log.warn("[SHORTCUT][{}] Can't find item with ObjectID {} in inventory.", owner.getId(), shortcut.getId());
                 return;
             }
             //shortcut.setSharedReuseGroup(item.getSharedReuseGroup());
