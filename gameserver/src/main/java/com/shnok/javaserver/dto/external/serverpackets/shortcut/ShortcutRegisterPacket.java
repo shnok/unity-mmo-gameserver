@@ -18,7 +18,6 @@ public class ShortcutRegisterPacket  extends SendablePacket {
             case SKILL: // 2
                 writeI(shortcut.getId());
                 writeI(shortcut.getLevel());
-                writeB((byte) 0x00); // C5
                 break;
             case ACTION: // 3
                 writeI(shortcut.getId());
@@ -33,7 +32,7 @@ public class ShortcutRegisterPacket  extends SendablePacket {
                 writeI(shortcut.getId());
         }
 
-        writeI(1);// ??
+        writeI(1);
         
         buildPacket();
     }

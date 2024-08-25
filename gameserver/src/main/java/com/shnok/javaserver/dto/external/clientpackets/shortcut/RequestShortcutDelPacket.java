@@ -7,8 +7,8 @@ import lombok.Getter;
 
 @Getter
 public class RequestShortcutDelPacket extends ClientPacket {
-    private int slot;
-    private int page;
+    private final int slot;
+    private final int page;
 
     public RequestShortcutDelPacket(GameClientThread client, byte[] data) {
         super(client, data);

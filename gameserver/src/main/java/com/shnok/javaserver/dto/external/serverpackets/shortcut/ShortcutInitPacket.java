@@ -43,7 +43,7 @@ public class ShortcutInitPacket extends SendablePacket {
                     writeI(sc.getId());
             }
         }
-        
+
         buildPacket();
     }
 }

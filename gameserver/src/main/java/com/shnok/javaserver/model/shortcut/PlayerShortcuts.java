@@ -39,14 +39,17 @@ public class PlayerShortcuts {
     public synchronized void registerShortCut(Shortcut shortcut) {
         // Verify shortcut
         if (shortcut.getType() == ShortcutType.ITEM) {
-            final ItemInstance item = owner.getInventory().getItemByObjectId(shortcut.getId());
+            final ItemInstance item = owner.getInventory().getItemByItemId(shortcut.getId());
             if (item == null) {
+                log.warn("[SHORTCUT][{}] Can't find item with ID {} in inventory.", owner.getId(), shortcut.getId());
                 return;
             }
             //shortcut.setSharedReuseGroup(item.getSharedReuseGroup());
         }
         final Shortcut oldShortCut = _shortCuts.put(shortcut.getSlot() + (shortcut.getPage() * MAX_SHORTCUTS_PER_BAR), shortcut);
         registerShortCutInDb(shortcut, oldShortCut);
+
+        log.debug("[SHORTCUT][{}] Now has {} shotcut(s).", owner.getId(), _shortCuts.size());
     }
 
     private void registerShortCutInDb(Shortcut shortcut, Shortcut oldShortCut) {
@@ -62,6 +65,8 @@ public class PlayerShortcuts {
         if ((old == null) || (owner == null)) {
             return;
         }
+
+        log.debug("[SHORTCUT][{}] Now has {} shotcut(s).", owner.getId(), _shortCuts.size());
 
         deleteShortCutFromDb(old);
         //TODO: Handle soulshots
