@@ -18,6 +18,7 @@ public class PlayerShortcuts {
 
     public PlayerShortcuts(PlayerInstance owner) {
         this.owner = owner;
+        load();
     }
 
     public Shortcut[] getAllShortCuts() {
@@ -49,7 +50,7 @@ public class PlayerShortcuts {
         final Shortcut oldShortCut = _shortCuts.put(shortcut.getSlot() + (shortcut.getPage() * MAX_SHORTCUTS_PER_BAR), shortcut);
         registerShortCutInDb(shortcut, oldShortCut);
 
-        log.debug("[SHORTCUT][{}] Now has {} shotcut(s).", owner.getId(), _shortCuts.size());
+        log.debug("[SHORTCUT][{}] Now has {} shortcut(s).", owner.getId(), _shortCuts.size());
     }
 
     private void registerShortCutInDb(Shortcut shortcut, Shortcut oldShortCut) {
@@ -66,7 +67,7 @@ public class PlayerShortcuts {
             return;
         }
 
-        log.debug("[SHORTCUT][{}] Now has {} shotcut(s).", owner.getId(), _shortCuts.size());
+        log.debug("[SHORTCUT][{}] Now has {} shortcut(s).", owner.getId(), _shortCuts.size());
 
         deleteShortCutFromDb(old);
         //TODO: Handle soulshots
@@ -103,6 +104,10 @@ public class PlayerShortcuts {
         _shortCuts.clear();
 
         // TODO: Load from DB
+        _shortCuts.put(0 + (0 * MAX_SHORTCUTS_PER_BAR), new Shortcut(0, 0, ShortcutType.ACTION, 3, -1, 1));
+        _shortCuts.put(1 + (0 * MAX_SHORTCUTS_PER_BAR), new Shortcut(1, 0, ShortcutType.ACTION, 7, -1, 1));
+        _shortCuts.put(3 + (0 * MAX_SHORTCUTS_PER_BAR), new Shortcut(3, 0, ShortcutType.ACTION, 8, -1, 1));
+        _shortCuts.put(10 + (0 * MAX_SHORTCUTS_PER_BAR), new Shortcut(10, 0, ShortcutType.ACTION, 1, -1, 1));
 
         // Verify shortcuts
         for (Shortcut sc : getAllShortCuts()) {
