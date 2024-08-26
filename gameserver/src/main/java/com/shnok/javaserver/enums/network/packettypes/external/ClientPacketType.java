@@ -24,7 +24,9 @@ public enum ClientPacketType {
     RequestDestroyItem((byte) 0x11),
     RequestDropItem((byte) 0x12),
     RequestDisconnect((byte) 0x13),
-    RequestRestart((byte) 0x14);
+    RequestRestart((byte) 0x14),
+    RequestShortcutReg((byte) 0x15),
+    RequestShortcutDel((byte) 0x16);
 
     private final byte value;
 

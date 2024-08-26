@@ -11,6 +11,8 @@ import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.SystemMessageId;
 import com.shnok.javaserver.model.Party;
 import com.shnok.javaserver.model.PlayerAppearance;
+import com.shnok.javaserver.model.shortcut.PlayerShortcuts;
+import com.shnok.javaserver.model.shortcut.Shortcut;
 import com.shnok.javaserver.model.item.PlayerInventory;
 import com.shnok.javaserver.model.knownlist.PlayerKnownList;
 import com.shnok.javaserver.model.object.ItemInstance;
@@ -39,6 +41,8 @@ public class PlayerInstance extends Entity {
     private boolean isOnline = false;
     private boolean GM = false;
     private Party party;
+    /** The list containing all shortCuts of this player. */
+    private final PlayerShortcuts shortCuts = new PlayerShortcuts(this);
 
     public PlayerInstance(int id, int charId, String name, PlayerTemplate playerTemplate) {
         super(id, playerTemplate);
@@ -334,5 +338,47 @@ public class PlayerInstance extends Entity {
         if (gameClient != null) {
             gameClient.close(new LeaveWorldPacket());
         }
+    }
+
+    /**
+     * @return a table containing all L2ShortCut of the L2PcInstance.
+     */
+    public Shortcut[] getAllShortCuts() {
+        return shortCuts.getAllShortCuts();
+    }
+
+    /**
+     * @param slot The slot in which the shortCuts is equipped
+     * @param page The page of shortCuts containing the slot
+     * @return the L2ShortCut of the L2PcInstance corresponding to the position (page-slot).
+     */
+    public Shortcut getShortCut(int slot, int page) {
+        return shortCuts.getShortCut(slot, page);
+    }
+
+    /**
+     * Add a L2shortCut to the L2PcInstance _shortCuts
+     * @param shortcut
+     */
+    public void registerShortCut(Shortcut shortcut) {
+        shortCuts.registerShortCut(shortcut);
+    }
+
+    /**
+     * Updates the shortcut bars with the new skill.
+     * @param skillId the skill Id to search and update.
+     * @param skillLevel the skill level to update.
+     */
+    public void updateShortCuts(int skillId, int skillLevel) {
+        shortCuts.updateShortCuts(skillId, skillLevel);
+    }
+
+    /**
+     * Delete the L2ShortCut corresponding to the position (page-slot) from the L2PcInstance _shortCuts.
+     * @param slot
+     * @param page
+     */
+    public void deleteShortCut(int slot, int page) {
+        shortCuts.deleteShortCut(slot, page);
     }
 }

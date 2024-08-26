@@ -61,7 +61,7 @@ public class PlayerFactoryService {
 
     private PlayerInstance buildPlayerInstance(DBCharacter character) {
         PlayerTemplate playerTemplate = new PlayerTemplate(character);
-        PlayerInstance player = new PlayerInstance(WorldManagerService.getInstance().nextID(),
+        PlayerInstance player = new PlayerInstance(character.getId(),
                 character.getId(), character.getCharName(), playerTemplate);
 
         player.setCurrentHp(character.getCurHp(), false);
@@ -104,7 +104,7 @@ public class PlayerFactoryService {
             ItemInstance itemInstance = new ItemInstance(player.getId(), equippedData.get(i), 1,
                     equipped.get(i).getSlot());
             itemInstance.setLocation(ItemLocation.EQUIPPED, equipped.get(i).getSlot());
-            itemInstance.setId(WorldManagerService.getInstance().nextID());
+            itemInstance.setId(equipped.get(i).getObjectId());
             playerInventory.addItem(itemInstance);
         }
 
@@ -117,7 +117,7 @@ public class PlayerFactoryService {
             ItemInstance itemInstance = new ItemInstance(player.getId(), inventoryData.get(i),
                     inventory.get(i).getCount(), inventory.get(i).getSlot());
             itemInstance.setLocation(ItemLocation.INVENTORY, inventory.get(i).getSlot());
-            itemInstance.setId(WorldManagerService.getInstance().nextID());
+            itemInstance.setId(inventory.get(i).getObjectId());
             playerInventory.addItem(itemInstance);
         }
 

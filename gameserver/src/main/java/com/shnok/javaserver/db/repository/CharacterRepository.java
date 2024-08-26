@@ -60,6 +60,17 @@ public class CharacterRepository implements CharacterDao {
     }
 
     @Override
+    public List<DBCharacter> getAllCharacters() {
+        try (Session session = DbFactory.getSessionFactory().openSession()) {
+            return session.createQuery("SELECT c FROM DBCharacter c", DBCharacter.class)
+                    .getResultList();
+        } catch (Exception e) {
+            log.error("SQL ERROR: {}", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    @Override
     public void saveOrUpdateCharacter(DBCharacter character) {
         try (Session session = DbFactory.getSessionFactory().openSession()) {
             session.beginTransaction();
