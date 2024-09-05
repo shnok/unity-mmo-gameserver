@@ -14,23 +14,39 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class RequestAutoAttackPacket extends ClientPacket {
 
-    public RequestAutoAttackPacket(GameClientThread client) {
-        super(client, new byte[1]);
+    private final int objectId;
 
+    public RequestAutoAttackPacket(GameClientThread client, byte[] data) {
+        super(client, data);
+        objectId = readI();
         handlePacket();
     }
 
     @Override
     public void handlePacket() {
-        Entity target = (Entity) client.getCurrentPlayer().getAi().getTarget();
-        if(client.getCurrentPlayer().getAi().getTarget() == null) {
-            log.warn("[{}] Player doesn't have a target", client.getCurrentPlayer().getId());
-            client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
-            return;
+        Entity target;
+
+        if(objectId == -1) {
+            target = (Entity) client.getCurrentPlayer().getAi().getTarget();
+
+            if(target == null) {
+                log.warn("[{}] Player doesn't have a target.", client.getCurrentPlayer().getId());
+                client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
+                return;
+            }
+
+        } else {
+            target = (Entity) client.getCurrentPlayer().getKnownList().getKnownObject(objectId);
+
+            if(target == null) {
+                log.warn("[{}] Can't find target with ID {}.", client.getCurrentPlayer().getId(), objectId);
+                client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
+                return;
+            }
         }
 
         if(target.isDead() || client.getCurrentPlayer().isDead()) {
-            log.warn("[{}] Either user or target is already dead", client.getCurrentPlayer().getId());
+            log.warn("[{}] Either user or target is already dead.", client.getCurrentPlayer().getId());
             client.sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
             return;
         }

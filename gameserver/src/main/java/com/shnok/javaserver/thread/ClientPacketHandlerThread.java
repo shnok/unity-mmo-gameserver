@@ -176,7 +176,7 @@ public class ClientPacketHandlerThread extends Thread {
     }
 
     private void onRequestAutoAttack() {
-        RequestAutoAttackPacket packet = new RequestAutoAttackPacket(client);
+        RequestAutoAttackPacket packet = new RequestAutoAttackPacket(client, data);
     }
 
     private void onRequestCharSelect() {
