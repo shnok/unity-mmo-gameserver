@@ -6,6 +6,7 @@ import com.shnok.javaserver.db.repository.CharacterRepository;
 import com.shnok.javaserver.dto.SendablePacket;
 import com.shnok.javaserver.dto.external.serverpackets.*;
 import com.shnok.javaserver.dto.external.serverpackets.authentication.LeaveWorldPacket;
+import com.shnok.javaserver.enums.Intention;
 import com.shnok.javaserver.enums.item.ItemSlot;
 import com.shnok.javaserver.enums.network.GameClientState;
 import com.shnok.javaserver.enums.network.SystemMessageId;
@@ -21,6 +22,7 @@ import com.shnok.javaserver.model.stats.Formulas;
 import com.shnok.javaserver.model.stats.PlayerStat;
 import com.shnok.javaserver.model.status.PlayerStatus;
 import com.shnok.javaserver.model.template.PlayerTemplate;
+import com.shnok.javaserver.service.ThreadPoolManagerService;
 import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.thread.GameClientThread;
 import lombok.Getter;
@@ -41,7 +43,9 @@ public class PlayerInstance extends Entity {
     private boolean isOnline = false;
     private boolean GM = false;
     private Party party;
-    /** The list containing all shortCuts of this player. */
+    /**
+     * The list containing all shortCuts of this player.
+     */
     private final PlayerShortcuts shortCuts = new PlayerShortcuts(this);
 
     public PlayerInstance(int id, int charId, String name, PlayerTemplate playerTemplate) {
@@ -75,9 +79,9 @@ public class PlayerInstance extends Entity {
     // Send packet to player
     @Override
     public boolean sendPacket(SendablePacket packet) {
-        if(gameClient != null && gameClient.isClientReady() && gameClient.getGameClientState() == GameClientState.IN_GAME) {
-            if(gameClient.sendPacket(packet)) {
-                if(packet instanceof UserInfoPacket) {
+        if (gameClient != null && gameClient.isClientReady() && gameClient.getGameClientState() == GameClientState.IN_GAME) {
+            if (gameClient.sendPacket(packet)) {
+                if (packet instanceof UserInfoPacket) {
                     log.debug("[{}] Sending user packet", getGameClient().getCurrentPlayer().getId());
                 }
                 return true;
@@ -89,8 +93,8 @@ public class PlayerInstance extends Entity {
 
     public boolean sendPacket(SystemMessageId systemMessageId) {
         SystemMessagePacket packet = new SystemMessagePacket(systemMessageId);
-        if(gameClient.isClientReady() && gameClient.getGameClientState() == GameClientState.IN_GAME) {
-            if(gameClient.sendPacket(packet)) {
+        if (gameClient.isClientReady() && gameClient.getGameClientState() == GameClientState.IN_GAME) {
+            if (gameClient.sendPacket(packet)) {
                 return true;
             }
         }
@@ -100,7 +104,7 @@ public class PlayerInstance extends Entity {
 
     @Override
     public boolean onHitTimer(ApplyDamagePacket attack, Entity target, int damage, boolean crit, boolean miss, boolean soulshot, byte shld) {
-        if(super.onHitTimer(attack, target, damage, crit, miss, soulshot, shld)) {
+        if (super.onHitTimer(attack, target, damage, crit, miss, soulshot, shld)) {
             return true;
         }
 
@@ -160,6 +164,7 @@ public class PlayerInstance extends Entity {
 
     /**
      * Set the online Flag to True or False and update the characters table of the database with online status and lastAccess (called when login and logout).
+     *
      * @param isOnline
      * @param updateInDb
      */
@@ -192,14 +197,6 @@ public class PlayerInstance extends Entity {
     @Override
     public void setCurrentCp(int cp, boolean broadcast) {
         ((PlayerStatus) status).setCurrentCp(cp, broadcast);
-    }
-
-    public boolean isSitting() {
-        return false;
-    }
-
-    public void standUp() {
-
     }
 
     @Override
@@ -305,13 +302,14 @@ public class PlayerInstance extends Entity {
 
     /**
      * Update Stats of the L2PcInstance client side by sending Server->Client packet UserInfo/StatusUpdate to this L2PcInstance and CharInfo/StatusUpdate to all L2PcInstance in its _KnownPlayers (broadcast).
+     *
      * @param broadcastType the broadcast type
      */
     public void updateAndBroadcastStatus(int broadcastType) {
         //refreshOverloaded();
         //refreshExpertisePenalty();
 
-        if(gameClient == null || !gameClient.isClientReady()) {
+        if (gameClient == null || !gameClient.isClientReady()) {
             return;
         }
 
@@ -358,6 +356,7 @@ public class PlayerInstance extends Entity {
 
     /**
      * Add a L2shortCut to the L2PcInstance _shortCuts
+     *
      * @param shortcut
      */
     public void registerShortCut(Shortcut shortcut) {
@@ -366,7 +365,8 @@ public class PlayerInstance extends Entity {
 
     /**
      * Updates the shortcut bars with the new skill.
-     * @param skillId the skill Id to search and update.
+     *
+     * @param skillId    the skill Id to search and update.
      * @param skillLevel the skill level to update.
      */
     public void updateShortCuts(int skillId, int skillLevel) {
@@ -375,10 +375,86 @@ public class PlayerInstance extends Entity {
 
     /**
      * Delete the L2ShortCut corresponding to the position (page-slot) from the L2PcInstance _shortCuts.
+     *
      * @param slot
      * @param page
      */
     public void deleteShortCut(int slot, int page) {
         shortCuts.deleteShortCut(slot, page);
+    }
+
+    /**
+     * Sit down Task.
+     */
+    class SitDownTask implements Runnable {
+        PlayerInstance _player;
+
+        SitDownTask(PlayerInstance player) {
+            _player = player;
+        }
+
+        @Override
+        public void run() {
+            setParalyzed(false);
+            _player.getAi().setIntention(Intention.INTENTION_REST);
+        }
+    }
+
+    /**
+     * Stand up Task.
+     */
+    class StandUpTask implements Runnable {
+
+        PlayerInstance _player;
+
+        StandUpTask(PlayerInstance player) {
+            _player = player;
+        }
+
+        @Override
+        public void run() {
+            _player.setSitting(false);
+            _player.getAi().setIntention(Intention.INTENTION_IDLE);
+        }
+    }
+
+    /**
+     * Stand up the L2PcInstance, set the AI Intention to AI_INTENTION_IDLE and send a Server->Client ChangeWaitType packet (broadcast) .
+     */
+    public void standUp() {
+        if (isSitting() && !isAlikeDead()) {
+            ChangeWaitTypePacket packet = new ChangeWaitTypePacket(this, ChangeWaitTypePacket.WT_STANDING);
+            broadcastPacket(packet);
+            sendPacket(packet);
+
+            // Schedule a stand up task to wait for the animation to finish
+            ThreadPoolManagerService.getInstance().scheduleGeneral(new StandUpTask(this), 2500);
+        }
+    }
+
+    /**
+     * Sit down the L2PcInstance, set the AI Intention to AI_INTENTION_REST and send a Server->Client ChangeWaitType packet (broadcast) .
+     */
+    public void sitDown() {
+        if (isCasting()) {
+            sendMessage("Cannot sit while casting");
+            return;
+        }
+
+        if (!isSitting() && !isAttackingDisabled() && !isOutOfControl() && !isImobilised()) {
+            breakAttack();
+            setSitting(true);
+            ChangeWaitTypePacket packet = new ChangeWaitTypePacket(this, ChangeWaitTypePacket.WT_SITTING);
+            broadcastPacket(packet);
+            sendPacket(packet);
+
+            // Schedule a sit down task to wait for the animation to finish
+            ThreadPoolManagerService.getInstance().scheduleGeneral(new SitDownTask(this), 2500);
+            setParalyzed(true);
+        }
+    }
+
+    private boolean isAttackingDisabled() {
+        return false;
     }
 }

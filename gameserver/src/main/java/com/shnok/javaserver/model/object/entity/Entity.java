@@ -60,6 +60,7 @@ public abstract class Entity extends MovableObject {
     protected long attackHitTime;
     protected long castEndTime;
     protected long channelEndTime;
+    protected boolean paralyzed;
     protected boolean dead;
     private ScheduledFuture<?> scheduledAttack;
 
@@ -1088,6 +1089,10 @@ public abstract class Entity extends MovableObject {
         return true;
     }
 
+    public boolean isImobilised() {
+        return false;
+    }
+
     public void stopStunning(boolean value) {
 
     }
@@ -1137,6 +1142,10 @@ public abstract class Entity extends MovableObject {
     }
 
     public boolean isAlikeDead() {
+        return false;
+    }
+
+    public boolean isOutOfControl() {
         return false;
     }
 }

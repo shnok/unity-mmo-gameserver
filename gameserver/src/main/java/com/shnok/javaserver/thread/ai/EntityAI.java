@@ -110,4 +110,9 @@ public class EntityAI extends BaseAI {
             log.debug("[AI][{}] Intention Idle", owner.getId());
         }
     }
+
+    @Override
+    protected void onIntentionRest() {
+
+    }
 }

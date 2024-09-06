@@ -36,7 +36,9 @@ public enum ServerPacketType {
     LeaveWorld((byte)0x1A),
     RestartResponse((byte)0x1B),
     ShortcutInit((byte)0x1C),
-    ShortcutRegister((byte)0x1D);
+    ShortcutRegister((byte)0x1D),
+    SocialAction((byte)0x1E),
+    ChangeWaitType((byte)0x1F);
 
     private final byte value;
 

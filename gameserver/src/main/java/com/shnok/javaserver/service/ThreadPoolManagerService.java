@@ -119,6 +119,16 @@ public class ThreadPoolManagerService {
         }
     }
 
+    public void scheduleGeneral(Runnable r, long delay) {
+        try {
+            if (delay < 0) {
+                delay = 0;
+            }
+            generalScheduledThreadPool.schedule(r, delay, TimeUnit.MILLISECONDS);
+        } catch (RejectedExecutionException ignored) {
+        }
+    }
+
     public void handlePacket(Thread cph) {
         packetsThreadPool.execute(cph);
     }
