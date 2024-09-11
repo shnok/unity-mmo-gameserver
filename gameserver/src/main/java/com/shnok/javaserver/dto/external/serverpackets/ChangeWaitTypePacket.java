@@ -23,5 +23,7 @@ public class ChangeWaitTypePacket extends SendablePacket {
         writeF(owner.getPosX());
         writeF(owner.getPosY());
         writeF(owner.getPosZ());
+
+        buildPacket();
     }
 }
