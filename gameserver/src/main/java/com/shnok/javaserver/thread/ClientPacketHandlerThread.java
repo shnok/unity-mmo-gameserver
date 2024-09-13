@@ -30,16 +30,16 @@ public class ClientPacketHandlerThread extends Thread {
     }
 
     public void handle() {
-        if(client.isCryptEnabled()) {
-            if(!NewCrypt.verifyChecksum(data)) {
+        if (client.isCryptEnabled()) {
+            if (!NewCrypt.verifyChecksum(data)) {
                 log.warn("Packet's checksum is wrong.");
                 return;
             }
         }
 
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
-        if(client.isPrintPacketsIn()) {
-            if(type != ClientPacketType.Ping) {
+        if (client.isPrintPacketsIn()) {
+            if (type != ClientPacketType.Ping) {
                 log.debug("[CLIENT] Received packet: {}", type);
             }
         }
@@ -113,6 +113,9 @@ public class ClientPacketHandlerThread extends Thread {
                 break;
             case RequestShortcutDel:
                 onRequestShortcutDel();
+                break;
+            case RequestActionUse:
+                onRequestUseAction();
                 break;
         }
     }
@@ -221,5 +224,9 @@ public class ClientPacketHandlerThread extends Thread {
 
     private void onRequestShortcutReg() {
         RequestShortcutRegPacket packet = new RequestShortcutRegPacket(client, data);
+    }
+
+    private void onRequestUseAction() {
+        RequestActionUsePacket packet = new RequestActionUsePacket(client, data);
     }
 }

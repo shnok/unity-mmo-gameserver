@@ -41,6 +41,7 @@ public class PlayerInfoPacket extends SendablePacket {
 
         // Combat
         writeI((int) player.getMoveSpeed());
+        writeI((int) player.getWalkSpeed());
         writeI((int) player.getPAtkSpd());
         writeI((int) player.getMAtkSpd());
         writeF(player.getPhysicalAttackRange());
@@ -90,6 +91,8 @@ public class PlayerInfoPacket extends SendablePacket {
             int itemId = player.getInventory().getEquippedItemId(Objects.requireNonNull(ItemSlot.getSlot(slot)));
             writeI(itemId);
         }
+
+        writeI(player.isRunning() ? 1 : 0);
 
         buildPacket();
     }

@@ -27,6 +27,7 @@ public class UserInfoPacket extends SendablePacket {
         writeI(player.getMaxHp());
         // Stats
         writeI((int) player.getMoveSpeed());
+        writeI((int) player.getWalkSpeed());
         writeI((int) player.getPAtkSpd());
         writeI(player.getMAtkSpd());
         // Appearance
@@ -42,6 +43,8 @@ public class UserInfoPacket extends SendablePacket {
         for (byte slot : PAPERDOLL_ORDER) {
             writeI(player.getInventory().getEquippedItemId(Objects.requireNonNull(ItemSlot.getSlot(slot))));
         }
+
+        writeI(player.isRunning() ? 1 : 0);
 
         buildPacket();
     }

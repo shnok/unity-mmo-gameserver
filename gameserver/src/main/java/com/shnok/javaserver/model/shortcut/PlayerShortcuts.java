@@ -108,6 +108,7 @@ public class PlayerShortcuts {
         _shortCuts.put(1 + (0 * MAX_SHORTCUTS_PER_BAR), new Shortcut(1, 0, ShortcutType.ACTION, 4, -1, 1));
         _shortCuts.put(3 + (0 * MAX_SHORTCUTS_PER_BAR), new Shortcut(3, 0, ShortcutType.ACTION, 5, -1, 1));
         _shortCuts.put(10 + (0 * MAX_SHORTCUTS_PER_BAR), new Shortcut(10, 0, ShortcutType.ACTION, 0, -1, 1));
+        _shortCuts.put(11 + (0 * MAX_SHORTCUTS_PER_BAR), new Shortcut(11, 0, ShortcutType.ACTION, 1, -1, 1));
 
         // Verify shortcuts
         for (Shortcut sc : getAllShortCuts()) {
