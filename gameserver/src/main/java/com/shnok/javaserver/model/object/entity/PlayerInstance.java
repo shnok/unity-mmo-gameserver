@@ -457,4 +457,10 @@ public class PlayerInstance extends Entity {
     private boolean isAttackingDisabled() {
         return false;
     }
+
+    @Override
+    public void setRunning(boolean value)  {
+        super.setRunning(value);
+        sendPacket(new ChangeMoveTypePacket(this));
+    }
 }

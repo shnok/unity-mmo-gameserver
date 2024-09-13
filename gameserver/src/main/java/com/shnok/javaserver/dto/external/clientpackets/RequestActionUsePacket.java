@@ -55,7 +55,7 @@ public class RequestActionUsePacket extends ClientPacket {
                     activeChar.setRunning(true);
                 }
 
-                log.debug("new move type: {}", activeChar.isRunning() ? "RUNNING" : "WALKIN");
+                log.debug("new move type: {}", activeChar.isRunning() ? "RUNNING" : "WALKING");
                 break;
         }
     }

@@ -1,6 +1,7 @@
 package com.shnok.javaserver.model.object;
 
 import com.shnok.javaserver.dto.SendablePacket;
+import com.shnok.javaserver.dto.external.serverpackets.ChangeMoveTypePacket;
 import com.shnok.javaserver.dto.external.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.external.serverpackets.ObjectPositionPacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
@@ -254,4 +255,13 @@ public abstract class MovableObject extends GameObject {
      * Not Implemented.<BR>
      */
     public abstract void broadcastPacket(SendablePacket packet);
+
+    /**
+     * Sets the checks if is running.
+     * @param value the new checks if is running
+     */
+    public void setRunning(boolean value)  {
+        running = value;
+        broadcastPacket(new ChangeMoveTypePacket(this));
+    }
 }

@@ -38,7 +38,8 @@ public enum ServerPacketType {
     ShortcutInit((byte)0x1C),
     ShortcutRegister((byte)0x1D),
     SocialAction((byte)0x1E),
-    ChangeWaitType((byte)0x1F);
+    ChangeWaitType((byte)0x1F),
+    ChangeMoveType((byte)0x20);
 
     private final byte value;
 
