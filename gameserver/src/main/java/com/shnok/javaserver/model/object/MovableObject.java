@@ -261,7 +261,9 @@ public abstract class MovableObject extends GameObject {
      * @param value the new checks if is running
      */
     public void setRunning(boolean value)  {
-        running = value;
-        broadcastPacket(new ChangeMoveTypePacket(this));
+        if(running != value) {
+            running = value;
+            broadcastPacket(new ChangeMoveTypePacket(this));
+        }
     }
 }
