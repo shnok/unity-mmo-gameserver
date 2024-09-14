@@ -75,6 +75,19 @@ public class PlayerAI extends EntityAI {
     }
 
     @Override
+    protected void onIntentionRest() {
+        if (getIntention() != Intention.INTENTION_REST)
+        {
+            setIntention(Intention.INTENTION_REST, null);
+            setTarget(null);
+            if (getAttackTarget() != null) {
+                setAttackTarget(null);
+            }
+            stopFollow();
+        }
+    }
+
+    @Override
     protected void onEvtReadyToAct() {
         onEvtThink();
     }

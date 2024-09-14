@@ -37,7 +37,7 @@ public class PlayerTemplate extends EntityTemplate {
         this.basePAtkSpd = template.getPAtkSpd();
         this.baseMAtkSpd = template.getMAtkSpd();
         this.baseAtkRange = 0.733f;
-        this.baseWalkSpd = template.getMoveSpd();
+        this.baseWalkSpd = 85;
         this.baseRunSpd = template.getMoveSpd();
         this.collisionHeight = character.getColH();
         this.collisionRadius = character.getColR();

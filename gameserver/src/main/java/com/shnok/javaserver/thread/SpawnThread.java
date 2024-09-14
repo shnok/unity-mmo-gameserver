@@ -8,6 +8,7 @@ import com.shnok.javaserver.model.template.NpcTemplate;
 import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.node.Node;
 import com.shnok.javaserver.service.WorldManagerService;
+import com.shnok.javaserver.service.factory.IdFactoryService;
 import lombok.extern.log4j.Log4j2;
 
 import static com.shnok.javaserver.config.Configuration.server;
@@ -42,7 +43,7 @@ public class SpawnThread implements Runnable {
                 return;
             }
 
-            NpcInstance npc = new NpcInstance(WorldManagerService.getInstance().nextID(), npcTemplate);
+            NpcInstance npc = new NpcInstance(IdFactoryService.getInstance().getNextId(), npcTemplate);
             npc.setCurrentHpMp(npc.getMaxHp(), npc.getMaxMp());
 
             if(npc.getTemplate().getType() == NpcType.L2Monster) {

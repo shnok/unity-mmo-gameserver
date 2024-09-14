@@ -34,6 +34,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ScheduledFuture;
 
 import static com.shnok.javaserver.model.stats.Stats.NUM_STATS;
 
@@ -59,7 +60,9 @@ public abstract class Entity extends MovableObject {
     protected long attackHitTime;
     protected long castEndTime;
     protected long channelEndTime;
+    protected boolean paralyzed;
     protected boolean dead;
+    private ScheduledFuture<?> scheduledAttack;
 
     public Entity(int id, EntityTemplate template) {
         super(id);
@@ -106,18 +109,27 @@ public abstract class Entity extends MovableObject {
         }
     }
 
-    public void doAttack(Entity target) {
+    public boolean doAttack(Entity target) {
+        if(scheduledAttack != null) {
+            scheduledAttack.cancel(true);
+        }
+
         // Extra target verification at each loop
         if (target == null || target.isDead() || !getKnownList().knowsObject(target)
                 || getAi().getIntention() != Intention.INTENTION_ATTACK || isDead()) {
             getAi().notifyEvent(Event.CANCEL);
             sendPacket(new ActionFailedPacket(PlayerAction.AutoAttack.getValue()));
-            return;
+            return false;
         }
 
         // Check if attack animation is finished
-        if (!canAttack()) {
-            return;
+//        if (!canAttack()) {
+//            log.warn("[{}] Trying to attack when the last attack animation was not finished.", getId());
+//            return;
+//        }
+        if (isAnimationLocked()) {
+            log.warn("[{}] Trying to attack when the last attack animation was not finished.", getId());
+            return false;
         }
 
         getAi().clientStartAutoAttack();
@@ -158,8 +170,10 @@ public abstract class Entity extends MovableObject {
             // charge soulshot
         }
 
-        ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleNotifyAITask(getAi(), Event.READY_TO_ACT),
+        scheduledAttack = ThreadPoolManagerService.getInstance().scheduleAi(new ScheduleNotifyAITask(getAi(), Event.READY_TO_ACT),
                 timeAtk + cooldown);
+
+        return true;
     }
 
     /**
@@ -1075,6 +1089,10 @@ public abstract class Entity extends MovableObject {
         return true;
     }
 
+    public boolean isImobilised() {
+        return false;
+    }
+
     public void stopStunning(boolean value) {
 
     }
@@ -1124,6 +1142,10 @@ public abstract class Entity extends MovableObject {
     }
 
     public boolean isAlikeDead() {
+        return false;
+    }
+
+    public boolean isOutOfControl() {
         return false;
     }
 }

@@ -16,12 +16,16 @@ public class NpcInfoPacket extends SendablePacket {
         writeF(npc.getPosZ());
         // Stats
         writeI((int) npc.getStat().getMoveSpeed());
+        writeI((int) npc.getStat().getWalkSpeed());
         writeI((int) npc.getPAtkSpd());
         writeI((int) npc.getMAtkSpd());
         // Status
         writeI(npc.getLevel());
         writeI((int) npc.getCurrentHp());
         writeI(npc.getMaxHp());
+
+        writeI(npc.isRunning() ? 1 : 0);
+
         buildPacket();
     }
 }

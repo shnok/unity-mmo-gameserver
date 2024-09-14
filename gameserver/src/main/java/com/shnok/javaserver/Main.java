@@ -4,6 +4,7 @@ import com.shnok.javaserver.pathfinding.Geodata;
 import com.shnok.javaserver.pathfinding.PathFinding;
 import com.shnok.javaserver.service.*;
 import com.shnok.javaserver.service.db.ItemTable;
+import com.shnok.javaserver.service.factory.IdFactoryService;
 import com.shnok.javaserver.thread.LoginServerThread;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -20,6 +21,7 @@ public class Main {
 
         ThreadPoolManagerService.getInstance().initialize();
         Runtime.getRuntime().addShutdownHook(ServerShutdownService.getInstance());
+        IdFactoryService.getInstance();
 
         ItemTable.getInstance();
 
@@ -33,6 +35,7 @@ public class Main {
         GameServerListenerService.getInstance().Initialize();
         GameServerListenerService.getInstance().start();
         LoginServerThread.getInstance().start();
+
         try {
             LoginServerThread.getInstance().join();
             GameServerListenerService.getInstance().join();

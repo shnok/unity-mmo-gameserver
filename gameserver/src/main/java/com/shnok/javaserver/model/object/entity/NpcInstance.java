@@ -9,6 +9,7 @@ import com.shnok.javaserver.dto.external.serverpackets.ObjectMoveToPacket;
 import com.shnok.javaserver.dto.external.serverpackets.SystemMessagePacket;
 import com.shnok.javaserver.enums.EntityMovingReason;
 import com.shnok.javaserver.enums.network.SystemMessageId;
+import com.shnok.javaserver.model.Point3D;
 import com.shnok.javaserver.model.knownlist.NpcKnownList;
 import com.shnok.javaserver.model.object.ItemInstance;
 import com.shnok.javaserver.model.status.NpcStatus;
@@ -20,10 +21,13 @@ import com.shnok.javaserver.service.WorldManagerService;
 import com.shnok.javaserver.service.db.ItemTable;
 import com.shnok.javaserver.thread.ai.BaseAI;
 import com.shnok.javaserver.thread.ai.NpcAI;
+import com.shnok.javaserver.thread.ai.TestAI;
 import com.shnok.javaserver.thread.entity.ScheduleDestroyTask;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
+
+import java.util.Arrays;
 
 import static com.shnok.javaserver.config.Configuration.server;
 
@@ -201,11 +205,16 @@ public class NpcInstance extends Entity {
                 stopAndRemoveAI();
             }
 
-            NpcAI ai = new NpcAI(this);
-//            TestAI ai = new TestAI(this, Arrays.asList(
-//                    new Point3D(4726.871f, -68.61623f, -1732.926f),
-//                    new Point3D(4733.977f, -68.61623f, -1722.304f)
-//                     ));
+            NpcAI ai;
+            if(server.spawnDebug()) {
+                ai = new TestAI(this, Arrays.asList(
+                        new Point3D(4726.871f, -68.61623f, -1732.926f),
+                        new Point3D(4733.977f, -68.61623f, -1722.304f)
+                ));
+            } else {
+                ai = new NpcAI(this);
+            }
+
             setAi(ai);
         }
     }

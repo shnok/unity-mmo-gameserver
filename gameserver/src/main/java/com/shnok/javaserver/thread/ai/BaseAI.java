@@ -126,6 +126,9 @@ public abstract class BaseAI {
             case INTENTION_FOLLOW:
                 onIntentionFollow();
                 break;
+            case INTENTION_REST:
+                onIntentionRest();
+                break;
         }
     }
 
@@ -136,6 +139,8 @@ public abstract class BaseAI {
     protected abstract void onIntentionMoveTo(Point3D arg0);
 
     protected abstract void onIntentionIdle();
+
+    protected abstract void onIntentionRest();
 
     /*
     =========================

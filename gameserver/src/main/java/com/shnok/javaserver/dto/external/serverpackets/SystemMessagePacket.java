@@ -274,7 +274,8 @@ public class SystemMessagePacket extends SendablePacket {
         }
 
         final SystemMessagePacket sm = SystemMessagePacket.getSystemMessage(SystemMessageId.S1);
-        sm.writeS(text);
+        sm.addString(text);
+        sm.writeMe();
         return sm;
     }
 

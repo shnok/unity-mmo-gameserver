@@ -3,6 +3,8 @@ package com.shnok.javaserver.thread;
 import com.shnok.javaserver.dto.external.clientpackets.*;
 import com.shnok.javaserver.dto.external.clientpackets.authentication.*;
 import com.shnok.javaserver.dto.external.clientpackets.item.*;
+import com.shnok.javaserver.dto.external.clientpackets.shortcut.RequestShortcutDelPacket;
+import com.shnok.javaserver.dto.external.clientpackets.shortcut.RequestShortcutRegPacket;
 import com.shnok.javaserver.dto.external.serverpackets.authentication.PingPacket;
 import com.shnok.javaserver.enums.network.packettypes.external.ClientPacketType;
 import com.shnok.javaserver.security.NewCrypt;
@@ -28,16 +30,16 @@ public class ClientPacketHandlerThread extends Thread {
     }
 
     public void handle() {
-        if(client.isCryptEnabled()) {
-            if(!NewCrypt.verifyChecksum(data)) {
+        if (client.isCryptEnabled()) {
+            if (!NewCrypt.verifyChecksum(data)) {
                 log.warn("Packet's checksum is wrong.");
                 return;
             }
         }
 
         ClientPacketType type = ClientPacketType.fromByte(data[0]);
-        if(client.isPrintPacketsIn()) {
-            if(type != ClientPacketType.Ping) {
+        if (client.isPrintPacketsIn()) {
+            if (type != ClientPacketType.Ping) {
                 log.debug("[CLIENT] Received packet: {}", type);
             }
         }
@@ -106,6 +108,15 @@ public class ClientPacketHandlerThread extends Thread {
             case RequestRestart:
                 onRequestRestart();
                 break;
+            case RequestShortcutReg:
+                onRequestShortcutReg();
+                break;
+            case RequestShortcutDel:
+                onRequestShortcutDel();
+                break;
+            case RequestActionUse:
+                onRequestUseAction();
+                break;
         }
     }
 
@@ -168,7 +179,7 @@ public class ClientPacketHandlerThread extends Thread {
     }
 
     private void onRequestAutoAttack() {
-        RequestAutoAttackPacket packet = new RequestAutoAttackPacket(client);
+        RequestAutoAttackPacket packet = new RequestAutoAttackPacket(client, data);
     }
 
     private void onRequestCharSelect() {
@@ -205,5 +216,17 @@ public class ClientPacketHandlerThread extends Thread {
 
     private void onRequestRestart() {
         RequestRestartPacket packet = new RequestRestartPacket(client);
+    }
+
+    private void onRequestShortcutDel() {
+        RequestShortcutDelPacket packet = new RequestShortcutDelPacket(client, data);
+    }
+
+    private void onRequestShortcutReg() {
+        RequestShortcutRegPacket packet = new RequestShortcutRegPacket(client, data);
+    }
+
+    private void onRequestUseAction() {
+        RequestActionUsePacket packet = new RequestActionUsePacket(client, data);
     }
 }

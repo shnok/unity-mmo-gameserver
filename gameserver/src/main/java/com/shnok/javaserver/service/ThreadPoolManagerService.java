@@ -9,6 +9,7 @@ public class ThreadPoolManagerService {
     private ScheduledThreadPoolExecutor spawnThreadPool;
     private ScheduledThreadPoolExecutor aiThreadPool;
     private ScheduledThreadPoolExecutor effectsThreadPool;
+    private ScheduledThreadPoolExecutor generalScheduledThreadPool;
     private ThreadPoolExecutor packetsThreadPool;
     private ThreadPoolExecutor generalThreadPool;
     private boolean shutdown = false;
@@ -26,6 +27,7 @@ public class ThreadPoolManagerService {
         spawnThreadPool = new ScheduledThreadPoolExecutor(5);
         aiThreadPool = new ScheduledThreadPoolExecutor(100);
         effectsThreadPool = new ScheduledThreadPoolExecutor(100);
+        generalScheduledThreadPool = new ScheduledThreadPoolExecutor(100);
         packetsThreadPool = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
         generalThreadPool = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 5, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
     }
@@ -104,6 +106,29 @@ public class ThreadPoolManagerService {
         return scheduleEffectAtFixedRate(r, initialDelay, period, TimeUnit.MILLISECONDS);
     }
 
+    public void scheduleGeneralAtFixedRate(Runnable r, long initial, long delay) {
+        try {
+            if (delay < 0) {
+                delay = 0;
+            }
+            if (initial < 0) {
+                initial = 0;
+            }
+            generalScheduledThreadPool.scheduleAtFixedRate(r, initial, delay, TimeUnit.MILLISECONDS);
+        } catch (RejectedExecutionException ignored) {
+        }
+    }
+
+    public void scheduleGeneral(Runnable r, long delay) {
+        try {
+            if (delay < 0) {
+                delay = 0;
+            }
+            generalScheduledThreadPool.schedule(r, delay, TimeUnit.MILLISECONDS);
+        } catch (RejectedExecutionException ignored) {
+        }
+    }
+
     public void handlePacket(Thread cph) {
         packetsThreadPool.execute(cph);
     }
@@ -132,5 +157,6 @@ public class ThreadPoolManagerService {
         aiThreadPool.purge();
         packetsThreadPool.purge();
         generalThreadPool.purge();
+        generalScheduledThreadPool.purge();
     }
 }

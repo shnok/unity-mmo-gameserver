@@ -1,8 +1,11 @@
 package com.shnok.javaserver.enums.network.packettypes.external;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public enum ServerPacketType {
     Ping((byte)0x00),
     Key((byte)0x01),
@@ -31,16 +34,17 @@ public enum ServerPacketType {
     InventoryItemList((byte)0x18),
     InventoryUpdate((byte)0x19),
     LeaveWorld((byte)0x1A),
-    RestartResponse((byte)0x1B);
+    RestartResponse((byte)0x1B),
+    ShortcutInit((byte)0x1C),
+    ShortcutRegister((byte)0x1D),
+    SocialAction((byte)0x1E),
+    ChangeWaitType((byte)0x1F),
+    ChangeMoveType((byte)0x20);
 
     private final byte value;
 
     ServerPacketType(byte value) {
         this.value = value;
-    }
-
-    public byte getValue() {
-        return value;
     }
 
     private static final Map<Byte, ServerPacketType> BY_VALUE = new HashMap<>();
